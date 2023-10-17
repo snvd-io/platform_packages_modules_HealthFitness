@@ -84,7 +84,6 @@ android_test {
         "androidx.test.rules",
         "mockito-kotlin2"
     ],
-    resource_dirs: ["main_res"],
     libs: [
         "kotlin-annotations",
         "android.test.base",
