@@ -27,6 +27,7 @@ import android.health.connect.changelog.ChangeLogsResponse;
 import android.health.connect.datatypes.DataOrigin;
 import android.health.connect.datatypes.Record;
 import android.health.connect.datatypes.StepsRecord;
+import android.healthconnect.cts.utils.AssumptionCheckerRule;
 import android.healthconnect.cts.utils.TestUtils;
 import android.platform.test.annotations.AppModeFull;
 
@@ -35,6 +36,7 @@ import androidx.test.runner.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -47,6 +49,12 @@ import java.util.List;
 @AppModeFull(reason = "HealthConnectManager is not accessible to instant apps")
 @RunWith(AndroidJUnit4.class)
 public class HealthConnectChangeLogsTests {
+
+    @Rule
+    public AssumptionCheckerRule mSupportedHardwareRule =
+            new AssumptionCheckerRule(
+                    TestUtils::isHardwareSupported, "Tests should run on supported hardware only.");
+
     @After
     public void tearDown() throws InterruptedException {
         Context context = ApplicationProvider.getApplicationContext();
