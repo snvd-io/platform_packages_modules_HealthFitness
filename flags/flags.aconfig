@@ -1,0 +1,9 @@
+package: "com.android.healthconnect.flags"
+
+flag {
+    name: "read_exercise_routes_all_enabled"
+    namespace: "healthconnect"
+    description: "Enables reading third-party exercise routes by apps who hold the corresponding permission."
+    bug: "232379924"
+    is_fixed_read_only: true
+}
