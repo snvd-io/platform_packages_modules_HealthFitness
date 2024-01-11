@@ -7,3 +7,10 @@ flag {
     bug: "232379924"
     is_fixed_read_only: true
 }
+
+flag {
+    name: "skin_temperature"
+    namespace: "healthconnect"
+    description: "Flag for adding the new data type skin temperature."
+    bug: "319602927"
+}
