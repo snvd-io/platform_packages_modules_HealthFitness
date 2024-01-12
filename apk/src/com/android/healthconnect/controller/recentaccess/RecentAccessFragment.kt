@@ -91,7 +91,8 @@ class RecentAccessFragment : Hilt_RecentAccessFragment() {
         fab = contentParent.findViewById(R.id.extended_fab)
         fab.isVisible = true
 
-        recyclerView = rootView?.findViewById(R.id.recycler_view)
+        recyclerView = rootView?.findViewById(
+            androidx.preference.R.id.recycler_view)
         val bottomPadding =
             resources.getDimensionPixelSize(R.dimen.recent_access_fab_bottom_padding)
         recyclerView?.setPadding(0, 0, 0, bottomPadding)
