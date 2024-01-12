@@ -85,7 +85,6 @@ android_test {
         "compatibility-device-util-axt",
         "mockito-kotlin2"
     ],
-    resource_dirs: ["main_res"],
     libs: [
         "kotlin-annotations",
         "android.test.base",

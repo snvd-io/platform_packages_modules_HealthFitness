@@ -212,10 +212,12 @@ class SearchAppsFragment : Hilt_SearchAppsFragment() {
     }
 
     private fun hideTitleFromCollapsingToolbarLayout() {
-        activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(false)
+        activity?.findViewById<AppBarLayout>(
+            com.android.settingslib.collapsingtoolbar.R.id.app_bar)?.setExpanded(false)
     }
 
     private fun showTitleFromCollapsingToolbarLayout() {
-        activity?.findViewById<AppBarLayout>(R.id.app_bar)?.setExpanded(true)
+        activity?.findViewById<AppBarLayout>(
+            com.android.settingslib.collapsingtoolbar.R.id.app_bar)?.setExpanded(true)
     }
 }
