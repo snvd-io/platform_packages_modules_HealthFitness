@@ -16,6 +16,10 @@
 
 package android.healthconnect.cts.changelogs;
 
+import static android.healthconnect.cts.utils.DataFactory.getHeartRateRecord;
+import static android.healthconnect.cts.utils.DataFactory.getStepsRecord;
+import static android.healthconnect.cts.utils.DataFactory.getTestRecords;
+
 import static com.google.common.truth.Truth.assertThat;
 
 import static org.junit.Assert.assertThrows;
@@ -91,7 +95,7 @@ public class HealthConnectChangeLogsTests {
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
         assertThat(response.getDeletedLogs().size()).isEqualTo(0);
 
-        List<Record> testRecord = TestUtils.getTestRecords();
+        List<Record> testRecord = getTestRecords();
         TestUtils.insertRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(testRecord.size());
@@ -114,7 +118,7 @@ public class HealthConnectChangeLogsTests {
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
         assertThat(response.getDeletedLogs().size()).isEqualTo(0);
 
-        List<Record> testRecord = TestUtils.getTestRecords();
+        List<Record> testRecord = getTestRecords();
         TestUtils.insertRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
@@ -140,7 +144,7 @@ public class HealthConnectChangeLogsTests {
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
         assertThat(response.getDeletedLogs().size()).isEqualTo(0);
 
-        List<Record> testRecord = TestUtils.getTestRecords();
+        List<Record> testRecord = getTestRecords();
         TestUtils.insertRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(testRecord.size());
@@ -165,12 +169,12 @@ public class HealthConnectChangeLogsTests {
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
         assertThat(response.getDeletedLogs().size()).isEqualTo(0);
 
-        List<Record> testRecord = Collections.singletonList(TestUtils.getStepsRecord());
+        List<Record> testRecord = Collections.singletonList(getStepsRecord());
         TestUtils.insertRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(1);
         assertThat(response.getDeletedLogs().size()).isEqualTo(0);
-        testRecord = Collections.singletonList(TestUtils.getHeartRateRecord());
+        testRecord = Collections.singletonList(getHeartRateRecord());
         TestUtils.insertRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(1);
@@ -187,7 +191,7 @@ public class HealthConnectChangeLogsTests {
         ChangeLogsResponse response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
 
-        List<Record> testRecord = TestUtils.getTestRecords();
+        List<Record> testRecord = getTestRecords();
         TestUtils.insertRecords(testRecord);
         TestUtils.deleteRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
@@ -245,7 +249,7 @@ public class HealthConnectChangeLogsTests {
         ChangeLogsResponse response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
 
-        List<Record> testRecord = TestUtils.getTestRecords();
+        List<Record> testRecord = getTestRecords();
         TestUtils.insertRecords(testRecord);
         TestUtils.deleteRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
@@ -272,7 +276,7 @@ public class HealthConnectChangeLogsTests {
         ChangeLogsResponse response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
 
-        List<Record> testRecord = TestUtils.getTestRecords();
+        List<Record> testRecord = getTestRecords();
         TestUtils.insertRecords(testRecord);
         TestUtils.deleteRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
@@ -300,13 +304,13 @@ public class HealthConnectChangeLogsTests {
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
         assertThat(response.getDeletedLogs().size()).isEqualTo(0);
 
-        List<Record> testRecord = Collections.singletonList(TestUtils.getStepsRecord());
+        List<Record> testRecord = Collections.singletonList(getStepsRecord());
         TestUtils.insertRecords(testRecord);
         TestUtils.deleteRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
         assertThat(response.getDeletedLogs().size()).isEqualTo(1);
-        testRecord = Collections.singletonList(TestUtils.getHeartRateRecord());
+        testRecord = Collections.singletonList(getHeartRateRecord());
         TestUtils.insertRecords(testRecord);
         TestUtils.deleteRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
@@ -324,7 +328,7 @@ public class HealthConnectChangeLogsTests {
         ChangeLogsResponse response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
 
-        List<Record> testRecord = TestUtils.getTestRecords();
+        List<Record> testRecord = getTestRecords();
         TestUtils.insertRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(1);
@@ -341,7 +345,7 @@ public class HealthConnectChangeLogsTests {
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
         assertThat(response.hasMorePages()).isFalse();
 
-        List<Record> testRecord = TestUtils.getTestRecords();
+        List<Record> testRecord = getTestRecords();
         TestUtils.insertRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.hasMorePages()).isTrue();
@@ -371,7 +375,7 @@ public class HealthConnectChangeLogsTests {
         ChangeLogsResponse response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
         assertThat(response.hasMorePages()).isFalse();
-        List<Record> testRecord = TestUtils.getTestRecords();
+        List<Record> testRecord = getTestRecords();
         TestUtils.insertRecords(testRecord);
         ChangeLogsResponse newResponse = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(newResponse.getUpsertedRecords().size()).isEqualTo(testRecord.size());
@@ -390,7 +394,7 @@ public class HealthConnectChangeLogsTests {
         ChangeLogsResponse response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
         assertThat(response.hasMorePages()).isFalse();
-        List<Record> testRecord = TestUtils.getTestRecords();
+        List<Record> testRecord = getTestRecords();
         TestUtils.insertRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(testRecord.size());
@@ -407,11 +411,10 @@ public class HealthConnectChangeLogsTests {
 
     private static StepsRecord getStepsRecord_minusDays(int days) {
         return new StepsRecord.Builder(
-                new Metadata.Builder().build(),
-                Instant.now().minus(days, ChronoUnit.DAYS),
-                Instant.now().minus(days, ChronoUnit.DAYS).plusMillis(1000),
-                10)
+                        new Metadata.Builder().build(),
+                        Instant.now().minus(days, ChronoUnit.DAYS),
+                        Instant.now().minus(days, ChronoUnit.DAYS).plusMillis(1000),
+                        10)
                 .build();
     }
-
 }
