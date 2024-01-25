@@ -292,7 +292,7 @@
     <string name="manage_your_settings" msgid="7391184508015127137">"إدارة الإعدادات والخصوصية"</string>
     <string name="manage_your_settings_description" msgid="557943168930365334">"يمكنك تغيير أذونات التطبيق وإدارة البيانات في أي وقت."</string>
     <string name="onboarding_go_back_button_text" msgid="5020083846511184625">"الرجوع"</string>
-    <string name="onboarding_get_started_button_text" msgid="2348061971090731336">"البدء"</string>
+    <string name="onboarding_get_started_button_text" msgid="2348061971090731336">"بدء"</string>
     <string name="delete_button_content_description" msgid="9125115327455379618">"حذف البيانات"</string>
     <string name="time_range_title" msgid="6831605283322600165">"اختيار البيانات المُراد حذفها"</string>
     <string name="time_range_next_button" msgid="5849096934896557888">"التالي"</string>
