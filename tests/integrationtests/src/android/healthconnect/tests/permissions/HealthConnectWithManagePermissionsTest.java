@@ -663,4 +663,8 @@ public class HealthConnectWithManagePermissionsTest {
     private static void assertFlagsSet(int actualFlags, int expectedFlags) {
         assertThat((actualFlags & expectedFlags)).isEqualTo(expectedFlags);
     }
+
+    private static void assertFlagsNotSet(int actualFlags, int expectedFlagsNotSet) {
+        assertThat((actualFlags & expectedFlagsNotSet)).isEqualTo(0);
+    }
 }
