@@ -103,7 +103,12 @@ constructor(
                     packageName,
                     PackageManager.PackageInfoFlags.of(PackageManager.GET_PERMISSIONS.toLong()))
 
-            return appInfo.requestedPermissions.contains(READ_EXERCISE_ROUTES)
+            if (appInfo.requestedPermissions == null) {
+                Log.e(TAG, "isPermissionDeclared error: no permissions")
+                return false
+            }
+
+            return appInfo.requestedPermissions!!.contains(READ_EXERCISE_ROUTES)
         } catch (e: PackageManager.NameNotFoundException) {
             Log.e(TAG, "isPermissionDeclared error", e)
             return false
