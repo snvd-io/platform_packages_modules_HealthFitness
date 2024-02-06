@@ -1,4 +1,5 @@
 package: "com.android.healthconnect.flags"
+container: "com.android.healthconnect"
 
 flag {
     name: "read_exercise_routes_all_enabled"
