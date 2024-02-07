@@ -331,6 +331,15 @@ public final class DataFactory {
         return getDistanceRecord(10.0, Instant.now(), Instant.now().plusMillis(1000));
     }
 
+    public static DistanceRecord getDistanceRecordWithNonEmptyId() {
+        return new DistanceRecord.Builder(
+                        generateMetadata(),
+                        Instant.now(),
+                        Instant.now().plusMillis(1000),
+                        Length.fromMeters(10.0))
+                .build();
+    }
+
     public static DistanceRecord getDistanceRecord(double distance, Instant start, Instant end) {
         return new DistanceRecord.Builder(
                         getEmptyMetadata(), start, end, Length.fromMeters(distance))
