@@ -101,5 +101,6 @@ android_test {
         ":HealthConnectUITestApp",
         ":HealthConnectUITestApp2",
         ":UnsupportedTestApp",
+        ":OldPermissionsTestApp",
     ],
 }
