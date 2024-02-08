@@ -14,3 +14,9 @@ flag {
     description: "Flag for adding the new data type skin temperature."
     bug: "319602927"
 }
+flag {
+    name: "training_plans"
+    namespace: "healthconnect"
+    description: "Flag for adding the new data type planned exercise sessions."
+    bug: "319604661"
+}
