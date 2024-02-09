@@ -465,7 +465,7 @@ public final class DataFactory {
                         RECORD_TYPE_BASAL_METABOLIC_RATE, getBasalMetabolicRateRecord()));
     }
 
-    private static BasalMetabolicRateRecord getBasalMetabolicRateRecord() {
+    public static BasalMetabolicRateRecord getBasalMetabolicRateRecord() {
         return new BasalMetabolicRateRecord.Builder(
                         generateMetadata(), Instant.now(), Power.fromWatts(100.0))
                 .build();
