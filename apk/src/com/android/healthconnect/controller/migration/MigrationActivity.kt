@@ -82,6 +82,43 @@ class MigrationActivity : Hilt_MigrationActivity() {
             return false
         }
 
+        fun maybeShowMigrationDialog(
+            migrationState: MigrationState,
+            activity: FragmentActivity,
+            appName: String
+        ) {
+            when (migrationState) {
+                MigrationState.IN_PROGRESS -> {
+                    val message =
+                        activity.getString(
+                            R.string.migration_in_progress_permissions_dialog_content, appName)
+                    showMigrationInProgressDialog(activity, message) { _, _ -> activity.finish() }
+                }
+                MigrationState.ALLOWED_PAUSED,
+                MigrationState.ALLOWED_NOT_STARTED,
+                MigrationState.APP_UPGRADE_REQUIRED,
+                MigrationState.MODULE_UPGRADE_REQUIRED -> {
+                    val message =
+                        activity.getString(
+                            R.string.migration_pending_permissions_dialog_content, appName)
+                    showMigrationPendingDialog(
+                        activity,
+                        message,
+                        positiveButtonAction = null,
+                        negativeButtonAction = { _, _ ->
+                            activity.startActivity(Intent(MIGRATION_ACTIVITY_INTENT))
+                            activity.finish()
+                        })
+                }
+                MigrationState.COMPLETE -> {
+                    maybeShowWhatsNewDialog(activity)
+                }
+                else -> {
+                    // Show nothing
+                }
+            }
+        }
+
         fun showMigrationPendingDialog(
             context: Context,
             message: String,
