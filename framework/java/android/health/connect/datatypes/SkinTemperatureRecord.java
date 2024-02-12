@@ -197,7 +197,7 @@ public final class SkinTemperatureRecord extends IntervalRecord {
         private final Instant mTime;
 
         /**
-         * Skin temperature delta entry of {@link SkinTemperatureRecord}
+         * Skin temperature delta entry of {@link SkinTemperatureRecord}.
          *
          * @param delta Temperature difference.
          * @param time The point in time when the measurement was taken.
@@ -207,7 +207,7 @@ public final class SkinTemperatureRecord extends IntervalRecord {
         }
 
         /**
-         * Skin temperature delta entry of {@link SkinTemperatureRecord}
+         * Skin temperature delta entry of {@link SkinTemperatureRecord}.
          *
          * @param delta Temperature difference.
          * @param time The point in time when the measurement was taken.
