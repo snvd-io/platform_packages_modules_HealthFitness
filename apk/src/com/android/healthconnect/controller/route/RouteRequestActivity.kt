@@ -206,17 +206,20 @@ class RouteRequestActivity : Hilt_RouteRequestActivity() {
                 .setView(view)
                 .setCancelable(false)
                 .create()
-        if (!dialog!!.isShowing &&
+        if (shouldShowDialog()) {
+            dialog?.show()
+        }
+    }
+
+    private fun shouldShowDialog() =
+        !dialog!!.isShowing &&
             migrationState in
                 listOf(
                     MigrationState.IDLE,
                     MigrationState.COMPLETE,
                     MigrationState.COMPLETE_IDLE,
                     MigrationState.ALLOWED_MIGRATOR_DISABLED,
-                    MigrationState.ALLOWED_ERROR)) {
-            dialog?.show()
-        }
-    }
+                    MigrationState.ALLOWED_ERROR)
 
     private fun setupInfoDialog() {
         val view = layoutInflater.inflate(R.layout.route_sharing_info_dialog, null)
