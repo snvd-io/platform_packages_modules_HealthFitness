@@ -169,9 +169,8 @@ constructor(
     }
 
     private fun shouldHideSkinTemperaturePermissions(permission: String): Boolean {
-        // TODO(b/319602927): use skin temperature permissions when the API becomes unhidden.
-        return permission == "android.permission.health.READ_SKIN_TEMPERATURE" ||
-            permission == "android.permission.health.WRITE_SKIN_TEMPERATURE"
+        return permission == HealthPermissions.READ_SKIN_TEMPERATURE ||
+            permission == HealthPermissions.WRITE_SKIN_TEMPERATURE
     }
 
     private fun shouldHidePlannedExercisePermissions(permission: String): Boolean {
