@@ -1203,6 +1203,9 @@ package android.health.connect.datatypes {
     field public static final int MEASUREMENT_LOCATION_TOE = 2; // 0x2
     field public static final int MEASUREMENT_LOCATION_UNKNOWN = 0; // 0x0
     field public static final int MEASUREMENT_LOCATION_WRIST = 3; // 0x3
+    field @NonNull public static final android.health.connect.datatypes.AggregationType<android.health.connect.datatypes.units.TemperatureDelta> SKIN_TEMPERATURE_DELTA_AVG;
+    field @NonNull public static final android.health.connect.datatypes.AggregationType<android.health.connect.datatypes.units.TemperatureDelta> SKIN_TEMPERATURE_DELTA_MAX;
+    field @NonNull public static final android.health.connect.datatypes.AggregationType<android.health.connect.datatypes.units.TemperatureDelta> SKIN_TEMPERATURE_DELTA_MIN;
   }
 
   public static final class SkinTemperatureRecord.Builder {
