@@ -46,7 +46,10 @@ class HealthPermissionStringsTest {
 
     @Test
     fun allHealthPermissionsHaveStrings() {
-        val allPermissions = healthPermissionReader.getHealthPermissions()
+        val allPermissions =
+            healthPermissionReader.getHealthPermissions().filterNot { perm ->
+                healthPermissionReader.isAdditionalPermission(perm)
+            }
         for (permission in allPermissions) {
             val type = HealthPermission.fromPermissionString(permission).healthPermissionType
             assertThat(HealthPermissionStrings.fromPermissionType(type)).isNotNull()

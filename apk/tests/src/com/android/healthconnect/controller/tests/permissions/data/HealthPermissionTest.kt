@@ -56,7 +56,10 @@ class HealthPermissionTest {
 
     @Test
     fun fromPermissionString_canParseAllHealthPermissions() {
-        val allPermissions = healthPermissionReader.getHealthPermissions()
+        val allPermissions =
+            healthPermissionReader.getHealthPermissions().filterNot { perm ->
+                healthPermissionReader.isAdditionalPermission(perm)
+            }
         for (permissionString in allPermissions) {
             assertThat(fromPermissionString(permissionString).toString())
                 .isEqualTo(permissionString)

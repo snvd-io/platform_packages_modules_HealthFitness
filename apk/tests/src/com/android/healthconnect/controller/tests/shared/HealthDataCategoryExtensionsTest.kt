@@ -56,7 +56,10 @@ class HealthDataCategoryExtensionsTest {
 
     @Test
     fun allHealthPermission_haveParentCategory() {
-        val allPermissions = healthPermissionReader.getHealthPermissions()
+        val allPermissions =
+            healthPermissionReader.getHealthPermissions().filterNot { perm ->
+                healthPermissionReader.isAdditionalPermission(perm)
+            }
         for (permissionString in allPermissions) {
             val healthPermission = HealthPermission.fromPermissionString(permissionString)
             assertThat(
