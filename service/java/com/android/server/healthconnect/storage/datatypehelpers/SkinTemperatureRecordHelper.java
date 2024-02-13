@@ -16,6 +16,10 @@
 
 package com.android.server.healthconnect.storage.datatypehelpers;
 
+import static android.health.connect.datatypes.AggregationType.AggregationTypeIdentifier.SKIN_TEMPERATURE_RECORD_DELTA_AVG;
+import static android.health.connect.datatypes.AggregationType.AggregationTypeIdentifier.SKIN_TEMPERATURE_RECORD_DELTA_MAX;
+import static android.health.connect.datatypes.AggregationType.AggregationTypeIdentifier.SKIN_TEMPERATURE_RECORD_DELTA_MIN;
+
 import static com.android.server.healthconnect.storage.HealthConnectDatabase.createTable;
 import static com.android.server.healthconnect.storage.datatypehelpers.SeriesRecordHelper.PARENT_KEY_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.INTEGER;
@@ -30,6 +34,8 @@ import static com.android.server.healthconnect.storage.utils.StorageUtils.getCur
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.health.connect.AggregateResult;
+import android.health.connect.datatypes.AggregationType;
 import android.health.connect.datatypes.RecordTypeIdentifier;
 import android.health.connect.datatypes.units.Temperature;
 import android.health.connect.internal.datatypes.SkinTemperatureRecordInternal;
@@ -37,6 +43,7 @@ import android.util.Pair;
 
 import androidx.annotation.NonNull;
 
+import com.android.server.healthconnect.storage.request.AggregateParams;
 import com.android.server.healthconnect.storage.request.CreateTableRequest;
 import com.android.server.healthconnect.storage.request.UpsertTableRequest;
 import com.android.server.healthconnect.storage.utils.SqlJoin;
@@ -189,6 +196,45 @@ public final class SkinTemperatureRecordHelper
             for (CreateTableRequest createTableRequest : requests) {
                 createTable(db, createTableRequest);
             }
+        }
+    }
+
+    @SuppressWarnings("NullAway") // TODO(b/317029272): fix this suppression
+    @Override
+    AggregateParams getAggregateParams(AggregationType<?> aggregateRequest) {
+        switch (aggregateRequest.getAggregationTypeIdentifier()) {
+            case SKIN_TEMPERATURE_RECORD_DELTA_AVG:
+            case SKIN_TEMPERATURE_RECORD_DELTA_MIN:
+            case SKIN_TEMPERATURE_RECORD_DELTA_MAX:
+                return new AggregateParams(
+                                SERIES_TABLE_NAME,
+                                // Aggregation on the delta column.
+                                List.of(SKIN_TEMPERATURE_DELTA_COLUMN_NAME))
+                        .setJoin(
+                                new SqlJoin(
+                                        SERIES_TABLE_NAME,
+                                        TABLE_NAME,
+                                        PARENT_KEY_COLUMN_NAME,
+                                        PRIMARY_COLUMN_NAME));
+            default:
+                return null;
+        }
+    }
+
+    @SuppressWarnings("NullAway") // TODO(b/317029272): fix this suppression
+    @Override
+    public AggregateResult<?> getAggregateResult(
+            Cursor results, AggregationType<?> aggregationType) {
+        switch (aggregationType.getAggregationTypeIdentifier()) {
+            case SKIN_TEMPERATURE_RECORD_DELTA_AVG:
+            case SKIN_TEMPERATURE_RECORD_DELTA_MIN:
+            case SKIN_TEMPERATURE_RECORD_DELTA_MAX:
+                return new AggregateResult<>(
+                                results.getDouble(
+                                        results.getColumnIndex(SKIN_TEMPERATURE_DELTA_COLUMN_NAME)))
+                        .setZoneOffset(getZoneOffset(results));
+            default:
+                return null;
         }
     }
 }

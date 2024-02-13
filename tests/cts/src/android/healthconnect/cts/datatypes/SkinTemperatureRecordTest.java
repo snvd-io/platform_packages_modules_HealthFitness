@@ -16,11 +16,19 @@
 
 package android.healthconnect.cts.datatypes;
 
+import static android.health.connect.datatypes.SkinTemperatureRecord.SKIN_TEMPERATURE_DELTA_AVG;
+import static android.health.connect.datatypes.SkinTemperatureRecord.SKIN_TEMPERATURE_DELTA_MAX;
+import static android.health.connect.datatypes.SkinTemperatureRecord.SKIN_TEMPERATURE_DELTA_MIN;
+
 import static com.google.common.truth.Truth.assertThat;
 
 import android.content.Context;
+import android.health.connect.AggregateRecordsGroupedByDurationResponse;
+import android.health.connect.AggregateRecordsRequest;
+import android.health.connect.AggregateRecordsResponse;
 import android.health.connect.DeleteUsingFiltersRequest;
 import android.health.connect.HealthConnectException;
+import android.health.connect.HealthDataCategory;
 import android.health.connect.ReadRecordsRequestUsingFilters;
 import android.health.connect.ReadRecordsRequestUsingIds;
 import android.health.connect.RecordIdFilter;
@@ -50,13 +58,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.IntStream;
 
 @AppModeFull(reason = "HealthConnectManager is not accessible to instant apps")
 @RunWith(AndroidJUnit4.class)
@@ -579,6 +590,116 @@ public class SkinTemperatureRecordTest {
         assertThat(response.getDeletedLogs()).isEmpty();
     }
 
+    @Test
+    public void testAggregation_allTimeRange_correctResults() throws Exception {
+        TestUtils.setupAggregation(PACKAGE_NAME, HealthDataCategory.VITALS);
+
+        List<Record> records =
+                List.of(
+                        getSkinTemperatureRecordWithDeltas(0.55, -0.55),
+                        getSkinTemperatureRecordWithDeltas(0.1, 0.3));
+
+        TestUtils.insertRecords(records);
+
+        AggregateRecordsResponse<TemperatureDelta> response =
+                TestUtils.getAggregateResponse(
+                        new AggregateRecordsRequest.Builder<TemperatureDelta>(
+                                        new TimeInstantRangeFilter.Builder()
+                                                .setStartTime(Instant.ofEpochMilli(0))
+                                                .setEndTime(Instant.now().plus(1, ChronoUnit.DAYS))
+                                                .build())
+                                .addAggregationType(SKIN_TEMPERATURE_DELTA_MIN)
+                                .addAggregationType(SKIN_TEMPERATURE_DELTA_MAX)
+                                .addAggregationType(SKIN_TEMPERATURE_DELTA_AVG)
+                                .addDataOriginsFilter(
+                                        new DataOrigin.Builder()
+                                                .setPackageName(
+                                                        ApplicationProvider.getApplicationContext()
+                                                                .getPackageName())
+                                                .build())
+                                .build(),
+                        records);
+
+        assertThat(response.get(SKIN_TEMPERATURE_DELTA_MIN).getInCelsius()).isEqualTo(-0.55);
+        assertThat(response.get(SKIN_TEMPERATURE_DELTA_MAX).getInCelsius()).isEqualTo(0.55);
+        assertThat(response.get(SKIN_TEMPERATURE_DELTA_AVG).getInCelsius()).isEqualTo(0.1);
+    }
+
+    @Test
+    public void testAggregation_nonOverlappedTimeRange_noResults() throws Exception {
+        TestUtils.setupAggregation(PACKAGE_NAME, HealthDataCategory.VITALS);
+
+        List<Record> records =
+                List.of(
+                        getSkinTemperatureRecordWithDeltas(0.55, -0.55),
+                        getSkinTemperatureRecordWithDeltas(0.22, -0.22));
+
+        TestUtils.insertRecords(records);
+
+        AggregateRecordsResponse<TemperatureDelta> response =
+                TestUtils.getAggregateResponse(
+                        new AggregateRecordsRequest.Builder<TemperatureDelta>(
+                                        // Inserted records are not within this time range.
+                                        new TimeInstantRangeFilter.Builder()
+                                                .setStartTime(Instant.now().plusMillis(1000))
+                                                .setEndTime(Instant.now().plusMillis(2000))
+                                                .build())
+                                .addAggregationType(SKIN_TEMPERATURE_DELTA_MIN)
+                                .addAggregationType(SKIN_TEMPERATURE_DELTA_MAX)
+                                .addAggregationType(SKIN_TEMPERATURE_DELTA_AVG)
+                                .addDataOriginsFilter(
+                                        new DataOrigin.Builder()
+                                                .setPackageName(
+                                                        ApplicationProvider.getApplicationContext()
+                                                                .getPackageName())
+                                                .build())
+                                .build(),
+                        records);
+
+        assertThat(response.get(SKIN_TEMPERATURE_DELTA_MIN)).isNull();
+        assertThat(response.get(SKIN_TEMPERATURE_DELTA_MAX)).isNull();
+        assertThat(response.get(SKIN_TEMPERATURE_DELTA_AVG)).isNull();
+    }
+
+    @Test
+    public void testAggregation_groupByDuration_correctResults() throws Exception {
+        TestUtils.setupAggregation(PACKAGE_NAME, HealthDataCategory.VITALS);
+        Instant recordStartTime = Instant.now();
+        // The inserted records are only within the first 1 second.
+        List<Record> records =
+                List.of(getSkinTemperatureRecordWithDeltas(recordStartTime, 0.55, -0.55));
+        TestUtils.insertRecords(records);
+
+        List<AggregateRecordsGroupedByDurationResponse<TemperatureDelta>> responses =
+                TestUtils.getAggregateResponseGroupByDuration(
+                        new AggregateRecordsRequest.Builder<TemperatureDelta>(
+                                        // The retrieved time range is 2 seconds.
+                                        new TimeInstantRangeFilter.Builder()
+                                                .setStartTime(recordStartTime)
+                                                .setEndTime(recordStartTime.plusMillis(2000))
+                                                .build())
+                                .addAggregationType(SKIN_TEMPERATURE_DELTA_MIN)
+                                .addAggregationType(SKIN_TEMPERATURE_DELTA_MAX)
+                                .addAggregationType(SKIN_TEMPERATURE_DELTA_AVG)
+                                .addDataOriginsFilter(
+                                        new DataOrigin.Builder()
+                                                .setPackageName(
+                                                        ApplicationProvider.getApplicationContext()
+                                                                .getPackageName())
+                                                .build())
+                                .build(),
+                        Duration.ofSeconds(1));
+
+        assertThat(responses).hasSize(2);
+        assertThat(responses.get(0).get(SKIN_TEMPERATURE_DELTA_MIN).getInCelsius())
+                .isEqualTo(-0.55);
+        assertThat(responses.get(0).get(SKIN_TEMPERATURE_DELTA_MAX).getInCelsius()).isEqualTo(0.55);
+        assertThat(responses.get(0).get(SKIN_TEMPERATURE_DELTA_AVG).getInCelsius()).isEqualTo(0);
+        assertThat(responses.get(1).get(SKIN_TEMPERATURE_DELTA_MIN)).isEqualTo(null);
+        assertThat(responses.get(1).get(SKIN_TEMPERATURE_DELTA_MAX)).isEqualTo(null);
+        assertThat(responses.get(1).get(SKIN_TEMPERATURE_DELTA_AVG)).isEqualTo(null);
+    }
+
     private void readSkinTemperatureRecordUsingIds(
             ReadRecordsRequestUsingIds requestUsingIds, List<Record> insertedRecords)
             throws InterruptedException {
@@ -620,19 +741,32 @@ public class SkinTemperatureRecordTest {
     }
 
     private static SkinTemperatureRecord getSkinTemperatureRecord() {
-        Instant recordStartTime = Instant.now();
-        SkinTemperatureRecord.Delta deltaA =
-                new SkinTemperatureRecord.Delta(
-                        TemperatureDelta.fromCelsius(0.5), recordStartTime.plusMillis(100));
-        SkinTemperatureRecord.Delta deltaB =
-                new SkinTemperatureRecord.Delta(
-                        TemperatureDelta.fromCelsius(-0.5), recordStartTime.plusMillis(200));
+        // Used in case that the values of deltas do not matter for the test results.
+        return getSkinTemperatureRecordWithDeltas(0.5, -0.5);
+    }
+
+    private static SkinTemperatureRecord getSkinTemperatureRecordWithDeltas(
+            double... deltaDoubles) {
+        // Used in case that the time of record does not matter.
+        return getSkinTemperatureRecordWithDeltas(Instant.now(), deltaDoubles);
+    }
+
+    private static SkinTemperatureRecord getSkinTemperatureRecordWithDeltas(
+            Instant recordStartTime, double... deltaDoubles) {
+        List<SkinTemperatureRecord.Delta> deltas =
+                IntStream.range(0, deltaDoubles.length)
+                        .mapToObj(
+                                idx ->
+                                        new SkinTemperatureRecord.Delta(
+                                                TemperatureDelta.fromCelsius(deltaDoubles[idx]),
+                                                recordStartTime.plusMillis(idx * 100)))
+                        .toList();
         SkinTemperatureRecord record =
                 new SkinTemperatureRecord.Builder(
                                 getMetadataBuilder().build(),
                                 recordStartTime,
                                 recordStartTime.plusMillis(1000))
-                        .setDeltas(List.of(deltaA, deltaB))
+                        .setDeltas(deltas)
                         .build();
         return record;
     }
