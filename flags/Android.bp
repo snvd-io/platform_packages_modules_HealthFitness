@@ -21,6 +21,7 @@ package {
 aconfig_declarations {
     name: "healthconnect-aconfig-flags",
     package: "com.android.healthconnect.flags",
+    container: "com.android.healthconnect",
     srcs: ["flags.aconfig"],
 }
 
