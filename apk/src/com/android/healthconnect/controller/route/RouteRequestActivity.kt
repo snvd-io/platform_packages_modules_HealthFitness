@@ -47,7 +47,8 @@ import com.android.healthconnect.controller.shared.dialog.AlertDialogBuilder
 import com.android.healthconnect.controller.shared.map.MapView
 import com.android.healthconnect.controller.utils.FeatureUtils
 import com.android.healthconnect.controller.utils.LocalDateTimeFormatter
-import com.android.healthconnect.controller.utils.logging.ErrorPageElement
+import com.android.healthconnect.controller.utils.logging.HealthConnectLogger
+import com.android.healthconnect.controller.utils.logging.RouteRequestElement
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.runBlocking
@@ -67,6 +68,8 @@ class RouteRequestActivity : Hilt_RouteRequestActivity() {
     @VisibleForTesting var dialog: AlertDialog? = null
 
     @VisibleForTesting lateinit var infoDialog: AlertDialog
+
+    @Inject lateinit var healthConnectLogger: HealthConnectLogger
 
     private val viewModel: ExerciseRouteViewModel by viewModels()
     private val migrationViewModel: MigrationViewModel by viewModels()
@@ -174,12 +177,16 @@ class RouteRequestActivity : Hilt_RouteRequestActivity() {
         view.findViewById<TextView>(R.id.date_app).text = sessionDetails
 
         view.findViewById<LinearLayout>(R.id.more_info).setOnClickListener {
+            healthConnectLogger.logInteraction(
+                RouteRequestElement.EXERCISE_ROUTE_DIALOG_INFORMATION_BUTTON)
             dialog?.hide()
             setupInfoDialog()
             infoDialog.show()
         }
 
         view.findViewById<Button>(R.id.route_dont_allow_button).setOnClickListener {
+            healthConnectLogger.logInteraction(
+                RouteRequestElement.EXERCISE_ROUTE_DIALOG_DONT_ALLOW_BUTTON)
             finishCancelled()
         }
 
@@ -200,15 +207,27 @@ class RouteRequestActivity : Hilt_RouteRequestActivity() {
             }
 
         view.findViewById<Button>(R.id.route_allow_button).setOnClickListener {
+            healthConnectLogger.logInteraction(
+                RouteRequestElement.EXERCISE_ROUTE_DIALOG_ALLOW_BUTTON)
             finishWithResult(route)
         }
 
         dialog =
-            AlertDialogBuilder(this)
+            AlertDialogBuilder(this, RouteRequestElement.EXERCISE_ROUTE_REQUEST_DIALOG_CONTAINER)
                 .setCustomIcon(R.attr.healthConnectIcon)
                 .setCustomTitle(title)
                 .setView(view)
                 .setCancelable(false)
+                .setAdditionalLogging {
+                    healthConnectLogger.logImpression(
+                        RouteRequestElement.EXERCISE_ROUTE_DIALOG_ROUTE_VIEW)
+                    healthConnectLogger.logImpression(
+                        RouteRequestElement.EXERCISE_ROUTE_DIALOG_ALLOW_BUTTON)
+                    healthConnectLogger.logImpression(
+                        RouteRequestElement.EXERCISE_ROUTE_DIALOG_DONT_ALLOW_BUTTON)
+                    healthConnectLogger.logImpression(
+                        RouteRequestElement.EXERCISE_ROUTE_DIALOG_INFORMATION_BUTTON)
+                }
                 .create()
         if (shouldShowDialog()) {
             dialog?.show()
@@ -228,12 +247,14 @@ class RouteRequestActivity : Hilt_RouteRequestActivity() {
     private fun setupInfoDialog() {
         val view = layoutInflater.inflate(R.layout.route_sharing_info_dialog, null)
         infoDialog =
-            AlertDialogBuilder(this)
+            AlertDialogBuilder(this, RouteRequestElement.EXERCISE_ROUTE_EDUCATION_DIALOG_CONTAINER)
                 .setCustomIcon(R.attr.privacyPolicyIcon)
                 .setCustomTitle(getString(R.string.request_route_info_header_title))
-                .setNegativeButton(R.string.back_button, ErrorPageElement.UNKNOWN_ELEMENT) { _, _ ->
-                    dialog?.show()
-                }
+                .setNegativeButton(
+                    R.string.back_button,
+                    RouteRequestElement.EXERCISE_ROUTE_EDUCATION_DIALOG_BACK_BUTTON) { _, _ ->
+                        dialog?.show()
+                    }
                 .setView(view)
                 .setCancelable(false)
                 .create()

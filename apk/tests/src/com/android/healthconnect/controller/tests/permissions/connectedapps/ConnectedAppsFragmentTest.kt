@@ -55,6 +55,10 @@ import com.android.healthconnect.controller.utils.AppStoreUtils
 import com.android.healthconnect.controller.utils.DeviceInfoUtils
 import com.android.healthconnect.controller.utils.DeviceInfoUtilsModule
 import com.android.healthconnect.controller.utils.NavigationUtils
+import com.android.healthconnect.controller.utils.logging.AppPermissionsElement
+import com.android.healthconnect.controller.utils.logging.HealthConnectLogger
+import com.android.healthconnect.controller.utils.logging.MigrationElement
+import com.android.healthconnect.controller.utils.logging.PageName
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -68,7 +72,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.any
+import org.mockito.kotlin.atLeast
 import org.mockito.kotlin.eq
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.reset
 import org.mockito.kotlin.verify
 
 @UninstallModules(DeviceInfoUtilsModule::class)
@@ -84,6 +91,7 @@ class ConnectedAppsFragmentTest {
 
     @BindValue val deviceInfoUtils: DeviceInfoUtils = FakeDeviceInfoUtils()
     @BindValue val navigationUtils: NavigationUtils = Mockito.mock(NavigationUtils::class.java)
+    @BindValue val healthConnectLogger: HealthConnectLogger = mock()
 
     @Before
     fun setup() {
@@ -95,6 +103,7 @@ class ConnectedAppsFragmentTest {
     @After
     fun tearDown() {
         (deviceInfoUtils as FakeDeviceInfoUtils).reset()
+        reset(healthConnectLogger)
     }
 
     @Test
@@ -187,6 +196,8 @@ class ConnectedAppsFragmentTest {
 
         onView(withText(TEST_APP_NAME)).check(matches(isDisplayed()))
         onView(withText(R.string.inactive_apps)).check(matches(isDisplayed()))
+        verify(healthConnectLogger).logImpression(AppPermissionsElement.INACTIVE_APP_BUTTON)
+        verify(healthConnectLogger).logImpression(AppPermissionsElement.INACTIVE_APP_DELETE_BUTTON)
     }
 
     @Test
@@ -213,6 +224,10 @@ class ConnectedAppsFragmentTest {
             .perform(scrollTo())
             .check(matches(isDisplayed()))
         onView(withText("Send feedback")).perform(scrollTo()).check(matches(isDisplayed()))
+        verify(healthConnectLogger).logImpression(AppPermissionsElement.SEND_FEEDBACK_BUTTON)
+        verify(healthConnectLogger).logImpression(AppPermissionsElement.CHECK_FOR_UPDATES_BUTTON)
+        verify(healthConnectLogger)
+            .logImpression(AppPermissionsElement.SEE_ALL_COMPATIBLE_APPS_BUTTON)
     }
 
     @Test
@@ -253,6 +268,11 @@ class ConnectedAppsFragmentTest {
         onView(withId(androidx.preference.R.id.recycler_view))
             .perform(scrollToLastPosition<RecyclerView.ViewHolder>())
         onView(withText("Inactive apps")).check(doesNotExist())
+
+        verify(healthConnectLogger, atLeast(1)).setPageId(PageName.APP_PERMISSIONS_PAGE)
+        verify(healthConnectLogger).logPageImpression()
+        verify(healthConnectLogger).logImpression(AppPermissionsElement.CONNECTED_APP_BUTTON)
+        verify(healthConnectLogger).logImpression(AppPermissionsElement.NOT_CONNECTED_APP_BUTTON)
     }
 
     @Test
@@ -269,6 +289,7 @@ class ConnectedAppsFragmentTest {
         launchFragment<ConnectedAppsFragment>(Bundle())
 
         onView(withText("Help & feedback")).check(matches(isDisplayed()))
+        verify(healthConnectLogger).logImpression(AppPermissionsElement.HELP_AND_FEEDBACK_BUTTON)
     }
 
     @Test
@@ -311,6 +332,11 @@ class ConnectedAppsFragmentTest {
         onView(withText("Old permissions test app"))
             .perform(scrollTo())
             .check(matches(isDisplayed()))
+
+        verify(healthConnectLogger).logImpression(MigrationElement.MIGRATION_APP_UPDATE_BANNER)
+        verify(healthConnectLogger)
+            .logImpression(MigrationElement.MIGRATION_APP_UPDATE_LEARN_MORE_BUTTON)
+        verify(healthConnectLogger).logImpression(MigrationElement.MIGRATION_APP_UPDATE_BUTTON)
     }
 
     @Test
@@ -333,6 +359,8 @@ class ConnectedAppsFragmentTest {
 
         onView(withText("Learn more")).perform(click())
         assertThat(deviceInfoUtils.helpCenterInvoked).isTrue()
+        verify(healthConnectLogger)
+            .logInteraction(MigrationElement.MIGRATION_APP_UPDATE_LEARN_MORE_BUTTON)
     }
 
     @Test
@@ -357,5 +385,6 @@ class ConnectedAppsFragmentTest {
 
         onView(withText("Check for updates")).perform(click())
         verify(navigationUtils).navigate(any(), eq(R.id.action_connected_apps_to_updated_apps))
+        verify(healthConnectLogger).logInteraction(MigrationElement.MIGRATION_APP_UPDATE_BUTTON)
     }
 }
