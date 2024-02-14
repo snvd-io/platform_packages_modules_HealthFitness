@@ -19,6 +19,8 @@ import android.content.Context
 import android.health.connect.HealthDataCategory
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
@@ -50,6 +52,7 @@ import com.android.healthconnect.controller.tests.utils.TestTimeSource
 import com.android.healthconnect.controller.tests.utils.di.FakeFeatureUtils
 import com.android.healthconnect.controller.tests.utils.launchFragment
 import com.android.healthconnect.controller.tests.utils.setLocale
+import com.android.healthconnect.controller.tests.utils.toggleAnimation
 import com.android.healthconnect.controller.tests.utils.whenever
 import com.android.healthconnect.controller.utils.FeatureUtils
 import com.android.healthconnect.controller.utils.NavigationUtils
@@ -57,11 +60,6 @@ import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import java.time.Instant
-import java.time.ZoneId
-import java.util.Locale
-import java.util.TimeZone
-import javax.inject.Inject
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -71,6 +69,11 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
+import java.time.Instant
+import java.time.ZoneId
+import java.util.Locale
+import java.util.TimeZone
+import javax.inject.Inject
 
 @HiltAndroidTest
 class HomeFragmentTest {
@@ -92,6 +95,7 @@ class HomeFragmentTest {
     @BindValue val timeSource = TestTimeSource
 
     @Inject lateinit var fakeFeatureUtils: FeatureUtils
+    private lateinit var navHostController: TestNavHostController
     @BindValue val navigationUtils: NavigationUtils = Mockito.mock(NavigationUtils::class.java)
 
     @Before
@@ -109,11 +113,57 @@ class HomeFragmentTest {
                         dataRestoreError = DataRestoreUiError.ERROR_NONE)))
         }
         (fakeFeatureUtils as FakeFeatureUtils).setIsNewAppPriorityEnabled(false)
+        navHostController = TestNavHostController(context)
+
+        // disable animations
+        toggleAnimation(false)
     }
 
     @After
     fun teardown() {
         timeSource.reset()
+        // enable animations
+        toggleAnimation(true)
+    }
+
+    @Test
+    fun appPermissions_navigatesToConnectedApps() {
+        setupFragmentForNavigation()
+        onView(withText("App permissions")).check(matches(isDisplayed()))
+        onView(withText("App permissions")).perform(click())
+        assertThat(navHostController.currentDestination?.id).isEqualTo(R.id.connectedAppsFragment)
+    }
+
+    @Test
+    fun dataAndAccess_navigatesToDataAndAccess() {
+        setupFragmentForNavigation()
+        onView(withText("Data and access")).check(matches(isDisplayed()))
+        onView(withText("Data and access")).perform(click())
+        assertThat(navHostController.currentDestination?.id).isEqualTo(R.id.data_activity)
+    }
+
+    @Test
+    fun seeAllRecentAccess_navigatesToRecentAccess() {
+        setupFragmentForNavigation()
+        onView(withText("See all recent access")).check(matches(isDisplayed()))
+        onView(withText("See all recent access")).perform(click())
+        assertThat(navHostController.currentDestination?.id).isEqualTo(R.id.recentAccessFragment)
+    }
+
+    @Test
+    fun recentAccessApp_navigatesToConnectedAppFragment() {
+        setupFragmentForNavigation()
+        onView(withText(TEST_APP_NAME)).check(matches(isDisplayed()))
+        onView(withText(TEST_APP_NAME)).perform(click())
+        assertThat(navHostController.currentDestination?.id).isEqualTo(R.id.connectedAppFragment)
+    }
+
+    @Test
+    fun manageData_navigatesToManageData() {
+        setupFragmentForNavigation()
+        onView(withText("Manage data")).check(matches(isDisplayed()))
+        onView(withText("Manage data")).perform(click())
+        assertThat(navHostController.currentDestination?.id).isEqualTo(R.id.manageDataFragment)
     }
 
     @Test
@@ -193,7 +243,7 @@ class HomeFragmentTest {
     }
 
     @Test
-    fun whenNoRecentAccessApps_showsEmptyRecentAccess() {
+    fun test_HomeFragment_withNoRecentAccessApps() {
         whenever(recentAccessViewModel.recentAccessApps).then {
             MutableLiveData<RecentAccessState>(RecentAccessState.WithData(emptyList()))
         }
@@ -346,8 +396,7 @@ class HomeFragmentTest {
         onView(withText("Tap to continue integrating Health Connect with the Android system."))
             .check(matches(isDisplayed()))
         onView(withText("Continue")).check(matches(isDisplayed()))
-        // TODO (b/322495982) replace with idling resource
-        Thread.sleep(2000)
+        
         onView(withText("Continue")).perform(click())
         verify(navigationUtils, times(1))
             .navigate(any(), eq(R.id.action_homeFragment_to_migrationActivity))
@@ -379,8 +428,7 @@ class HomeFragmentTest {
         onView(withText("Before continuing restoring your data, update your phone system."))
             .check(matches(isDisplayed()))
         onView(withText("Update now")).check(matches(isDisplayed()))
-        // TODO (b/322495982) replace with idling resource
-        Thread.sleep(2000)
+
         onView(withText("Update now")).perform(click())
 
         verify(navigationUtils, times(1))
@@ -472,6 +520,37 @@ class HomeFragmentTest {
             val preferences =
                 activity.getSharedPreferences("USER_ACTIVITY_TRACKER", Context.MODE_PRIVATE)
             assertThat(preferences.getBoolean("Migration Not Complete Seen", false)).isTrue()
+        }
+    }
+
+    private fun setupFragmentForNavigation() {
+        (fakeFeatureUtils as FakeFeatureUtils).setIsNewInformationArchitectureEnabled(true)
+        val recentApp =
+            RecentAccessEntry(
+                metadata = TEST_APP,
+                instantTime = Instant.parse("2022-10-20T18:40:13.00Z"),
+                isToday = true,
+                dataTypesWritten =
+                mutableSetOf(
+                    HealthDataCategory.ACTIVITY.uppercaseTitle(),
+                    HealthDataCategory.VITALS.uppercaseTitle()),
+                dataTypesRead =
+                mutableSetOf(
+                    HealthDataCategory.SLEEP.uppercaseTitle(),
+                    HealthDataCategory.NUTRITION.uppercaseTitle()))
+
+        timeSource.setIs24Hour(true)
+
+        whenever(recentAccessViewModel.recentAccessApps).then {
+            MutableLiveData<RecentAccessState>(RecentAccessState.WithData(listOf(recentApp)))
+        }
+        whenever(homeFragmentViewModel.connectedApps).then {
+            MutableLiveData(listOf<ConnectedAppMetadata>())
+        }
+
+        launchFragment<HomeFragment>(Bundle()) {
+            navHostController.setGraph(R.navigation.nav_graph)
+            Navigation.setViewNavController(this.requireView(), navHostController)
         }
     }
 }
