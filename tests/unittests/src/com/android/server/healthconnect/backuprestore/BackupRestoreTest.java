@@ -153,6 +153,7 @@ public class BackupRestoreTest {
         when(mJobScheduler.forNamespace(BACKUP_RESTORE_JOBS_NAMESPACE)).thenReturn(mJobScheduler);
         when(mServiceContext.getUser()).thenReturn(mUserHandle);
         when(mServiceContext.getSystemService(JobScheduler.class)).thenReturn(mJobScheduler);
+        when(mServiceContext.getPackageName()).thenReturn("packageName");
 
         when(BackupRestore.StagedDatabaseContext.create(mServiceContext, mUserHandle))
                 .thenReturn(mStagedDbContext);
