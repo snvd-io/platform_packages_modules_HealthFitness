@@ -56,6 +56,7 @@ class InactiveAppPreference constructor(context: Context) : AppPreference(contex
 
         val widgetFrame: ViewGroup? = holder.findViewById(android.R.id.widget_frame) as ViewGroup?
         widgetFrame?.setOnClickListener(deleteButtonListener)
+        widgetFrame?.tag = "Delete button inactive app"
 
         val widgetFrameParent: ViewGroup? = widgetFrame?.parent as ViewGroup?
         widgetFrameParent?.setPaddingRelative(
