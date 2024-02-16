@@ -3,6 +3,7 @@ package com.android.healthconnect.controller.tests.permissions.connectedapps.sea
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -18,6 +19,7 @@ import com.android.healthconnect.controller.tests.utils.TEST_APP_NAME
 import com.android.healthconnect.controller.tests.utils.TEST_APP_NAME_2
 import com.android.healthconnect.controller.tests.utils.TEST_APP_NAME_3
 import com.android.healthconnect.controller.tests.utils.launchFragment
+import com.android.healthconnect.controller.tests.utils.toggleAnimation
 import com.android.healthconnect.controller.tests.utils.whenever
 import com.android.healthconnect.controller.utils.logging.AppPermissionsElement
 import com.android.healthconnect.controller.utils.logging.HealthConnectLogger
@@ -48,11 +50,13 @@ class SearchAppsFragmentTest {
     @Before
     fun setup() {
         hiltRule.inject()
+        toggleAnimation(false)
     }
 
     @After
     fun teardown() {
         reset(healthConnectLogger)
+        toggleAnimation(true)
     }
 
     @Test
@@ -83,7 +87,49 @@ class SearchAppsFragmentTest {
     }
 
     @Test
-    fun searchAppsFragment_noApps_displayEmptyState() {
+    fun noAppsAllowed_doesNotShowAllowedAccessSection() {
+        whenever(viewModel.connectedApps).then {
+            MutableLiveData(
+                listOf(
+                    ConnectedAppMetadata(TEST_APP, status = ConnectedAppStatus.DENIED),
+                    ConnectedAppMetadata(TEST_APP_2, status = ConnectedAppStatus.DENIED),
+                    ConnectedAppMetadata(TEST_APP_3, status = ConnectedAppStatus.INACTIVE)))
+        }
+
+        launchFragment<SearchAppsFragment>(Bundle())
+
+        onView(withText("Allowed access")).check(doesNotExist())
+        onView(withText("Not allowed access")).check(matches(isDisplayed()))
+        onView(withText(TEST_APP_NAME)).check(matches(isDisplayed()))
+        onView(withText(TEST_APP_NAME_2)).check(matches(isDisplayed()))
+        onView(withText("Inactive apps")).check(matches(isDisplayed()))
+        onView(withText(TEST_APP_NAME_3)).check(matches(isDisplayed()))
+        onView(withText(R.string.connected_apps_text)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun noAppsDenied_doesNotShowAllowedAccessSection() {
+        whenever(viewModel.connectedApps).then {
+            MutableLiveData(
+                listOf(
+                    ConnectedAppMetadata(TEST_APP, status = ConnectedAppStatus.ALLOWED),
+                    ConnectedAppMetadata(TEST_APP_2, status = ConnectedAppStatus.ALLOWED),
+                    ConnectedAppMetadata(TEST_APP_3, status = ConnectedAppStatus.ALLOWED)))
+        }
+
+        launchFragment<SearchAppsFragment>(Bundle())
+
+        onView(withText("Allowed access")).check(matches(isDisplayed()))
+        onView(withText(TEST_APP_NAME)).check(matches(isDisplayed()))
+        onView(withText(TEST_APP_NAME_2)).check(matches(isDisplayed()))
+        onView(withText(TEST_APP_NAME_3)).check(matches(isDisplayed()))
+        onView(withText("Not allowed access")).check(doesNotExist())
+        onView(withText("Inactive apps")).check(doesNotExist())
+        onView(withText(R.string.connected_apps_text)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun noApps_displaysEmptyState() {
         whenever(viewModel.connectedApps).then {
             MutableLiveData(emptyList<ConnectedAppMetadata>())
         }

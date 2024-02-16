@@ -449,7 +449,7 @@ class ConnectedAppsFragment : Hilt_ConnectedAppsFragment() {
                 banner.order = 1
                 if (deviceInfoUtils.isPlayStoreAvailable(requireContext())) {
                     banner.setPrimaryButtonOnClickListener {
-                        navigationUtils.navigate(this, R.id.action_connected_apps_to_updated_apps)
+                        findNavController().navigate(R.id.action_connected_apps_to_updated_apps)
                         true
                     }
                 } else {
