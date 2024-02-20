@@ -92,6 +92,7 @@ import android.health.connect.changelog.ChangeLogsResponse.DeletedLog;
 import android.health.connect.datatypes.AppInfo;
 import android.health.connect.datatypes.DataOrigin;
 import android.health.connect.datatypes.Record;
+import android.health.connect.exportimport.ScheduledExportSettings;
 import android.health.connect.internal.datatypes.RecordInternal;
 import android.health.connect.internal.datatypes.utils.AggregationTypeIdMapper;
 import android.health.connect.internal.datatypes.utils.RecordMapper;
@@ -130,6 +131,7 @@ import com.android.server.healthconnect.permission.DataPermissionEnforcer;
 import com.android.server.healthconnect.permission.FirstGrantTimeManager;
 import com.android.server.healthconnect.permission.HealthConnectPermissionHelper;
 import com.android.server.healthconnect.storage.AutoDeleteService;
+import com.android.server.healthconnect.storage.ScheduledExportSettingsStorage;
 import com.android.server.healthconnect.storage.TransactionManager;
 import com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.ActivityDateHelper;
@@ -2028,6 +2030,54 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void configureScheduledExport(
+            @Nullable ScheduledExportSettings settings, @NonNull UserHandle user) {
+        checkParamsNonNull(user);
+
+        enforceIsForegroundUser(getCallingUserHandle());
+        throwExceptionIfDataSyncInProgress();
+
+        try {
+            mContext.enforceCallingPermission(MANAGE_HEALTH_DATA_PERMISSION, null);
+            ScheduledExportSettingsStorage.configure(settings);
+        } catch (SQLiteException sqLiteException) {
+            Slog.e(TAG, "SQLiteException: ", sqLiteException);
+            throw new HealthConnectException(
+                    HealthConnectException.ERROR_IO, sqLiteException.toString());
+        } catch (SecurityException securityException) {
+            Slog.e(TAG, "SecurityException: ", securityException);
+            throw new HealthConnectException(
+                    HealthConnectException.ERROR_SECURITY, securityException.toString());
+        } catch (HealthConnectException healthConnectException) {
+            Slog.e(TAG, "HealthConnectException: ", healthConnectException);
+            throw new HealthConnectException(
+                    healthConnectException.getErrorCode(), healthConnectException.toString());
+        } catch (Exception exception) {
+            Slog.e(TAG, "Exception: ", exception);
+            throw new HealthConnectException(ERROR_INTERNAL, exception.toString());
+        }
+    }
+
+    @Override
+    public int getScheduledExportPeriodInDays(@NonNull UserHandle user) {
+        checkParamsNonNull(user);
+
+        enforceIsForegroundUser(getCallingUserHandle());
+        throwExceptionIfDataSyncInProgress();
+        try {
+            mContext.enforceCallingPermission(MANAGE_HEALTH_DATA_PERMISSION, null);
+            return ScheduledExportSettingsStorage.getScheduledExportPeriodInDays();
+        } catch (Exception e) {
+            if (e instanceof SecurityException) {
+                throw e;
+            }
+            Slog.e(TAG, "Unable to get period between scheduled exports for " + user);
+        }
+
+        throw new RuntimeException();
     }
 
     // Cancel BR timeouts - this might be needed when a user is going into background.
