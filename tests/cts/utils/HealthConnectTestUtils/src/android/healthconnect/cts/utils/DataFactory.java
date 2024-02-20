@@ -56,9 +56,13 @@ import java.util.List;
 import java.util.UUID;
 
 public final class DataFactory {
-    public static final Instant SESSION_START_TIME = Instant.now().minus(10, ChronoUnit.DAYS);
+    public static final Instant SESSION_START_TIME =
+            Instant.now().minus(10, ChronoUnit.DAYS).truncatedTo(ChronoUnit.MILLIS);
     public static final Instant SESSION_END_TIME =
-            Instant.now().minus(10, ChronoUnit.DAYS).plus(1, ChronoUnit.HOURS);
+            Instant.now()
+                    .minus(10, ChronoUnit.DAYS)
+                    .plus(1, ChronoUnit.HOURS)
+                    .truncatedTo(ChronoUnit.MILLIS);
 
     public static Device buildDevice() {
         return new Device.Builder()
@@ -132,8 +136,17 @@ public final class DataFactory {
     }
 
     public static SleepSessionRecord buildSleepSession() {
-        return new SleepSessionRecord.Builder(
-                        generateMetadata(), SESSION_START_TIME, SESSION_END_TIME)
+        return buildSleepSession(generateMetadata());
+    }
+
+    /** Builds a {@link SleepSessionRecord} with empty {@link Metadata}. */
+    public static SleepSessionRecord buildSleepSessionWithEmptyMetadata() {
+        return buildSleepSession(getEmptyMetadata());
+    }
+
+    /** Builds a {@link SleepSessionRecord} with a specific {@link Metadata}. */
+    public static SleepSessionRecord buildSleepSession(Metadata metadata) {
+        return new SleepSessionRecord.Builder(metadata, SESSION_START_TIME, SESSION_END_TIME)
                 .setNotes("warm")
                 .setTitle("Afternoon nap")
                 .setStages(
@@ -153,9 +166,20 @@ public final class DataFactory {
                 .build();
     }
 
+    /** Builds a {@link ExerciseSessionRecord} with {@link #generateMetadata()}. */
     public static ExerciseSessionRecord buildExerciseSession() {
+        return buildExerciseSession(generateMetadata());
+    }
+
+    /** Builds a {@link ExerciseSessionRecord} with an empty {@link Metadata}. */
+    public static ExerciseSessionRecord buildExerciseSessionWithEmptyMetadata() {
+        return buildExerciseSession(getEmptyMetadata());
+    }
+
+    /** Builds a {@link ExerciseSessionRecord} with a specific {@link Metadata}. */
+    public static ExerciseSessionRecord buildExerciseSession(Metadata metadata) {
         return new ExerciseSessionRecord.Builder(
-                        generateMetadata(),
+                        metadata,
                         SESSION_START_TIME,
                         SESSION_END_TIME,
                         ExerciseSessionType.EXERCISE_SESSION_TYPE_OTHER_WORKOUT)
@@ -208,6 +232,21 @@ public final class DataFactory {
                 .build();
     }
 
+    /** Gets a {@link HeartRateRecord} with an empty {@link Metadata}. */
+    public static HeartRateRecord getHeartRateRecordWithEmptyMetadata() {
+        return getHeartRateRecord(72, getEmptyMetadata());
+    }
+
+    /** Gets a {@link HeartRateRecord} with a specific heart rate and {@link Metadata}. */
+    public static HeartRateRecord getHeartRateRecord(int heartRate, Metadata metadata) {
+        Instant instant = Instant.now();
+        HeartRateRecord.HeartRateSample heartRateSample =
+                new HeartRateRecord.HeartRateSample(heartRate, instant.plusMillis(10));
+        return new HeartRateRecord.Builder(
+                        metadata, instant, instant.plusMillis(1000), List.of(heartRateSample))
+                .build();
+    }
+
     public static HeartRateRecord getHeartRateRecord() {
         return getHeartRateRecord(72);
     }
@@ -245,6 +284,10 @@ public final class DataFactory {
                         instant.plusMillis(100),
                         heartRateSamples)
                 .build();
+    }
+
+    public static StepsRecord getStepsRecordWithEmptyMetaData() {
+        return getStepsRecord(10, getEmptyMetadata());
     }
 
     public static StepsRecord getStepsRecord() {
@@ -352,6 +395,15 @@ public final class DataFactory {
                 .build();
     }
 
+    public static DistanceRecord getDistanceRecordWithEmptyMetadata() {
+        return new DistanceRecord.Builder(
+                        getEmptyMetadata(),
+                        Instant.now(),
+                        Instant.now().plusMillis(1000),
+                        Length.fromMeters(10.0))
+                .build();
+    }
+
     public static DistanceRecord getDistanceRecord(double distance, Instant start, Instant end) {
         return new DistanceRecord.Builder(
                         getEmptyMetadata(), start, end, Length.fromMeters(distance))
@@ -365,13 +417,23 @@ public final class DataFactory {
                 .build();
     }
 
+    /** Gets a {@link TotalCaloriesBurnedRecord} with a specific {@code clientId}. */
     public static TotalCaloriesBurnedRecord getTotalCaloriesBurnedRecord(String clientId) {
+        return getTotalCaloriesBurnedRecord(getMetadataForClientId(clientId));
+    }
+
+    /** Gets a {@link TotalCaloriesBurnedRecord} with a specific {@link Metadata}. */
+    public static TotalCaloriesBurnedRecord getTotalCaloriesBurnedRecord(Metadata metadata) {
         return new TotalCaloriesBurnedRecord.Builder(
-                        getMetadataForClientId(clientId),
+                        metadata,
                         Instant.now(),
                         Instant.now().plusMillis(1000),
                         Energy.fromCalories(10.0))
                 .build();
+    }
+
+    public static TotalCaloriesBurnedRecord getTotalCaloriesBurnedRecordWithEmptyMetadata() {
+        return getTotalCaloriesBurnedRecord(getEmptyMetadata());
     }
 
     public static List<Record> getTestRecords() {
