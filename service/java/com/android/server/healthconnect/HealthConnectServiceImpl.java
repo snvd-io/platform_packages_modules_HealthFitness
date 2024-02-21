@@ -23,6 +23,7 @@ import static android.health.connect.Constants.READ;
 import static android.health.connect.HealthConnectException.ERROR_INTERNAL;
 import static android.health.connect.HealthConnectException.ERROR_SECURITY;
 import static android.health.connect.HealthPermissions.MANAGE_HEALTH_DATA_PERMISSION;
+import static android.health.connect.HealthPermissions.READ_HEALTH_DATA_HISTORY;
 import static android.health.connect.HealthPermissions.READ_HEALTH_DATA_IN_BACKGROUND;
 
 import static com.android.server.healthconnect.logging.HealthConnectServiceLogger.ApiMethods.DELETE_DATA;
@@ -657,7 +658,9 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         Trace.traceBegin(TRACE_TAG_READ, TAG_READ);
                         try {
                             long startDateAccessEpochMilli = request.getStartTime();
-                            if (!holdsDataManagementPermission) {
+
+                            if (!holdsDataManagementPermission
+                                    && !hasReadHistoryPermission(uid, pid)) {
                                 Instant startDateAccessInstant =
                                         mPermissionHelper.getHealthDataStartDateAccessOrThrow(
                                                 callingPackageName, userHandle);
@@ -2222,6 +2225,11 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
 
     private boolean hasDataManagementPermission(int uid, int pid) {
         return isPermissionGranted(MANAGE_HEALTH_DATA_PERMISSION, uid, pid);
+    }
+
+    private boolean hasReadHistoryPermission(int uid, int pid) {
+        return mDeviceConfigManager.isHistoryReadFeatureEnabled()
+                && isPermissionGranted(READ_HEALTH_DATA_HISTORY, uid, pid);
     }
 
     /**
