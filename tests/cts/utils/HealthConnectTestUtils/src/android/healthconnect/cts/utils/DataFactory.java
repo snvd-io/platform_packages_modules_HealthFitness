@@ -309,6 +309,10 @@ public final class DataFactory {
                 .build();
     }
 
+    public static StepsRecord getStepsRecord(int steps, Instant start, Instant end) {
+        return new StepsRecord.Builder(getEmptyMetadata(), start, end, steps).build();
+    }
+
     public static StepsRecord getStepsRecord(
             int steps, Instant start, Instant end, String clientId) {
         return new StepsRecord.Builder(getMetadataForClientId(clientId), start, end, steps).build();
@@ -407,6 +411,15 @@ public final class DataFactory {
     public static DistanceRecord getDistanceRecord(double distance, Instant start, Instant end) {
         return new DistanceRecord.Builder(
                         getEmptyMetadata(), start, end, Length.fromMeters(distance))
+                .build();
+    }
+
+    public static DistanceRecord getDistanceRecord(
+            double distance, Instant start, Instant end, ZoneOffset offset) {
+        return new DistanceRecord.Builder(
+                        getEmptyMetadata(), start, end, Length.fromMeters(distance))
+                .setStartZoneOffset(offset)
+                .setEndZoneOffset(offset)
                 .build();
     }
 
