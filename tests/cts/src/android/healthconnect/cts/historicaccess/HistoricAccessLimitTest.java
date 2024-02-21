@@ -203,7 +203,7 @@ public class HistoricAccessLimitTest {
         insertStepsRecordViaTestApp(
                 daysBeforeNow(2), daysBeforeNow(1), otherAppsRecordValueAfterHistoricLimit);
         insertStepsRecordViaTestApp(
-                daysBeforeNow(50), daysBeforeNow(40), otherAppsRecordValueBeforeHistoricLimit);
+                daysBeforeNow(60), daysBeforeNow(50), otherAppsRecordValueBeforeHistoricLimit);
         // Add the other app to the priority list
         TestUtils.updatePriorityWithManageHealthDataPermission(
                 HealthDataCategory.ACTIVITY,
@@ -230,14 +230,14 @@ public class HistoricAccessLimitTest {
     @Test
     public void testAggregateInstantRecords_expectCorrectResponse() throws InterruptedException {
         TestUtils.setupAggregation(PACKAGE_NAME, HealthDataCategory.BODY_MEASUREMENTS);
-        long ownRecordValueAfterHistoricLimit = 20;
-        long ownRecordValueBeforeHistoricLimit = 300;
-        long otherAppsRecordValueAfterHistoricLimit = 4_000;
-        long otherAppsRecordValueBeforeHistoricLimit = 50_000;
+        double ownRecordValueAfterHistoricLimit = 20;
+        double ownRecordValueBeforeHistoricLimit = 300;
+        double otherAppsRecordValueAfterHistoricLimit = 4_000;
+        double otherAppsRecordValueBeforeHistoricLimit = 50_000;
         insertWeightRecord(daysBeforeNow(10), ownRecordValueAfterHistoricLimit);
         insertWeightRecord(daysBeforeNow(50), ownRecordValueBeforeHistoricLimit);
         insertWeightRecordViaTestApp(daysBeforeNow(2), otherAppsRecordValueAfterHistoricLimit);
-        insertWeightRecordViaTestApp(daysBeforeNow(50), otherAppsRecordValueBeforeHistoricLimit);
+        insertWeightRecordViaTestApp(daysBeforeNow(60), otherAppsRecordValueBeforeHistoricLimit);
         TimeInstantRangeFilter timeFilter =
                 new TimeInstantRangeFilter.Builder()
                         .setStartTime(daysBeforeNow(1000))
