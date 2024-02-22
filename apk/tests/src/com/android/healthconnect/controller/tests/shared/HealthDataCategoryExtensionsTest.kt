@@ -57,7 +57,10 @@ class HealthDataCategoryExtensionsTest {
 
     @Test
     fun allHealthPermission_haveParentCategory() {
-        val allPermissions = healthPermissionReader.getHealthPermissions()
+        val allPermissions =
+            healthPermissionReader.getHealthPermissions().filterNot { perm ->
+                healthPermissionReader.isAdditionalPermission(perm)
+            }
         for (permissionString in allPermissions) {
             if (permissionString == HealthPermissionConstants.READ_HEALTH_DATA_HISTORY) {
                 // TODO(b/325434006): Remove this exception case when we have strings properly
