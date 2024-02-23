@@ -84,12 +84,6 @@ class RouteRequestActivity : Hilt_RouteRequestActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (!featureUtils.isExerciseRouteEnabled()) {
-            Log.e(TAG, "Exercise routes not available, finishing.")
-            finishCancelled()
-            return
-        }
-
         if (sessionIdExtra == null || callingPackage == null) {
             Log.e(TAG, "Invalid Intent Extras, finishing.")
             finishCancelled()

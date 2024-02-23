@@ -130,7 +130,7 @@ class AppPermissionViewModelTest {
     @Test
     fun whenPackageSupported_loadAllPermissions() = runTest {
         whenever(healthPermissionReader.isRationalIntentDeclared(any())).thenReturn(true)
-        whenever(healthPermissionReader.getDeclaredPermissions(any()))
+        whenever(healthPermissionReader.getDeclaredHealthPermissions(any()))
             .thenReturn(
                 listOf(
                     readExercisePermission,
@@ -165,7 +165,7 @@ class AppPermissionViewModelTest {
     @Test
     fun whenPackageNotSupported_loadOnlyGrantedPermissions() = runTest {
         whenever(healthPermissionReader.isRationalIntentDeclared(any())).thenReturn(false)
-        whenever(healthPermissionReader.getDeclaredPermissions(any()))
+        whenever(healthPermissionReader.getDeclaredHealthPermissions(any()))
             .thenReturn(
                 listOf(
                     readExercisePermission,
@@ -411,7 +411,7 @@ class AppPermissionViewModelTest {
     @Test
     fun shouldNavigateToFragment_whenPackageNameSupported_returnsTrue() = runTest {
         whenever(healthPermissionReader.isRationalIntentDeclared(any())).thenReturn(true)
-        whenever(healthPermissionReader.getDeclaredPermissions(any()))
+        whenever(healthPermissionReader.getDeclaredHealthPermissions(any()))
             .thenReturn(
                 listOf(
                     readExercisePermission,
@@ -420,19 +420,18 @@ class AppPermissionViewModelTest {
                     writeDistancePermission))
         getGrantedHealthPermissionsUseCase.updateData(TEST_APP_PACKAGE_NAME, listOf())
 
-        val shouldNavigateToFragmentObserver = TestObserver<Boolean>()
-        appPermissionViewModel.shouldNavigateToFragment.observeForever(
-            shouldNavigateToFragmentObserver)
-        appPermissionViewModel.loadShouldNavigateToFragment(TEST_APP_PACKAGE_NAME)
         advanceUntilIdle()
 
-        assertThat(shouldNavigateToFragmentObserver.getLastValue()).isTrue()
+        assertThat(
+                appPermissionViewModel.shouldNavigateToAppPermissionsFragment(
+                    TEST_APP_PACKAGE_NAME))
+            .isTrue()
     }
 
     @Test
     fun shouldNavigateToFragment_whenAnyPermissionGranted_returnsTrue() = runTest {
         whenever(healthPermissionReader.isRationalIntentDeclared(any())).thenReturn(false)
-        whenever(healthPermissionReader.getDeclaredPermissions(any()))
+        whenever(healthPermissionReader.getDeclaredHealthPermissions(any()))
             .thenReturn(
                 listOf(
                     readExercisePermission,
@@ -442,20 +441,19 @@ class AppPermissionViewModelTest {
         getGrantedHealthPermissionsUseCase.updateData(
             TEST_APP_PACKAGE_NAME, listOf(writeSleepPermission.toString()))
 
-        val shouldNavigateToFragmentObserver = TestObserver<Boolean>()
-        appPermissionViewModel.shouldNavigateToFragment.observeForever(
-            shouldNavigateToFragmentObserver)
-        appPermissionViewModel.loadShouldNavigateToFragment(TEST_APP_PACKAGE_NAME)
         advanceUntilIdle()
 
-        assertThat(shouldNavigateToFragmentObserver.getLastValue()).isTrue()
+        assertThat(
+                appPermissionViewModel.shouldNavigateToAppPermissionsFragment(
+                    TEST_APP_PACKAGE_NAME))
+            .isTrue()
     }
 
     @Test
     fun shouldNavigateToFragment_whenPackageNotSupported_andNoPermissionsGranted_returnsFalse() =
         runTest {
             whenever(healthPermissionReader.isRationalIntentDeclared(any())).thenReturn(false)
-            whenever(healthPermissionReader.getDeclaredPermissions(any()))
+            whenever(healthPermissionReader.getDeclaredHealthPermissions(any()))
                 .thenReturn(
                     listOf(
                         readExercisePermission,
@@ -464,13 +462,12 @@ class AppPermissionViewModelTest {
                         writeDistancePermission))
             getGrantedHealthPermissionsUseCase.updateData(TEST_APP_PACKAGE_NAME, listOf())
 
-            val shouldNavigateToFragmentObserver = TestObserver<Boolean>()
-            appPermissionViewModel.shouldNavigateToFragment.observeForever(
-                shouldNavigateToFragmentObserver)
-            appPermissionViewModel.loadShouldNavigateToFragment(TEST_APP_PACKAGE_NAME)
             advanceUntilIdle()
 
-            assertThat(shouldNavigateToFragmentObserver.getLastValue()).isFalse()
+            assertThat(
+                    appPermissionViewModel.shouldNavigateToAppPermissionsFragment(
+                        TEST_APP_PACKAGE_NAME))
+                .isFalse()
         }
 
     @Test
@@ -481,7 +478,7 @@ class AppPermissionViewModelTest {
 
     private fun setupDeclaredAndGrantedPermissions() {
         whenever(healthPermissionReader.isRationalIntentDeclared(any())).thenReturn(true)
-        whenever(healthPermissionReader.getDeclaredPermissions(any()))
+        whenever(healthPermissionReader.getDeclaredHealthPermissions(any()))
             .thenReturn(
                 listOf(
                     readExercisePermission,
