@@ -40,8 +40,10 @@ import android.health.connect.datatypes.Record;
 import android.health.connect.datatypes.SleepSessionRecord;
 import android.health.connect.datatypes.StepsRecord;
 import android.health.connect.datatypes.TotalCaloriesBurnedRecord;
+import android.health.connect.datatypes.WeightRecord;
 import android.health.connect.datatypes.units.Energy;
 import android.health.connect.datatypes.units.Length;
+import android.health.connect.datatypes.units.Mass;
 import android.health.connect.datatypes.units.Power;
 import android.healthconnect.cts.utils.TestUtils.RecordAndIdentifier;
 
@@ -286,6 +288,12 @@ public final class DataFactory {
                 .build();
     }
 
+    /** Creates and returns a {@link WeightRecord} with the specified arguments. */
+    public static WeightRecord getWeightRecord(double grams, Instant time) {
+        return new WeightRecord.Builder(new Metadata.Builder().build(), time, Mass.fromGrams(grams))
+                .build();
+    }
+
     public static StepsRecord getStepsRecordWithEmptyMetaData() {
         return getStepsRecord(10, getEmptyMetadata());
     }
@@ -294,27 +302,31 @@ public final class DataFactory {
         return getStepsRecord(10);
     }
 
-    public static StepsRecord getStepsRecord(int steps) {
+    /** Creates and returns a {@link StepsRecord} with the specified arguments. */
+    public static StepsRecord getStepsRecord(long steps) {
         return getStepsRecord(steps, generateMetadata());
     }
 
-    public static StepsRecord getStepsRecord(int steps, String clientId) {
+    /** Creates and returns a {@link StepsRecord} with the specified arguments. */
+    public static StepsRecord getStepsRecord(long steps, String clientId) {
         return getStepsRecord(steps, getMetadataForClientId(clientId));
     }
 
-    /** Creates and returns a {@link StepsRecord} with the specified metadata. */
-    public static StepsRecord getStepsRecord(int steps, Metadata metadata) {
+    /** Creates and returns a {@link StepsRecord} with the specified arguments. */
+    public static StepsRecord getStepsRecord(long steps, Metadata metadata) {
         return new StepsRecord.Builder(
                         metadata, Instant.now(), Instant.now().plusMillis(1000), steps)
                 .build();
     }
 
-    public static StepsRecord getStepsRecord(int steps, Instant start, Instant end) {
+    /** Creates and returns a {@link StepsRecord} with the specified arguments. */
+    public static StepsRecord getStepsRecord(long steps, Instant start, Instant end) {
         return new StepsRecord.Builder(getEmptyMetadata(), start, end, steps).build();
     }
 
+    /** Creates and returns a {@link StepsRecord} with the specified arguments. */
     public static StepsRecord getStepsRecord(
-            int steps, Instant start, Instant end, String clientId) {
+            long steps, Instant start, Instant end, String clientId) {
         return new StepsRecord.Builder(getMetadataForClientId(clientId), start, end, steps).build();
     }
 
@@ -465,7 +477,7 @@ public final class DataFactory {
                         RECORD_TYPE_BASAL_METABOLIC_RATE, getBasalMetabolicRateRecord()));
     }
 
-    private static BasalMetabolicRateRecord getBasalMetabolicRateRecord() {
+    public static BasalMetabolicRateRecord getBasalMetabolicRateRecord() {
         return new BasalMetabolicRateRecord.Builder(
                         generateMetadata(), Instant.now(), Power.fromWatts(100.0))
                 .build();

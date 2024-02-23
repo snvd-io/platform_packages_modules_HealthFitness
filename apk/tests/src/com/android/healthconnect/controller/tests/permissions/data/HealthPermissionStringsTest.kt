@@ -47,7 +47,10 @@ class HealthPermissionStringsTest {
 
     @Test
     fun allHealthPermissionsHaveStrings() {
-        val allPermissions = healthPermissionReader.getHealthPermissions()
+        val allPermissions =
+            healthPermissionReader.getHealthPermissions().filterNot { perm ->
+                healthPermissionReader.isAdditionalPermission(perm)
+            }
         for (permission in allPermissions) {
             if (permission == HealthPermissionConstants.READ_HEALTH_DATA_HISTORY) {
                 // TODO(b/325434006): Remove this exception case when we have strings properly
