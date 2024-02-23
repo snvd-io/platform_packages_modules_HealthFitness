@@ -22,6 +22,8 @@ import static android.healthconnect.cts.utils.DataFactory.getStepsRecord;
 import static android.healthconnect.cts.utils.DataFactory.getWeightRecord;
 import static android.healthconnect.cts.utils.TestUtils.deleteAllStagedRemoteData;
 import static android.healthconnect.cts.utils.TestUtils.getAggregateResponse;
+import static android.healthconnect.cts.utils.TestUtils.getChangeLogToken;
+import static android.healthconnect.cts.utils.TestUtils.getChangeLogs;
 import static android.healthconnect.cts.utils.TestUtils.getRecordIds;
 import static android.healthconnect.cts.utils.TestUtils.insertRecordAndGetId;
 import static android.healthconnect.cts.utils.TestUtils.setupAggregation;
@@ -38,6 +40,8 @@ import android.health.connect.HealthDataCategory;
 import android.health.connect.ReadRecordsRequestUsingFilters;
 import android.health.connect.ReadRecordsRequestUsingIds;
 import android.health.connect.TimeInstantRangeFilter;
+import android.health.connect.changelog.ChangeLogTokenRequest;
+import android.health.connect.changelog.ChangeLogsRequest;
 import android.health.connect.datatypes.StepsRecord;
 import android.health.connect.datatypes.WeightRecord;
 import android.health.connect.datatypes.units.Mass;
@@ -243,6 +247,26 @@ public class HistoricAccessLimitWithPermissionTest {
                                         + otherAppsRecordValueAfterHistoricLimit
                                         + otherAppsRecordValueBeforeHistoricLimit)
                                 / 4d);
+    }
+
+    @Test
+    public void testGetChangeLogs_expectCorrectResponse() throws InterruptedException {
+        String token = getChangeLogToken(new ChangeLogTokenRequest.Builder().build()).getToken();
+        List<String> insertedRecordIds =
+                List.of(
+                        insertWeightRecord(daysBeforeNow(10), 10),
+                        insertWeightRecord(daysBeforeNow(50), 11),
+                        insertWeightRecord(Instant.EPOCH, 12),
+                        insertWeightRecordViaTestApp(daysBeforeNow(2), 13),
+                        insertWeightRecordViaTestApp(daysBeforeNow(50), 14),
+                        insertWeightRecordViaTestApp(Instant.EPOCH, 15));
+
+        List<String> logsRecordIds =
+                getRecordIds(
+                        getChangeLogs(new ChangeLogsRequest.Builder(token).build())
+                                .getUpsertedRecords());
+
+        assertThat(logsRecordIds).containsExactlyElementsIn(insertedRecordIds);
     }
 
     private String insertStepsRecord(Instant startTime, Instant endTime, long value)

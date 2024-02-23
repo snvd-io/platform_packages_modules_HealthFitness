@@ -1019,10 +1019,14 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                 uid, QuotaCategory.QUOTA_CATEGORY_READ, isInForeground, logger);
                         mDataPermissionEnforcer.enforceRecordIdsReadPermissions(
                                 changeLogsTokenRequest.getRecordTypes(), attributionSource);
-                        Instant startDateAccessInstant =
-                                mPermissionHelper.getHealthDataStartDateAccessOrThrow(
-                                        callerPackageName, userHandle);
-                        long startDateAccessEpochMilli = startDateAccessInstant.toEpochMilli();
+                        long startDateAccessEpochMilli = DEFAULT_LONG;
+                        if (!hasReadHistoryPermission(uid, pid)) {
+                            startDateAccessEpochMilli =
+                                    mPermissionHelper
+                                            .getHealthDataStartDateAccessOrThrow(
+                                                    callerPackageName, userHandle)
+                                            .toEpochMilli();
+                        }
                         final ChangeLogsHelper.ChangeLogsResponse changeLogsResponse =
                                 ChangeLogsHelper.getInstance()
                                         .getChangeLogs(changeLogsTokenRequest, request);
