@@ -318,6 +318,14 @@ public final class TestUtils {
                 buildExerciseSession());
     }
 
+    public static ChangeLogTokenRequest.Builder getChangeLogTokenRequestForTestRecordTypes() {
+        return new ChangeLogTokenRequest.Builder()
+                .addRecordType(StepsRecord.class)
+                .addRecordType(HeartRateRecord.class)
+                .addRecordType(BasalMetabolicRateRecord.class)
+                .addRecordType(ExerciseSessionRecord.class);
+    }
+
     public static List<Record> getTestRecords(String packageName) {
         double clientId = Math.random();
         return getTestRecords(packageName, clientId);
