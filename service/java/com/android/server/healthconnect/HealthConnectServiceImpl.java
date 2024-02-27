@@ -496,7 +496,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                             .getApplicableRecordTypeIds());
                         }
 
-                        long startDateAccess;
+                        long startDateAccess = request.getStartTime();
                         // TODO(b/309776578): Consider making background reads possible for
                         // aggregations when only using own data
                         if (!holdsDataManagementPermission) {
@@ -518,11 +518,14 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                             boolean enforceSelfRead =
                                     mDataPermissionEnforcer.enforceReadAccessAndGetEnforceSelfRead(
                                             recordTypesToTest, attributionSource);
-                            startDateAccess =
-                                    mPermissionHelper
-                                            .getHealthDataStartDateAccessOrThrow(
-                                                    attributionSource.getPackageName(), userHandle)
-                                            .toEpochMilli();
+                            if (!hasReadHistoryPermission(uid, pid)) {
+                                startDateAccess =
+                                        mPermissionHelper
+                                                .getHealthDataStartDateAccessOrThrow(
+                                                        attributionSource.getPackageName(),
+                                                        userHandle)
+                                                .toEpochMilli();
+                            }
                             maybeEnforceOnlyCallingPackageDataRequested(
                                     request.getPackageFilters(),
                                     attributionSource.getPackageName(),
@@ -533,8 +536,6 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                                             AggregationTypeIdMapper.getInstance()
                                                                     ::getAggregationTypeFor)
                                                     .collect(Collectors.toList()));
-                        } else {
-                            startDateAccess = request.getStartTime();
                         }
                         callback.onResult(
                                 new AggregateTransactionRequest(
@@ -1020,10 +1021,14 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                 uid, QuotaCategory.QUOTA_CATEGORY_READ, isInForeground, logger);
                         mDataPermissionEnforcer.enforceRecordIdsReadPermissions(
                                 changeLogsTokenRequest.getRecordTypes(), attributionSource);
-                        Instant startDateAccessInstant =
-                                mPermissionHelper.getHealthDataStartDateAccessOrThrow(
-                                        callerPackageName, userHandle);
-                        long startDateAccessEpochMilli = startDateAccessInstant.toEpochMilli();
+                        long startDateAccessEpochMilli = DEFAULT_LONG;
+                        if (!hasReadHistoryPermission(uid, pid)) {
+                            startDateAccessEpochMilli =
+                                    mPermissionHelper
+                                            .getHealthDataStartDateAccessOrThrow(
+                                                    callerPackageName, userHandle)
+                                            .toEpochMilli();
+                        }
                         final ChangeLogsHelper.ChangeLogsResponse changeLogsResponse =
                                 ChangeLogsHelper.getInstance()
                                         .getChangeLogs(changeLogsTokenRequest, request);
