@@ -939,6 +939,10 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                 mAppOpsManagerLocal.isUidInForeground(uid),
                                 logger);
                         throwExceptionIfDataSyncInProgress();
+                        if (request.getRecordTypes().isEmpty()) {
+                            throw new IllegalArgumentException(
+                                    "Requested record types must not be empty.");
+                        }
                         mDataPermissionEnforcer.enforceRecordIdsReadPermissions(
                                 request.getRecordTypesList(), attributionSource);
                         callback.onResult(
@@ -957,6 +961,14 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         logger.setHealthDataServiceApiStatusError(ERROR_SECURITY);
                         Slog.e(TAG, "SecurityException: ", securityException);
                         tryAndThrowException(callback, securityException, ERROR_SECURITY);
+                    } catch (IllegalArgumentException illegalArgumentException) {
+                        logger.setHealthDataServiceApiStatusError(
+                                HealthConnectException.ERROR_INVALID_ARGUMENT);
+                        Slog.e(TAG, "IllegalArgumentException: ", illegalArgumentException);
+                        tryAndThrowException(
+                                callback,
+                                illegalArgumentException,
+                                HealthConnectException.ERROR_INVALID_ARGUMENT);
                     } catch (HealthConnectException healthConnectException) {
                         logger.setHealthDataServiceApiStatusError(
                                 healthConnectException.getErrorCode());
@@ -1019,6 +1031,10 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                         callerPackageName, request.getToken());
                         tryAcquireApiCallQuota(
                                 uid, QuotaCategory.QUOTA_CATEGORY_READ, isInForeground, logger);
+                        if (changeLogsTokenRequest.getRecordTypes().isEmpty()) {
+                            throw new IllegalArgumentException(
+                                    "Requested record types must not be empty.");
+                        }
                         mDataPermissionEnforcer.enforceRecordIdsReadPermissions(
                                 changeLogsTokenRequest.getRecordTypes(), attributionSource);
                         long startDateAccessEpochMilli = DEFAULT_LONG;

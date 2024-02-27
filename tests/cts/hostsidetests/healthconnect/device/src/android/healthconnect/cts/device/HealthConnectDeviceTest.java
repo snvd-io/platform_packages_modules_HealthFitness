@@ -572,12 +572,20 @@ public class HealthConnectDeviceTest {
         String changeLogTokenForAppB =
                 APP_B_WITH_READ_WRITE_PERMS.getChangeLogToken(
                         new ChangeLogTokenRequest.Builder()
+                                .addRecordType(StepsRecord.class)
+                                .addRecordType(HeartRateRecord.class)
+                                .addRecordType(BasalMetabolicRateRecord.class)
+                                .addRecordType(ExerciseSessionRecord.class)
                                 .addDataOriginFilter(
                                         getDataOrigin(APP_A_WITH_READ_WRITE_PERMS.getPackageName()))
                                 .build());
         String changeLogTokenForAppA =
                 APP_A_WITH_READ_WRITE_PERMS.getChangeLogToken(
                         new ChangeLogTokenRequest.Builder()
+                                .addRecordType(StepsRecord.class)
+                                .addRecordType(HeartRateRecord.class)
+                                .addRecordType(BasalMetabolicRateRecord.class)
+                                .addRecordType(ExerciseSessionRecord.class)
                                 .addDataOriginFilter(
                                         getDataOrigin(APP_B_WITH_READ_WRITE_PERMS.getPackageName()))
                                 .build());
