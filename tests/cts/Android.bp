@@ -91,11 +91,15 @@ android_test {
         "cts-wm-util",
         "testng",
         "cts-healthconnect-utils",
+        "cts-healthconnect-lib",
     ],
     min_sdk_version: "34",
     sdk_version: "module_current",
     test_config:"AndroidTestNoPermission.xml",
     manifest: "AndroidManifestNoPermission.xml",
+    data: [
+        ":CtsHealthConnectTestAppAWithNormalReadWritePermission",
+    ],
 }
 
 android_test {
