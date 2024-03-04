@@ -139,6 +139,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -214,6 +215,16 @@ public final class TestUtils {
     /**
      * Inserts records to the database.
      *
+     * @param records records to insert
+     * @return inserted records
+     */
+    public static List<Record> insertRecords(Record... records) throws InterruptedException {
+        return insertRecords(Arrays.asList(records), ApplicationProvider.getApplicationContext());
+    }
+
+    /**
+     * Inserts records to the database.
+     *
      * @param records records to insert.
      * @param context a {@link Context} to obtain {@link HealthConnectManager}.
      * @return inserted records.
@@ -241,7 +252,8 @@ public final class TestUtils {
         return record -> seen.add(record.getMetadata().getId());
     }
 
-    public static void updateRecords(List<Record> records) throws InterruptedException {
+    /** Updates the provided records in the database. */
+    public static void updateRecords(List<? extends Record> records) throws InterruptedException {
         updateRecords(records, ApplicationProvider.getApplicationContext());
     }
 
@@ -1086,6 +1098,35 @@ public final class TestUtils {
             builder.addDataOrigins(getDataOrigin(packageName));
         }
         return builder.build();
+    }
+
+    /** Copies record ids from the one list to another in order. Workaround for b/328228842. */
+    // TODO(b/328228842): Avoid using reflection once we have Builder(Record) constructors
+    public static void copyRecordIdsViaReflection(
+            List<? extends Record> from, List<? extends Record> to) {
+        assertThat(from).hasSize(to.size());
+
+        for (int i = 0; i < from.size(); i++) {
+            copyRecordIdViaReflection(from.get(i), to.get(i));
+        }
+    }
+
+    // TODO(b/328228842): Avoid using reflection once we have Builder(Record) constructors
+    private static void copyRecordIdViaReflection(Record from, Record to) {
+        setRecordIdViaReflection(to.getMetadata(), from.getMetadata().getId());
+    }
+
+    // TODO(b/328228842): Avoid using reflection once we have Builder(Record) constructors
+    private static void setRecordIdViaReflection(Metadata metadata, String id) {
+        try {
+            Field field = Metadata.class.getDeclaredField("mId");
+            boolean isAccessible = field.isAccessible();
+            field.setAccessible(true);
+            field.set(metadata, id);
+            field.setAccessible(isAccessible);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static final class RecordAndIdentifier {
