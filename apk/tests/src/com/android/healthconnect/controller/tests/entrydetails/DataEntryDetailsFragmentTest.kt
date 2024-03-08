@@ -60,6 +60,7 @@ import com.android.healthconnect.controller.tests.utils.TestData.WARSAW_ROUTE
 import com.android.healthconnect.controller.tests.utils.launchFragment
 import com.android.healthconnect.controller.tests.utils.setLocale
 import com.android.healthconnect.controller.utils.logging.DataEntriesElement
+import com.android.healthconnect.controller.utils.logging.EntryDetailsElement
 import com.android.healthconnect.controller.utils.logging.HealthConnectLogger
 import com.android.healthconnect.controller.utils.logging.PageName
 import dagger.hilt.android.testing.BindValue
@@ -76,7 +77,9 @@ import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when` as whenever
 import org.mockito.kotlin.atLeast
+import org.mockito.kotlin.atMost
 import org.mockito.kotlin.reset
+import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @HiltAndroidTest
@@ -213,6 +216,10 @@ class DataEntryDetailsFragmentTest {
         onView(withText("Baseline")).check(matches(isDisplayed()))
         onView(withText("25 ℃")).check(matches(isDisplayed()))
         onView(withText("Variation from baseline")).check(matches(isDisplayed()))
+        verify(healthConnectLogger, times(2))
+            .logImpression((EntryDetailsElement.REVERSE_SESSION_DETAIL_ENTRY_VIEW))
+        verify(healthConnectLogger)
+            .logImpression((EntryDetailsElement.FORMATTED_SECTION_TITLE_VIEW))
     }
 
     @Test
@@ -233,6 +240,10 @@ class DataEntryDetailsFragmentTest {
         onView(withText("Baseline")).check(matches(isDisplayed()))
         onView(withText("25 ℃")).check(matches(isDisplayed()))
         onView(withText("Variation from baseline")).check(matches(isDisplayed()))
+        verify(healthConnectLogger, atMost(1))
+            .logImpression((EntryDetailsElement.REVERSE_SESSION_DETAIL_ENTRY_VIEW))
+        verify(healthConnectLogger)
+            .logImpression((EntryDetailsElement.FORMATTED_SECTION_TITLE_VIEW))
     }
 
     @Test
@@ -253,6 +264,10 @@ class DataEntryDetailsFragmentTest {
         onView(withText("Baseline")).check(doesNotExist())
         onView(withText("25 ℃")).check(doesNotExist())
         onView(withText("Variation from baseline")).check(matches(isDisplayed()))
+        verify(healthConnectLogger, atMost(1))
+            .logImpression((EntryDetailsElement.REVERSE_SESSION_DETAIL_ENTRY_VIEW))
+        verify(healthConnectLogger)
+            .logImpression((EntryDetailsElement.FORMATTED_SECTION_TITLE_VIEW))
     }
 
     @Test
