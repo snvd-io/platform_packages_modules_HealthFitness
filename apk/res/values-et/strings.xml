@@ -755,8 +755,8 @@
     <string name="request_route_allow_all" msgid="314830698958736916">"Luba kõik marsruudid"</string>
     <string name="request_route_dont_allow" msgid="1186236234664957228">"Ära luba"</string>
     <string name="route_permissions_always_allow" msgid="1383816362804293137">"Luba alati"</string>
-    <string name="route_permissions_label" msgid="5201501195020295860">"Treeningu marsruudi jagamine"</string>
-    <string name="route_permissions_summary" msgid="4670908225783213910">"Valige, kuidas see rakendus ühendatud rakenduste treeningu marsruutidele juurde pääseb"</string>
+    <string name="route_permissions_label" msgid="5201501195020295860">"Treeningumarsruudi jagamine"</string>
+    <string name="route_permissions_summary" msgid="4670908225783213910">"Valige, kuidas see rakendus ühendatud rakenduste treeningumarsruutidele juurde pääseb"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"Küsi iga kord"</string>
     <string name="route_permissions_deny" msgid="4263802925221258853">"Ära luba"</string>
     <string name="exercise_permission_dialog_enable_title" msgid="4310997044811843391">"Kas lubada mõlemad andmetüübid?"</string>
