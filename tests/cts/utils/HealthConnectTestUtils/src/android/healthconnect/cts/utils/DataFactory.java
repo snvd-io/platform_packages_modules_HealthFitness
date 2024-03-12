@@ -23,12 +23,14 @@ import static android.health.connect.datatypes.RecordTypeIdentifier.RECORD_TYPE_
 
 import static com.google.common.truth.Truth.assertThat;
 
+
 import android.content.Context;
 import android.health.connect.changelog.ChangeLogTokenRequest;
 import android.health.connect.datatypes.BasalMetabolicRateRecord;
 import android.health.connect.datatypes.DataOrigin;
 import android.health.connect.datatypes.Device;
 import android.health.connect.datatypes.DistanceRecord;
+import android.health.connect.datatypes.ExerciseCompletionGoal;
 import android.health.connect.datatypes.ExerciseLap;
 import android.health.connect.datatypes.ExerciseRoute;
 import android.health.connect.datatypes.ExerciseSegment;
@@ -37,6 +39,9 @@ import android.health.connect.datatypes.ExerciseSessionRecord;
 import android.health.connect.datatypes.ExerciseSessionType;
 import android.health.connect.datatypes.HeartRateRecord;
 import android.health.connect.datatypes.Metadata;
+import android.health.connect.datatypes.PlannedExerciseBlock;
+import android.health.connect.datatypes.PlannedExerciseSessionRecord;
+import android.health.connect.datatypes.PlannedExerciseStep;
 import android.health.connect.datatypes.Record;
 import android.health.connect.datatypes.SleepSessionRecord;
 import android.health.connect.datatypes.StepsRecord;
@@ -253,6 +258,30 @@ public final class DataFactory {
                         Math.random() * 50,
                         Math.random() * 50)
                 .build();
+    }
+
+    /** Returns a training plan builder, prepopulated with test data. */
+    public static PlannedExerciseSessionRecord.Builder plannedExerciseSession(Metadata metadata) {
+        PlannedExerciseSessionRecord.Builder sessionBuilder =
+                new PlannedExerciseSessionRecord.Builder(
+                        metadata,
+                        ExerciseSessionType.EXERCISE_SESSION_TYPE_BIKING,
+                        SESSION_START_TIME,
+                        SESSION_END_TIME);
+        sessionBuilder.setNotes("Some notes");
+        sessionBuilder.setTitle("Some training plan");
+        sessionBuilder.setStartZoneOffset(ZoneOffset.UTC);
+        sessionBuilder.setEndZoneOffset(ZoneOffset.UTC);
+        var stepBuilder =
+                new PlannedExerciseStep.Builder(
+                        ExerciseSegmentType.EXERCISE_SEGMENT_TYPE_BIKING,
+                        PlannedExerciseStep.EXERCISE_CATEGORY_ACTIVE,
+                        new ExerciseCompletionGoal.DistanceGoal(Length.fromMeters(100)));
+        var blockBuilder = new PlannedExerciseBlock.Builder(3).setDescription("Main set");
+        blockBuilder.setSteps(List.of(stepBuilder.build()));
+        sessionBuilder.setBlocks(List.of(blockBuilder.build()));
+
+        return sessionBuilder;
     }
 
     /** Gets a {@link HeartRateRecord} with an empty {@link Metadata}. */
