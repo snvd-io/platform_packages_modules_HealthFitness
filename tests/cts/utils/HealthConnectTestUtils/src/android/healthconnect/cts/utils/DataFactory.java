@@ -287,6 +287,11 @@ public final class DataFactory {
     }
 
     public static HeartRateRecord getHeartRateRecord(
+            List<HeartRateRecord.HeartRateSample> samples, Instant start, Instant end) {
+        return new HeartRateRecord.Builder(getEmptyMetadata(), start, end, samples).build();
+    }
+
+    public static HeartRateRecord getHeartRateRecord(
             int heartRate, Instant instant, String clientId) {
         String packageName = ApplicationProvider.getApplicationContext().getPackageName();
         HeartRateRecord.HeartRateSample heartRateSample =
@@ -312,6 +317,12 @@ public final class DataFactory {
     /** Creates and returns a {@link WeightRecord} with the specified arguments. */
     public static WeightRecord getWeightRecord(double grams, Instant time) {
         return new WeightRecord.Builder(new Metadata.Builder().build(), time, Mass.fromGrams(grams))
+                .build();
+    }
+
+    public static WeightRecord getWeightRecord(double weight, Instant time, ZoneOffset offset) {
+        return new WeightRecord.Builder(getEmptyMetadata(), time, Mass.fromGrams(weight))
+                .setZoneOffset(offset)
                 .build();
     }
 
