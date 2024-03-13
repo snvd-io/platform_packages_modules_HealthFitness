@@ -586,6 +586,12 @@ package android.health.connect.datatypes {
     method @NonNull public android.health.connect.datatypes.units.Length getDistance();
   }
 
+  @FlaggedApi("com.android.healthconnect.flags.training_plans") public static final class ExerciseCompletionGoal.DistanceWithVariableRestGoal extends android.health.connect.datatypes.ExerciseCompletionGoal {
+    ctor public ExerciseCompletionGoal.DistanceWithVariableRestGoal(@NonNull android.health.connect.datatypes.units.Length, @NonNull java.time.Duration);
+    method @NonNull public android.health.connect.datatypes.units.Length getDistance();
+    method @NonNull public java.time.Duration getDuration();
+  }
+
   @FlaggedApi("com.android.healthconnect.flags.training_plans") public static final class ExerciseCompletionGoal.DurationGoal extends android.health.connect.datatypes.ExerciseCompletionGoal {
     ctor public ExerciseCompletionGoal.DurationGoal(@NonNull java.time.Duration);
     method @NonNull public java.time.Duration getDuration();
@@ -627,6 +633,10 @@ package android.health.connect.datatypes {
   }
 
   @FlaggedApi("com.android.healthconnect.flags.training_plans") public abstract class ExercisePerformanceGoal {
+  }
+
+  @FlaggedApi("com.android.healthconnect.flags.training_plans") public static final class ExercisePerformanceGoal.AmrapGoal extends android.health.connect.datatypes.ExercisePerformanceGoal {
+    field @NonNull public static final android.health.connect.datatypes.ExercisePerformanceGoal.AmrapGoal INSTANCE;
   }
 
   @FlaggedApi("com.android.healthconnect.flags.training_plans") public static final class ExercisePerformanceGoal.CadenceGoal extends android.health.connect.datatypes.ExercisePerformanceGoal {
