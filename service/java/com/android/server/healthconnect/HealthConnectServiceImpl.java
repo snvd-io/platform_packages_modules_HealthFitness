@@ -957,7 +957,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         Slog.e(TAG, "SecurityException: ", securityException);
                         tryAndThrowException(callback, securityException, ERROR_SECURITY);
                     } catch (IllegalArgumentException illegalArgumentException) {
-                        builder.setHealthDataServiceApiStatusError(
+                        logger.setHealthDataServiceApiStatusError(
                                 HealthConnectException.ERROR_INVALID_ARGUMENT);
                         Slog.e(TAG, "IllegalArgumentException: ", illegalArgumentException);
                         tryAndThrowException(
