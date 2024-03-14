@@ -23,7 +23,7 @@ import android.content.pm.PackageManager.PackageInfoFlags
 import android.content.pm.PackageManager.ResolveInfoFlags
 import android.health.connect.HealthConnectManager
 import android.health.connect.HealthPermissions
-import com.android.healthconnect.controller.permissions.data.HealthPermission
+import com.android.healthconnect.controller.permissions.data.DataTypePermission
 import com.android.healthconnect.controller.utils.FeatureUtils
 import com.google.common.annotations.VisibleForTesting
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -57,16 +57,14 @@ constructor(
         private val backgroundReadPermission =
             listOf(HealthPermissions.READ_HEALTH_DATA_IN_BACKGROUND)
 
-        private val historyReadPermission =
-            listOf(HealthPermissions.READ_HEALTH_DATA_HISTORY)
+        private val historyReadPermission = listOf(HealthPermissions.READ_HEALTH_DATA_HISTORY)
 
         /** Special health permissions that don't represent health data types. */
         private val additionalPermissions =
             setOf(
                 HealthPermissions.READ_EXERCISE_ROUTES,
                 HealthPermissions.READ_HEALTH_DATA_IN_BACKGROUND,
-                HealthPermissions.READ_HEALTH_DATA_HISTORY
-            )
+                HealthPermissions.READ_HEALTH_DATA_HISTORY)
     }
 
     fun getAppsWithHealthPermissions(): List<String> {
@@ -109,7 +107,7 @@ constructor(
     }
 
     /** Returns a list of health permissions that can be rendered in permission list in our UI. */
-    fun getDeclaredHealthPermissions(packageName: String): List<HealthPermission> {
+    fun getDeclaredHealthPermissions(packageName: String): List<DataTypePermission> {
         return try {
             val permissions = getHealthPermissions(packageName)
             permissions.mapNotNull { permission -> parsePermission(permission) }
@@ -152,9 +150,9 @@ constructor(
         return intent
     }
 
-    private fun parsePermission(permission: String): HealthPermission? {
+    private fun parsePermission(permission: String): DataTypePermission? {
         return try {
-            HealthPermission.fromPermissionString(permission)
+            DataTypePermission.fromPermissionString(permission)
         } catch (e: IllegalArgumentException) {
             null
         }
