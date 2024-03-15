@@ -128,13 +128,17 @@ constructor(
                         null
                     }
                 }
+                // Do not show hidden permissions
+                .filterNot { permission ->
+                    healthPermissionReader.shouldHidePermission(permission.toString())
+                }
                 // Add the requested permissions and their states to requestedPermissions
                 .onEach { permission -> addToRequestedPermissions(grantedPermissions, permission) }
                 // Finally, filter out the granted permissions
-                .filter { permission -> !grantedPermissions.contains(permission.toString()) }
+                .filterNot { permission -> grantedPermissions.contains(permission.toString()) }
                 // TODO (b/295490462) Additional permissions will be requested separately
-                .filter { permission ->
-                    !healthPermissionReader.isAdditionalPermission(permission.toString())
+                .filterNot { permission ->
+                    healthPermissionReader.isAdditionalPermission(permission.toString())
                 }
 
         _permissionsList.value = filteredPermissions
