@@ -171,7 +171,7 @@ constructor(
         return additionalPermissions.contains(permission)
     }
 
-    private fun shouldHidePermission(permission: String): Boolean {
+    fun shouldHidePermission(permission: String): Boolean {
         return shouldHideSessionTypes(permission) ||
             shouldHideBackgroundReadPermission(permission) ||
             shouldHideSkinTemperaturePermissions(permission) ||
@@ -180,13 +180,15 @@ constructor(
     }
 
     private fun shouldHideSkinTemperaturePermissions(permission: String): Boolean {
-        return permission == HealthPermissions.READ_SKIN_TEMPERATURE ||
-            permission == HealthPermissions.WRITE_SKIN_TEMPERATURE
+        return (permission == HealthPermissions.READ_SKIN_TEMPERATURE ||
+            permission == HealthPermissions.WRITE_SKIN_TEMPERATURE) &&
+            !featureUtils.isSkinTemperatureEnabled()
     }
 
     private fun shouldHidePlannedExercisePermissions(permission: String): Boolean {
-        return permission == HealthPermissions.READ_PLANNED_EXERCISE ||
-            permission == HealthPermissions.WRITE_PLANNED_EXERCISE
+        return (permission == HealthPermissions.READ_PLANNED_EXERCISE ||
+            permission == HealthPermissions.WRITE_PLANNED_EXERCISE) &&
+            !featureUtils.isPlannedExerciseEnabled()
     }
 
     private fun shouldHideSessionTypes(permission: String): Boolean {
