@@ -25,8 +25,8 @@ import com.android.healthconnect.controller.permissions.api.GetHealthPermissions
 import com.android.healthconnect.controller.permissions.api.GrantHealthPermissionUseCase
 import com.android.healthconnect.controller.permissions.api.HealthPermissionManager
 import com.android.healthconnect.controller.permissions.api.RevokeHealthPermissionUseCase
-import com.android.healthconnect.controller.permissions.data.HealthPermission
-import com.android.healthconnect.controller.permissions.data.HealthPermission.Companion.fromPermissionString
+import com.android.healthconnect.controller.permissions.data.DataTypePermission
+import com.android.healthconnect.controller.permissions.data.DataTypePermission.Companion.fromPermissionString
 import com.android.healthconnect.controller.permissions.request.RequestPermissionViewModel
 import com.android.healthconnect.controller.service.HealthPermissionManagerModule
 import com.android.healthconnect.controller.shared.HealthPermissionReader
@@ -112,7 +112,7 @@ class RequestPermissionViewModelTest {
 
     @Test
     fun init_initPermissions() = runTest {
-        val testObserver = TestObserver<List<HealthPermission>>()
+        val testObserver = TestObserver<List<DataTypePermission>>()
         viewModel.permissionsList.observeForever(testObserver)
         advanceUntilIdle()
         assertThat(testObserver.getLastValue())
@@ -125,7 +125,7 @@ class RequestPermissionViewModelTest {
         viewModel.init(
             TEST_APP_PACKAGE_NAME,
             arrayOf(READ_STEPS, READ_HEART_RATE, READ_HEALTH_DATA_IN_BACKGROUND))
-        val testObserver = TestObserver<List<HealthPermission>>()
+        val testObserver = TestObserver<List<DataTypePermission>>()
         viewModel.permissionsList.observeForever(testObserver)
         advanceUntilIdle()
         assertThat(testObserver.getLastValue())
@@ -152,7 +152,7 @@ class RequestPermissionViewModelTest {
     @Test
     fun updatePermission_grant_updatesGrantedPermissions() = runTest {
         val readStepsPermission = fromPermissionString(READ_STEPS)
-        val testObserver = TestObserver<Set<HealthPermission>>()
+        val testObserver = TestObserver<Set<DataTypePermission>>()
         viewModel.grantedPermissions.observeForever(testObserver)
         viewModel.updatePermission(readStepsPermission, grant = true)
         advanceUntilIdle()
@@ -163,7 +163,7 @@ class RequestPermissionViewModelTest {
     @Test
     fun updatePermission_revoke_updatesGrantedPermissions() = runTest {
         val readStepsPermission = fromPermissionString(READ_STEPS)
-        val testObserver = TestObserver<Set<HealthPermission>>()
+        val testObserver = TestObserver<Set<DataTypePermission>>()
         viewModel.grantedPermissions.observeForever(testObserver)
         viewModel.updatePermission(readStepsPermission, grant = false)
         advanceUntilIdle()
@@ -173,7 +173,7 @@ class RequestPermissionViewModelTest {
 
     @Test
     fun updatePermissions_grant_updatesGrantedPermissions() = runTest {
-        val testObserver = TestObserver<Set<HealthPermission>>()
+        val testObserver = TestObserver<Set<DataTypePermission>>()
         viewModel.grantedPermissions.observeForever(testObserver)
         viewModel.updatePermissions(grant = true)
         advanceUntilIdle()
@@ -185,7 +185,7 @@ class RequestPermissionViewModelTest {
 
     @Test
     fun updatePermissions_revoke_updatesGrantedPermissions() = runTest {
-        val testObserver = TestObserver<Set<HealthPermission>>()
+        val testObserver = TestObserver<Set<DataTypePermission>>()
         viewModel.grantedPermissions.observeForever(testObserver)
         viewModel.updatePermissions(grant = false)
         advanceUntilIdle()
