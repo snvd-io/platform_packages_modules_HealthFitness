@@ -28,8 +28,8 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import androidx.preference.SwitchPreference
 import com.android.healthconnect.controller.R
-import com.android.healthconnect.controller.permissions.data.HealthPermission
-import com.android.healthconnect.controller.permissions.data.HealthPermissionStrings.Companion.fromPermissionType
+import com.android.healthconnect.controller.permissions.data.DataTypePermission
+import com.android.healthconnect.controller.permissions.data.DataTypePermissionStrings.Companion.fromPermissionType
 import com.android.healthconnect.controller.permissions.data.PermissionsAccessType
 import com.android.healthconnect.controller.shared.HealthDataCategoryExtensions.fromHealthPermissionType
 import com.android.healthconnect.controller.shared.HealthDataCategoryExtensions.icon
@@ -145,7 +145,7 @@ class PermissionsFragment : Hilt_PermissionsFragment() {
         allowAllPreference?.addOnSwitchChangeListener(onSwitchChangeListener)
     }
 
-    private fun updateDataList(permissionsList: List<HealthPermission>) {
+    private fun updateDataList(permissionsList: List<DataTypePermission>) {
         mReadPermissionCategory?.removeAll()
         mWritePermissionCategory?.removeAll()
 
@@ -171,7 +171,7 @@ class PermissionsFragment : Hilt_PermissionsFragment() {
 
     private fun getPermissionPreference(
         defaultValue: Boolean,
-        permission: HealthPermission
+        permission: DataTypePermission
     ): Preference {
         return HealthSwitchPreference(requireContext()).also {
             val healthCategory = fromHealthPermissionType(permission.healthPermissionType)

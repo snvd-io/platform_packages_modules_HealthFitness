@@ -3,7 +3,7 @@ package com.android.healthconnect.controller.tests.shared
 import android.content.Context
 import android.health.connect.HealthPermissions
 import androidx.test.platform.app.InstrumentationRegistry
-import com.android.healthconnect.controller.permissions.data.HealthPermission
+import com.android.healthconnect.controller.permissions.data.DataTypePermission
 import com.android.healthconnect.controller.shared.HealthPermissionReader
 import com.android.healthconnect.controller.tests.utils.OLD_PERMISSIONS_TEST_APP_PACKAGE_NAME
 import com.android.healthconnect.controller.tests.utils.TEST_APP_PACKAGE_NAME
@@ -14,11 +14,11 @@ import com.android.healthconnect.controller.utils.FeatureUtils
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import javax.inject.Inject
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
 
 @HiltAndroidTest
 class HealthPermissionReaderTest {
@@ -130,7 +130,7 @@ class HealthPermissionReaderTest {
         assertThat(apps).isEqualTo(apps.distinct())
     }
 
-    private fun String.toHealthPermission(): HealthPermission {
-        return HealthPermission.fromPermissionString(this)
+    private fun String.toHealthPermission(): DataTypePermission {
+        return DataTypePermission.fromPermissionString(this)
     }
 }
