@@ -207,11 +207,11 @@ class DataEntryDetailsFragmentTest {
             DataEntryDetailsFragment.createBundle(
                 permissionType = SKIN_TEMPERATURE, entryId = "1", showDataOrigin = true))
 
-        onView(withText("+0.5 ℃ (avg variation)")).check(matches(isDisplayed()))
+        onView(withText("+0.5℃ (avg variation)")).check(matches(isDisplayed()))
         onView(withText("Measurement location")).check(matches(isDisplayed()))
         onView(withText("Toe")).check(matches(isDisplayed()))
         onView(withText("Baseline")).check(matches(isDisplayed()))
-        onView(withText("25 ℃")).check(matches(isDisplayed()))
+        onView(withText("25℃")).check(matches(isDisplayed()))
         onView(withText("Variation from baseline")).check(matches(isDisplayed()))
     }
 
@@ -227,11 +227,11 @@ class DataEntryDetailsFragmentTest {
             DataEntryDetailsFragment.createBundle(
                 permissionType = SKIN_TEMPERATURE, entryId = "1", showDataOrigin = true))
 
-        onView(withText("+0.5 ℃ (avg variation)")).check(matches(isDisplayed()))
+        onView(withText("+0.5℃ (avg variation)")).check(matches(isDisplayed()))
         onView(withText("Measurement location")).check(doesNotExist())
         onView(withText("Toe")).check(doesNotExist())
         onView(withText("Baseline")).check(matches(isDisplayed()))
-        onView(withText("25 ℃")).check(matches(isDisplayed()))
+        onView(withText("25℃")).check(matches(isDisplayed()))
         onView(withText("Variation from baseline")).check(matches(isDisplayed()))
     }
 
@@ -247,11 +247,11 @@ class DataEntryDetailsFragmentTest {
             DataEntryDetailsFragment.createBundle(
                 permissionType = SKIN_TEMPERATURE, entryId = "1", showDataOrigin = true))
 
-        onView(withText("+0.5 ℃ (avg variation)")).check(matches(isDisplayed()))
+        onView(withText("+0.5℃ (avg variation)")).check(matches(isDisplayed()))
         onView(withText("Measurement location")).check(matches(isDisplayed()))
         onView(withText("Toe")).check(matches(isDisplayed()))
         onView(withText("Baseline")).check(doesNotExist())
-        onView(withText("25 ℃")).check(doesNotExist())
+        onView(withText("25℃")).check(doesNotExist())
         onView(withText("Variation from baseline")).check(matches(isDisplayed()))
     }
 
@@ -305,7 +305,7 @@ class DataEntryDetailsFragmentTest {
             uuid = "1",
             header = "16:00 - 17:00 • TEST_APP_NAME",
             headerA11y = "16:00 - 17:00 • TEST_APP_NAME",
-            title = "+0.5 ℃ (avg variation)",
+            title = "+0.5℃ (avg variation)",
             titleA11y = "+0.5 degrees Celsius (average variation)",
             dataType = DataType.SKIN_TEMPERATURE)
     }
@@ -328,7 +328,7 @@ class DataEntryDetailsFragmentTest {
                 uuid = "1",
                 header = "Baseline",
                 headerA11y = "Baseline",
-                title = "25 ℃",
+                title = "25℃",
                 titleA11y = "25 degrees Celsius",
             )
 
@@ -339,14 +339,14 @@ class DataEntryDetailsFragmentTest {
                     uuid = "1",
                     header = "16:10 AM",
                     headerA11y = "16:10 AM",
-                    title = "+1.5 ℃",
+                    title = "+1.5℃",
                     titleA11y = "+1.5 degrees Celsius",
                 ),
                 FormattedEntry.FormattedSessionDetail(
                     uuid = "1",
                     header = "16:40 AM",
                     headerA11y = "16:40 AM",
-                    title = "-0.5 ℃",
+                    title = "-0.5℃",
                     titleA11y = "-0.5 degrees Celsius",
                 ))
 
