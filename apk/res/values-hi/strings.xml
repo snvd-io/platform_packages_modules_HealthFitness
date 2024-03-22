@@ -707,13 +707,13 @@
     <string name="see_all_compatible_apps" msgid="6791146164535475726">"साथ काम करने वाले सभी ऐप्लिकेशन देखें"</string>
     <string name="see_all_compatible_apps_description" msgid="2092325337403254491">"Google Play पर ऐप्लिकेशन ढूंढें"</string>
     <string name="send_feedback" msgid="7756927746070096780">"सुझाव दें या शिकायत करें"</string>
-    <string name="send_feedback_description" msgid="2887207112856240778">"यह बताएं कि आपको Health Connect के साथ, स्वास्थ्य और फ़िटनेस वाले कौनसे ऐप्लिकेशन इस्तेमाल करने हैं"</string>
+    <string name="send_feedback_description" msgid="2887207112856240778">"यह बताएं कि आपको Health Connect के साथ, सेहत और फ़िटनेस बनाए रखने में मदद करने वाले कौनसे ऐप्लिकेशन इस्तेमाल करने हैं"</string>
     <string name="playstore_app_title" msgid="4138464328693481809">"Play Store"</string>
     <string name="auto_delete_button" msgid="8536451792268513619">"अपने-आप मिटने की सुविधा"</string>
-    <string name="auto_delete_title" msgid="8761742828224207826">"ऑटोमैटिकली मिटाएं"</string>
-    <string name="auto_delete_header" msgid="4258649705159293715">"यह कंट्रोल करें कि Health Connect में आपका डेटा कितने समय तक सेव करके रखा जाए. इसके लिए, आपको डेटा को तय समय के बाद मिटाने का शेड्यूल सेट करना होगा"</string>
+    <string name="auto_delete_title" msgid="8761742828224207826">"अपने-आप मिटना"</string>
+    <string name="auto_delete_header" msgid="4258649705159293715">"यह कंट्रोल करें कि Health Connect में आपका डेटा कितने समय तक सेव रहे. डेटा को तय समय के बाद मिटाने का शेड्यूल सेट करके ऐसा किया जा सकता है"</string>
     <string name="auto_delete_learn_more" msgid="7416469042791307994">"अपने-आप मिटने की सुविधा के बारे में ज़्यादा जानें"</string>
-    <string name="auto_delete_section" msgid="7732381000331475082">"डेटा को ऑटोमैटिकली मिटाएं"</string>
+    <string name="auto_delete_section" msgid="7732381000331475082">"डेटा अपने-आप मिटे"</string>
     <string name="range_after_x_months" msgid="3340127072680117121">"{count,plural, =1{# महीने के बाद}one{# महीने के बाद}other{# महीनों के बाद}}"</string>
     <string name="range_never" msgid="4429478261788361233">"कभी नहीं"</string>
     <string name="range_off" msgid="8178520557618184215">"बंद है"</string>

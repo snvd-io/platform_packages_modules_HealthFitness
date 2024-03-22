@@ -21,7 +21,7 @@
     <string name="health_connect_summary" msgid="6401520186678972547">"Керуйте доступом додатків до даних про здоров’я"</string>
     <string name="permissions_and_data_header" msgid="4406105506837487805">"Дозволи й дані"</string>
     <string name="home_subtitle" msgid="1750033322147357163">"Керуйте даними про здоров’я та фізичну активність на телефоні, а також визначайте додатки, які матимуть доступ до даних"</string>
-    <string name="data_title" msgid="4456619761533380816">"Дані та доступ"</string>
+    <string name="data_title" msgid="4456619761533380816">"Дані й доступ"</string>
     <string name="all_categories_title" msgid="1446410643217937926">"Усі категорії"</string>
     <string name="see_all_categories" msgid="5599882403901010434">"Переглянути всі категорії"</string>
     <string name="no_data" msgid="1906986019249068659">"Немає даних"</string>
@@ -268,7 +268,7 @@
     <string name="navigation_selected_day" msgid="2510843479734091348">"Вибраний день"</string>
     <string name="navigation_previous_day" msgid="718353386484938584">"Попередній день"</string>
     <string name="default_error" msgid="7966868260616403475">"Сталася помилка. Повторіть спробу."</string>
-    <string name="health_permission_header_description" msgid="7497601695462373927">"Додатки з цим дозволом можуть переглядати й записувати дані про ваше здоров’я та фізичну активність."</string>
+    <string name="health_permission_header_description" msgid="7497601695462373927">"Додатки з цим дозволом можуть переглядати й записувати дані про ваше здоров’я і фізичну активність."</string>
     <string name="connected_apps_text" msgid="1177626440966855831">"Укажіть, які додатки можуть отримувати доступ до даних, збережених у Health Connect. Виберіть додаток, щоб переглянути дані, які він може читати або записувати."</string>
     <string name="connected_apps_section_title" msgid="2415288099612126258">"З дозволом на доступ"</string>
     <string name="not_connected_apps_section_title" msgid="452718769894103039">"Без дозволу на доступ"</string>
@@ -690,7 +690,7 @@
     <string name="distance_unit_kilometers_label" msgid="1361363017122240294">"Кілометри"</string>
     <string name="distance_unit_miles_label" msgid="848850214987608211">"Милі"</string>
     <string name="height_unit_centimeters_label" msgid="4096031670561995574">"Сантиметри"</string>
-    <string name="height_unit_feet_label" msgid="3311723678628261399">"Фути та дюйми"</string>
+    <string name="height_unit_feet_label" msgid="3311723678628261399">"Фути й дюйми"</string>
     <string name="weight_unit_pound_label" msgid="8210663393844989211">"Фунти"</string>
     <string name="weight_unit_kilogram_label" msgid="6623938920860887238">"Кілограми"</string>
     <string name="weight_unit_stone_label" msgid="3063787243474847180">"Стоуни"</string>

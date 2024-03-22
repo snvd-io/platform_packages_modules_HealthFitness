@@ -34,7 +34,7 @@
     <string name="entry_details_title" msgid="590184849040247850">"Szczegóły wpisu"</string>
     <string name="backup_title" msgid="211503191266235085">"Kopia zapasowa"</string>
     <string name="data_sources_and_priority_title" msgid="2360222350913604558">"Źródła danych i priorytet"</string>
-    <string name="set_units_title" msgid="2657822539603758029">"Jednostki zestawu"</string>
+    <string name="set_units_title" msgid="2657822539603758029">"Ustaw jednostki"</string>
     <string name="recent_access_header" msgid="7623497371790225888">"Ostatni dostęp"</string>
     <string name="no_recent_access" msgid="4724297929902441784">"Żadne aplikacje nie uzyskiwały ostatnio dostępu do Health Connect"</string>
     <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"Zobacz wszystkie ostatnie przypadki dostępu"</string>
@@ -719,7 +719,7 @@
     <string name="range_off" msgid="8178520557618184215">"Wyłączono"</string>
     <string name="auto_delete_rationale" msgid="5255442126521464878">"Kiedy zmienisz te ustawienia, Health Connect usunie dotychczasowe dane zgodnie z nowymi preferencjami"</string>
     <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Automatycznie usuwać dane po # miesiącu?}few{Automatycznie usuwać dane po # miesiącach?}many{Automatycznie usuwać dane po # miesiącach?}other{Automatycznie usuwać dane po # miesiąca?}}"</string>
-    <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Health Connect będzie usuwać nowe dane po # miesiącu. Włączenie tej opcji sprawi, że istniejące dane starsze niż # miesiąc również zostaną usunięte.}few{Health Connect będzie usuwać nowe dane po # miesiącach. Włączenie tej opcji sprawi, że istniejące dane starsze niż # miesiące również zostaną usunięte.}many{Health Connect będzie usuwać nowe dane po # miesiącach. Włączenie tej opcji sprawi, że istniejące dane starsze niż # miesiące również zostaną usunięte.}other{Health Connect będzie usuwać nowe dane po # miesiąca. Włączenie tej opcji sprawi, że istniejące dane starsze niż # miesiąca również zostaną usunięte.}}"</string>
+    <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Health Connect będzie usuwać nowe dane po # miesiącu. Włączenie tej opcji sprawi, że istniejące dane sprzed ponad # miesiąca również zostaną usunięte.}few{Health Connect będzie usuwać nowe dane po # miesiącach. Włączenie tej opcji sprawi, że istniejące dane sprzed ponad # miesięcy również zostaną usunięte.}many{Health Connect będzie usuwać nowe dane po # miesiącach. Włączenie tej opcji sprawi, że istniejące dane sprzed ponad # miesięcy również zostaną usunięte.}other{Health Connect będzie usuwać nowe dane po # miesiąca. Włączenie tej opcji sprawi, że istniejące dane sprzed ponad # miesiąca również zostaną usunięte.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"Ustaw automatyczne usuwanie"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"Dotychczasowe dane zostaną usunięte"</string>
     <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{Health Connect usunie wszystkie dane starsze niż # miesiąc. Zmiany powinny być widoczne w połączonych aplikacjach w ciągu jednego dnia.}few{Health Connect usunie wszystkie dane starsze niż # miesiące. Zmiany powinny być widoczne w połączonych aplikacjach w ciągu jednego dnia.}many{Health Connect usunie wszystkie dane starsze niż # miesięcy. Zmiany powinny być widoczne w połączonych aplikacjach w ciągu jednego dnia.}other{Health Connect usunie wszystkie dane starsze niż # miesiąca. Zmiany powinny być widoczne w połączonych aplikacjach w ciągu jednego dnia.}}"</string>
@@ -834,7 +834,7 @@
     <string name="app_sources_header" msgid="6343062519512947665">"Źródła aplikacji"</string>
     <string name="data_sources_footer" msgid="6414387142919741183">"Dodawaj źródła aplikacji do listy, aby widzieć, jak zmieniają się sumy danych. Usunięcie aplikacji z tej listy zatrzyma jej podliczanie w sumie danych, ale wciąż będzie mieć uprawnienia do zapisu."</string>
     <string name="data_sources_empty_state" msgid="1899652759274805556">"Brak źródeł aplikacji"</string>
-    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"Kiedy nadasz aplikacji uprawnienia do zapisywania danych <xliff:g id="CATEGORY_NAME">%1$s</xliff:g>, źródła pojawią się tutaj."</string>
+    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"Kiedy nadasz aplikacji uprawnienia do zapisywania danych z kategorii <xliff:g id="CATEGORY_NAME">%1$s</xliff:g>, źródła pojawią się tutaj."</string>
     <string name="data_sources_help_link" msgid="7740264923634947915">"Jak działają priorytety źródeł"</string>
     <string name="data_sources_add_app" msgid="319926596123692514">"Dodaj aplikację"</string>
     <string name="edit_data_sources" msgid="79641360876849547">"Edytuj źródła aplikacji"</string>

@@ -718,7 +718,7 @@
     <string name="range_never" msgid="4429478261788361233">"Nunca"</string>
     <string name="range_off" msgid="8178520557618184215">"No"</string>
     <string name="auto_delete_rationale" msgid="5255442126521464878">"Cuando cambias estos parámetros de configuración, Health Connect borra los datos existentes para reflejar tus nuevas preferencias"</string>
-    <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{¿Deseas borrar automáticamente los datos después de # mes?}other{¿Deseas borrar automáticamente los datos después de # meses?}}"</string>
+    <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{¿Borrar automáticamente los datos después de # mes?}other{¿Borrar automáticamente los datos después de # meses?}}"</string>
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Health Connect borrará automáticamente los datos nuevos después de # mes. Este parámetro también borrará los datos existentes de más de # mes.}other{Health Connect borrará automáticamente los datos nuevos después de # meses. Este parámetro también borrará los datos existentes de más de # meses.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"Configurar la eliminación automática"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"Se borrarán los datos existentes"</string>

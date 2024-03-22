@@ -720,7 +720,7 @@
     <string name="auto_delete_rationale" msgid="5255442126521464878">"Si cambias estos ajustes, Salud conectada eliminará los datos existentes para reflejar tus nuevas preferencias"</string>
     <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{¿Eliminar automáticamente los datos después de # mes?}other{¿Eliminar automáticamente los datos después de # meses?}}"</string>
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Salud conectada eliminará automáticamente los datos nuevos después de # mes. También se eliminarán los datos almacenados de hace más de # mes.}other{Salud conectada eliminará automáticamente los datos nuevos después de # meses. También se eliminarán los datos almacenados de hace más de # meses.}}"</string>
-    <string name="set_auto_delete_button" msgid="268450418318199197">"Establecer eliminación automática"</string>
+    <string name="set_auto_delete_button" msgid="268450418318199197">"Confirmar"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"Los datos almacenados se eliminarán"</string>
     <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{Salud conectada eliminará todos los datos de hace más de # meses. Los cambios pueden tardar un día en aparecer en tus aplicaciones conectadas.}other{Salud conectada eliminará todos los datos de hace más de # meses. Los cambios pueden tardar un día en aparecer en tus aplicaciones conectadas.}}"</string>
     <string name="deletion_started_category_list_section" msgid="3052940611815658991">"Se eliminarán los datos de estas categorías"</string>

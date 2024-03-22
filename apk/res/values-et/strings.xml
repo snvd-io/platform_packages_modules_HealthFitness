@@ -23,7 +23,7 @@
     <string name="home_subtitle" msgid="1750033322147357163">"Hallake oma telefonis tervise- ja treeninguandmeid ning määrake, millised rakendused andmetele juurde pääsevad."</string>
     <string name="data_title" msgid="4456619761533380816">"Andmed ja juurdepääs"</string>
     <string name="all_categories_title" msgid="1446410643217937926">"Kõik kategooriad"</string>
-    <string name="see_all_categories" msgid="5599882403901010434">"Kuva kõik kategooriad"</string>
+    <string name="see_all_categories" msgid="5599882403901010434">"Kõigi kategooriate kuvamine"</string>
     <string name="no_data" msgid="1906986019249068659">"Andmed puuduvad"</string>
     <string name="connected_apps_title" msgid="279942692804743223">"Rakenduste load"</string>
     <string name="connected_apps_subtitle" msgid="8464462995533399175">"Rakenduste ja lubade haldamine"</string>
