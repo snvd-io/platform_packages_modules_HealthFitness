@@ -25,7 +25,7 @@
     <string name="all_categories_title" msgid="1446410643217937926">"Allir flokkar"</string>
     <string name="see_all_categories" msgid="5599882403901010434">"Sjá alla flokka"</string>
     <string name="no_data" msgid="1906986019249068659">"Engin gögn"</string>
-    <string name="connected_apps_title" msgid="279942692804743223">"Heimildir forrits"</string>
+    <string name="connected_apps_title" msgid="279942692804743223">"Heimildir forrita"</string>
     <string name="connected_apps_subtitle" msgid="8464462995533399175">"Stjórna forritum og heimildum"</string>
     <string name="connected_apps_button_subtitle" msgid="8855528937028500370">"<xliff:g id="NUM_APPS_CONNECTED">%1$s</xliff:g> af <xliff:g id="NUM_POSSIBLE_APPS">%2$s</xliff:g> forritum eru með aðgang"</string>
     <string name="connected_apps_all_apps_connected_subtitle" msgid="3432698291862059492">"<xliff:g id="NUM_APPS_CONNECTED">%1$s</xliff:g> forrit eru með aðgang"</string>
@@ -738,7 +738,7 @@
     <string name="search_keywords_home" msgid="5386515593026555327">"hreysti, vellíðan"</string>
     <string name="search_keywords_permissions" msgid="7821010295153350533">"heimildir"</string>
     <string name="search_keywords_data" msgid="5359602744325490523">"heilsutenging, heilsugögn, heilsuflokkar, aðgangur að gögnum, hreyfing, líkamsmælingar, skráning tíðahrings, næring, svefn, lífsmörk"</string>
-    <string name="search_breadcrumbs_permissions" msgid="2667471090347475796">"Heilsutenging &gt; Heimildir forrits"</string>
+    <string name="search_breadcrumbs_permissions" msgid="2667471090347475796">"Heilsutenging &gt; Heimildir forrita"</string>
     <string name="search_breadcrumbs_data" msgid="6635428480372024040">"Heilsutenging &gt; Gögn og aðgangur"</string>
     <string name="search_connected_apps" msgid="8180770761876928851">"Leita að forritum"</string>
     <string name="no_results" msgid="4007426147286897998">"Engar niðurstöður"</string>

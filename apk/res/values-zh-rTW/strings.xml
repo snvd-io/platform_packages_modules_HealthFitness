@@ -279,8 +279,8 @@
     <string name="manage_permissions_write_header" msgid="6876806848658168370">"允許寫入"</string>
     <string name="no_apps_allowed" msgid="5794833581324128108">"未允許任何應用程式"</string>
     <string name="no_apps_denied" msgid="743327680286446017">"未拒絕任何應用程式"</string>
-    <string name="permissions_disconnect_all_dialog_title" msgid="27474286046207122">"要移除所有應用程式的存取權嗎？"</string>
-    <string name="permissions_disconnect_all_dialog_message" msgid="3151109627457270499">"所有應用程式都將無法存取「健康資料同步」，也無法在當中新增資料。請注意，這項操作不會刪除任何現有資料。\n\n此操作也不會影響這個應用程式可能具備的其他權限，例如位置、相機或麥克風。"</string>
+    <string name="permissions_disconnect_all_dialog_title" msgid="27474286046207122">"移除所有應用程式的存取權？"</string>
+    <string name="permissions_disconnect_all_dialog_message" msgid="3151109627457270499">"所有應用程式都將無法存取「健康資料同步」，也無法在當中新增資料。請注意，這項操作不會刪除任何現有資料。\n\n此操作也不會影響應用程式可能具備的其他權限，例如位置、相機或麥克風。"</string>
     <string name="permissions_disconnect_all_dialog_disconnect" msgid="2134136493310257746">"全部移除"</string>
     <string name="manage_permissions_manage_app_header" msgid="6356348062088358761">"管理應用程式"</string>
     <string name="see_app_data" msgid="3951030076195119476">"查看應用程式資料"</string>
@@ -336,7 +336,7 @@
     <string name="time_range_one_week" msgid="8754523384275645434">"刪除過去 7 天的資料"</string>
     <string name="time_range_one_month" msgid="3034747870231999766">"刪除過去 30 天的資料"</string>
     <string name="time_range_all" msgid="8167350212705839943">"刪除所有資料"</string>
-    <string name="confirming_question_all" msgid="1585414659784742952">"要永久刪除所有時間範圍內的所有資料嗎？"</string>
+    <string name="confirming_question_all" msgid="1585414659784742952">"要永久刪除歷來的所有資料嗎？"</string>
     <string name="confirming_question_one_day" msgid="8001434729335611950">"要永久刪除過去 24 小時的所有資料嗎？"</string>
     <string name="confirming_question_one_week" msgid="5441506951423969587">"要永久刪除過去 7 天的所有資料嗎？"</string>
     <string name="confirming_question_one_month" msgid="4118595547587081940">"要永久刪除過去 30 天的所有資料嗎？"</string>
@@ -344,11 +344,11 @@
     <string name="confirming_question_data_type_one_day" msgid="5386681714769751416">"要永久刪除過去 24 小時的<xliff:g id="DATA_TYPE">%s</xliff:g>資料嗎？"</string>
     <string name="confirming_question_data_type_one_week" msgid="8346031951374422501">"要永久刪除過去 7 天的<xliff:g id="DATA_TYPE">%s</xliff:g>資料嗎？"</string>
     <string name="confirming_question_data_type_one_month" msgid="7110328687576360400">"要永久刪除過去 30 天的<xliff:g id="DATA_TYPE">%s</xliff:g>資料嗎？"</string>
-    <string name="confirming_question_category_all" msgid="9182430869247761531">"要永久刪除所有時間範圍內的<xliff:g id="CATEGORY">%s</xliff:g>資料嗎？"</string>
+    <string name="confirming_question_category_all" msgid="9182430869247761531">"要永久刪除歷來的所有<xliff:g id="CATEGORY">%s</xliff:g>資料嗎？"</string>
     <string name="confirming_question_category_one_day" msgid="4886776948515472679">"要永久刪除過去 24 小時的<xliff:g id="CATEGORY">%s</xliff:g>資料嗎？"</string>
     <string name="confirming_question_category_one_week" msgid="1790565625674277693">"要永久刪除過去 7 天的<xliff:g id="CATEGORY">%s</xliff:g>資料嗎？"</string>
     <string name="confirming_question_category_one_month" msgid="9181788460112796273">"要永久刪除過去 30 天的<xliff:g id="CATEGORY">%s</xliff:g>資料嗎？"</string>
-    <string name="confirming_question_app_data_all" msgid="4818571921949673097">"要永久刪除所有時間範圍內的「<xliff:g id="APP_DATA">%s</xliff:g>」資料嗎？"</string>
+    <string name="confirming_question_app_data_all" msgid="4818571921949673097">"要永久刪除歷來的所有「<xliff:g id="APP_DATA">%s</xliff:g>」資料嗎？"</string>
     <string name="confirming_question_app_data_one_day" msgid="444028969015975031">"要永久刪除過去 24 小時的「<xliff:g id="APP_DATA">%s</xliff:g>」資料嗎？"</string>
     <string name="confirming_question_app_data_one_week" msgid="2096555081811730496">"要永久刪除過去 7 天的「<xliff:g id="APP_DATA">%s</xliff:g>」資料嗎？"</string>
     <string name="confirming_question_app_data_one_month" msgid="6438241250825892892">"要永久刪除過去 30 天的「<xliff:g id="APP_DATA">%s</xliff:g>」資料嗎？"</string>
@@ -703,8 +703,8 @@
     <string name="cant_see_all_your_apps_description" msgid="7344859063463536472">"如果沒看到已安裝的應用程式，可能是該應用程式與「健康資料同步」尚不相容"</string>
     <string name="things_to_try" msgid="8200374691546152703">"試試其他選項"</string>
     <string name="check_for_updates" msgid="3841090978657783101">"檢查更新"</string>
-    <string name="check_for_updates_description" msgid="1347667778199095160">"確認所有安裝的應用程式均為最新版本"</string>
-    <string name="see_all_compatible_apps" msgid="6791146164535475726">"顯示所有相容的應用程式"</string>
+    <string name="check_for_updates_description" msgid="1347667778199095160">"確認已安裝的應用程式均為最新版本"</string>
+    <string name="see_all_compatible_apps" msgid="6791146164535475726">"查看所有相容的應用程式"</string>
     <string name="see_all_compatible_apps_description" msgid="2092325337403254491">"在 Google Play 上搜尋應用程式"</string>
     <string name="send_feedback" msgid="7756927746070096780">"提供意見"</string>
     <string name="send_feedback_description" msgid="2887207112856240778">"告訴我們你希望哪些健康與健身應用程式可搭配「健康資料同步」使用"</string>
@@ -717,12 +717,12 @@
     <string name="range_after_x_months" msgid="3340127072680117121">"{count,plural, =1{# 個月後}other{# 個月後}}"</string>
     <string name="range_never" msgid="4429478261788361233">"永不"</string>
     <string name="range_off" msgid="8178520557618184215">"已關閉"</string>
-    <string name="auto_delete_rationale" msgid="5255442126521464878">"如果變更這些設定，「健康資料同步」將根據新的偏好設定刪除現有資料"</string>
-    <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{要在 # 個月後自動刪除資料嗎？}other{要在 # 個月後自動刪除資料嗎？}}"</string>
-    <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{「健康資料同步」將只保存 # 個月內的資料。如果選擇這項設定，系統將一併刪除 # 個月前的現有資料。}other{「健康資料同步」將只保存 # 個月內的資料。如果選擇這項設定，系統將一併刪除 # 個月前的現有資料。}}"</string>
-    <string name="set_auto_delete_button" msgid="268450418318199197">"設定自動刪除功能"</string>
+    <string name="auto_delete_rationale" msgid="5255442126521464878">"如果變更設定，「健康資料同步」將根據新的偏好設定刪除現有資料"</string>
+    <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{# 個月後自動刪除資料？}other{# 個月後自動刪除資料？}}"</string>
+    <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{「健康資料同步」將只保存 # 個月內的資料。如果選擇這項設定，系統將一併刪除儲存超過 # 個月的現有資料。}other{「健康資料同步」將只保存 # 個月內的資料。如果選擇這項設定，系統將一併刪除儲存超過 # 個月的現有資料。}}"</string>
+    <string name="set_auto_delete_button" msgid="268450418318199197">"設定自動刪除"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"系統將刪除現有資料"</string>
-    <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{「健康資料同步」將刪除 # 個月前的所有資料。可能需要一天的時間，連結的應用程式才會反映這些變更。}other{「健康資料同步」將刪除 # 個月前的所有資料。可能需要一天的時間，連結的應用程式才會反映這些變更。}}"</string>
+    <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{「健康資料同步」會刪除儲存超過 # 個月的所有資料。可能要到一天後，連結的應用程式才會反映這些變更。}other{「健康資料同步」會刪除儲存超過 # 個月的所有資料。可能要到一天後，連結的應用程式才會反映這些變更。}}"</string>
     <string name="deletion_started_category_list_section" msgid="3052940611815658991">"系統會刪除以下類別的資料"</string>
     <string name="deletion_started_done_button" msgid="1232018689825054257">"完成"</string>
     <string name="priority_dialog_title" msgid="7360654442596118085">"設定應用程式優先順序"</string>
@@ -834,7 +834,7 @@
     <string name="app_sources_header" msgid="6343062519512947665">"應用程式來源"</string>
     <string name="data_sources_footer" msgid="6414387142919741183">"在清單中新增應用程式來源，即可查看資料總數的變化情形。從這份清單中移除某個應用程式後，相關資料就不會計入總數，但應用程式仍具有寫入權限。"</string>
     <string name="data_sources_empty_state" msgid="1899652759274805556">"沒有應用程式來源"</string>
-    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"當你將寫入<xliff:g id="CATEGORY_NAME">%1$s</xliff:g>資料的權限授予應用程式後，這裡就會顯示來源。"</string>
+    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"你將寫入<xliff:g id="CATEGORY_NAME">%1$s</xliff:g>資料的權限授予應用程式後，這裡就會顯示來源。"</string>
     <string name="data_sources_help_link" msgid="7740264923634947915">"來源與優先順序的運作方式"</string>
     <string name="data_sources_add_app" msgid="319926596123692514">"新增應用程式"</string>
     <string name="edit_data_sources" msgid="79641360876849547">"編輯應用程式來源清單"</string>

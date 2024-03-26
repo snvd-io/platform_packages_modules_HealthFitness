@@ -23,7 +23,7 @@
     <string name="home_subtitle" msgid="1750033322147357163">"Управувајте со податоците за здравјето и фитнесот на вашиот телефон и контролирајте кои апликации може да пристапуваат до нив"</string>
     <string name="data_title" msgid="4456619761533380816">"Податоци и пристап"</string>
     <string name="all_categories_title" msgid="1446410643217937926">"Сите категории"</string>
-    <string name="see_all_categories" msgid="5599882403901010434">"Прикажи ги сите категории"</string>
+    <string name="see_all_categories" msgid="5599882403901010434">"Преглед на сите категории"</string>
     <string name="no_data" msgid="1906986019249068659">"Нема податоци"</string>
     <string name="connected_apps_title" msgid="279942692804743223">"Дозволи за апликации"</string>
     <string name="connected_apps_subtitle" msgid="8464462995533399175">"Управувајте со апликациите и дозволите"</string>
@@ -33,8 +33,8 @@
     <string name="connected_apps_button_no_permissions_subtitle" msgid="1651994862419752908">"Нема"</string>
     <string name="entry_details_title" msgid="590184849040247850">"Детали на записот"</string>
     <string name="backup_title" msgid="211503191266235085">"Бекап"</string>
-    <string name="data_sources_and_priority_title" msgid="2360222350913604558">"Приоритет и извори на податоци"</string>
-    <string name="set_units_title" msgid="2657822539603758029">"Поставете единици"</string>
+    <string name="data_sources_and_priority_title" msgid="2360222350913604558">"Извори на податоци и приоритет"</string>
+    <string name="set_units_title" msgid="2657822539603758029">"Поставете мерни единици"</string>
     <string name="recent_access_header" msgid="7623497371790225888">"Најнов пристап"</string>
     <string name="no_recent_access" msgid="4724297929902441784">"Нема апликации што неодамна пристапиле до Health Connect"</string>
     <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"Погледнете ги сите најнови пристапи"</string>
@@ -693,7 +693,7 @@
     <string name="height_unit_feet_label" msgid="3311723678628261399">"Стапки и инчи"</string>
     <string name="weight_unit_pound_label" msgid="8210663393844989211">"Фунти"</string>
     <string name="weight_unit_kilogram_label" msgid="6623938920860887238">"Килограми"</string>
-    <string name="weight_unit_stone_label" msgid="3063787243474847180">"Стони"</string>
+    <string name="weight_unit_stone_label" msgid="3063787243474847180">"Стоуни"</string>
     <string name="energy_unit_calorie_label" msgid="3412965811470957296">"Калории"</string>
     <string name="energy_unit_kilojoule_label" msgid="6481196724083455110">"Килоџули"</string>
     <string name="temperature_unit_celsius_label" msgid="4698347100553808449">"Целзиус"</string>
@@ -707,17 +707,17 @@
     <string name="see_all_compatible_apps" msgid="6791146164535475726">"Видете ги сите компатибилни апликации"</string>
     <string name="see_all_compatible_apps_description" msgid="2092325337403254491">"Најдете апликации на Google Play"</string>
     <string name="send_feedback" msgid="7756927746070096780">"Испратете повратни информации"</string>
-    <string name="send_feedback_description" msgid="2887207112856240778">"Кажете ни со кои апликации за здравје и фитнес сакате да работите со Health Connect"</string>
+    <string name="send_feedback_description" msgid="2887207112856240778">"Кажете ни кои апликации за здравје и фитнес сакате да функционираат со Health Connect"</string>
     <string name="playstore_app_title" msgid="4138464328693481809">"Play Store"</string>
     <string name="auto_delete_button" msgid="8536451792268513619">"Автоматско бришење"</string>
     <string name="auto_delete_title" msgid="8761742828224207826">"Автоматско бришење"</string>
-    <string name="auto_delete_header" msgid="4258649705159293715">"Контролирајте колку долго податоците се складираат во Health Connect така што ќе закажете да се избришат после определено време"</string>
+    <string name="auto_delete_header" msgid="4258649705159293715">"Контролирајте колку време да се чуваат податоците во Health Connect така што ќе закажете да се избришат по одредено време"</string>
     <string name="auto_delete_learn_more" msgid="7416469042791307994">"Дознајте повеќе за автоматското бришење"</string>
     <string name="auto_delete_section" msgid="7732381000331475082">"Автоматско бришење на податоците"</string>
     <string name="range_after_x_months" msgid="3340127072680117121">"{count,plural, =1{По # месец}one{По # месец}other{По # месеци}}"</string>
     <string name="range_never" msgid="4429478261788361233">"Никогаш"</string>
     <string name="range_off" msgid="8178520557618184215">"Исклучено"</string>
-    <string name="auto_delete_rationale" msgid="5255442126521464878">"Кога ќе ги промените поставкиве, Health Connect ги брише постојните податоци согласно вашите нови поставки"</string>
+    <string name="auto_delete_rationale" msgid="5255442126521464878">"Кога ќе ги промените поставкиве, Health Connect ги брише постојните податоци согласно со вашите нови поставки"</string>
     <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Да се постави автоматско бришење на податоците по # месец?}one{Да се постави автоматско бришење на податоците по # месец?}other{Да се постави автоматско бришење на податоците по # месеци?}}"</string>
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Health Connect автоматски ќе ги избрише новите податоци по # месец. Ако го поставите ова, ќе се избришат и постојните податоци постари од # месец.}one{Health Connect автоматски ќе ги избрише новите податоци по # месец. Ако го поставите ова, ќе се избришат и постојните податоци постари од # месец.}other{Health Connect автоматски ќе ги избрише новите податоци по # месеци. Ако го поставите ова, ќе се избришат и постојните податоци постари од # месеци.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"Постави автоматско бришење"</string>
@@ -833,8 +833,8 @@
     <string name="data_totals_header" msgid="8316977153276216025">"Вкупни податоци"</string>
     <string name="app_sources_header" msgid="6343062519512947665">"Извори за апликацијата"</string>
     <string name="data_sources_footer" msgid="6414387142919741183">"Додајте извори за апликацијата во списокот за да видите како може да се променат вкупните податоци. Ако ја отстраните апликацијата од списоков, веќе нема да придонесува во вкупните податоци, но сѐ уште ќе има дозволи за пишување."</string>
-    <string name="data_sources_empty_state" msgid="1899652759274805556">"Нема извори на апликации"</string>
-    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"Откако ќе дадете дозволи за апликацијата да пишува податоци за <xliff:g id="CATEGORY_NAME">%1$s</xliff:g>, изворите ќе се прикажат тука."</string>
+    <string name="data_sources_empty_state" msgid="1899652759274805556">"Нема апликации"</string>
+    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"Откако ќе им дозволите на апликациите да запишуваат податоци за <xliff:g id="CATEGORY_NAME">%1$s</xliff:g>, изворите ќе се прикажат тука."</string>
     <string name="data_sources_help_link" msgid="7740264923634947915">"Како функционираат изворите и приоритизацијата"</string>
     <string name="data_sources_add_app" msgid="319926596123692514">"Додајте апликација"</string>
     <string name="edit_data_sources" msgid="79641360876849547">"Изменување на изворите на апликации"</string>

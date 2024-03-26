@@ -709,8 +709,8 @@
     <string name="send_feedback" msgid="7756927746070096780">"মতামত জানান"</string>
     <string name="send_feedback_description" msgid="2887207112856240778">"Health Connect-এর সাথে কোন কোন স্বাস্থ্য &amp; ফিটনেস অ্যাপ আপনি ব্যবহার করতে চান তা আমাদের জানান"</string>
     <string name="playstore_app_title" msgid="4138464328693481809">"Play Store"</string>
-    <string name="auto_delete_button" msgid="8536451792268513619">"অটোমেটিক মুছে দিন"</string>
-    <string name="auto_delete_title" msgid="8761742828224207826">"অটোমেটিক মুছে দিন"</string>
+    <string name="auto_delete_button" msgid="8536451792268513619">"অটোমেটিক মুছে দেওয়া"</string>
+    <string name="auto_delete_title" msgid="8761742828224207826">"অটোমেটিক মুছে দেওয়া"</string>
     <string name="auto_delete_header" msgid="4258649705159293715">"সেট করা সময়ের পরে শিডিউল করে ডেটা মুছে ফেলার মাধ্যমে কতক্ষণ আপনার ডেটা Health Connect-এ সেভ করা থাকবে তা নিয়ন্ত্রণ করুন"</string>
     <string name="auto_delete_learn_more" msgid="7416469042791307994">"অটোমেটিক মুছে দেওয়ার বিকল্প সম্পর্কে আরও জানুন"</string>
     <string name="auto_delete_section" msgid="7732381000331475082">"ডেটা অটোমেটিক মুছে দিন"</string>
@@ -720,7 +720,7 @@
     <string name="auto_delete_rationale" msgid="5255442126521464878">"আপনি এইসব সেটিংস পরিবর্তন করলে, Health Connect আপনার নতুন পছন্দ প্রতিফলিত করতে আগে থেকে রয়েছে এমন ডেটা মুছে দেয়"</string>
     <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{# মাস পরে ডেটা অটোমেটিক মুছে দিতে চান?}one{# মাস পরে ডেটা অটোমেটিক মুছে দিতে চান?}other{# মাস পরে ডেটা অটোমেটিক মুছে দিতে চান?}}"</string>
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{# মাস পরে Health Connect নতুন ডেটা অটোমেটিক মুছে দেবে। এছাড়া, এটি সেট করা হলে বর্তমানে থাকা # মাসের চেয়ে পুরনো ডেটা অটোমেটিক মুছে যাবে।}one{# মাস পরে Health Connect নতুন ডেটা অটোমেটিক মুছে দেবে। এছাড়া, এটি সেট করা হলে বর্তমানে থাকা # মাসের চেয়ে পুরনো ডেটা অটোমেটিক মুছে যাবে।}other{# মাস পরে Health Connect নতুন ডেটা অটোমেটিক মুছে দেবে। এছাড়া, এটি সেট করা হলে বর্তমানে থাকা # মাসের চেয়ে পুরনো ডেটা অটোমেটিক মুছে যাবে।}}"</string>
-    <string name="set_auto_delete_button" msgid="268450418318199197">"\'অটোমেটিক মুছে দিন\' সেটিং সেট-আপ করুন"</string>
+    <string name="set_auto_delete_button" msgid="268450418318199197">"অটোমেটিক মুছে দেওয়ার সেটিং সেট করুন"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"আগে থাকা ডেটা মুছে ফেলা হবে"</string>
     <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{Health Connect # মাসের বেশি পুরনো সব ডেটা মুছে দেবে। আপনার কানেক্ট করা অ্যাপে এইসব পরিবর্তন দেখতে পাওয়ার জন্য এক দিন সময় লাগতে পারে।}one{Health Connect # মাসের বেশি পুরনো সব ডেটা মুছে দেবে। আপনার কানেক্ট করা অ্যাপে এইসব পরিবর্তন দেখতে পাওয়ার জন্য এক দিন সময় লাগতে পারে।}other{Health Connect # মাসের বেশি পুরনো সব ডেটা মুছে দেবে। আপনার কানেক্ট করা অ্যাপে এইসব পরিবর্তন দেখতে পাওয়ার জন্য এক দিন সময় লাগতে পারে।}}"</string>
     <string name="deletion_started_category_list_section" msgid="3052940611815658991">"এইসব বিভাগ থেকে ডেটা মুছে ফেলা হবে"</string>

@@ -23,7 +23,7 @@
     <string name="home_subtitle" msgid="1750033322147357163">"Hallake oma telefonis tervise- ja treeninguandmeid ning määrake, millised rakendused andmetele juurde pääsevad."</string>
     <string name="data_title" msgid="4456619761533380816">"Andmed ja juurdepääs"</string>
     <string name="all_categories_title" msgid="1446410643217937926">"Kõik kategooriad"</string>
-    <string name="see_all_categories" msgid="5599882403901010434">"Kuva kõik kategooriad"</string>
+    <string name="see_all_categories" msgid="5599882403901010434">"Kõigi kategooriate kuvamine"</string>
     <string name="no_data" msgid="1906986019249068659">"Andmed puuduvad"</string>
     <string name="connected_apps_title" msgid="279942692804743223">"Rakenduste load"</string>
     <string name="connected_apps_subtitle" msgid="8464462995533399175">"Rakenduste ja lubade haldamine"</string>
@@ -293,7 +293,7 @@
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Kui soovite hallata muid Androidi lube, mis sellele rakendusele antud on, avage Seaded ja seejärel puudutage valikut Rakendused"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Lugege privaatsuseeskirju"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Pääseti juurde viimase 24 tunni jooksul"</string>
-    <string name="app_access_title" msgid="7137018424885371763">"Rakenduse juurdepääs"</string>
+    <string name="app_access_title" msgid="7137018424885371763">"Rakenduste juurdepääs"</string>
     <string name="connected_apps_empty_list_section_title" msgid="6821215432694207342">"Teil pole praegu ühtegi ühilduvat rakendust installitud"</string>
     <string name="additional_access_label" msgid="4645249249222528341">"Täiendav juurdepääs"</string>
     <string name="denied_apps_banner_title" msgid="1997745063608657965">"Rakendused, mille load eemaldati"</string>
@@ -755,8 +755,8 @@
     <string name="request_route_allow_all" msgid="314830698958736916">"Luba kõik marsruudid"</string>
     <string name="request_route_dont_allow" msgid="1186236234664957228">"Ära luba"</string>
     <string name="route_permissions_always_allow" msgid="1383816362804293137">"Luba alati"</string>
-    <string name="route_permissions_label" msgid="5201501195020295860">"Treeningu marsruudi jagamine"</string>
-    <string name="route_permissions_summary" msgid="4670908225783213910">"Valige, kuidas see rakendus ühendatud rakenduste treeningu marsruutidele juurde pääseb"</string>
+    <string name="route_permissions_label" msgid="5201501195020295860">"Treeningumarsruudi jagamine"</string>
+    <string name="route_permissions_summary" msgid="4670908225783213910">"Valige, kuidas see rakendus ühendatud rakenduste treeningumarsruutidele juurde pääseb"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"Küsi iga kord"</string>
     <string name="route_permissions_deny" msgid="4263802925221258853">"Ära luba"</string>
     <string name="exercise_permission_dialog_enable_title" msgid="4310997044811843391">"Kas lubada mõlemad andmetüübid?"</string>

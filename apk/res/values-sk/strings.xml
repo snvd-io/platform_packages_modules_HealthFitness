@@ -293,7 +293,7 @@
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Ak chcete spravovať ďalšie povolenia pre Android, ku ktorým má táto aplikácia prístup, prejdite do sekcie Nastavenia a potom Aplikácie"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Zobraziť pravidlá ochrany súkromia"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Použité v posledných 24 hodinách"</string>
-    <string name="app_access_title" msgid="7137018424885371763">"Prístup k aplikáciám"</string>
+    <string name="app_access_title" msgid="7137018424885371763">"Prístup aplikácie"</string>
     <string name="connected_apps_empty_list_section_title" msgid="6821215432694207342">"Momentálne nemáte nainštalované žiadne kompatibilné aplikácie"</string>
     <string name="additional_access_label" msgid="4645249249222528341">"Dodatočný prístup"</string>
     <string name="denied_apps_banner_title" msgid="1997745063608657965">"Odstránené povolenia aplikácií"</string>
@@ -705,7 +705,7 @@
     <string name="check_for_updates" msgid="3841090978657783101">"Skontrolovať dostupnosť aktualizácií"</string>
     <string name="check_for_updates_description" msgid="1347667778199095160">"Skontrolujte, či sú nainštalované aplikácie aktuálne"</string>
     <string name="see_all_compatible_apps" msgid="6791146164535475726">"Zobraziť všetky kompatibilné aplikácie"</string>
-    <string name="see_all_compatible_apps_description" msgid="2092325337403254491">"Vyhľadať aplikácie na Google Play"</string>
+    <string name="see_all_compatible_apps_description" msgid="2092325337403254491">"Vyhľadajte si aplikácie na Google Play"</string>
     <string name="send_feedback" msgid="7756927746070096780">"Odoslať spätnú väzbu"</string>
     <string name="send_feedback_description" msgid="2887207112856240778">"Povedzte nám, ktoré zdravotné a kondičné aplikácie majú spolupracovať s Dátami o zdraví"</string>
     <string name="playstore_app_title" msgid="4138464328693481809">"Obchod Play"</string>

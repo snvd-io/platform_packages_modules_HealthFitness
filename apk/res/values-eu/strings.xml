@@ -34,7 +34,7 @@
     <string name="entry_details_title" msgid="590184849040247850">"Sarreraren xehetasunak"</string>
     <string name="backup_title" msgid="211503191266235085">"Babeskopiak"</string>
     <string name="data_sources_and_priority_title" msgid="2360222350913604558">"Datu-iturburuak eta lehentasuna"</string>
-    <string name="set_units_title" msgid="2657822539603758029">"Ezarritako unitateak"</string>
+    <string name="set_units_title" msgid="2657822539603758029">"Ezarri unitateak"</string>
     <string name="recent_access_header" msgid="7623497371790225888">"Datuak atzitu dituzten azkenak"</string>
     <string name="no_recent_access" msgid="4724297929902441784">"Ez dago azkenaldian Health Connect atzitu duen aplikaziorik"</string>
     <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"Ikusi datuak atzitu dituzten azkenak"</string>
@@ -303,7 +303,7 @@
     <string name="denied_apps_banner_message_many_apps" msgid="7249805432604650982">"<xliff:g id="APP_DATA_0">%1$s</xliff:g>, <xliff:g id="APP_DATA_TWO">%2$s</xliff:g>, <xliff:g id="APP_DATA_THREE">%3$s</xliff:g> eta beste aplikazio batzuen baimenak kendu ditu Health Connect-ek"</string>
     <string name="denied_apps_banner_button" msgid="4438480389769298412">"Ikusi xehetasunak"</string>
     <string name="denied_apps_dialog_title" msgid="7470227827315635099">"Zergatik kentzen ditu aplikazio-baimenak Health Connect-ek?"</string>
-    <string name="denied_apps_dialog_message" msgid="7876664965504466099">"Aplikazio bat Google Play-n behin-behinean eteten bada edo bertatik kentzen bada, Health Connect-ek automatikoki kentzen ditu dauzkan baimenak.\n\nAplikazioak une horretatik aurrera Health Connect-en gordetako datuak atzitu ezin dituela esan nahi du horrek. Aplikazio horrek aldez aurretik erregistratutako datuak badauzka, aplikazio inaktiboen zerrendan agertuko da."</string>
+    <string name="denied_apps_dialog_message" msgid="7876664965504466099">"Aplikazio bat Google Play-n aldi baterako eteten bada edo bertatik kentzen bada, Health Connect-ek automatikoki kentzen ditu dauzkan baimenak.\n\nAplikazioak une horretatik aurrera Health Connect-en gordetako datuak atzitu ezin dituela esan nahi du horrek. Aplikazio horrek aldez aurretik erregistratutako datuak badauzka, aplikazio inaktiboen zerrendan agertuko da."</string>
     <string name="denied_apps_dialog_got_it_button" msgid="4698003516923683959">"Ados"</string>
     <string name="export_settings_screen_title" msgid="887671826359158339">"Gorde datuak"</string>
     <string name="export_settings_screen_description" msgid="5477618165331360989">"Gorde Health Connect-eko datuak eta baimenak, telefonoz aldatzean inportatu ahal izateko. Datuak gorde aurretik, non biltegiratu nahi dituzun aukeratu ahalko duzu."</string>
@@ -718,7 +718,7 @@
     <string name="range_never" msgid="4429478261788361233">"Inoiz ez"</string>
     <string name="range_off" msgid="8178520557618184215">"Desaktibatuta"</string>
     <string name="auto_delete_rationale" msgid="5255442126521464878">"Ezarpenak aldatzen dituzunean, Health Connect-ek lehendik dauden datuak ezabatuko ditu hobespen berriak islatzeko"</string>
-    <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Datuak automatikoki ezabatu nahi dituzu # hilabete igaro ondoren?}other{Datuak automatikoki ezabatu nahi dituzu # hilabete igaro ondoren?}}"</string>
+    <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Datuak # hilabete igaro ondoren automatikoki ezabatzea nahi duzu?}other{Datuak # hilabete igaro ondoren automatikoki ezabatzea nahi duzu?}}"</string>
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Health Connect-ek automatikoki ezabatuko ditu datu berriak # hilabete igaro ondoren. Ezarpena erabiltzen bada, # hilabete baino zaharragoak diren datuak ere ezabatuko dira.}other{Health Connect-ek automatikoki ezabatuko ditu datu berriak # hilabete igaro ondoren. Ezarpena erabiltzen bada, # hilabete baino zaharragoak diren datuak ere ezabatuko dira.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"Ezarri automatikoki ezabatzeko aukera"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"Lehendik dauden datuak ezabatu egingo dira"</string>
@@ -833,7 +833,7 @@
     <string name="data_totals_header" msgid="8316977153276216025">"Guztizko datuak"</string>
     <string name="app_sources_header" msgid="6343062519512947665">"Aplikazio-iturburuak"</string>
     <string name="data_sources_footer" msgid="6414387142919741183">"Gehitu aplikazio-iturburuak zerrendan, guztizko datuak nola alda daitezkeen ikusteko. Zerrenda horretatik aplikazio bat kenduz gero, aplikazioa ez da izango guztizko datuen parte, baina idazteko baimenak izaten jarraituko du."</string>
-    <string name="data_sources_empty_state" msgid="1899652759274805556">"Ez dago aplikazio gisako iturbururik"</string>
+    <string name="data_sources_empty_state" msgid="1899652759274805556">"Ez dago aplikazio-iturbururik"</string>
     <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"Datuak (<xliff:g id="CATEGORY_NAME">%1$s</xliff:g>) idazteko aplikazio-baimenak ematen dituzunean, hemen agertuko dira iturburuak."</string>
     <string name="data_sources_help_link" msgid="7740264923634947915">"Nola funtzionatzen dute iturburuek eta lehenespenak?"</string>
     <string name="data_sources_add_app" msgid="319926596123692514">"Gehitu aplikazio bat"</string>
