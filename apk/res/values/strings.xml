@@ -591,6 +591,8 @@
     <!-- region training plans -->
     <string name="planned_exercise_session_title" translatable="false"><xliff:g example="Swimming" id="type">%1$s</xliff:g> • <xliff:g example="Freestyle Technique Bootcamp" id="title">%2$s</xliff:g></string>
     <string name="planned_exercise_block_title" translatable="false"><xliff:g example="Warm up" id="title">%1$s</xliff:g> x<xliff:g example="2" id="repetition">%2$s</xliff:g></string>
+    <string name="planned_exercise_block_a11y_title" translatable="false"><xliff:g example="Warm up" id="title">%1$s</xliff:g> <xliff:g example="2 times" id="repetition">%2$s</xliff:g></string>
+    <string name="planned_exercise_block_repetitions" description="Repetitions of an exercise set. [ICU SYNTAX][CHAR LIMIT=50]">{count, plural, =1 {1 time} other {# times}}</string>
     <string name="planned_exercise_step_title" translatable="false"><xliff:g example="400m" id="completion_goal">%1$s</xliff:g> <xliff:g example="Breaststroke" id="exercise_segment_type">%2$s</xliff:g></string>
     <string name="distance_with_variable_rest_goal_formatted" translatable="false"><xliff:g example="400m" id="distance">%1$s</xliff:g>\@<xliff:g example="4 hours" id="duration">%2$s</xliff:g> </string>
     <string name="active_calories_burned" description="Label for active calories burned">Active: <xliff:g example="40 Cal" id="active_calories">%1$s</xliff:g></string>
