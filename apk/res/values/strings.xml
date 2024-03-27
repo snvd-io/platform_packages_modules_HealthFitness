@@ -442,6 +442,7 @@
     <string name="export_encryption_instruction_description" description="The instruction description of the 'turn on encryption' screen. [CHAR_LIMIT=NONE]">Create a password to protect your encrypted data. You will need this password to import and restore your data.</string>
     <string name="export_password_hint" description="Placeholder text on the input field which reminds users to enter their password here. [CHAR_LIMIT=50]">Password</string>
     <string name="export_repeat_password_hint" description="Placeholder text on the input field which reminds users to repeat their password here. [CHAR_LIMIT=50]">Repeat password</string>
+    <string name="export_passwords_mismatch_error" description="Text shown to the users that indicates the entered password and the repeated password do not match. [CHAR_LIMIT=NONE]">Passwords don\'t match</string>
     <string name="export_encryption_warning" description="Description to warn users the importance to remember their passwords.">If you forget your password and lose your phone, Health&#160;Connect cannot help you recover your saved data.</string>
 
     <string name="export_back_button" descrption="Text on a button that navigates back to the previous screen of the data saving setup flow.">Back</string>
