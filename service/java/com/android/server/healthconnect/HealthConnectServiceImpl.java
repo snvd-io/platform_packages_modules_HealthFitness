@@ -228,7 +228,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
         HealthConnectThreadScheduler.scheduleInternalTask(
                 () -> {
                     HealthDataCategoryPriorityHelper.getInstance()
-                            .maybeAddInactiveAppsToPriorityList(mContext);
+                            .maybeAddContributingAppsToPriorityList(mContext);
                 });
     }
 
