@@ -262,7 +262,7 @@
     <string name="request_permissions_privacy_policy" msgid="228503452643555737">"política de privadesa"</string>
     <string name="permissions_disconnect_dialog_title" msgid="7355211540619034695">"Vols suprimir tots els permisos?"</string>
     <string name="permissions_disconnect_dialog_disconnect" msgid="8854787587948224752">"Suprimeix-ho tot"</string>
-    <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"<xliff:g id="APP_NAME">%1$s</xliff:g> ja no podrà llegir ni escriure dades de Salut connectada.\n\nAixò no afecta altres permisos que pot tenir aquesta aplicació, com ara els relacionats amb la ubicació, la càmera o el micròfon."</string>
+    <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"<xliff:g id="APP_NAME">%1$s</xliff:g> ja no podrà llegir ni escriure dades de Salut connectada.\n\nAixò no afecta els altres permisos que aquesta aplicació pugui tenir, com ara els d\'accés a la ubicació, a la càmera o al micròfon."</string>
     <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"Suprimeix també les dades de <xliff:g id="APP_NAME">%1$s</xliff:g> de Salut connectada"</string>
     <string name="navigation_next_day" msgid="8853443471183944219">"Dia següent"</string>
     <string name="navigation_selected_day" msgid="2510843479734091348">"Dia seleccionat"</string>
@@ -693,7 +693,7 @@
     <string name="height_unit_feet_label" msgid="3311723678628261399">"Peus i polzades"</string>
     <string name="weight_unit_pound_label" msgid="8210663393844989211">"Lliures"</string>
     <string name="weight_unit_kilogram_label" msgid="6623938920860887238">"Quilograms"</string>
-    <string name="weight_unit_stone_label" msgid="3063787243474847180">"Stones"</string>
+    <string name="weight_unit_stone_label" msgid="3063787243474847180">"Pedres"</string>
     <string name="energy_unit_calorie_label" msgid="3412965811470957296">"Calories"</string>
     <string name="energy_unit_kilojoule_label" msgid="6481196724083455110">"Quilojoules"</string>
     <string name="temperature_unit_celsius_label" msgid="4698347100553808449">"Celsius"</string>
@@ -711,15 +711,15 @@
     <string name="playstore_app_title" msgid="4138464328693481809">"Play Store"</string>
     <string name="auto_delete_button" msgid="8536451792268513619">"Supressió automàtica"</string>
     <string name="auto_delete_title" msgid="8761742828224207826">"Supressió automàtica"</string>
-    <string name="auto_delete_header" msgid="4258649705159293715">"Controla el temps que les dades estan emmagatzemades a Salut connectada programant que se suprimeixin després d\'un temps determinat"</string>
+    <string name="auto_delete_header" msgid="4258649705159293715">"Controla quant de temps s\'emmagatzemen les teves dades a Salut connectada programant que se suprimeixin després d\'un temps determinat"</string>
     <string name="auto_delete_learn_more" msgid="7416469042791307994">"Més informació sobre la supressió automàtica"</string>
-    <string name="auto_delete_section" msgid="7732381000331475082">"Dades de supressió automàtica"</string>
+    <string name="auto_delete_section" msgid="7732381000331475082">"Suprimeix automàticament les dades"</string>
     <string name="range_after_x_months" msgid="3340127072680117121">"{count,plural, =1{# mes després}other{# mesos després}}"</string>
     <string name="range_never" msgid="4429478261788361233">"Mai"</string>
     <string name="range_off" msgid="8178520557618184215">"Desactivat"</string>
     <string name="auto_delete_rationale" msgid="5255442126521464878">"Si canvies aquesta configuració, Salut connectada suprimirà les dades existents per reflectir les preferències noves"</string>
     <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Vols suprimir automàticament les dades passat # mes?}other{Vols suprimir automàticament les dades passats # mesos?}}"</string>
-    <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Salut connectada suprimirà automàticament les dades noves passat # mes. Amb aquesta configuració, també se suprimiran les dades existents anteriors a # mes.}other{Salut connectada suprimirà automàticament les dades noves passats # mesos. Amb aquesta configuració, també se suprimiran les dades existents anteriors a # mesos.}}"</string>
+    <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Salut connectada suprimirà automàticament les dades noves passat # mes. Amb aquesta configuració, també se suprimiran les dades existents amb una antiguitat superior a # mes.}other{Salut connectada suprimirà automàticament les dades noves passats # mesos. Amb aquesta configuració, també se suprimiran les dades existents amb una antiguitat superior a # mesos.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"Estableix la supressió automàtica"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"Les dades existents se suprimiran"</string>
     <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{Salut connectada suprimirà totes les dades amb una antiguitat superior a # mes. Pot ser que aquests canvis tardin un dia a aparèixer a les teves aplicacions connectades.}other{Salut connectada suprimirà totes les dades amb una antiguitat superior a # mesos. Pot ser que aquests canvis tardin un dia a aparèixer a les teves aplicacions connectades.}}"</string>

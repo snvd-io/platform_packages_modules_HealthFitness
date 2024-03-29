@@ -34,7 +34,7 @@
     <string name="entry_details_title" msgid="590184849040247850">"Sarreraren xehetasunak"</string>
     <string name="backup_title" msgid="211503191266235085">"Babeskopiak"</string>
     <string name="data_sources_and_priority_title" msgid="2360222350913604558">"Datu-iturburuak eta lehentasuna"</string>
-    <string name="set_units_title" msgid="2657822539603758029">"Ezarritako unitateak"</string>
+    <string name="set_units_title" msgid="2657822539603758029">"Ezarri unitateak"</string>
     <string name="recent_access_header" msgid="7623497371790225888">"Datuak atzitu dituzten azkenak"</string>
     <string name="no_recent_access" msgid="4724297929902441784">"Ez dago azkenaldian Health Connect atzitu duen aplikaziorik"</string>
     <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"Ikusi datuak atzitu dituzten azkenak"</string>
@@ -263,7 +263,7 @@
     <string name="permissions_disconnect_dialog_title" msgid="7355211540619034695">"Baimen guztiak kendu nahi dituzu?"</string>
     <string name="permissions_disconnect_dialog_disconnect" msgid="8854787587948224752">"Kendu guztiak"</string>
     <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"Aurrerantzean, <xliff:g id="APP_NAME">%1$s</xliff:g> aplikazioak ezingo du Health Connect-en gordetako daturik irakurri edo idatzi.\n\nAldaketak ez die eragingo aplikazioaren beste baimen batzuei (esaterako, kokapena, kamera edo mikrofonoa erabiltzeari buruzkoei)."</string>
-    <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"Ezabatu <xliff:g id="APP_NAME">%1$s</xliff:g> aplikazioko datuak Health Connect-etik"</string>
+    <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"Halaber, ezabatu <xliff:g id="APP_NAME">%1$s</xliff:g> aplikazioko datuak Health Connect-etik"</string>
     <string name="navigation_next_day" msgid="8853443471183944219">"Hurrengo eguna"</string>
     <string name="navigation_selected_day" msgid="2510843479734091348">"Hautatutako eguna"</string>
     <string name="navigation_previous_day" msgid="718353386484938584">"Aurreko eguna"</string>
@@ -293,7 +293,7 @@
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Aplikazioak atzi ditzakeen Android-eko beste baimen batzuk kudeatzeko, joan Ezarpenak &gt; Aplikazioak atalera"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Irakurri pribatutasun-gidalerroak"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Azken 24 orduetan atzitu dira"</string>
-    <string name="app_access_title" msgid="7137018424885371763">"Aplikazioaren sarbidea"</string>
+    <string name="app_access_title" msgid="7137018424885371763">"Aplikazioak duen sarbidea"</string>
     <string name="connected_apps_empty_list_section_title" msgid="6821215432694207342">"Une honetan ez daukazu aplikazio bateragarririk instalatuta"</string>
     <string name="additional_access_label" msgid="4645249249222528341">"Sarbide gehigarria"</string>
     <string name="denied_apps_banner_title" msgid="1997745063608657965">"Kendutako aplikazio-baimenak"</string>
@@ -338,19 +338,19 @@
     <string name="time_range_all" msgid="8167350212705839943">"Ezabatu datu guztiak"</string>
     <string name="confirming_question_all" msgid="1585414659784742952">"Betiko ezabatu nahi dituzu orain arte bildu diren datu guztiak?"</string>
     <string name="confirming_question_one_day" msgid="8001434729335611950">"Betiko ezabatu nahi dituzu azken 24 orduetako datu guztiak?"</string>
-    <string name="confirming_question_one_week" msgid="5441506951423969587">"Betiko ezabatu nahi dituzu azken zazpi egunetako datu guztiak?"</string>
+    <string name="confirming_question_one_week" msgid="5441506951423969587">"Betiko ezabatu nahi dituzu azken 7 egunetako datu guztiak?"</string>
     <string name="confirming_question_one_month" msgid="4118595547587081940">"Betiko ezabatu nahi dituzu azken 30 egunetako datu guztiak?"</string>
     <string name="confirming_question_data_type_all" msgid="1173934949902602037">"Betiko ezabatu nahi dituzu orain arte bildu diren \"<xliff:g id="DATA_TYPE">%s</xliff:g>\" kategoriako datuak?"</string>
     <string name="confirming_question_data_type_one_day" msgid="5386681714769751416">"Betiko ezabatu nahi dituzu azken 24 orduetako \"<xliff:g id="DATA_TYPE">%s</xliff:g>\" kategoriako datuak?"</string>
-    <string name="confirming_question_data_type_one_week" msgid="8346031951374422501">"Betiko ezabatu nahi dituzu azken zazpi egunetako \"<xliff:g id="DATA_TYPE">%s</xliff:g>\" kategoriako datuak?"</string>
+    <string name="confirming_question_data_type_one_week" msgid="8346031951374422501">"Betiko ezabatu nahi dituzu azken 7 egunetako \"<xliff:g id="DATA_TYPE">%s</xliff:g>\" kategoriako datuak?"</string>
     <string name="confirming_question_data_type_one_month" msgid="7110328687576360400">"Betiko ezabatu nahi dituzu azken 30 egunetako \"<xliff:g id="DATA_TYPE">%s</xliff:g>\" kategoriako datuak?"</string>
     <string name="confirming_question_category_all" msgid="9182430869247761531">"Betiko ezabatu nahi dituzu orain arte bildu diren \"<xliff:g id="CATEGORY">%s</xliff:g>\" kategoriako datuak?"</string>
     <string name="confirming_question_category_one_day" msgid="4886776948515472679">"Betiko ezabatu nahi dituzu azken 24 orduetako \"<xliff:g id="CATEGORY">%s</xliff:g>\" kategoriako datuak?"</string>
-    <string name="confirming_question_category_one_week" msgid="1790565625674277693">"Betiko ezabatu nahi dituzu azken zazpi egunetako \"<xliff:g id="CATEGORY">%s</xliff:g>\" kategoriako datuak?"</string>
+    <string name="confirming_question_category_one_week" msgid="1790565625674277693">"Betiko ezabatu nahi dituzu azken 7 egunetako \"<xliff:g id="CATEGORY">%s</xliff:g>\" kategoriako datuak?"</string>
     <string name="confirming_question_category_one_month" msgid="9181788460112796273">"Betiko ezabatu nahi dituzu azken 30 egunetako \"<xliff:g id="CATEGORY">%s</xliff:g>\" kategoriako datuak?"</string>
     <string name="confirming_question_app_data_all" msgid="4818571921949673097">"Betiko ezabatu nahi dituzu orain arte bildu diren <xliff:g id="APP_DATA">%s</xliff:g> aplikazioko datuak?"</string>
     <string name="confirming_question_app_data_one_day" msgid="444028969015975031">"Betiko ezabatu nahi dituzu azken 24 orduetako \"<xliff:g id="APP_DATA">%s</xliff:g>\" kategoriako datuak?"</string>
-    <string name="confirming_question_app_data_one_week" msgid="2096555081811730496">"Betiko ezabatu nahi dituzu azken zazpi egunetako \"<xliff:g id="APP_DATA">%s</xliff:g>\" kategoriako datuak?"</string>
+    <string name="confirming_question_app_data_one_week" msgid="2096555081811730496">"Betiko ezabatu nahi dituzu azken 7 egunetako \"<xliff:g id="APP_DATA">%s</xliff:g>\" aplikazioko datuak?"</string>
     <string name="confirming_question_app_data_one_month" msgid="6438241250825892892">"Betiko ezabatu nahi dituzu azken 30 egunetako \"<xliff:g id="APP_DATA">%s</xliff:g>\" kategoriako datuak?"</string>
     <string name="confirming_question_app_remove_all_permissions" msgid="4170343072352701421">"Halaber, kendu <xliff:g id="APP_WITH_PERMISSIONS">%s</xliff:g> aplikazioaren baimen guztiak Health Connect-etik"</string>
     <string name="confirming_question_data_type_from_app_all" msgid="8361163993548510509">"Betiko ezabatu nahi dituzu <xliff:g id="APP_DATA">%2$s</xliff:g> aplikazioak gehitutako \"<xliff:g id="DATA_TYPE">%1$s</xliff:g>\" kategoriako datu guztiak?"</string>
@@ -718,7 +718,7 @@
     <string name="range_never" msgid="4429478261788361233">"Inoiz ez"</string>
     <string name="range_off" msgid="8178520557618184215">"Desaktibatuta"</string>
     <string name="auto_delete_rationale" msgid="5255442126521464878">"Ezarpenak aldatzen dituzunean, Health Connect-ek lehendik dauden datuak ezabatuko ditu hobespen berriak islatzeko"</string>
-    <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Datuak automatikoki ezabatu nahi dituzu # hilabete igaro ondoren?}other{Datuak automatikoki ezabatu nahi dituzu # hilabete igaro ondoren?}}"</string>
+    <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Datuak # hilabete igaro ondoren automatikoki ezabatzea nahi duzu?}other{Datuak # hilabete igaro ondoren automatikoki ezabatzea nahi duzu?}}"</string>
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Health Connect-ek automatikoki ezabatuko ditu datu berriak # hilabete igaro ondoren. Ezarpena erabiltzen bada, # hilabete baino zaharragoak diren datuak ere ezabatuko dira.}other{Health Connect-ek automatikoki ezabatuko ditu datu berriak # hilabete igaro ondoren. Ezarpena erabiltzen bada, # hilabete baino zaharragoak diren datuak ere ezabatuko dira.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"Ezarri automatikoki ezabatzeko aukera"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"Lehendik dauden datuak ezabatu egingo dira"</string>
@@ -833,7 +833,7 @@
     <string name="data_totals_header" msgid="8316977153276216025">"Guztizko datuak"</string>
     <string name="app_sources_header" msgid="6343062519512947665">"Aplikazio-iturburuak"</string>
     <string name="data_sources_footer" msgid="6414387142919741183">"Gehitu aplikazio-iturburuak zerrendan, guztizko datuak nola alda daitezkeen ikusteko. Zerrenda horretatik aplikazio bat kenduz gero, aplikazioa ez da izango guztizko datuen parte, baina idazteko baimenak izaten jarraituko du."</string>
-    <string name="data_sources_empty_state" msgid="1899652759274805556">"Ez dago aplikazio gisako iturbururik"</string>
+    <string name="data_sources_empty_state" msgid="1899652759274805556">"Ez dago aplikazio-iturbururik"</string>
     <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"Datuak (<xliff:g id="CATEGORY_NAME">%1$s</xliff:g>) idazteko aplikazio-baimenak ematen dituzunean, hemen agertuko dira iturburuak."</string>
     <string name="data_sources_help_link" msgid="7740264923634947915">"Nola funtzionatzen dute iturburuek eta lehenespenak?"</string>
     <string name="data_sources_add_app" msgid="319926596123692514">"Gehitu aplikazio bat"</string>

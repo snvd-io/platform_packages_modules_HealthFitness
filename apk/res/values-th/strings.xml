@@ -280,7 +280,7 @@
     <string name="no_apps_allowed" msgid="5794833581324128108">"ไม่ได้อนุญาตแอปใดเลย"</string>
     <string name="no_apps_denied" msgid="743327680286446017">"ไม่ได้ปฏิเสธแอปใดเลย"</string>
     <string name="permissions_disconnect_all_dialog_title" msgid="27474286046207122">"นำสิทธิ์เข้าถึงออกจากทุกแอปใช่ไหม"</string>
-    <string name="permissions_disconnect_all_dialog_message" msgid="3151109627457270499">"ไม่มีแอปที่เข้าถึงหรือเพิ่มข้อมูลใหม่ใน Health Connect ได้ การดำเนินการนี้จะไม่ลบข้อมูลที่มีอยู่\n\nอีกทั้งไม่มีผลกับสิทธิ์อื่นๆ ที่แอปนี้อาจมี เช่น สิทธิ์เข้าถึงตำแหน่ง กล้อง หรือไมโครโฟน"</string>
+    <string name="permissions_disconnect_all_dialog_message" msgid="3151109627457270499">"จะไม่มีแอปใดของคุณเข้าถึงหรือเพิ่มข้อมูลใหม่ใน Health Connect ได้ การดำเนินการนี้จะไม่ลบข้อมูลที่มีอยู่\n\nอีกทั้งจะไม่มีผลกับสิทธิ์อื่นๆ ที่แอปนี้อาจมี เช่น สิทธิ์เข้าถึงตำแหน่ง กล้อง หรือไมโครโฟน"</string>
     <string name="permissions_disconnect_all_dialog_disconnect" msgid="2134136493310257746">"นำออกทั้งหมด"</string>
     <string name="manage_permissions_manage_app_header" msgid="6356348062088358761">"จัดการแอป"</string>
     <string name="see_app_data" msgid="3951030076195119476">"ดูข้อมูลแอป"</string>
@@ -834,8 +834,8 @@
     <string name="app_sources_header" msgid="6343062519512947665">"แหล่งที่มาของแอป"</string>
     <string name="data_sources_footer" msgid="6414387142919741183">"เพิ่มแหล่งที่มาของแอปในรายการเพื่อดูว่าผลรวมของข้อมูลจะเปลี่ยนแปลงไปอย่างไร การนำแอปออกจากรายการนี้จะทำให้แอปนั้นไม่มีส่วนในผลรวม แต่จะยังมีสิทธิ์เขียนอยู่"</string>
     <string name="data_sources_empty_state" msgid="1899652759274805556">"ไม่มีแหล่งที่มาของแอป"</string>
-    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"เมื่อคุณให้สิทธิ์แก่แอปในการเขียนข้อมูล <xliff:g id="CATEGORY_NAME">%1$s</xliff:g> แล้ว แหล่งที่มาจะแสดงขึ้นที่นี่"</string>
-    <string name="data_sources_help_link" msgid="7740264923634947915">"แหล่งที่มาและลำดับความสำคัญทำงานอย่างไร"</string>
+    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"เมื่อคุณให้สิทธิ์แก่แอปในการเขียนข้อมูล<xliff:g id="CATEGORY_NAME">%1$s</xliff:g>แล้ว แหล่งที่มาจะแสดงขึ้นที่นี่"</string>
+    <string name="data_sources_help_link" msgid="7740264923634947915">"วิธีการทำงานของแหล่งที่มาและลำดับความสำคัญ"</string>
     <string name="data_sources_add_app" msgid="319926596123692514">"เพิ่มแอป"</string>
     <string name="edit_data_sources" msgid="79641360876849547">"แก้ไขแหล่งที่มาของแอป"</string>
     <string name="default_app_summary" msgid="6183876151011837062">"ค่าเริ่มต้นของอุปกรณ์"</string>

@@ -717,7 +717,7 @@
     <string name="range_after_x_months" msgid="3340127072680117121">"{count,plural, =1{Selepas # bulan}other{Selepas # bulan}}"</string>
     <string name="range_never" msgid="4429478261788361233">"Tidak sekali-kali"</string>
     <string name="range_off" msgid="8178520557618184215">"Mati"</string>
-    <string name="auto_delete_rationale" msgid="5255442126521464878">"Apabila anda mengubah tetapan ini, Health Connect memadamkan data sedia ada untuk memaparkan pilihan baharu anda"</string>
+    <string name="auto_delete_rationale" msgid="5255442126521464878">"Apabila anda mengubah tetapan ini, Health Connect memadamkan data sedia ada untuk mencerminkan pilihan baharu"</string>
     <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Autopadam data selepas # bulan?}other{Autopadam data selepas # bulan?}}"</string>
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Health Connect akan mengautopadam data baharu selepas # bulan. Penetapan ini juga akan memadamkan data sedia ada yang melebihi # bulan.}other{Health Connect akan mengautopadam data baharu selepas # bulan. Penetapan ini juga akan memadamkan data sedia ada yang melebihi # bulan.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"Tetapkan autopadam"</string>
@@ -834,7 +834,7 @@
     <string name="app_sources_header" msgid="6343062519512947665">"Sumber apl"</string>
     <string name="data_sources_footer" msgid="6414387142919741183">"Tambahkan sumber apl pada senarai tersebut untuk melihat cara jumlah data berubah. Pengalihan keluar apl daripada senarai ini akan menghentikan apl daripada menyumbang kepada jumlah tersebut tetapi apl masih memiliki kebenaran tulis."</string>
     <string name="data_sources_empty_state" msgid="1899652759274805556">"Tiada sumber apl"</string>
-    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"Sebaik sahaja anda memberikan kebenaran apl untuk menulis data <xliff:g id="CATEGORY_NAME">%1$s</xliff:g>, sumber akan dipaparkan di sini."</string>
+    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"Sebaik sahaja anda memberi apl kebenaran untuk menulis data <xliff:g id="CATEGORY_NAME">%1$s</xliff:g>, sumber akan dipaparkan di sini."</string>
     <string name="data_sources_help_link" msgid="7740264923634947915">"Cara sumber &amp; keutamaan berfungsi"</string>
     <string name="data_sources_add_app" msgid="319926596123692514">"Tambahkan apl"</string>
     <string name="edit_data_sources" msgid="79641360876849547">"Edit sumber apl"</string>

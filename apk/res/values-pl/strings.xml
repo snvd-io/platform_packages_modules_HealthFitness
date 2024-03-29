@@ -263,7 +263,7 @@
     <string name="permissions_disconnect_dialog_title" msgid="7355211540619034695">"Usunąć wszystkie uprawnienia?"</string>
     <string name="permissions_disconnect_dialog_disconnect" msgid="8854787587948224752">"Usuń wszystko"</string>
     <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"Aplikacja <xliff:g id="APP_NAME">%1$s</xliff:g> nie będzie już mogła odczytywać żadnych danych z Health Connect ani ich zapisywać.\n\nNie wpływa na to na inne uprawnienia, które może mieć ta aplikacja, np. dotyczące lokalizacji, aparatu czy mikrofonu."</string>
-    <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"Usuń także dane z aplikacji <xliff:g id="APP_NAME">%1$s</xliff:g> z Health Connect"</string>
+    <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"Usuń z Health Connect także dane zapisane w aplikacji <xliff:g id="APP_NAME">%1$s</xliff:g>"</string>
     <string name="navigation_next_day" msgid="8853443471183944219">"Następny dzień"</string>
     <string name="navigation_selected_day" msgid="2510843479734091348">"Wybrany dzień"</string>
     <string name="navigation_previous_day" msgid="718353386484938584">"Poprzedni dzień"</string>
@@ -278,7 +278,7 @@
     <string name="manage_permissions_read_header" msgid="2031153753057983683">"Może odczytywać"</string>
     <string name="manage_permissions_write_header" msgid="6876806848658168370">"Może zapisywać"</string>
     <string name="no_apps_allowed" msgid="5794833581324128108">"Nie zezwolono żadnym aplikacjom"</string>
-    <string name="no_apps_denied" msgid="743327680286446017">"Nie zabroniono żadnym aplikacjom"</string>
+    <string name="no_apps_denied" msgid="743327680286446017">"Nie zabroniono dostępu żadnym aplikacjom"</string>
     <string name="permissions_disconnect_all_dialog_title" msgid="27474286046207122">"Usunąć dostęp wszystkich aplikacji?"</string>
     <string name="permissions_disconnect_all_dialog_message" msgid="3151109627457270499">"Żadna aplikacja nie będzie już mogła korzystać z danych z Health Connect ani dodawać nowych danych. Istniejące dane nie zostaną usunięte.\n\nNie wpływa na to na inne uprawnienia, które może mieć ta aplikacja, np. dotyczące lokalizacji, aparatu czy mikrofonu."</string>
     <string name="permissions_disconnect_all_dialog_disconnect" msgid="2134136493310257746">"Usuń wszystko"</string>
@@ -287,9 +287,9 @@
     <string name="delete_app_data" msgid="6890357774873859952">"Usuń dane aplikacji"</string>
     <string name="inactive_apps_section_title" msgid="7492812973696378690">"Nieaktywne aplikacje"</string>
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"Te aplikacje nie mają już dostępu, ale ich dane wciąż są przechowywane w Health Connect"</string>
-    <string name="manage_permissions_time_frame" msgid="1299483940842401923">"Aplikacja <xliff:g id="APP_NAME">%1$s</xliff:g> może odczytywać dane dodane po <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>"</string>
-    <string name="other_android_permissions" msgid="8051485761573324702">"Aby zarządzać innymi uprawnieniami urządzeń z Androidem, do których ta aplikacja ma dostęp, otwórz Ustawienia &gt; Aplikacje"</string>
-    <string name="manage_permissions_rationale" msgid="9183689798847740274">"Dane, które udostępniasz aplikacji <xliff:g id="APP_NAME">%1$s</xliff:g>, podlegają jej polityce prywatności"</string>
+    <string name="manage_permissions_time_frame" msgid="1299483940842401923">"Aplikacja <xliff:g id="APP_NAME">%1$s</xliff:g> może odczytywać dane dodane po <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>."</string>
+    <string name="other_android_permissions" msgid="8051485761573324702">"Aby zarządzać innymi uprawnieniami urządzeń z Androidem, do których ta aplikacja ma dostęp, otwórz Ustawienia &gt; Aplikacje."</string>
+    <string name="manage_permissions_rationale" msgid="9183689798847740274">"Dane, które udostępniasz aplikacji <xliff:g id="APP_NAME">%1$s</xliff:g>, podlegają jej polityce prywatności."</string>
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Aby zarządzać innymi uprawnieniami systemu Android, do których ta aplikacja ma dostęp, otwórz Ustawienia, a potem Aplikacje"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Przeczytaj politykę prywatności"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Dostęp w ciągu ostatnich 24 godzin"</string>

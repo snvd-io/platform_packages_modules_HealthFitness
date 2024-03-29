@@ -289,7 +289,7 @@
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"Ces applis n\'ont plus accès à Santé Connect, mais ont encore des données qui y sont stockées"</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g> peut lire les données ajoutées après le <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>"</string>
     <string name="other_android_permissions" msgid="8051485761573324702">"Pour gérer d\'autres autorisations Android concernant cette appli, sélectionnez Paramètres &gt; Applis"</string>
-    <string name="manage_permissions_rationale" msgid="9183689798847740274">"Les données que vous partagez avec l\'appli <xliff:g id="APP_NAME">%1$s</xliff:g> sont soumises à ses règles de confidentialité."</string>
+    <string name="manage_permissions_rationale" msgid="9183689798847740274">"Les données que vous partagez avec l\'appli <xliff:g id="APP_NAME">%1$s</xliff:g> sont soumises à ses règles de confidentialité"</string>
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Pour gérer d\'autres autorisations Android concernant cette appli, sélectionnez \"Paramètres\", puis appuyez sur \"Applis\""</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Lire les règles de confidentialité"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Accès au cours des dernières 24 heures"</string>
@@ -756,7 +756,7 @@
     <string name="request_route_dont_allow" msgid="1186236234664957228">"Ne pas autoriser"</string>
     <string name="route_permissions_always_allow" msgid="1383816362804293137">"Toujours autoriser"</string>
     <string name="route_permissions_label" msgid="5201501195020295860">"Partage du parcours sportif"</string>
-    <string name="route_permissions_summary" msgid="4670908225783213910">"Contrôler la manière dont cette appli accède aux parcours sportifs à partir d\'applis connectées"</string>
+    <string name="route_permissions_summary" msgid="4670908225783213910">"Contrôlez la manière dont cette appli accède aux parcours sportifs d\'applis connectées"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"Toujours demander"</string>
     <string name="route_permissions_deny" msgid="4263802925221258853">"Ne pas autoriser"</string>
     <string name="exercise_permission_dialog_enable_title" msgid="4310997044811843391">"Activer les deux types de données ?"</string>

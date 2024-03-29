@@ -29,7 +29,7 @@
     <string name="connected_apps_subtitle" msgid="8464462995533399175">"إدارة التطبيقات والأذونات"</string>
     <string name="connected_apps_button_subtitle" msgid="8855528937028500370">"التطبيقات التي تملك الإذن بالوصول: <xliff:g id="NUM_APPS_CONNECTED">%1$s</xliff:g> من إجمالي <xliff:g id="NUM_POSSIBLE_APPS">%2$s</xliff:g>"</string>
     <string name="connected_apps_all_apps_connected_subtitle" msgid="3432698291862059492">"التطبيقات التي تملك الإذن بالوصول: <xliff:g id="NUM_APPS_CONNECTED">%1$s</xliff:g>"</string>
-    <string name="connected_apps_one_app_connected_subtitle" msgid="9095815882509754340">"يملك تطبيق واحد (<xliff:g id="NUM_APPS_CONNECTED">%1$s</xliff:g>) الإذن بالوصول."</string>
+    <string name="connected_apps_one_app_connected_subtitle" msgid="9095815882509754340">"يملك تطبيق واحد (<xliff:g id="NUM_APPS_CONNECTED">%1$s</xliff:g>) الإذن بالوصول"</string>
     <string name="connected_apps_button_no_permissions_subtitle" msgid="1651994862419752908">"ما مِن تطبيقات"</string>
     <string name="entry_details_title" msgid="590184849040247850">"تفاصيل الإدخال"</string>
     <string name="backup_title" msgid="211503191266235085">"الاحتفاظ بنسخة احتياطية"</string>
@@ -287,9 +287,9 @@
     <string name="delete_app_data" msgid="6890357774873859952">"حذف بيانات التطبيق"</string>
     <string name="inactive_apps_section_title" msgid="7492812973696378690">"التطبيقات غير النشطة"</string>
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"لن تتمكن هذه التطبيقات من الوصول إلى البيانات بعد ذلك، ولكن لا يزال لديها بيانات مخزَّنة في تطبيق Health Connect."</string>
-    <string name="manage_permissions_time_frame" msgid="1299483940842401923">"يمكن لتطبيق \"<xliff:g id="APP_NAME">%1$s</xliff:g>\" قراءة البيانات التي تمت إضافتها بعد <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>."</string>
-    <string name="other_android_permissions" msgid="8051485761573324702">"لإدارة أذونات Android الأخرى التي يمكن لهذا التطبيق الوصول إليها، انتقِل إلى الإعدادات &gt; التطبيقات."</string>
-    <string name="manage_permissions_rationale" msgid="9183689798847740274">"تخضع البيانات التي تشاركها مع تطبيق \"<xliff:g id="APP_NAME">%1$s</xliff:g>\" لسياسة الخصوصية التي يُطبِّقها."</string>
+    <string name="manage_permissions_time_frame" msgid="1299483940842401923">"يمكن لتطبيق \"<xliff:g id="APP_NAME">%1$s</xliff:g>\" قراءة البيانات التي تمت إضافتها بعد <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>"</string>
+    <string name="other_android_permissions" msgid="8051485761573324702">"لإدارة أذونات Android الأخرى التي يمكن لهذا التطبيق الوصول إليها، انتقِل إلى الإعدادات &gt; التطبيقات"</string>
+    <string name="manage_permissions_rationale" msgid="9183689798847740274">"تخضع البيانات التي تشاركها مع تطبيق \"<xliff:g id="APP_NAME">%1$s</xliff:g>\" لسياسة الخصوصية التي يُطبِّقها"</string>
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"لإدارة أذونات Android الأخرى التي يمكن لهذا التطبيق الوصول إليها، انتقِل إلى \"الإعدادات\" ثم انقر على \"التطبيقات\"."</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"قراءة سياسة الخصوصية"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"تم الوصول إلى البيانات في آخر 24 ساعة"</string>
@@ -331,7 +331,7 @@
     <string name="time_range_message_all" msgid="7280888587242744729">"يؤدي اختيار فترة زمنية من الفترات أدناه إلى حذف جميع البيانات المُضافة إلى Health Connect نهائيًا خلال تلك الفترة."</string>
     <string name="time_range_message_data_type" msgid="1896125004829258195">"يؤدي اختيار فترة زمنية من الفترات أدناه إلى حذف جميع بيانات <xliff:g id="DATA_TYPE">%s</xliff:g> المُضافة إلى Health Connect نهائيًا خلال تلك الفترة."</string>
     <string name="time_range_message_category" msgid="1136451418397326356">"يؤدي اختيار فترة زمنية من الفترات أدناه إلى حذف جميع بيانات <xliff:g id="CATEGORY">%s</xliff:g> المُضافة إلى Health Connect نهائيًا خلال تلك الفترة."</string>
-    <string name="time_range_message_app_data" msgid="2590800457710603556">"يؤدي اختيار فترة زمنية من الفترات أدناه إلى حذف جميع بيانات \"<xliff:g id="APP_DATA">%s</xliff:g>\" المُضافة إلى Health Connect نهائيًا خلال تلك الفترة."</string>
+    <string name="time_range_message_app_data" msgid="2590800457710603556">"يؤدي اختيار فترة زمنية من الفترات أدناه إلى حذف جميع بيانات \"<xliff:g id="APP_DATA">%s</xliff:g>\" المُضافة إلى Health Connect نهائيًا خلال تلك الفترة"</string>
     <string name="time_range_one_day" msgid="7162709826595446727">"حذف البيانات لآخر 24 ساعة"</string>
     <string name="time_range_one_week" msgid="8754523384275645434">"حذف البيانات لآخر 7 أيام"</string>
     <string name="time_range_one_month" msgid="3034747870231999766">"حذف البيانات لآخر 30 يومًا"</string>
@@ -355,7 +355,7 @@
     <string name="confirming_question_app_remove_all_permissions" msgid="4170343072352701421">"إزالة كل أذونات \"<xliff:g id="APP_WITH_PERMISSIONS">%s</xliff:g>\" من Health Connect أيضًا"</string>
     <string name="confirming_question_data_type_from_app_all" msgid="8361163993548510509">"هل تريد نهائيًا حذف جميع بيانات <xliff:g id="DATA_TYPE">%1$s</xliff:g> التي تمت إضافتها بواسطة \"<xliff:g id="APP_DATA">%2$s</xliff:g>\"؟"</string>
     <string name="confirming_question_single_entry" msgid="330919962071369305">"هل تريد حذف هذا الإدخال نهائيًا؟"</string>
-    <string name="confirming_question_message" msgid="2934249835529079545">"لن تتمكَّن التطبيقات المرتبطة بعد ذلك من الوصول إلى هذه البيانات من Health Connect."</string>
+    <string name="confirming_question_message" msgid="2934249835529079545">"لن تتمكَّن التطبيقات المرتبطة بعد ذلك من الوصول إلى هذه البيانات من Health Connect"</string>
     <string name="confirming_question_message_menstruation" msgid="5286956266565962430">"سيؤدي هذا الإجراء إلى حذف جميع إدخالات بيانات الحيض من <xliff:g id="START_DATE">%1$s</xliff:g> إلى <xliff:g id="END_DATE">%2$s</xliff:g>."</string>
     <string name="confirming_question_delete_button" msgid="1999996759507959985">"حذف"</string>
     <string name="confirming_question_go_back_button" msgid="9037523726124648221">"الرجوع"</string>
@@ -700,25 +700,25 @@
     <string name="temperature_unit_fahrenheit_label" msgid="6590261955872562854">"فهرنهايت"</string>
     <string name="temperature_unit_kelvin_label" msgid="3786210768294615821">"كلفن"</string>
     <string name="help_and_feedback" msgid="4772169905005369871">"المساعدة والملاحظات"</string>
-    <string name="cant_see_all_your_apps_description" msgid="7344859063463536472">"إذا لم يظهر لك تطبيق مثبَّت، قد يكون غير متوافق مع Health Connect حتى الآن."</string>
+    <string name="cant_see_all_your_apps_description" msgid="7344859063463536472">"إذا لم يظهر لك تطبيق مثبَّت، قد يكون غير متوافق مع Health Connect حتى الآن"</string>
     <string name="things_to_try" msgid="8200374691546152703">"إجراءات مُقترَحة"</string>
     <string name="check_for_updates" msgid="3841090978657783101">"البحث عن تحديثات"</string>
     <string name="check_for_updates_description" msgid="1347667778199095160">"التأكّد من أن التطبيقات المثبَّتة محدَّثة"</string>
     <string name="see_all_compatible_apps" msgid="6791146164535475726">"عرض جميع التطبيقات المتوافقة"</string>
     <string name="see_all_compatible_apps_description" msgid="2092325337403254491">"البحث عن تطبيقات وتنزيلها في Google Play"</string>
     <string name="send_feedback" msgid="7756927746070096780">"إرسال ملاحظات"</string>
-    <string name="send_feedback_description" msgid="2887207112856240778">"أخبِرنا بتطبيقات الصحة واللياقة البدنية التي تريدها أن تعمل مع Health Connect."</string>
+    <string name="send_feedback_description" msgid="2887207112856240778">"أخبِرنا بتطبيقات الصحة واللياقة البدنية التي تريدها أن تعمل مع Health Connect"</string>
     <string name="playstore_app_title" msgid="4138464328693481809">"متجر Play"</string>
     <string name="auto_delete_button" msgid="8536451792268513619">"الحذف التلقائي"</string>
     <string name="auto_delete_title" msgid="8761742828224207826">"الحذف التلقائي"</string>
     <string name="auto_delete_header" msgid="4258649705159293715">"يمكن التحكّم في مدة تخزين البيانات في تطبيق Health Connect من خلال جدولتها ليتم حذفها بعد فترة زمنية معيَنة."</string>
     <string name="auto_delete_learn_more" msgid="7416469042791307994">"مزيد من المعلومات عن الحذف التلقائي"</string>
     <string name="auto_delete_section" msgid="7732381000331475082">"الحذف التلقائي للبيانات"</string>
-    <string name="range_after_x_months" msgid="3340127072680117121">"{count,plural, =1{بعد شهر واحد}zero{بعد # شهر}two{بعد شهرَين}few{بعد # شهور}many{بعد # شهرًا}other{بعد # شهر}}"</string>
+    <string name="range_after_x_months" msgid="3340127072680117121">"{count,plural, =1{بعد شهر واحد}zero{بعد # شهر}two{بعد شهرَين}few{بعد # أشهر}many{بعد # شهرًا}other{بعد # شهر}}"</string>
     <string name="range_never" msgid="4429478261788361233">"أبدًا"</string>
     <string name="range_off" msgid="8178520557618184215">"الخيار غير مفعَّل"</string>
     <string name="auto_delete_rationale" msgid="5255442126521464878">"عند تغيير هذه الإعدادات، يحذف تطبيق Health Connect البيانات الحالية لإظهار الإعدادات المفضّلة الجديدة"</string>
-    <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{هل تريد حذف البيانات تلقائيًا بعد شهر واحد؟}zero{هل تريد حذف البيانات تلقائيًا بعد # شهر؟}two{هل تريد حذف البيانات تلقائيًا بعد # شهرَين؟}few{هل تريد حذف البيانات تلقائيًا بعد # شهور؟}many{هل تريد حذف البيانات تلقائيًا بعد # شهرًا؟}other{هل تريد حذف البيانات تلقائيًا بعد # شهر؟}}"</string>
+    <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{هل تريد حذف البيانات تلقائيًا بعد شهر واحد؟}zero{هل تريد حذف البيانات تلقائيًا بعد # شهر؟}two{هل تريد حذف البيانات تلقائيًا بعد # شهرَين؟}few{هل تريد حذف البيانات تلقائيًا بعد # أشهر؟}many{هل تريد حذف البيانات تلقائيًا بعد # شهرًا؟}other{هل تريد حذف البيانات تلقائيًا بعد # شهر؟}}"</string>
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{سيحذف تطبيق Health Connect البيانات الجديدة تلقائيًا بعد شهر واحد. سيؤدي ضبط هذه الميزة أيضًا إلى حذف البيانات الحالية الأقدم من شهر واحد.}zero{سيحذف تطبيق Health Connect البيانات الجديدة تلقائيًا بعد # شهر. سيؤدي ضبط هذه الميزة أيضًا إلى حذف البيانات الحالية الأقدم من # شهر.}two{سيحذف تطبيق Health Connect البيانات الجديدة تلقائيًا بعد شهرَين. سيؤدي ضبط هذه الميزة أيضًا إلى حذف البيانات الحالية الأقدم من شهرَين.}few{سيحذف تطبيق Health Connect البيانات الجديدة تلقائيًا بعد # أشهر. سيؤدي ضبط هذه الميزة أيضًا إلى حذف البيانات الحالية الأقدم من # أشهر.}many{سيحذف تطبيق Health Connect البيانات الجديدة تلقائيًا بعد # شهرًا. سيؤدي ضبط هذه الميزة أيضًا إلى حذف البيانات الحالية الأقدم من # شهرًا.}other{سيحذف تطبيق Health Connect البيانات الجديدة تلقائيًا بعد # شهر. سيؤدي ضبط هذه الميزة أيضًا إلى حذف البيانات الحالية الأقدم من # شهر.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"ضبط ميزة \"الحذف التلقائي\""</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"سيتم حذف البيانات الحالية"</string>
@@ -756,7 +756,7 @@
     <string name="request_route_dont_allow" msgid="1186236234664957228">"عدم السماح"</string>
     <string name="route_permissions_always_allow" msgid="1383816362804293137">"السماح دائمًا"</string>
     <string name="route_permissions_label" msgid="5201501195020295860">"مشاركة مسار التمرين الرياضي"</string>
-    <string name="route_permissions_summary" msgid="4670908225783213910">"يمكنك التحكُّم في كيفية وصول هذا التطبيق إلى مسارات التمارين الرياضية من التطبيقات المرتبطة."</string>
+    <string name="route_permissions_summary" msgid="4670908225783213910">"يمكنك التحكُّم في كيفية وصول هذا التطبيق إلى مسارات التمارين الرياضية من التطبيقات المرتبطة"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"السؤال في كل مرّة"</string>
     <string name="route_permissions_deny" msgid="4263802925221258853">"عدم السماح"</string>
     <string name="exercise_permission_dialog_enable_title" msgid="4310997044811843391">"هل تريد تفعيل كلا نوعَي البيانات؟"</string>

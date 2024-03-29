@@ -137,8 +137,8 @@
     <string name="wheelchair_pushes_lowercase_label" msgid="8919337990806379687">"ratiņkrēsla stūmieni"</string>
     <string name="wheelchair_pushes_read_content_description" msgid="157304610943976471">"Lasīt ratiņkrēsla stūmienu datus"</string>
     <string name="wheelchair_pushes_write_content_description" msgid="2745600707106818641">"Rakstīt ratiņkrēsla stūmienu datus"</string>
-    <string name="basal_metabolic_rate_uppercase_label" msgid="4802351493928086473">"Bazālās vielmaiņas intensitāte"</string>
-    <string name="basal_metabolic_rate_lowercase_label" msgid="7195596626083893231">"bazālās vielmaiņas intensitāte"</string>
+    <string name="basal_metabolic_rate_uppercase_label" msgid="4802351493928086473">"Vielmaiņas ātrums"</string>
+    <string name="basal_metabolic_rate_lowercase_label" msgid="7195596626083893231">"vielmaiņas ātrums"</string>
     <string name="basal_metabolic_rate_read_content_description" msgid="5583222212705234907">"Lasīt bazālās vielmaiņas intensitātes datus"</string>
     <string name="basal_metabolic_rate_write_content_description" msgid="4246137679868953443">"Rakstīt bazālās vielmaiņas intensitātes datus"</string>
     <string name="body_fat_uppercase_label" msgid="4618860235119416449">"Ķermeņa tauku masa"</string>
