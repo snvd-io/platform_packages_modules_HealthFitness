@@ -683,8 +683,8 @@
     <string name="units_cancel" msgid="5947097690625771995">"ਰੱਦ ਕਰੋ"</string>
     <string name="units_title" msgid="6504086463237869339">"ਇਕਾਈਆਂ"</string>
     <string name="distance_unit_title" msgid="4696952932438418209">"ਦੂਰੀ"</string>
-    <string name="height_unit_title" msgid="5461594609577078049">"ਕੱਦ ਸੰਬੰਧੀ ਡਾਟਾ"</string>
-    <string name="weight_unit_title" msgid="7405186541678939987">"ਭਾਰ ਸੰਬੰਧੀ ਡਾਟਾ"</string>
+    <string name="height_unit_title" msgid="5461594609577078049">"ਕੱਦ"</string>
+    <string name="weight_unit_title" msgid="7405186541678939987">"ਭਾਰ"</string>
     <string name="energy_unit_title" msgid="1714627395963766769">"ਊਰਜਾ"</string>
     <string name="temperature_unit_title" msgid="1973985121774654017">"ਤਾਪਮਾਨ"</string>
     <string name="distance_unit_kilometers_label" msgid="1361363017122240294">"ਕਿਲੋਮੀਟਰ"</string>

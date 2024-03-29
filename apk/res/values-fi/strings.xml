@@ -293,7 +293,7 @@
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Jos haluat muuttaa muita Android-lupia, jotka sovellukselle on myönnetty, valitse Asetukset ja sitten Sovellukset"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Lue tietosuojakäytäntö"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Käytetty 24 viime tunnin aikana"</string>
-    <string name="app_access_title" msgid="7137018424885371763">"Sovelluksen pääsyoikeudet"</string>
+    <string name="app_access_title" msgid="7137018424885371763">"Sovellusten pääsyoikeudet"</string>
     <string name="connected_apps_empty_list_section_title" msgid="6821215432694207342">"Sinulla ei ole tällä hetkellä asennettuna yhteensopivia sovelluksia"</string>
     <string name="additional_access_label" msgid="4645249249222528341">"Lisäluvat"</string>
     <string name="denied_apps_banner_title" msgid="1997745063608657965">"Poistetut sovellusluvat"</string>
@@ -331,7 +331,7 @@
     <string name="time_range_message_all" msgid="7280888587242744729">"Tämä poistaa kaiken valitulla ajanjaksolla Health Connectiin lisätyn datan pysyvästi"</string>
     <string name="time_range_message_data_type" msgid="1896125004829258195">"Tämä poistaa kaiken tällaisen Health Connectiin valitulla ajanjaksolla lisätyn datan: <xliff:g id="DATA_TYPE">%s</xliff:g>"</string>
     <string name="time_range_message_category" msgid="1136451418397326356">"Tämä poistaa kaiken tällaisen Health Connectiin valitulla ajanjaksolla lisätyn datan: <xliff:g id="CATEGORY">%s</xliff:g>"</string>
-    <string name="time_range_message_app_data" msgid="2590800457710603556">"Tämä poistaa kaiken tällaisen Health Connectiin valitulla ajanjaksolla lisätyn datan: <xliff:g id="APP_DATA">%s</xliff:g>"</string>
+    <string name="time_range_message_app_data" msgid="2590800457710603556">"Tämä poistaa kaiken Health Connectiin valitulla ajanjaksolla lisätyn <xliff:g id="APP_DATA">%s</xliff:g> -datan"</string>
     <string name="time_range_one_day" msgid="7162709826595446727">"Poista 24 viime tuntia"</string>
     <string name="time_range_one_week" msgid="8754523384275645434">"Poista seitsemän viime päivää"</string>
     <string name="time_range_one_month" msgid="3034747870231999766">"Poista 30 viime päivää"</string>
@@ -348,10 +348,10 @@
     <string name="confirming_question_category_one_day" msgid="4886776948515472679">"Poistetaanko tällainen data 24 viime tunnin ajalta pysyvästi: <xliff:g id="CATEGORY">%s</xliff:g>?"</string>
     <string name="confirming_question_category_one_week" msgid="1790565625674277693">"Poistetaanko tällainen data seitsemän viime päivän ajalta pysyvästi: <xliff:g id="CATEGORY">%s</xliff:g>?"</string>
     <string name="confirming_question_category_one_month" msgid="9181788460112796273">"Poistetaanko tällainen data 30 viime päivän ajalta pysyvästi: <xliff:g id="CATEGORY">%s</xliff:g>?"</string>
-    <string name="confirming_question_app_data_all" msgid="4818571921949673097">"Poistetaanko tällainen data kaikilta ajanjaksoilta pysyvästi: <xliff:g id="APP_DATA">%s</xliff:g>?"</string>
-    <string name="confirming_question_app_data_one_day" msgid="444028969015975031">"Poistetaanko tällainen data 24 viime tunnin ajalta pysyvästi: <xliff:g id="APP_DATA">%s</xliff:g>?"</string>
-    <string name="confirming_question_app_data_one_week" msgid="2096555081811730496">"Poistetaanko tällainen data seitsemän viime päivän ajalta pysyvästi: <xliff:g id="APP_DATA">%s</xliff:g>?"</string>
-    <string name="confirming_question_app_data_one_month" msgid="6438241250825892892">"Poistetaanko tällainen data 30 viime päivän ajalta pysyvästi: <xliff:g id="APP_DATA">%s</xliff:g>?"</string>
+    <string name="confirming_question_app_data_all" msgid="4818571921949673097">"Poistetaanko <xliff:g id="APP_DATA">%s</xliff:g> -data kaikilta ajanjaksoilta pysyvästi?"</string>
+    <string name="confirming_question_app_data_one_day" msgid="444028969015975031">"Poistetaanko <xliff:g id="APP_DATA">%s</xliff:g> -data 24 viime tunnin ajalta pysyvästi?"</string>
+    <string name="confirming_question_app_data_one_week" msgid="2096555081811730496">"Poistetaanko <xliff:g id="APP_DATA">%s</xliff:g> -data seitsemän viime päivän ajalta pysyvästi?"</string>
+    <string name="confirming_question_app_data_one_month" msgid="6438241250825892892">"Poistetaanko <xliff:g id="APP_DATA">%s</xliff:g> -data 30 viime päivän ajalta pysyvästi?"</string>
     <string name="confirming_question_app_remove_all_permissions" msgid="4170343072352701421">"Poista myös kaikki <xliff:g id="APP_WITH_PERMISSIONS">%s</xliff:g>-luvat Health Connectista"</string>
     <string name="confirming_question_data_type_from_app_all" msgid="8361163993548510509">"Poistetaanko pysyvästi kaikki data (<xliff:g id="DATA_TYPE">%1$s</xliff:g>), jota <xliff:g id="APP_DATA">%2$s</xliff:g> on lisännyt?"</string>
     <string name="confirming_question_single_entry" msgid="330919962071369305">"Poistetaanko tämä pysyvästi?"</string>

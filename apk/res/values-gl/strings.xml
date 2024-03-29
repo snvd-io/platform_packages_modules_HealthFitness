@@ -694,7 +694,7 @@
     <string name="weight_unit_pound_label" msgid="8210663393844989211">"Libras"</string>
     <string name="weight_unit_kilogram_label" msgid="6623938920860887238">"Quilogramos"</string>
     <string name="weight_unit_stone_label" msgid="3063787243474847180">"Stones"</string>
-    <string name="energy_unit_calorie_label" msgid="3412965811470957296">"Quilocalorías"</string>
+    <string name="energy_unit_calorie_label" msgid="3412965811470957296">"Calorías"</string>
     <string name="energy_unit_kilojoule_label" msgid="6481196724083455110">"Quilojoules"</string>
     <string name="temperature_unit_celsius_label" msgid="4698347100553808449">"Celsius"</string>
     <string name="temperature_unit_fahrenheit_label" msgid="6590261955872562854">"Fahrenheit"</string>

@@ -30,7 +30,7 @@
     <string name="connected_apps_button_subtitle" msgid="8855528937028500370">"<xliff:g id="NUM_POSSIBLE_APPS">%2$s</xliff:g> ಆ್ಯಪ್‌ಗಳಲ್ಲಿ <xliff:g id="NUM_APPS_CONNECTED">%1$s</xliff:g> ಆ್ಯಪ್‌ಗಳು ಆ್ಯಕ್ಸೆಸ್ ಹೊಂದಿವೆ"</string>
     <string name="connected_apps_all_apps_connected_subtitle" msgid="3432698291862059492">"<xliff:g id="NUM_APPS_CONNECTED">%1$s</xliff:g> ಆ್ಯಪ್‌ಗಳು ಆ್ಯಕ್ಸೆಸ್ ಹೊಂದಿವೆ"</string>
     <string name="connected_apps_one_app_connected_subtitle" msgid="9095815882509754340">"<xliff:g id="NUM_APPS_CONNECTED">%1$s</xliff:g> ಆ್ಯಪ್ ಆ್ಯಕ್ಸೆಸ್ ಹೊಂದಿದೆ"</string>
-    <string name="connected_apps_button_no_permissions_subtitle" msgid="1651994862419752908">"ಯಾವುದೂ ಅಲ್ಲ"</string>
+    <string name="connected_apps_button_no_permissions_subtitle" msgid="1651994862419752908">"ಯಾವುದೂ ಇಲ್ಲ"</string>
     <string name="entry_details_title" msgid="590184849040247850">"ಪ್ರವೇಶದ ವಿವರಗಳು"</string>
     <string name="backup_title" msgid="211503191266235085">"ಬ್ಯಾಕಪ್"</string>
     <string name="data_sources_and_priority_title" msgid="2360222350913604558">"ಡೇಟಾ ಮೂಲಗಳು ಮತ್ತು ಆದ್ಯತೆ"</string>
@@ -690,7 +690,7 @@
     <string name="distance_unit_kilometers_label" msgid="1361363017122240294">"ಕಿಲೋಮೀಟರ್‌ಗಳು"</string>
     <string name="distance_unit_miles_label" msgid="848850214987608211">"ಮೈಲಿಗಳು"</string>
     <string name="height_unit_centimeters_label" msgid="4096031670561995574">"ಸೆಂಟಿಮೀಟರ್‌ಗಳು"</string>
-    <string name="height_unit_feet_label" msgid="3311723678628261399">"ಅಡಿ ಮತ್ತು ಇಂಚು"</string>
+    <string name="height_unit_feet_label" msgid="3311723678628261399">"ಅಡಿಗಳು ಮತ್ತು ಇಂಚುಗಳು"</string>
     <string name="weight_unit_pound_label" msgid="8210663393844989211">"ಪೌಂಡ್‌ಗಳು"</string>
     <string name="weight_unit_kilogram_label" msgid="6623938920860887238">"ಕಿಲೋಗ್ರಾಂಗಳು"</string>
     <string name="weight_unit_stone_label" msgid="3063787243474847180">"ಸ್ಟೋನ್‌ಗಳು"</string>
@@ -701,25 +701,25 @@
     <string name="temperature_unit_kelvin_label" msgid="3786210768294615821">"ಕೆಲ್ವಿನ್"</string>
     <string name="help_and_feedback" msgid="4772169905005369871">"ಸಹಾಯ ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆ"</string>
     <string name="cant_see_all_your_apps_description" msgid="7344859063463536472">"ನಿಮಗೆ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲಾದ ಆ್ಯಪ್ ಕಾಣಿಸದಿದ್ದರೆ, ಅದು Health Connect ನೊಂದಿಗೆ ಇನ್ನೂ ಹೊಂದಾಣಿಕೆಯಾಗದಿರಬಹುದು"</string>
-    <string name="things_to_try" msgid="8200374691546152703">"ಮಾಡಬೇಕಾದ ಸಂಗತಿಗಳು"</string>
+    <string name="things_to_try" msgid="8200374691546152703">"ಪ್ರಯತ್ನಿಸಬಹುದಾದ ಸಂಗತಿಗಳು"</string>
     <string name="check_for_updates" msgid="3841090978657783101">"ಅಪ್‌ಡೇಟ್‌ಗಳಿಗಾಗಿ ಪರಿಶೀಲಿಸಿ"</string>
-    <string name="check_for_updates_description" msgid="1347667778199095160">"ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿದ ಆ್ಯಪ್‌ಗಳು ಅಪ್ ಟು ಡೇಟ್ ಆಗಿವೆಯೇ ಎಂಬುದನ್ನು ಪರಿಶೀಲಿಸುವುದು"</string>
+    <string name="check_for_updates_description" msgid="1347667778199095160">"ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿದ ಆ್ಯಪ್‌ಗಳು ಅಪ್ ಟು ಡೇಟ್ ಆಗಿವೆಯೇ ಎಂಬುದನ್ನು ಪರಿಶೀಲಿಸಿ"</string>
     <string name="see_all_compatible_apps" msgid="6791146164535475726">"ಹೊಂದಾಣಿಕೆಯಾಗುವ ಎಲ್ಲಾ ಆ್ಯಪ್‌ಗಳನ್ನು ನೋಡಿ"</string>
     <string name="see_all_compatible_apps_description" msgid="2092325337403254491">"Google Play ನಲ್ಲಿ ಆ್ಯಪ್‌ಗಳನ್ನು ಹುಡುಕಿ"</string>
-    <string name="send_feedback" msgid="7756927746070096780">"ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಿ"</string>
-    <string name="send_feedback_description" msgid="2887207112856240778">"ಯಾವ ಆರೋಗ್ಯ &amp; ಮತ್ತು ಫಿಟ್‌ನೆಸ್ ಆ್ಯಪ್‌ಗಳು Health Connect ಜೊತೆಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸಬೇಕು ಎಂದು ನೀವು ಬಯಸುತ್ತೀರಿ ಎಂಬುದನ್ನು ನಮಗೆ ತಿಳಿಸಿ"</string>
+    <string name="send_feedback" msgid="7756927746070096780">"ಫೀಡ್‌ಬ್ಯಾಕ್ ಕಳುಹಿಸಿ"</string>
+    <string name="send_feedback_description" msgid="2887207112856240778">"Health Connect ನೊಂದಿಗೆ ಯಾವ ಆರೋಗ್ಯ ಮತ್ತು ಫಿಟ್‌ನೆಸ್ ಆ್ಯಪ್‌ಗಳು ಕಾರ್ಯನಿರ್ವಹಿಸಬೇಕೆಂದು ನೀವು ಬಯಸುತ್ತೀರಿ ಎಂಬುದನ್ನು ನಮಗೆ ತಿಳಿಸಿ"</string>
     <string name="playstore_app_title" msgid="4138464328693481809">"‌Play Store"</string>
     <string name="auto_delete_button" msgid="8536451792268513619">"ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸಿ"</string>
     <string name="auto_delete_title" msgid="8761742828224207826">"ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸಿ"</string>
-    <string name="auto_delete_header" msgid="4258649705159293715">"ನಿಗದಿತ ಸಮಯದ ನಂತರ ಡೇಟಾವನ್ನು ಅಳಿಸುವುದಕ್ಕೆ ನಿಗದಿಪಡಿಸುವ ಮೂಲಕ Health Connect ನಲ್ಲಿ ನಿಮ್ಮ ಡೇಟಾ ಎಷ್ಟು ಸಮಯದವರೆಗೆ ಸಂಗ್ರಹಿಸಿಡಬೇಕು ಎಂಬುದನ್ನು ನಿಯಂತ್ರಿಸಿ"</string>
-    <string name="auto_delete_learn_more" msgid="7416469042791307994">"ಸ್ವಯಂ-ಅಳಿಸುವಿಕೆ ಕುರಿತು ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"</string>
+    <string name="auto_delete_header" msgid="4258649705159293715">"ನಿರ್ದಿಷ್ಟ ಸಮಯದ ನಂತರ ಡೇಟಾವನ್ನು ಅಳಿಸಲು ನಿಗದಿಪಡಿಸುವ ಮೂಲಕ Health Connect ನಲ್ಲಿ ನಿಮ್ಮ ಡೇಟಾವನ್ನು ಎಷ್ಟು ಸಮಯದವರೆಗೆ ಸಂಗ್ರಹಿಸಿಡಲಾಗುತ್ತದೆ ಎಂಬುದನ್ನು ನಿಯಂತ್ರಿಸಿ"</string>
+    <string name="auto_delete_learn_more" msgid="7416469042791307994">"ಸ್ವಯಂಚಾಲಿತ ಅಳಿಸುವಿಕೆ ಕುರಿತು ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"</string>
     <string name="auto_delete_section" msgid="7732381000331475082">"ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸಿ"</string>
     <string name="range_after_x_months" msgid="3340127072680117121">"{count,plural, =1{# ತಿಂಗಳ ನಂತರ}one{# ತಿಂಗಳುಗಳ ನಂತರ}other{# ತಿಂಗಳುಗಳ ನಂತರ}}"</string>
     <string name="range_never" msgid="4429478261788361233">"ಎಂದಿಗೂ ಬೇಡ"</string>
     <string name="range_off" msgid="8178520557618184215">"ಆಫ್"</string>
     <string name="auto_delete_rationale" msgid="5255442126521464878">"ನೀವು ಈ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಬದಲಾಯಿಸಿದಾಗ, ನಿಮ್ಮ ಹೊಸ ಆದ್ಯತೆಗಳನ್ನು ಅನ್ವಯಿಸುವುದಕ್ಕಾಗಿ Health Connect ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಡೇಟಾವನ್ನು ಅಳಿಸುತ್ತದೆ"</string>
     <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{# ತಿಂಗಳ ನಂತರ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸಬೇಕೆ?}one{# ತಿಂಗಳುಗಳ ನಂತರ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸಬೇಕೆ?}other{# ತಿಂಗಳುಗಳ ನಂತರ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸಬೇಕೆ?}}"</string>
-    <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{# ತಿಂಗಳ ನಂತರ Health Connect ಹೊಸ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸುತ್ತದೆ. ಇದನ್ನು ಸೆಟ್ ಮಾಡುವುದರಿಂದ # ತಿಂಗಳಿಗಿಂತ ಹಳೆಯದಾದ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಡೇಟಾವನ್ನು ಸಹ ಅಳಿಸುತ್ತದೆ.}one{# ತಿಂಗಳುಗಳ ನಂತರ Health Connect ಹೊಸ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸುತ್ತದೆ. ಇದನ್ನು ಸೆಟ್ ಮಾಡುವುದರಿಂದ # ತಿಂಗಳುಗಳಿಗಿಂತ ಹಳೆಯದಾದ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಡೇಟಾವನ್ನು ಸಹ ಅಳಿಸುತ್ತದೆ.}other{# ತಿಂಗಳುಗಳ ನಂತರ Health Connect ಹೊಸ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸುತ್ತದೆ. ಇದನ್ನು ಸೆಟ್ ಮಾಡುವುದರಿಂದ # ತಿಂಗಳುಗಳಿಗಿಂತ ಹಳೆಯದಾದ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಡೇಟಾವನ್ನು ಸಹ ಅಳಿಸುತ್ತದೆ.}}"</string>
+    <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{# ತಿಂಗಳ ನಂತರ Health Connect ಹೊಸ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸುತ್ತದೆ. ಇದನ್ನು ಸೆಟ್ ಮಾಡುವುದರಿಂದ # ತಿಂಗಳಿಗಿಂತ ಹಳೆಯದಾದ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಡೇಟಾವನ್ನು ಸಹ ಅಳಿಸಲಾಗುತ್ತದೆ.}one{# ತಿಂಗಳುಗಳ ನಂತರ Health Connect ಹೊಸ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸುತ್ತದೆ. ಇದನ್ನು ಸೆಟ್ ಮಾಡುವುದರಿಂದ # ತಿಂಗಳುಗಳಿಗಿಂತ ಹಳೆಯದಾದ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಡೇಟಾವನ್ನು ಸಹ ಅಳಿಸಲಾಗುತ್ತದೆ.}other{# ತಿಂಗಳುಗಳ ನಂತರ Health Connect ಹೊಸ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸುತ್ತದೆ. ಇದನ್ನು ಸೆಟ್ ಮಾಡುವುದರಿಂದ # ತಿಂಗಳುಗಳಿಗಿಂತ ಹಳೆಯದಾದ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಡೇಟಾವನ್ನು ಸಹ ಅಳಿಸಲಾಗುತ್ತದೆ.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"ಸ್ವಯಂಚಾಲಿತ ಅಳಿಸುವಿಕೆಯನ್ನು ಸೆಟ್ ಮಾಡಿ"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ"</string>
     <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{# ತಿಂಗಳುಗಳಿಗಿಂತ ಹಳೆಯದಾದ ಎಲ್ಲಾ ಡೇಟಾವನ್ನು Health Connect ಅಳಿಸುತ್ತದೆ. ಈ ಬದಲಾವಣೆಗಳು ಕನೆಕ್ಟ್ ಮಾಡಲಾದ ನಿಮ್ಮ ಆ್ಯಪ್‌ಗಳಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳಲು ಒಂದು ದಿನ ಬೇಕಾಗಬಹುದು.}one{# ತಿಂಗಳುಗಳಿಗಿಂತ ಹಳೆಯದಾದ ಎಲ್ಲಾ ಡೇಟಾವನ್ನು Health Connect ಅಳಿಸುತ್ತದೆ. ಈ ಬದಲಾವಣೆಗಳು ಕನೆಕ್ಟ್ ಮಾಡಲಾದ ನಿಮ್ಮ ಆ್ಯಪ್‌ಗಳಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳಲು ಒಂದು ದಿನ ಬೇಕಾಗಬಹುದು.}other{# ತಿಂಗಳುಗಳಿಗಿಂತ ಹಳೆಯದಾದ ಎಲ್ಲಾ ಡೇಟಾವನ್ನು Health Connect ಅಳಿಸುತ್ತದೆ. ಈ ಬದಲಾವಣೆಗಳು ಕನೆಕ್ಟ್ ಮಾಡಲಾದ ನಿಮ್ಮ ಆ್ಯಪ್‌ಗಳಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳಲು ಒಂದು ದಿನ ಬೇಕಾಗಬಹುದು.}}"</string>
