@@ -293,7 +293,7 @@
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Kui soovite hallata muid Androidi lube, mis sellele rakendusele antud on, avage Seaded ja seejärel puudutage valikut Rakendused"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Lugege privaatsuseeskirju"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Pääseti juurde viimase 24 tunni jooksul"</string>
-    <string name="app_access_title" msgid="7137018424885371763">"Rakenduse juurdepääs"</string>
+    <string name="app_access_title" msgid="7137018424885371763">"Rakenduste juurdepääs"</string>
     <string name="connected_apps_empty_list_section_title" msgid="6821215432694207342">"Teil pole praegu ühtegi ühilduvat rakendust installitud"</string>
     <string name="additional_access_label" msgid="4645249249222528341">"Täiendav juurdepääs"</string>
     <string name="denied_apps_banner_title" msgid="1997745063608657965">"Rakendused, mille load eemaldati"</string>

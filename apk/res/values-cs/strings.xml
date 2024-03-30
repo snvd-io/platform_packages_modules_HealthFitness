@@ -36,7 +36,7 @@
     <string name="data_sources_and_priority_title" msgid="2360222350913604558">"Zdroje dat a priorita"</string>
     <string name="set_units_title" msgid="2657822539603758029">"Nastavit jednotky"</string>
     <string name="recent_access_header" msgid="7623497371790225888">"Nedávný přístup"</string>
-    <string name="no_recent_access" msgid="4724297929902441784">"Žádné aplikace ke službě Health Connect v poslední době nepřistupovaly"</string>
+    <string name="no_recent_access" msgid="4724297929902441784">"Přístup ke službě Health Connect neměly v poslední době žádné aplikace"</string>
     <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"Zobrazit veškerý nedávný přístup"</string>
     <string name="recent_access_screen_description" msgid="331101209889185402">"Zobrazte, které aplikace měly přístup k vašim datům za posledních 24 hodin"</string>
     <string name="today_header" msgid="1006837293203834373">"Dnes"</string>
@@ -756,7 +756,7 @@
     <string name="request_route_dont_allow" msgid="1186236234664957228">"Nepovolovat"</string>
     <string name="route_permissions_always_allow" msgid="1383816362804293137">"Vždy povolit"</string>
     <string name="route_permissions_label" msgid="5201501195020295860">"Sdílení tréninkových tras"</string>
-    <string name="route_permissions_summary" msgid="4670908225783213910">"Ovládejte, jak tato aplikace přistupuje k tréninkovým trasám z připojených aplikací"</string>
+    <string name="route_permissions_summary" msgid="4670908225783213910">"Určete, jak má tato aplikace přistupovat k tréninkovým trasám z připojených aplikací"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"Pokaždé se zeptat"</string>
     <string name="route_permissions_deny" msgid="4263802925221258853">"Nepovolovat"</string>
     <string name="exercise_permission_dialog_enable_title" msgid="4310997044811843391">"Povolit oba typy dat?"</string>

@@ -52,7 +52,7 @@
     <string name="body_measurements_category_lowercase" msgid="2259696274629666992">"शरीर की माप से जुड़ी जानकारी"</string>
     <string name="sleep_category_uppercase" msgid="3422452674899706786">"नींद"</string>
     <string name="sleep_category_lowercase" msgid="842609634386839011">"नींद से जुड़ी जानकारी"</string>
-    <string name="vitals_category_uppercase" msgid="8982333138032938623">"ज़रूरी जानकारी से जुड़ा डेटा"</string>
+    <string name="vitals_category_uppercase" msgid="8982333138032938623">"धड़कन, बीपी वगैरह का डेटा"</string>
     <string name="vitals_category_lowercase" msgid="4664457787866407963">"ज़रूरी जानकारी"</string>
     <string name="cycle_tracking_category_uppercase" msgid="4723200714782660489">"पीरियड साइकल का डेटा"</string>
     <string name="cycle_tracking_category_lowercase" msgid="5245446435975317209">"पीरियड साइकल का डेटा"</string>
@@ -113,11 +113,11 @@
     <string name="floors_climbed_lowercase_label" msgid="5326072443481377299">"कितने फ़्लोर चढ़े गए, इसका डेटा"</string>
     <string name="floors_climbed_read_content_description" msgid="4730764877684911752">"कितने फ़्लोर चढ़े गए, इसका डेटा पढ़ने की अनुमति दें"</string>
     <string name="floors_climbed_write_content_description" msgid="3480340610185615655">"कितने फ़्लोर चढ़े गए, इसका डेटा सेव करने की अनुमति दें"</string>
-    <string name="power_uppercase_label" msgid="8027219480901448660">"शारीरिक गतिविधि से बनी पावर"</string>
+    <string name="power_uppercase_label" msgid="8027219480901448660">"कसरत से बनी ताकत का डेटा"</string>
     <string name="power_lowercase_label" msgid="3893286148577044369">"शारीरिक गतिविधि से बनी पावर का डेटा"</string>
     <string name="power_read_content_description" msgid="6821797135406643841">"शारीरिक गतिविधि से बनी पावर का डेटा पढ़ने की अनुमति दें"</string>
     <string name="power_write_content_description" msgid="8091584558688087392">"शारीरिक गतिविधि से बनी पावर का डेटा सेव करने की अनुमति दें"</string>
-    <string name="speed_uppercase_label" msgid="3307049861007518587">"शारीरिक गतिविधि की स्पीड का डेटा"</string>
+    <string name="speed_uppercase_label" msgid="3307049861007518587">"स्पीड का डेटा"</string>
     <string name="speed_lowercase_label" msgid="3462529886150464647">"शारीरिक गतिविधि की स्पीड का डेटा"</string>
     <string name="speed_read_content_description" msgid="9097089387385110692">"शारीरिक गतिविधि की स्पीड का डेटा पढ़ने की अनुमति दें"</string>
     <string name="speed_write_content_description" msgid="5382921934987959251">"शारीरिक गतिविधि की स्पीड का डेटा सेव करने की अनुमति दें"</string>
@@ -130,7 +130,7 @@
     <string name="total_calories_burned_read_content_description" msgid="1569722345910293531">"खर्च हुई कुल कैलोरी का डेटा पढ़ने की अनुमति दें"</string>
     <string name="total_calories_burned_write_content_description" msgid="2727752180681851608">"खर्च हुई कुल कैलोरी का डेटा सेव करने की अनुमति दें"</string>
     <string name="vo2_max_uppercase_label" msgid="6614391499711390476">"शारीरिक गतिविधि के दौरान ली गई ज़्यादा से ज़्यादा ऑक्सीजन का डेटा"</string>
-    <string name="vo2_max_lowercase_label" msgid="824972630000900033">"शारीरिक गतिविधि के दौरान ली गई ज़्यादा से ज़्यादा ऑक्सीजन का डेटा"</string>
+    <string name="vo2_max_lowercase_label" msgid="824972630000900033">"कसरत के समय ली गई ज़्यादा से ज़्यादा ऑक्सीजन का डेटा"</string>
     <string name="vo2_max_read_content_description" msgid="8132626885797169882">"शारीरिक गतिविधि के दौरान ली गई ज़्यादा से ज़्यादा ऑक्सीजन का डेटा पढ़ने की अनुमति दें"</string>
     <string name="vo2_max_write_content_description" msgid="4783300275788728546">"शारीरिक गतिविधि के दौरान ली गई ज़्यादा से ज़्यादा ऑक्सीजन का डेटा सेव करने की अनुमति दें"</string>
     <string name="wheelchair_pushes_uppercase_label" msgid="5582991294340226965">"व्हीलचेयर ढकेलने से जुड़ा डेटा"</string>
@@ -326,12 +326,12 @@
     <string name="onboarding_go_back_button_text" msgid="5020083846511184625">"वापस जाएं"</string>
     <string name="onboarding_get_started_button_text" msgid="2348061971090731336">"शुरू करें"</string>
     <string name="delete_button_content_description" msgid="9125115327455379618">"डेटा मिटाएं"</string>
-    <string name="time_range_title" msgid="6831605283322600165">"डेटा मिटाने के लिए समयसीमा चुनें"</string>
+    <string name="time_range_title" msgid="6831605283322600165">"डेटा मिटाने के लिए समयावधि चुनें"</string>
     <string name="time_range_next_button" msgid="5849096934896557888">"आगे बढ़ें"</string>
     <string name="time_range_message_all" msgid="7280888587242744729">"ऐसा करने पर, चुनी गई समयावधि के दौरान Health Connect में सेव किया गया डेटा हमेशा के लिए मिट जाता है"</string>
     <string name="time_range_message_data_type" msgid="1896125004829258195">"ऐसा करने पर, चुनी गई समयावधि के दौरान Health Connect में <xliff:g id="DATA_TYPE">%s</xliff:g> का सेव किया गया डेटा हमेशा के लिए मिट जाता है"</string>
     <string name="time_range_message_category" msgid="1136451418397326356">"इससे, चुनी गई समयावधि के दौरान Health Connect में <xliff:g id="CATEGORY">%s</xliff:g> का सेव किया गया डेटा हमेशा के लिए मिट जाता है"</string>
-    <string name="time_range_message_app_data" msgid="2590800457710603556">"ऐसा करने पर, चुनी गई समयावधि के दौरान Health Connect में <xliff:g id="APP_DATA">%s</xliff:g> का सेव किया गया का डेटा हमेशा के लिए मिट जाता है"</string>
+    <string name="time_range_message_app_data" msgid="2590800457710603556">"ऐसा करने पर, चुनी गई समयावधि के दौरान Health Connect में <xliff:g id="APP_DATA">%s</xliff:g> का सेव किया गया डेटा हमेशा के लिए मिट जाएगा"</string>
     <string name="time_range_one_day" msgid="7162709826595446727">"पिछले 24 घंटे का डेटा मिटाएं"</string>
     <string name="time_range_one_week" msgid="8754523384275645434">"पिछले सात दिनों का डेटा मिटाएं"</string>
     <string name="time_range_one_month" msgid="3034747870231999766">"पिछले 30 दिनों का डेटा मिटाएं"</string>
@@ -355,7 +355,7 @@
     <string name="confirming_question_app_remove_all_permissions" msgid="4170343072352701421">"उन सभी अनुमतियों को भी हटाएं जो Health Connect ने <xliff:g id="APP_WITH_PERMISSIONS">%s</xliff:g> को दी थीं"</string>
     <string name="confirming_question_data_type_from_app_all" msgid="8361163993548510509">"क्या आपको <xliff:g id="APP_DATA">%2$s</xliff:g> से सेव किया गया, <xliff:g id="DATA_TYPE">%1$s</xliff:g> का सारा डेटा हमेशा के लिए मिटाना है?"</string>
     <string name="confirming_question_single_entry" msgid="330919962071369305">"क्या आपको यह डेटा हमेशा के लिए मिटाना है?"</string>
-    <string name="confirming_question_message" msgid="2934249835529079545">"इससे, डिवाइस से जुड़े ऐप्लिकेशन, Health Connect के इस डेटा को ऐक्सेस नहीं कर पाएंगे"</string>
+    <string name="confirming_question_message" msgid="2934249835529079545">"ऐसा करने पर, डिवाइस से जुड़े ऐप्लिकेशन, Health Connect के इस डेटा को ऐक्सेस नहीं कर पाएंगे"</string>
     <string name="confirming_question_message_menstruation" msgid="5286956266565962430">"यह <xliff:g id="START_DATE">%1$s</xliff:g> से <xliff:g id="END_DATE">%2$s</xliff:g> तक सबमिट किए गए माहवारी का डेटा मिटा देगा."</string>
     <string name="confirming_question_delete_button" msgid="1999996759507959985">"मिटाएं"</string>
     <string name="confirming_question_go_back_button" msgid="9037523726124648221">"वापस जाएं"</string>
@@ -718,9 +718,9 @@
     <string name="range_never" msgid="4429478261788361233">"कभी नहीं"</string>
     <string name="range_off" msgid="8178520557618184215">"बंद है"</string>
     <string name="auto_delete_rationale" msgid="5255442126521464878">"इन सेटिंग में बदलाव करने पर, Health Connect आपकी नई सेटिंग के हिसाब से डेटा दिखाने के लिए, मौजूदा डेटा को मिटा देता है"</string>
-    <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{क्या आपको # महीने के बाद, डेटा को ऑटोमैटिकली मिटाना है?}one{क्या आपको # महीने के बाद, डेटा को ऑटोमैटिकली मिटाना है?}other{क्या आपको # महीने के बाद, डेटा को ऑटोमैटिकली मिटाना है?}}"</string>
+    <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{क्या # महीने के बाद, डेटा अपने-आप मिट जाए?}one{क्या # महीने के बाद, डेटा अपने-आप मिट जाए?}other{क्या # महीनों के बाद, डेटा अपने-आप मिट जाए?}}"</string>
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Health Connect नए डेटा को # महीने के बाद ऑटोमैटिकली मिटा देगा. इसे सेट करने पर, # महीने से पुराना डेटा भी मिट जाएगा.}one{Health Connect नए डेटा को # महीने के बाद ऑटोमैटिकली मिटा देगा. इसे सेट करने पर, # महीने से पुराना डेटा भी मिट जाएगा.}other{Health Connect नए डेटा को # महीने के बाद ऑटोमैटिकली मिटा देगा. इसे सेट करने पर, # महीने से पुराना डेटा भी मिट जाएगा.}}"</string>
-    <string name="set_auto_delete_button" msgid="268450418318199197">"ऑटोमैटिकली मिटाने की सुविधा को सेट करें"</string>
+    <string name="set_auto_delete_button" msgid="268450418318199197">"अपने-आप मिटने की सुविधा को सेट करें"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"मौजूदा डेटा मिटा दिया जाएगा"</string>
     <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{Health Connect, # महीने से पहले का सारा डेटा मिटा देगा. इन बदलावों को, आपके कनेक्ट किए गए ऐप्लिकेशन में दिखने में एक दिन लग सकता है.}one{Health Connect, # महीने से पहले का सारा डेटा मिटा देगा. इन बदलावों को, आपके कनेक्ट किए गए ऐप्लिकेशन में दिखने में एक दिन लग सकता है.}other{Health Connect, # महीने से पहले का सारा डेटा मिटा देगा. इन बदलावों को, आपके कनेक्ट किए गए ऐप्लिकेशन में दिखने में एक दिन लग सकता है.}}"</string>
     <string name="deletion_started_category_list_section" msgid="3052940611815658991">"इन कैटगरी का डेटा मिटा दिया जाएगा"</string>
@@ -756,7 +756,7 @@
     <string name="request_route_dont_allow" msgid="1186236234664957228">"ऐक्सेस न दें"</string>
     <string name="route_permissions_always_allow" msgid="1383816362804293137">"हमेशा इस्तेमाल की अनुमति"</string>
     <string name="route_permissions_label" msgid="5201501195020295860">"कसरत का रूट शेयर करें"</string>
-    <string name="route_permissions_summary" msgid="4670908225783213910">"कंट्रोल करें कि यह ऐप्लिकेशन, जुड़े हुए ऐप्लिकेशन के कसरत के रूट को कैसे ऐक्सेस करता है"</string>
+    <string name="route_permissions_summary" msgid="4670908225783213910">"कंट्रोल करें कि यह ऐप्लिकेशन, जुड़े हुए दूसरे ऐप्लिकेशन में मौजूद कसरत के रूट को कैसे ऐक्सेस करे"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"हर बार पूछें"</string>
     <string name="route_permissions_deny" msgid="4263802925221258853">"अनुमति न दें"</string>
     <string name="exercise_permission_dialog_enable_title" msgid="4310997044811843391">"क्या आपको दोनों टाइप के डेटा को ऐक्सेस करने की अनुमति देनी करनी है?"</string>

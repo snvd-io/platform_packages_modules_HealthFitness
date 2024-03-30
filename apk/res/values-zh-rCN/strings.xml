@@ -262,14 +262,14 @@
     <string name="request_permissions_privacy_policy" msgid="228503452643555737">"隐私权政策"</string>
     <string name="permissions_disconnect_dialog_title" msgid="7355211540619034695">"要撤消所有权限吗？"</string>
     <string name="permissions_disconnect_dialog_disconnect" msgid="8854787587948224752">"全部移除"</string>
-    <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"“<xliff:g id="APP_NAME">%1$s</xliff:g>”将无法继续在健康数据共享中读取或写入任何数据。\n\n这不会影响此应用可能拥有的其他权限，例如位置信息、摄像头或麦克风权限。"</string>
-    <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"同时删除健康数据共享中的“<xliff:g id="APP_NAME">%1$s</xliff:g>”数据"</string>
+    <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"“<xliff:g id="APP_NAME">%1$s</xliff:g>”将无法继续在“健康数据共享”中读取或写入任何数据。\n\n这不会影响此应用可能拥有的其他权限，例如位置信息、摄像头或麦克风权限。"</string>
+    <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"同时删除“健康数据共享”中的“<xliff:g id="APP_NAME">%1$s</xliff:g>”数据"</string>
     <string name="navigation_next_day" msgid="8853443471183944219">"后一天"</string>
     <string name="navigation_selected_day" msgid="2510843479734091348">"选定的日期"</string>
     <string name="navigation_previous_day" msgid="718353386484938584">"前一天"</string>
     <string name="default_error" msgid="7966868260616403475">"出了点问题。请重试。"</string>
     <string name="health_permission_header_description" msgid="7497601695462373927">"具有此权限的应用可以读写您的健康与健身数据。"</string>
-    <string name="connected_apps_text" msgid="1177626440966855831">"控制哪些应用可以访问存储在健康数据共享中的数据。点按应用即可查看其可以读取或写入的数据。"</string>
+    <string name="connected_apps_text" msgid="1177626440966855831">"控制哪些应用可以访问存储在“健康数据共享”中的数据。点按应用即可查看其可以读取或写入的数据。"</string>
     <string name="connected_apps_section_title" msgid="2415288099612126258">"允许访问"</string>
     <string name="not_connected_apps_section_title" msgid="452718769894103039">"不允许访问"</string>
     <string name="needs_updating_apps_section_title" msgid="8561510523049921199">"需要更新"</string>
@@ -280,7 +280,7 @@
     <string name="no_apps_allowed" msgid="5794833581324128108">"未允许任何应用"</string>
     <string name="no_apps_denied" msgid="743327680286446017">"未拒绝任何应用"</string>
     <string name="permissions_disconnect_all_dialog_title" msgid="27474286046207122">"要撤销所有应用的访问权限吗？"</string>
-    <string name="permissions_disconnect_all_dialog_message" msgid="3151109627457270499">"您的应用都将无法访问健康数据共享中的数据，也不能向其中添加新数据。这不会删除任何现有数据。\n\n也不会影响此应用可能拥有的其他权限，例如位置信息、相机或麦克风权限。"</string>
+    <string name="permissions_disconnect_all_dialog_message" msgid="3151109627457270499">"您的应用都将无法访问“健康数据共享”中的数据，也不能向其中添加新数据。这不会删除任何现有数据。\n\n也不会影响此应用可能拥有的其他权限，例如位置信息、相机或麦克风权限。"</string>
     <string name="permissions_disconnect_all_dialog_disconnect" msgid="2134136493310257746">"全部移除"</string>
     <string name="manage_permissions_manage_app_header" msgid="6356348062088358761">"管理应用"</string>
     <string name="see_app_data" msgid="3951030076195119476">"查看应用数据"</string>
@@ -331,7 +331,7 @@
     <string name="time_range_message_all" msgid="7280888587242744729">"这会永久删除在所选时间段内添加到健康数据共享的所有数据"</string>
     <string name="time_range_message_data_type" msgid="1896125004829258195">"这会永久删除在所选时间段内添加到健康数据共享的<xliff:g id="DATA_TYPE">%s</xliff:g>数据"</string>
     <string name="time_range_message_category" msgid="1136451418397326356">"这会永久删除在所选时间段内添加到健康数据共享的<xliff:g id="CATEGORY">%s</xliff:g>数据"</string>
-    <string name="time_range_message_app_data" msgid="2590800457710603556">"这会永久删除在所选时间段内添加到健康数据共享的<xliff:g id="APP_DATA">%s</xliff:g>数据"</string>
+    <string name="time_range_message_app_data" msgid="2590800457710603556">"这会永久删除在所选时间段内添加到“健康数据共享”的“<xliff:g id="APP_DATA">%s</xliff:g>”数据"</string>
     <string name="time_range_one_day" msgid="7162709826595446727">"删除过去 24 小时的数据"</string>
     <string name="time_range_one_week" msgid="8754523384275645434">"删除过去 7 天的数据"</string>
     <string name="time_range_one_month" msgid="3034747870231999766">"删除过去 30 天的数据"</string>
@@ -348,14 +348,14 @@
     <string name="confirming_question_category_one_day" msgid="4886776948515472679">"要永久删除过去 24 小时的<xliff:g id="CATEGORY">%s</xliff:g>数据吗？"</string>
     <string name="confirming_question_category_one_week" msgid="1790565625674277693">"要永久删除过去 7 天的<xliff:g id="CATEGORY">%s</xliff:g>数据吗？"</string>
     <string name="confirming_question_category_one_month" msgid="9181788460112796273">"要永久删除过去 30 天的<xliff:g id="CATEGORY">%s</xliff:g>数据吗？"</string>
-    <string name="confirming_question_app_data_all" msgid="4818571921949673097">"要永久删除所有时间段的<xliff:g id="APP_DATA">%s</xliff:g>数据吗？"</string>
-    <string name="confirming_question_app_data_one_day" msgid="444028969015975031">"要永久删除过去 24 小时的<xliff:g id="APP_DATA">%s</xliff:g>数据吗？"</string>
-    <string name="confirming_question_app_data_one_week" msgid="2096555081811730496">"要永久删除过去 7 天的<xliff:g id="APP_DATA">%s</xliff:g>数据吗？"</string>
-    <string name="confirming_question_app_data_one_month" msgid="6438241250825892892">"要永久删除过去 30 天的<xliff:g id="APP_DATA">%s</xliff:g>数据吗？"</string>
-    <string name="confirming_question_app_remove_all_permissions" msgid="4170343072352701421">"同时从健康数据共享中移除全部<xliff:g id="APP_WITH_PERMISSIONS">%s</xliff:g>权限"</string>
+    <string name="confirming_question_app_data_all" msgid="4818571921949673097">"要永久删除所有时间段的“<xliff:g id="APP_DATA">%s</xliff:g>”数据吗？"</string>
+    <string name="confirming_question_app_data_one_day" msgid="444028969015975031">"要永久删除过去 24 小时的“<xliff:g id="APP_DATA">%s</xliff:g>”数据吗？"</string>
+    <string name="confirming_question_app_data_one_week" msgid="2096555081811730496">"要永久删除过去 7 天的“<xliff:g id="APP_DATA">%s</xliff:g>”数据吗？"</string>
+    <string name="confirming_question_app_data_one_month" msgid="6438241250825892892">"要永久删除过去 30 天的“<xliff:g id="APP_DATA">%s</xliff:g>”数据吗？"</string>
+    <string name="confirming_question_app_remove_all_permissions" msgid="4170343072352701421">"同时从“健康数据共享”中移除全部“<xliff:g id="APP_WITH_PERMISSIONS">%s</xliff:g>”权限"</string>
     <string name="confirming_question_data_type_from_app_all" msgid="8361163993548510509">"要永久删除<xliff:g id="APP_DATA">%2$s</xliff:g>添加的所有<xliff:g id="DATA_TYPE">%1$s</xliff:g>数据吗？"</string>
     <string name="confirming_question_single_entry" msgid="330919962071369305">"要永久删除这条数据吗？"</string>
-    <string name="confirming_question_message" msgid="2934249835529079545">"关联的应用将不再能够从健康数据共享中访问这些数据"</string>
+    <string name="confirming_question_message" msgid="2934249835529079545">"关联的应用将不再能够从“健康数据共享”中访问这些数据"</string>
     <string name="confirming_question_message_menstruation" msgid="5286956266565962430">"这将删除从 <xliff:g id="START_DATE">%1$s</xliff:g>至 <xliff:g id="END_DATE">%2$s</xliff:g>的所有经期记录。"</string>
     <string name="confirming_question_delete_button" msgid="1999996759507959985">"删除"</string>
     <string name="confirming_question_go_back_button" msgid="9037523726124648221">"返回"</string>
@@ -700,7 +700,7 @@
     <string name="temperature_unit_fahrenheit_label" msgid="6590261955872562854">"华氏度"</string>
     <string name="temperature_unit_kelvin_label" msgid="3786210768294615821">"开尔文"</string>
     <string name="help_and_feedback" msgid="4772169905005369871">"帮助和反馈"</string>
-    <string name="cant_see_all_your_apps_description" msgid="7344859063463536472">"如果您看不到某个已安装的应用，可能是因为该应用与健康数据共享尚不兼容"</string>
+    <string name="cant_see_all_your_apps_description" msgid="7344859063463536472">"如果您看不到某个已安装的应用，可能是因为该应用与“健康数据共享”尚不兼容"</string>
     <string name="things_to_try" msgid="8200374691546152703">"可以尝试的操作"</string>
     <string name="check_for_updates" msgid="3841090978657783101">"检查是否有更新"</string>
     <string name="check_for_updates_description" msgid="1347667778199095160">"确保安装的应用是最新版本"</string>
