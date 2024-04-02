@@ -262,7 +262,7 @@
     <string name="request_permissions_privacy_policy" msgid="228503452643555737">"પ્રાઇવસી પૉલિસી"</string>
     <string name="permissions_disconnect_dialog_title" msgid="7355211540619034695">"શું બધી પરવાનગીઓ કાઢી નાખીએ?"</string>
     <string name="permissions_disconnect_dialog_disconnect" msgid="8854787587948224752">"તમામ કાઢી નાખો"</string>
-    <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"હવેથી <xliff:g id="APP_NAME">%1$s</xliff:g> Health Connectમાંથી કોઈપણ ડેટા વાંચી કે લખી શકશે નહીં.\n\nઆનાથી ઍપ ધરાવતી હોઈ શકે એવી, જેમ કે સ્થાન, કૅમેરા કે માઇક્રોફોન જેવી અન્ય પરવાનગીઓ પર કોઈ અસર પડશે નહીં."</string>
+    <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"હવેથી <xliff:g id="APP_NAME">%1$s</xliff:g> Health Connectમાંથી કોઈપણ ડેટા વાંચી કે લખી શકશે નહીં.\n\nઆનાથી ઍપ ધરાવતી હોઈ શકે એવી, જેમ કે લોકેશન, કૅમેરા કે માઇક્રોફોન જેવી અન્ય પરવાનગીઓ પર કોઈ અસર પડશે નહીં."</string>
     <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"Health Connectમાંથી <xliff:g id="APP_NAME">%1$s</xliff:g>નો ડેટા પણ ડિલીટ કરો"</string>
     <string name="navigation_next_day" msgid="8853443471183944219">"આગલો દિવસ"</string>
     <string name="navigation_selected_day" msgid="2510843479734091348">"પસંદ કરેલો દિવસ"</string>
