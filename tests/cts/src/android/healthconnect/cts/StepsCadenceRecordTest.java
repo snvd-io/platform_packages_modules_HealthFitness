@@ -484,7 +484,9 @@ public class StepsCadenceRecordTest {
 
     private void testReadStepsCadenceRecordIds() throws InterruptedException {
         List<Record> recordList =
-                Arrays.asList(getCompleteStepsCadenceRecord(), getCompleteStepsCadenceRecord());
+                TestUtils.insertRecords(
+                        Arrays.asList(
+                                getCompleteStepsCadenceRecord(), getCompleteStepsCadenceRecord()));
         readStepsCadenceRecordUsingIds(recordList);
     }
 
@@ -500,9 +502,8 @@ public class StepsCadenceRecordTest {
         assertThat(result).containsExactlyElementsIn(insertedRecord);
     }
 
-    private void readStepsCadenceRecordUsingIds(List<Record> recordList)
+    private void readStepsCadenceRecordUsingIds(List<Record> insertedRecords)
             throws InterruptedException {
-        List<Record> insertedRecords = TestUtils.insertRecords(recordList);
         ReadRecordsRequestUsingIds.Builder<StepsCadenceRecord> request =
                 new ReadRecordsRequestUsingIds.Builder<>(StepsCadenceRecord.class);
         for (Record record : insertedRecords) {
