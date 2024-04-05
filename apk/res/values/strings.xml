@@ -1070,8 +1070,8 @@
     <string name="request_route_allow_all" description="Label for button in the route request dialog to allow an app access all exercise routes from now on [CHAR_LIMIT=30]">Allow all routes</string>
     <string name="request_route_dont_allow" description="Label for button in the route request dialog to deny an app access to the requested route [CHAR_LIMIT=20]">Don\'t allow</string>
     <string name="route_permissions_always_allow" description="Label for button in the route read request dialog to allow an app access all exercise routes from now on.">Always allow</string>
-    <string name="route_permissions_label" description="Summary of the section explaining in more details what it means to give read exercise route permission access to an app.">Exercise route sharing</string>
-    <string name="route_permissions_summary" description="Summary of the section explaining in more details what it means to give read exercise route permission access to an app.">Control how this app accesses exercise routes from connected apps</string>
+    <string name="route_permissions_label" description="Summary of the section explaining in more details what it means to give read exercise route permission access to an app.">Access exercise routes</string>
+    <string name="route_permissions_summary" description="Summary of the section explaining in more details what it means to give read exercise route permission access to an app.">Allow <xliff:g example="Run Tracker" id="app_name">%1$s</xliff:g> to access routes</string>
     <string name="route_permissions_ask" description="Label for button in the route read request dialog to require an app to ask for a permission next time they need it.">Ask every time</string>
     <string name="route_permissions_deny" description="Label for button in the route read request dialog to to deny with prejudice a permission grant.">Don\u2019t allow</string>
     <string name="exercise_permission_dialog_enable_title" description="Title for a dialog to ask users to disable exercise and exercise routes permissions.">Enable both data types? </string>
