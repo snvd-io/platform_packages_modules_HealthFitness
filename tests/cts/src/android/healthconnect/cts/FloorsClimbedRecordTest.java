@@ -135,9 +135,8 @@ public class FloorsClimbedRecordTest {
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(FloorsClimbedRecord.class)
                                 .build());
-
-        FloorsClimbedRecord testRecord =
-                (FloorsClimbedRecord) TestUtils.insertRecord(getCompleteFloorsClimbedRecord());
+        FloorsClimbedRecord testRecord = getCompleteFloorsClimbedRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         List<FloorsClimbedRecord> newFloorsClimbedRecords =
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(FloorsClimbedRecord.class)
@@ -157,9 +156,8 @@ public class FloorsClimbedRecordTest {
                         .setStartTime(Instant.now())
                         .setEndTime(Instant.now().plusMillis(3000))
                         .build();
-
-        FloorsClimbedRecord testRecord =
-                (FloorsClimbedRecord) TestUtils.insertRecord(getCompleteFloorsClimbedRecord());
+        FloorsClimbedRecord testRecord = getCompleteFloorsClimbedRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         List<FloorsClimbedRecord> newFloorsClimbedRecords =
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(FloorsClimbedRecord.class)
@@ -185,9 +183,8 @@ public class FloorsClimbedRecordTest {
                                                 .setPackageName(context.getPackageName())
                                                 .build())
                                 .build());
-
-        FloorsClimbedRecord testRecord =
-                (FloorsClimbedRecord) TestUtils.insertRecord(getCompleteFloorsClimbedRecord());
+        FloorsClimbedRecord testRecord = getCompleteFloorsClimbedRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         List<FloorsClimbedRecord> newFloorsClimbedRecords =
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(FloorsClimbedRecord.class)
@@ -449,9 +446,8 @@ public class FloorsClimbedRecordTest {
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
         assertThat(response.getDeletedLogs().size()).isEqualTo(0);
 
-        List<Record> testRecord =
-                TestUtils.insertRecords(
-                        Collections.singletonList(getCompleteFloorsClimbedRecord()));
+        List<Record> testRecord = Collections.singletonList(getCompleteFloorsClimbedRecord());
+        TestUtils.insertRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(1);
         assertThat(
