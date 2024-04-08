@@ -352,7 +352,7 @@
     <string name="confirming_question_app_data_one_day" msgid="444028969015975031">"Желите трајно да избришете податке из апликације <xliff:g id="APP_DATA">%s</xliff:g> из последња 24 сата?"</string>
     <string name="confirming_question_app_data_one_week" msgid="2096555081811730496">"Желите трајно да избришете податке из апликације <xliff:g id="APP_DATA">%s</xliff:g> из последњих 7 дана?"</string>
     <string name="confirming_question_app_data_one_month" msgid="6438241250825892892">"Желите трајно да избришете податке из апликације <xliff:g id="APP_DATA">%s</xliff:g> из последњих 30 дана?"</string>
-    <string name="confirming_question_app_remove_all_permissions" msgid="4170343072352701421">"Уклоните и све дозволе за апликацију <xliff:g id="APP_WITH_PERMISSIONS">%s</xliff:g> из Повезивања здравља"</string>
+    <string name="confirming_question_app_remove_all_permissions" msgid="4170343072352701421">"Уклони и све дозволе за апликацију <xliff:g id="APP_WITH_PERMISSIONS">%s</xliff:g> из Повезивања здравља"</string>
     <string name="confirming_question_data_type_from_app_all" msgid="8361163993548510509">"Желите да трајно избришете све податке (<xliff:g id="DATA_TYPE">%1$s</xliff:g>) које је додала апликација <xliff:g id="APP_DATA">%2$s</xliff:g>?"</string>
     <string name="confirming_question_single_entry" msgid="330919962071369305">"Желите трајно да избришете овај унос?"</string>
     <string name="confirming_question_message" msgid="2934249835529079545">"Повезане апликације више неће моћи да приступају овим подацима из Повезивања здравља"</string>

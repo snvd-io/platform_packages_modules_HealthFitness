@@ -282,7 +282,7 @@
     <string name="permissions_disconnect_all_dialog_title" msgid="27474286046207122">"Odebrat přístup všem aplikacím?"</string>
     <string name="permissions_disconnect_all_dialog_message" msgid="3151109627457270499">"Žádné z vašich aplikací nebudou mít přístup k datům služby Health Connect a nebudou moci přidávat nová. Touto akcí nesmažete žádná existující data.\n\nTato akce nebude mít vliv na ostatní oprávnění, která aplikace má, jako je přístup k poloze, fotoaparátu nebo mikrofonu."</string>
     <string name="permissions_disconnect_all_dialog_disconnect" msgid="2134136493310257746">"Odstranit vše"</string>
-    <string name="manage_permissions_manage_app_header" msgid="6356348062088358761">"Spravovat aplikaci"</string>
+    <string name="manage_permissions_manage_app_header" msgid="6356348062088358761">"Správa aplikace"</string>
     <string name="see_app_data" msgid="3951030076195119476">"Zobrazit data aplikace"</string>
     <string name="delete_app_data" msgid="6890357774873859952">"Smazat data aplikace"</string>
     <string name="inactive_apps_section_title" msgid="7492812973696378690">"Neaktivní aplikace"</string>
@@ -293,7 +293,7 @@
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Pokud chcete spravovat ostatní oprávnění Androidu, ke kterým má aplikace přístup, přejděte do Nastavení a klepněte na Aplikace"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Zobrazit zásady ochrany soukromí"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Použito během posledních 24 hodin"</string>
-    <string name="app_access_title" msgid="7137018424885371763">"Přístup aplikací"</string>
+    <string name="app_access_title" msgid="7137018424885371763">"Přístup aplikace"</string>
     <string name="connected_apps_empty_list_section_title" msgid="6821215432694207342">"Momentálně nemáte nainstalované žádné kompatibilní aplikace"</string>
     <string name="additional_access_label" msgid="4645249249222528341">"Další přístup"</string>
     <string name="denied_apps_banner_title" msgid="1997745063608657965">"Odebrání oprávnění aplikacím"</string>

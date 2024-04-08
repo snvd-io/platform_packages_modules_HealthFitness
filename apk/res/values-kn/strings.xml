@@ -755,7 +755,7 @@
     <string name="request_route_allow_all" msgid="314830698958736916">"ಎಲ್ಲಾ ಮಾರ್ಗಗಳಿಗೆ ಅನುಮತಿಸಿ"</string>
     <string name="request_route_dont_allow" msgid="1186236234664957228">"ಅನುಮತಿಸಬೇಡಿ"</string>
     <string name="route_permissions_always_allow" msgid="1383816362804293137">"ಯಾವಾಗಲೂ ಅನುಮತಿಸಿ"</string>
-    <string name="route_permissions_label" msgid="5201501195020295860">"ವ್ಯಾಯಾಮದ ಮಾರ್ಗದ ಹಂಚಿಕೆ"</string>
+    <string name="route_permissions_label" msgid="5201501195020295860">"ವ್ಯಾಯಾಮ ಮಾರ್ಗದ ಹಂಚಿಕೆ"</string>
     <string name="route_permissions_summary" msgid="4670908225783213910">"ಈ ಆ್ಯಪ್ ಕನೆಕ್ಟ್ ಮಾಡಲಾದ ಆ್ಯಪ್‌ಗಳಿಂದ ವ್ಯಾಯಾಮದ ಮಾರ್ಗಗಳನ್ನು ಹೇಗೆ ಆ್ಯಕ್ಸೆಸ್ ಮಾಡುತ್ತದೆ ಎಂಬುದನ್ನು ನಿಯಂತ್ರಿಸಿ"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"ಪ್ರತಿ ಬಾರಿ ಕೇಳಿ"</string>
     <string name="route_permissions_deny" msgid="4263802925221258853">"ಅನುಮತಿಸಬೇಡಿ"</string>

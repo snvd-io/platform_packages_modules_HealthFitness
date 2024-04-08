@@ -18,7 +18,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="4768580772453324183">"Health Connect"</string>
-    <string name="health_connect_summary" msgid="6401520186678972547">"จัดการสิทธิ์เข้าถึงข้อมูลสุขภาพของแอป"</string>
+    <string name="health_connect_summary" msgid="6401520186678972547">"จัดการสิทธิ์ของแอปในการเข้าถึงข้อมูลสุขภาพ"</string>
     <string name="permissions_and_data_header" msgid="4406105506837487805">"สิทธิ์และข้อมูล"</string>
     <string name="home_subtitle" msgid="1750033322147357163">"จัดการข้อมูลสุขภาพและการออกกำลังกายในโทรศัพท์ และควบคุมว่าแอปใดบ้างที่เข้าถึงข้อมูลได้"</string>
     <string name="data_title" msgid="4456619761533380816">"ข้อมูลและการเข้าถึง"</string>
@@ -280,7 +280,7 @@
     <string name="no_apps_allowed" msgid="5794833581324128108">"ไม่ได้อนุญาตแอปใดเลย"</string>
     <string name="no_apps_denied" msgid="743327680286446017">"ไม่ได้ปฏิเสธแอปใดเลย"</string>
     <string name="permissions_disconnect_all_dialog_title" msgid="27474286046207122">"นำสิทธิ์เข้าถึงออกจากทุกแอปใช่ไหม"</string>
-    <string name="permissions_disconnect_all_dialog_message" msgid="3151109627457270499">"ไม่มีแอปที่เข้าถึงหรือเพิ่มข้อมูลใหม่ใน Health Connect ได้ การดำเนินการนี้จะไม่ลบข้อมูลที่มีอยู่\n\nอีกทั้งไม่มีผลกับสิทธิ์อื่นๆ ที่แอปนี้อาจมี เช่น สิทธิ์เข้าถึงตำแหน่ง กล้อง หรือไมโครโฟน"</string>
+    <string name="permissions_disconnect_all_dialog_message" msgid="3151109627457270499">"จะไม่มีแอปใดของคุณเข้าถึงหรือเพิ่มข้อมูลใหม่ใน Health Connect ได้ การดำเนินการนี้จะไม่ลบข้อมูลที่มีอยู่\n\nอีกทั้งจะไม่มีผลกับสิทธิ์อื่นๆ ที่แอปนี้อาจมี เช่น สิทธิ์เข้าถึงตำแหน่ง กล้อง หรือไมโครโฟน"</string>
     <string name="permissions_disconnect_all_dialog_disconnect" msgid="2134136493310257746">"นำออกทั้งหมด"</string>
     <string name="manage_permissions_manage_app_header" msgid="6356348062088358761">"จัดการแอป"</string>
     <string name="see_app_data" msgid="3951030076195119476">"ดูข้อมูลแอป"</string>

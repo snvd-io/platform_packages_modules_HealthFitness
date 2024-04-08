@@ -92,8 +92,8 @@
     <string name="exercise_lowercase_label" msgid="7210988327804427943">"жаттығу"</string>
     <string name="exercise_read_content_description" msgid="2079728018078185556">"Жаттығу деректерін оқу"</string>
     <string name="exercise_write_content_description" msgid="3267630937895011886">"Жаттығу деректерін жазу"</string>
-    <string name="exercise_route_uppercase_label" msgid="6678863538041931754">"Жаттығу бағыты"</string>
-    <string name="exercise_route_lowercase_label" msgid="1691912731748211252">"жаттығу бағыты"</string>
+    <string name="exercise_route_uppercase_label" msgid="6678863538041931754">"Жаттығу маршруты"</string>
+    <string name="exercise_route_lowercase_label" msgid="1691912731748211252">"жаттығу маршруты"</string>
     <string name="exercise_route_write_content_description" msgid="257809942953352611">"Жаттығу бағытын жазу"</string>
     <string name="exercise_route_read_content_description" msgid="8394028537674463440">"Жаттығу бағытын оқу"</string>
     <string name="exercise_routes_read_content_description" msgid="9001690141308870706">"Жаттығу бағыттарын оқу"</string>
@@ -280,7 +280,7 @@
     <string name="no_apps_allowed" msgid="5794833581324128108">"Ешқандай қолданбаға рұқсат берілмеді."</string>
     <string name="no_apps_denied" msgid="743327680286446017">"Ешқандай қолданбаға тыйым салынбады."</string>
     <string name="permissions_disconnect_all_dialog_title" msgid="27474286046207122">"Барлық қолданба рұқсаты өшірілсін бе?"</string>
-    <string name="permissions_disconnect_all_dialog_message" msgid="3151109627457270499">"Қолданбалардың ешқайсысы Health Connect-ті пайдалана немесе оған жаңа деректер қоса алмайды. Мұндайда ағымдағы деректер жойылмайды.\n\nБұл әрекет осы қолданбада болуы мүмкін басқа рұқсаттарға, соның ішінде локацияны, камераны не микрофонды пайдалану рұқсаттарына әсер етпейді."</string>
+    <string name="permissions_disconnect_all_dialog_message" msgid="3151109627457270499">"Қолданбалардың ешқайсысы Health Connect-ті пайдалана алмайды және оған жаңа дерек қоса алмайды. Мұндайда бұрынғы дерек жойылмайды.\n\nБұл әрекет осы қолданбадағы басқа рұқсаттарға, соның ішінде локацияны, камераны не микрофонды пайдалану рұқсаттарына әсер етпейді."</string>
     <string name="permissions_disconnect_all_dialog_disconnect" msgid="2134136493310257746">"Барлығын өшіру"</string>
     <string name="manage_permissions_manage_app_header" msgid="6356348062088358761">"Қолданбаны басқару"</string>
     <string name="see_app_data" msgid="3951030076195119476">"Қолданба деректерін көру"</string>
@@ -326,7 +326,7 @@
     <string name="onboarding_go_back_button_text" msgid="5020083846511184625">"Артқа"</string>
     <string name="onboarding_get_started_button_text" msgid="2348061971090731336">"Бастау"</string>
     <string name="delete_button_content_description" msgid="9125115327455379618">"Деректерді жою"</string>
-    <string name="time_range_title" msgid="6831605283322600165">"Жоятын күнді таңдаңыз"</string>
+    <string name="time_range_title" msgid="6831605283322600165">"Жоятын деректі таңдаңыз"</string>
     <string name="time_range_next_button" msgid="5849096934896557888">"Келесі"</string>
     <string name="time_range_message_all" msgid="7280888587242744729">"Таңдалған уақыт аралығында Health Connect-ке қосылған барлық дерек біржола жойылады."</string>
     <string name="time_range_message_data_type" msgid="1896125004829258195">"Таңдалған уақыт аралығында Health Connect-ке қосылған <xliff:g id="DATA_TYPE">%s</xliff:g> деректері біржола жойылады."</string>
