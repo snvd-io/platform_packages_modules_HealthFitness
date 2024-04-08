@@ -118,9 +118,8 @@ public class OvulationTestRecordTest {
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(OvulationTestRecord.class)
                                 .build());
-
-        OvulationTestRecord testRecord =
-                (OvulationTestRecord) TestUtils.insertRecord(getCompleteOvulationTestRecord());
+        OvulationTestRecord testRecord = getCompleteOvulationTestRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         List<OvulationTestRecord> newOvulationTestRecords =
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(OvulationTestRecord.class)
@@ -140,8 +139,8 @@ public class OvulationTestRecordTest {
                         .setStartTime(Instant.now())
                         .setEndTime(Instant.now().plusMillis(3000))
                         .build();
-        OvulationTestRecord testRecord =
-                (OvulationTestRecord) TestUtils.insertRecord(getCompleteOvulationTestRecord());
+        OvulationTestRecord testRecord = getCompleteOvulationTestRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         List<OvulationTestRecord> newOvulationTestRecords =
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(OvulationTestRecord.class)
@@ -167,8 +166,8 @@ public class OvulationTestRecordTest {
                                                 .setPackageName(context.getPackageName())
                                                 .build())
                                 .build());
-        OvulationTestRecord testRecord =
-                (OvulationTestRecord) TestUtils.insertRecord(getCompleteOvulationTestRecord());
+        OvulationTestRecord testRecord = getCompleteOvulationTestRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         List<OvulationTestRecord> newOvulationTestRecords =
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(OvulationTestRecord.class)
@@ -250,8 +249,8 @@ public class OvulationTestRecordTest {
     @Test
     public void testDeleteOvulationTestRecord_recordId_filters() throws InterruptedException {
         List<Record> records =
-                TestUtils.insertRecords(
-                        List.of(getBaseOvulationTestRecord(), getCompleteOvulationTestRecord()));
+                List.of(getBaseOvulationTestRecord(), getCompleteOvulationTestRecord());
+        TestUtils.insertRecords(records);
 
         for (Record record : records) {
             TestUtils.verifyDeleteRecords(
@@ -298,7 +297,7 @@ public class OvulationTestRecordTest {
         }
 
         TestUtils.verifyDeleteRecords(recordIds);
-        for (Record record : insertedRecord) {
+        for (Record record : records) {
             TestUtils.assertRecordNotFound(record.getMetadata().getId(), record.getClass());
         }
     }
@@ -462,9 +461,8 @@ public class OvulationTestRecordTest {
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
         assertThat(response.getDeletedLogs().size()).isEqualTo(0);
 
-        List<Record> testRecord =
-                TestUtils.insertRecords(
-                        Collections.singletonList(getCompleteOvulationTestRecord()));
+        List<Record> testRecord = Collections.singletonList(getCompleteOvulationTestRecord());
+        TestUtils.insertRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(1);
         assertThat(

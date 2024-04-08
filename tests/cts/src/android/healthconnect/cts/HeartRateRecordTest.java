@@ -153,9 +153,8 @@ public class HeartRateRecordTest {
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(HeartRateRecord.class)
                                 .build());
-
-        HeartRateRecord testRecord =
-                (HeartRateRecord) TestUtils.insertRecord(getCompleteHeartRateRecord());
+        HeartRateRecord testRecord = getCompleteHeartRateRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         List<HeartRateRecord> newHeartRateRecords =
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(HeartRateRecord.class)
@@ -172,9 +171,8 @@ public class HeartRateRecordTest {
                         .setStartTime(Instant.now())
                         .setEndTime(Instant.now().plusMillis(3000))
                         .build();
-
-        HeartRateRecord testRecord =
-                (HeartRateRecord) TestUtils.insertRecord(getCompleteHeartRateRecord());
+        HeartRateRecord testRecord = getCompleteHeartRateRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         ReadRecordsRequestUsingFilters<HeartRateRecord> requestUsingFilters =
                 new ReadRecordsRequestUsingFilters.Builder<>(HeartRateRecord.class)
                         .setTimeRangeFilter(filter)
@@ -200,9 +198,8 @@ public class HeartRateRecordTest {
                                                 .setPackageName(context.getPackageName())
                                                 .build())
                                 .build());
-
-        HeartRateRecord testRecord =
-                (HeartRateRecord) TestUtils.insertRecord(getCompleteHeartRateRecord());
+        HeartRateRecord testRecord = getCompleteHeartRateRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         List<HeartRateRecord> newHeartRateRecords =
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(HeartRateRecord.class)
@@ -370,9 +367,8 @@ public class HeartRateRecordTest {
 
     @Test
     public void testDeleteHeartRateRecord_recordId_filters() throws InterruptedException {
-        List<Record> records =
-                TestUtils.insertRecords(
-                        List.of(getBaseHeartRateRecord(10), getCompleteHeartRateRecord()));
+        List<Record> records = List.of(getBaseHeartRateRecord(10), getCompleteHeartRateRecord());
+        TestUtils.insertRecords(records);
 
         for (Record record : records) {
             TestUtils.verifyDeleteRecords(
@@ -410,11 +406,10 @@ public class HeartRateRecordTest {
 
     @Test
     public void testDeleteHeartRateRecord_usingIds() throws InterruptedException {
-        List<Record> records =
-                TestUtils.insertRecords(
-                        List.of(getBaseHeartRateRecord(10), getCompleteHeartRateRecord()));
+        List<Record> records = List.of(getBaseHeartRateRecord(10), getCompleteHeartRateRecord());
+        List<Record> insertedRecord = TestUtils.insertRecords(records);
         List<RecordIdFilter> recordIds = new ArrayList<>(records.size());
-        for (Record record : records) {
+        for (Record record : insertedRecord) {
             recordIds.add(RecordIdFilter.fromId(record.getClass(), record.getMetadata().getId()));
         }
         for (RecordIdFilter recordIdFilter : recordIds) {
@@ -431,11 +426,10 @@ public class HeartRateRecordTest {
 
     @Test
     public void testDeleteHeartRateRecord_usingInvalidClientIds() throws InterruptedException {
-        List<Record> records =
-                TestUtils.insertRecords(
-                        List.of(getBaseHeartRateRecord(10), getCompleteHeartRateRecord()));
+        List<Record> records = List.of(getBaseHeartRateRecord(10), getCompleteHeartRateRecord());
+        List<Record> insertedRecord = TestUtils.insertRecords(records);
         List<RecordIdFilter> recordIds = new ArrayList<>(records.size());
-        for (Record record : records) {
+        for (Record record : insertedRecord) {
             recordIds.add(
                     RecordIdFilter.fromClientRecordId(
                             record.getClass(), record.getMetadata().getId()));
@@ -818,8 +812,8 @@ public class HeartRateRecordTest {
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
         assertThat(response.getDeletedLogs().size()).isEqualTo(0);
 
-        List<Record> testRecord =
-                TestUtils.insertRecords(Collections.singletonList(getCompleteHeartRateRecord()));
+        List<Record> testRecord = Collections.singletonList(getCompleteHeartRateRecord());
+        TestUtils.insertRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(1);
         assertThat(
@@ -984,8 +978,7 @@ public class HeartRateRecordTest {
 
     private void testReadHeartRateRecordIds() throws InterruptedException {
         List<Record> recordList =
-                TestUtils.insertRecords(
-                        Arrays.asList(getCompleteHeartRateRecord(), getCompleteHeartRateRecord()));
+                Arrays.asList(getCompleteHeartRateRecord(), getCompleteHeartRateRecord());
         readHeartRateRecordUsingIds(recordList);
     }
 
@@ -1001,8 +994,8 @@ public class HeartRateRecordTest {
         assertThat(result).containsExactlyElementsIn(insertedRecord);
     }
 
-    private void readHeartRateRecordUsingIds(List<Record> insertedRecords)
-            throws InterruptedException {
+    private void readHeartRateRecordUsingIds(List<Record> recordList) throws InterruptedException {
+        List<Record> insertedRecords = TestUtils.insertRecords(recordList);
         ReadRecordsRequestUsingIds.Builder<HeartRateRecord> request =
                 new ReadRecordsRequestUsingIds.Builder<>(HeartRateRecord.class);
         for (Record record : insertedRecords) {

@@ -119,9 +119,8 @@ public class LeanBodyMassRecordTest {
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(LeanBodyMassRecord.class)
                                 .build());
-
-        LeanBodyMassRecord testRecord =
-                (LeanBodyMassRecord) TestUtils.insertRecord(getCompleteLeanBodyMassRecord());
+        LeanBodyMassRecord testRecord = getCompleteLeanBodyMassRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         List<LeanBodyMassRecord> newLeanBodyMassRecords =
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(LeanBodyMassRecord.class)
@@ -138,9 +137,8 @@ public class LeanBodyMassRecordTest {
                         .setStartTime(Instant.now())
                         .setEndTime(Instant.now().plusMillis(3000))
                         .build();
-
-        LeanBodyMassRecord testRecord =
-                (LeanBodyMassRecord) TestUtils.insertRecord(getCompleteLeanBodyMassRecord());
+        LeanBodyMassRecord testRecord = getCompleteLeanBodyMassRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         List<LeanBodyMassRecord> newLeanBodyMassRecords =
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(LeanBodyMassRecord.class)
@@ -163,9 +161,8 @@ public class LeanBodyMassRecordTest {
                                                 .setPackageName(context.getPackageName())
                                                 .build())
                                 .build());
-
-        LeanBodyMassRecord testRecord =
-                (LeanBodyMassRecord) TestUtils.insertRecord(getCompleteLeanBodyMassRecord());
+        LeanBodyMassRecord testRecord = getCompleteLeanBodyMassRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         List<LeanBodyMassRecord> newLeanBodyMassRecords =
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(LeanBodyMassRecord.class)
@@ -247,8 +244,8 @@ public class LeanBodyMassRecordTest {
     @Test
     public void testDeleteLeanBodyMassRecord_recordId_filters() throws InterruptedException {
         List<Record> records =
-                TestUtils.insertRecords(
-                        List.of(getBaseLeanBodyMassRecord(), getCompleteLeanBodyMassRecord()));
+                List.of(getBaseLeanBodyMassRecord(), getCompleteLeanBodyMassRecord());
+        TestUtils.insertRecords(records);
 
         for (Record record : records) {
             TestUtils.verifyDeleteRecords(
@@ -287,10 +284,10 @@ public class LeanBodyMassRecordTest {
     @Test
     public void testDeleteLeanBodyMassRecord_usingIds() throws InterruptedException {
         List<Record> records =
-                TestUtils.insertRecords(
-                        List.of(getBaseLeanBodyMassRecord(), getCompleteLeanBodyMassRecord()));
+                List.of(getBaseLeanBodyMassRecord(), getCompleteLeanBodyMassRecord());
+        List<Record> insertedRecord = TestUtils.insertRecords(records);
         List<RecordIdFilter> recordIds = new ArrayList<>(records.size());
-        for (Record record : records) {
+        for (Record record : insertedRecord) {
             recordIds.add(RecordIdFilter.fromId(record.getClass(), record.getMetadata().getId()));
         }
 
@@ -464,8 +461,8 @@ public class LeanBodyMassRecordTest {
         assertThat(response.getUpsertedRecords().size()).isEqualTo(0);
         assertThat(response.getDeletedLogs().size()).isEqualTo(0);
 
-        List<Record> testRecord =
-                TestUtils.insertRecords(Collections.singletonList(getCompleteLeanBodyMassRecord()));
+        List<Record> testRecord = Collections.singletonList(getCompleteLeanBodyMassRecord());
+        TestUtils.insertRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(1);
         assertThat(

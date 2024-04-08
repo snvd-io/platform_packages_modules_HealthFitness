@@ -128,10 +128,8 @@ public class HeartRateVariabilityRmssdRecordTest {
                         new ReadRecordsRequestUsingFilters.Builder<>(
                                         HeartRateVariabilityRmssdRecord.class)
                                 .build());
-
-        HeartRateVariabilityRmssdRecord testRecord =
-                (HeartRateVariabilityRmssdRecord)
-                        TestUtils.insertRecord(getCompleteHeartRateVariabilityRmssdRecord());
+        HeartRateVariabilityRmssdRecord testRecord = getCompleteHeartRateVariabilityRmssdRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         List<HeartRateVariabilityRmssdRecord> newHeartRateVariabilityRmssdRecords =
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(
@@ -154,10 +152,8 @@ public class HeartRateVariabilityRmssdRecordTest {
                         .setStartTime(Instant.now())
                         .setEndTime(Instant.now().plusMillis(3000))
                         .build();
-
-        HeartRateVariabilityRmssdRecord testRecord =
-                (HeartRateVariabilityRmssdRecord)
-                        TestUtils.insertRecord(getCompleteHeartRateVariabilityRmssdRecord());
+        HeartRateVariabilityRmssdRecord testRecord = getCompleteHeartRateVariabilityRmssdRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         List<HeartRateVariabilityRmssdRecord> newHeartRateVariabilityRmssdRecords =
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(
@@ -185,10 +181,8 @@ public class HeartRateVariabilityRmssdRecordTest {
                                                 .setPackageName(context.getPackageName())
                                                 .build())
                                 .build());
-
-        HeartRateVariabilityRmssdRecord testRecord =
-                (HeartRateVariabilityRmssdRecord)
-                        TestUtils.insertRecord(getCompleteHeartRateVariabilityRmssdRecord());
+        HeartRateVariabilityRmssdRecord testRecord = getCompleteHeartRateVariabilityRmssdRecord();
+        TestUtils.insertRecords(Collections.singletonList(testRecord));
         List<HeartRateVariabilityRmssdRecord> newHeartRateVariabilityRmssdRecords =
                 TestUtils.readRecords(
                         new ReadRecordsRequestUsingFilters.Builder<>(
@@ -251,10 +245,10 @@ public class HeartRateVariabilityRmssdRecordTest {
     public void testDeleteHeartRateVariabilityRmssdRecord_recordId_filters()
             throws InterruptedException {
         List<Record> records =
-                TestUtils.insertRecords(
-                        List.of(
-                                getBaseHeartRateVariabilityRmssdRecord(),
-                                getCompleteHeartRateVariabilityRmssdRecord()));
+                List.of(
+                        getBaseHeartRateVariabilityRmssdRecord(),
+                        getCompleteHeartRateVariabilityRmssdRecord());
+        TestUtils.insertRecords(records);
 
         for (Record record : records) {
             TestUtils.verifyDeleteRecords(
@@ -297,14 +291,14 @@ public class HeartRateVariabilityRmssdRecordTest {
                 List.of(
                         getBaseHeartRateVariabilityRmssdRecord(),
                         getCompleteHeartRateVariabilityRmssdRecord());
-        List<Record> insertedRecords = TestUtils.insertRecords(records);
+        List<Record> insertedRecord = TestUtils.insertRecords(records);
         List<RecordIdFilter> recordIds = new ArrayList<>(records.size());
-        for (Record record : insertedRecords) {
+        for (Record record : insertedRecord) {
             recordIds.add(RecordIdFilter.fromId(record.getClass(), record.getMetadata().getId()));
         }
 
         TestUtils.verifyDeleteRecords(recordIds);
-        for (Record record : insertedRecords) {
+        for (Record record : records) {
             TestUtils.assertRecordNotFound(record.getMetadata().getId(), record.getClass());
         }
     }
@@ -511,9 +505,8 @@ public class HeartRateVariabilityRmssdRecordTest {
         assertThat(response.getDeletedLogs().size()).isEqualTo(0);
 
         List<Record> testRecord =
-                TestUtils.insertRecords(
-                        Collections.singletonList(getCompleteHeartRateVariabilityRmssdRecord()));
-
+                Collections.singletonList(getCompleteHeartRateVariabilityRmssdRecord());
+        TestUtils.insertRecords(testRecord);
         response = TestUtils.getChangeLogs(changeLogsRequest);
         assertThat(response.getUpsertedRecords().size()).isEqualTo(1);
         assertThat(
@@ -559,7 +552,7 @@ public class HeartRateVariabilityRmssdRecordTest {
         assertThat(requestUsingIds.getRecordIdFilters()).isNotNull();
         List<HeartRateVariabilityRmssdRecord> result = TestUtils.readRecords(requestUsingIds);
         assertThat(result).hasSize(insertedRecords.size());
-        assertThat(result).containsExactlyElementsIn(insertedRecords);
+        assertThat(result).containsExactlyElementsIn(recordList);
     }
 
     HeartRateVariabilityRmssdRecord getHeartRateVariabilityRmssdRecord_update(
