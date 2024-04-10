@@ -262,7 +262,7 @@
     <string name="request_permissions_privacy_policy" msgid="228503452643555737">"política de privadesa"</string>
     <string name="permissions_disconnect_dialog_title" msgid="7355211540619034695">"Vols suprimir tots els permisos?"</string>
     <string name="permissions_disconnect_dialog_disconnect" msgid="8854787587948224752">"Suprimeix-ho tot"</string>
-    <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"<xliff:g id="APP_NAME">%1$s</xliff:g> ja no podrà llegir ni escriure dades de Salut connectada.\n\nAixò no afecta altres permisos que pot tenir aquesta aplicació, com ara els relacionats amb la ubicació, la càmera o el micròfon."</string>
+    <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"<xliff:g id="APP_NAME">%1$s</xliff:g> ja no podrà llegir ni escriure dades de Salut connectada.\n\nAixò no afecta els altres permisos que aquesta aplicació pugui tenir, com ara els d\'accés a la ubicació, a la càmera o al micròfon."</string>
     <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"Suprimeix també les dades de <xliff:g id="APP_NAME">%1$s</xliff:g> de Salut connectada"</string>
     <string name="navigation_next_day" msgid="8853443471183944219">"Dia següent"</string>
     <string name="navigation_selected_day" msgid="2510843479734091348">"Dia seleccionat"</string>

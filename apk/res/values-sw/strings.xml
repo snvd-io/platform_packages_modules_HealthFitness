@@ -289,7 +289,7 @@
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"Programu hizi hazina tena ufikiaji, lakini bado zina data iliyohifadhiwa kwenye Health Connect"</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g> inaweza kusoma data iliyowekwa baada ya <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>"</string>
     <string name="other_android_permissions" msgid="8051485761573324702">"Ili udhibiti ruhusa zingine za Android ambazo programu hii inaweza kufikia, nenda kwenye Mipangilio &gt; Programu"</string>
-    <string name="manage_permissions_rationale" msgid="9183689798847740274">"Data unayoshiriki na programu ya <xliff:g id="APP_NAME">%1$s</xliff:g> inalindwa na sera yake ya faragha"</string>
+    <string name="manage_permissions_rationale" msgid="9183689798847740274">"Data unayoruhusu <xliff:g id="APP_NAME">%1$s</xliff:g> ifikie inasimamiwa na sera yake ya faragha"</string>
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Ili udhibiti ruhusa zingine za Android ambazo programu hii inaweza kufikia, nenda kwenye Mipangilio kisha uguse Programu"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Soma sera ya faragha"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Ilifikiwa katika saa 24 zilizopita"</string>

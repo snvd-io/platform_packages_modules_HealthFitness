@@ -331,7 +331,7 @@
     <string name="time_range_message_all" msgid="7280888587242744729">"Týmto natrvalo odstránite všetky údaje pridané do Dát o zdraví vo vybranom období"</string>
     <string name="time_range_message_data_type" msgid="1896125004829258195">"Týmto natrvalo odstránite údaje typu <xliff:g id="DATA_TYPE">%s</xliff:g> pridané do Dát o zdraví vo vybranom období"</string>
     <string name="time_range_message_category" msgid="1136451418397326356">"Týmto natrvalo odstránite údaje kategórie <xliff:g id="CATEGORY">%s</xliff:g> pridané do Dát o zdraví vo vybranom období"</string>
-    <string name="time_range_message_app_data" msgid="2590800457710603556">"Týmto natrvalo odstránite dáta aplikácie <xliff:g id="APP_DATA">%s</xliff:g> pridané do Dát o zdraví vo vybranom období"</string>
+    <string name="time_range_message_app_data" msgid="2590800457710603556">"Týmto natrvalo odstránite údaje aplikácie <xliff:g id="APP_DATA">%s</xliff:g> pridané do Dát o zdraví vo vybranom období"</string>
     <string name="time_range_one_day" msgid="7162709826595446727">"Odstrániť posledných 24 hodín"</string>
     <string name="time_range_one_week" msgid="8754523384275645434">"Odstrániť posledných 7 dní"</string>
     <string name="time_range_one_month" msgid="3034747870231999766">"Odstrániť posledných 30 dní"</string>

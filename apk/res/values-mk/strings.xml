@@ -105,8 +105,8 @@
     <string name="distance_lowercase_label" msgid="2287154001209381379">"растојание"</string>
     <string name="distance_read_content_description" msgid="8787235642020285789">"Читање растојание"</string>
     <string name="distance_write_content_description" msgid="494549494589487562">"Запишување растојание"</string>
-    <string name="elevation_gained_uppercase_label" msgid="7708101940695442377">"Достигната надморска висина"</string>
-    <string name="elevation_gained_lowercase_label" msgid="7532517182346738562">"достигната надморска висина"</string>
+    <string name="elevation_gained_uppercase_label" msgid="7708101940695442377">"Достигната височина"</string>
+    <string name="elevation_gained_lowercase_label" msgid="7532517182346738562">"достигната височина"</string>
     <string name="elevation_gained_read_content_description" msgid="6018756385903843355">"Читање достигната надморска висина"</string>
     <string name="elevation_gained_write_content_description" msgid="6790199544670231367">"Запишување достигната надморска висина"</string>
     <string name="floors_climbed_uppercase_label" msgid="3754372357767832441">"Искачени катови"</string>
@@ -129,8 +129,8 @@
     <string name="total_calories_burned_lowercase_label" msgid="3185370725975873922">"вкупно потрошени калории"</string>
     <string name="total_calories_burned_read_content_description" msgid="1569722345910293531">"Читање вкупно потрошени калории"</string>
     <string name="total_calories_burned_write_content_description" msgid="2727752180681851608">"Запишување вкупно потрошени калории"</string>
-    <string name="vo2_max_uppercase_label" msgid="6614391499711390476">"Макс. VO2"</string>
-    <string name="vo2_max_lowercase_label" msgid="824972630000900033">"Макс. VO2"</string>
+    <string name="vo2_max_uppercase_label" msgid="6614391499711390476">"Максимална потрошувачка на кислород"</string>
+    <string name="vo2_max_lowercase_label" msgid="824972630000900033">"максимална потрошувачка на кислород"</string>
     <string name="vo2_max_read_content_description" msgid="8132626885797169882">"Читање макс. VO2"</string>
     <string name="vo2_max_write_content_description" msgid="4783300275788728546">"Запишување макс. VO2"</string>
     <string name="wheelchair_pushes_uppercase_label" msgid="5582991294340226965">"Туркања на инвалидска количка"</string>
@@ -145,8 +145,8 @@
     <string name="body_fat_lowercase_label" msgid="4090686510477176498">"телесни масти"</string>
     <string name="body_fat_read_content_description" msgid="801664410906939146">"Читање телесни масти"</string>
     <string name="body_fat_write_content_description" msgid="4863558071904720577">"Запишување телесни масти"</string>
-    <string name="body_water_mass_uppercase_label" msgid="7839393299147916863">"Маса на вода во тело"</string>
-    <string name="body_water_mass_lowercase_label" msgid="9196249948631920955">"маса на вода во тело"</string>
+    <string name="body_water_mass_uppercase_label" msgid="7839393299147916863">"Маса на вода во телото"</string>
+    <string name="body_water_mass_lowercase_label" msgid="9196249948631920955">"маса на вода во телото"</string>
     <string name="body_water_mass_read_content_description" msgid="1468266374858854184">"Читање маса на вода во тело"</string>
     <string name="body_water_mass_write_content_description" msgid="8485284654932647383">"Запишување маса на вода во тело"</string>
     <string name="bone_mass_uppercase_label" msgid="6815438946872228501">"Коскена маса"</string>
@@ -233,8 +233,8 @@
     <string name="heart_rate_variability_lowercase_label" msgid="2332638559415663836">"променливост на пулсот"</string>
     <string name="heart_rate_variability_read_content_description" msgid="5812707457872629556">"Читање податоци за променливоста на пулсот"</string>
     <string name="heart_rate_variability_write_content_description" msgid="3628171603035566114">"Запишување податоци за променливоста на пулсот"</string>
-    <string name="oxygen_saturation_uppercase_label" msgid="1396254185616418355">"Кислородна сатурација"</string>
-    <string name="oxygen_saturation_lowercase_label" msgid="7264179897533866327">"кислородна сатурација"</string>
+    <string name="oxygen_saturation_uppercase_label" msgid="1396254185616418355">"Заситеност со кислород"</string>
+    <string name="oxygen_saturation_lowercase_label" msgid="7264179897533866327">"заситеност со кислород"</string>
     <string name="oxygen_saturation_read_content_description" msgid="4756434113425028212">"Читање кислородна сатурација"</string>
     <string name="oxygen_saturation_write_content_description" msgid="7189901097196830875">"Запишување кислородна сатурација"</string>
     <string name="respiratory_rate_uppercase_label" msgid="4609498171205294389">"Респираторна стапка"</string>
@@ -284,7 +284,7 @@
     <string name="permissions_disconnect_all_dialog_disconnect" msgid="2134136493310257746">"Отстрани ги сите"</string>
     <string name="manage_permissions_manage_app_header" msgid="6356348062088358761">"Управувајте со апликацијата"</string>
     <string name="see_app_data" msgid="3951030076195119476">"Прикажи податоци од апликацијата"</string>
-    <string name="delete_app_data" msgid="6890357774873859952">"Избриши ги податоците од апликација"</string>
+    <string name="delete_app_data" msgid="6890357774873859952">"Избриши ги податоците од апликацијата"</string>
     <string name="inactive_apps_section_title" msgid="7492812973696378690">"Неактивни апликации"</string>
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"Апликацииве веќе немаат пристап, но уште имаат зачувани податоци во Health Connect"</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g> може да чита податоци додадени по <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>"</string>
@@ -756,7 +756,7 @@
     <string name="request_route_dont_allow" msgid="1186236234664957228">"Не дозволувај"</string>
     <string name="route_permissions_always_allow" msgid="1383816362804293137">"Секогаш дозволувај"</string>
     <string name="route_permissions_label" msgid="5201501195020295860">"Споделување на маршрутата за вежбање"</string>
-    <string name="route_permissions_summary" msgid="4670908225783213910">"Контролирање на тоа како апликацијава пристапува до маршрутите за вежбање од поврзаните апликации"</string>
+    <string name="route_permissions_summary" msgid="4670908225783213910">"Контролирајте го пристапот на апликацијава до маршрутите за вежбање од поврзаните апликации"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"Секогаш прашувај"</string>
     <string name="route_permissions_deny" msgid="4263802925221258853">"Не дозволувај"</string>
     <string name="exercise_permission_dialog_enable_title" msgid="4310997044811843391">"Да се овозможат двата типа податоци?"</string>
