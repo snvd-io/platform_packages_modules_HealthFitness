@@ -496,7 +496,9 @@ public class PowerRecordTest {
     }
 
     private void testReadPowerRecordIds() throws InterruptedException {
-        List<Record> recordList = Arrays.asList(getCompletePowerRecord(), getCompletePowerRecord());
+        List<Record> recordList =
+                TestUtils.insertRecords(
+                        Arrays.asList(getCompletePowerRecord(), getCompletePowerRecord()));
         readPowerRecordUsingIds(recordList);
     }
 
@@ -512,8 +514,7 @@ public class PowerRecordTest {
         assertThat(result).containsExactlyElementsIn(insertedRecord);
     }
 
-    private void readPowerRecordUsingIds(List<Record> recordList) throws InterruptedException {
-        List<Record> insertedRecords = TestUtils.insertRecords(recordList);
+    private void readPowerRecordUsingIds(List<Record> insertedRecords) throws InterruptedException {
         ReadRecordsRequestUsingIds.Builder<PowerRecord> request =
                 new ReadRecordsRequestUsingIds.Builder<>(PowerRecord.class);
         for (Record record : insertedRecords) {
