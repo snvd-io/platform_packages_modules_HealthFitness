@@ -289,7 +289,7 @@
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"Ces applis n\'ont plus accès à Santé Connect, mais ont encore des données qui y sont stockées"</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g> peut lire les données ajoutées après le <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>"</string>
     <string name="other_android_permissions" msgid="8051485761573324702">"Pour gérer d\'autres autorisations Android concernant cette appli, sélectionnez Paramètres &gt; Applis"</string>
-    <string name="manage_permissions_rationale" msgid="9183689798847740274">"Les données que vous partagez avec l\'appli <xliff:g id="APP_NAME">%1$s</xliff:g> sont soumises à ses règles de confidentialité"</string>
+    <string name="manage_permissions_rationale" msgid="9183689798847740274">"Les données que vous partagez avec l\'appli <xliff:g id="APP_NAME">%1$s</xliff:g> sont couvertes par ses règles de confidentialité"</string>
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Pour gérer d\'autres autorisations Android concernant cette appli, sélectionnez \"Paramètres\", puis appuyez sur \"Applis\""</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Lire les règles de confidentialité"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Accès au cours des dernières 24 heures"</string>

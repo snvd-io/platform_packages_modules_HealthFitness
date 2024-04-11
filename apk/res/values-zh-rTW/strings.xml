@@ -289,7 +289,7 @@
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"這些應用程式已無存取權，但仍有資料儲存在「健康資料同步」中"</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"「<xliff:g id="APP_NAME">%1$s</xliff:g>」可以讀取 <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>後新增的資料"</string>
     <string name="other_android_permissions" msgid="8051485761573324702">"如要管理這個應用程式可以存取的其他 Android 權限，請依序前往「設定」&gt;「應用程式」"</string>
-    <string name="manage_permissions_rationale" msgid="9183689798847740274">"你與「<xliff:g id="APP_NAME">%1$s</xliff:g>」分享的資料受該應用程式的隱私權政策規範"</string>
+    <string name="manage_permissions_rationale" msgid="9183689798847740274">"你與「<xliff:g id="APP_NAME">%1$s</xliff:g>」分享的資料適用於該應用程式的隱私權政策"</string>
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"如要管理這個應用程式可以存取的其他 Android 權限，請前往「設定」，然後輕觸「應用程式」"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"閱讀隱私權政策"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"上次存取時間：過去 24 小時內"</string>
@@ -598,8 +598,8 @@
     <string name="chromium" msgid="807851794929222026">"鉻"</string>
     <string name="copper" msgid="8603012497089601260">"銅"</string>
     <string name="dietary_fiber" msgid="6928876454420561553">"膳食纖維"</string>
-    <string name="energy_consumed_total" msgid="7866804137119190606">"能量"</string>
-    <string name="energy_consumed_from_fat" msgid="8637734004867176038">"來自脂肪的能量"</string>
+    <string name="energy_consumed_total" msgid="7866804137119190606">"熱量"</string>
+    <string name="energy_consumed_from_fat" msgid="8637734004867176038">"來自脂肪的熱量"</string>
     <string name="folate" msgid="7728279545427110321">"葉酸"</string>
     <string name="folic_acid" msgid="6861953414423667870">"葉酸"</string>
     <string name="iodine" msgid="2896913103021799237">"碘"</string>
@@ -685,7 +685,7 @@
     <string name="distance_unit_title" msgid="4696952932438418209">"距離"</string>
     <string name="height_unit_title" msgid="5461594609577078049">"身高"</string>
     <string name="weight_unit_title" msgid="7405186541678939987">"體重"</string>
-    <string name="energy_unit_title" msgid="1714627395963766769">"能量"</string>
+    <string name="energy_unit_title" msgid="1714627395963766769">"熱量"</string>
     <string name="temperature_unit_title" msgid="1973985121774654017">"溫度"</string>
     <string name="distance_unit_kilometers_label" msgid="1361363017122240294">"公里"</string>
     <string name="distance_unit_miles_label" msgid="848850214987608211">"英里"</string>

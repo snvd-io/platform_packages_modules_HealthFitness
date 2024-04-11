@@ -259,7 +259,7 @@
     <string name="request_permissions_header_time_frame_desc" msgid="4617392728203291453">"Эгер окуу мүмкүнчүлүгүн берсеңиз, бул колдонмо жаңы жана соңку 30 күндөгү нерселерди окуй алат"</string>
     <string name="request_permissions_header_title" msgid="4264236128614363479">"<xliff:g id="APP_NAME">%1$s</xliff:g> колдонмосуна Health Connect\'ке кирүүгө уруксат бересизби?"</string>
     <string name="request_permissions_rationale" msgid="6154280355215802538">"<xliff:g id="APP_NAME">%1$s</xliff:g> колдонмосу сизге таандык нерселерди кантип иштете турганын иштеп чыгуучунун бул документинен биле аласыз:<xliff:g id="PRIVACY_POLICY_LINK">%2$s</xliff:g>"</string>
-    <string name="request_permissions_privacy_policy" msgid="228503452643555737">"купуялык саясаты"</string>
+    <string name="request_permissions_privacy_policy" msgid="228503452643555737">"купуялык эрежелери"</string>
     <string name="permissions_disconnect_dialog_title" msgid="7355211540619034695">"Бардык уруксаттар өчүрүлсүнбү?"</string>
     <string name="permissions_disconnect_dialog_disconnect" msgid="8854787587948224752">"Баарын өчүрүү"</string>
     <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"<xliff:g id="APP_NAME">%1$s</xliff:g> мындан ары Health Connect\'теги бир дагы нерсени окуп же жаза албай калат.\n\nБул нерсе колдонмодогу башка уруксаттарга, мисалы, жайгашкан жер, камера же микрофонго кедергисин тийгизбейт."</string>
@@ -289,7 +289,7 @@
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"Бул колдонмолорго бул нерселер мындан ары жеткиликсиз, бирок алар Health Connect\'те сактала берет"</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g> <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g> кийин кошулган маалыматты окуй алат"</string>
     <string name="other_android_permissions" msgid="8051485761573324702">"Бул колдонмодогу башка Android уруксаттарын башкаруу үчүн Параметрлер &gt; Колдонмолорго өтүңүз"</string>
-    <string name="manage_permissions_rationale" msgid="9183689798847740274">"<xliff:g id="APP_NAME">%1$s</xliff:g> менен бөлүшкөн нерселериңиз анын купуялык саясаты менен корголот."</string>
+    <string name="manage_permissions_rationale" msgid="9183689798847740274">"<xliff:g id="APP_NAME">%1$s</xliff:g> менен бөлүшкөн нерселериңиз анын купуялык эрежелери менен корголот."</string>
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Бул колдонмодогу башка Android уруксаттарын тескөө үчүн Тууралоого өтүп, Колдонмолорду таптап коюңуз"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Купуялык эрежелерин окуп чыгуу"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Акыркы 24 сааттын ичинде колдонулган"</string>

@@ -288,9 +288,9 @@
     <string name="inactive_apps_section_title" msgid="7492812973696378690">"Неактивные приложения"</string>
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"У этих приложений больше нет доступа, но их данные по-прежнему хранятся в сервисе \"Здоровье и спорт\"."</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"Приложение \"<xliff:g id="APP_NAME">%1$s</xliff:g>\" получит доступ к данным, добавленным после <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>"</string>
-    <string name="other_android_permissions" msgid="8051485761573324702">"Чтобы задать разрешения для этого приложения в Android, выберите \"Настройки &gt; Приложения\""</string>
+    <string name="other_android_permissions" msgid="8051485761573324702">"Чтобы задать разрешения для этого приложения в Android, выберите \"Настройки &gt; Приложения\"."</string>
     <string name="manage_permissions_rationale" msgid="9183689798847740274">"На данные, которые вы предоставляете приложению \"<xliff:g id="APP_NAME">%1$s</xliff:g>\", распространяется его политика конфиденциальности."</string>
-    <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Чтобы задать разрешения для этого приложения в Android, выберите \"Настройки &gt; Приложения\""</string>
+    <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Чтобы задать разрешения для этого приложения в Android, выберите \"Настройки &gt; Приложения\"."</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Ознакомиться с политикой конфиденциальности"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Разрешение использовалось в последние 24 часа"</string>
     <string name="app_access_title" msgid="7137018424885371763">"Доступ для приложения"</string>

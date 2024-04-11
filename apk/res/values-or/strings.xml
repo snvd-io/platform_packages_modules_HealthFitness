@@ -284,7 +284,7 @@
     <string name="permissions_disconnect_all_dialog_disconnect" msgid="2134136493310257746">"ସବୁ କାଢ଼ି ଦିଅନ୍ତୁ"</string>
     <string name="manage_permissions_manage_app_header" msgid="6356348062088358761">"ଆପକୁ ପରିଚାଳନା କରନ୍ତୁ"</string>
     <string name="see_app_data" msgid="3951030076195119476">"ଆପ ଡାଟା ଦେଖନ୍ତୁ"</string>
-    <string name="delete_app_data" msgid="6890357774873859952">"ଆପ ଡାଟାକୁ ଡିଲିଟ କରିବେ?"</string>
+    <string name="delete_app_data" msgid="6890357774873859952">"ଆପ ଡାଟାକୁ ଡିଲିଟ କରନ୍ତୁ"</string>
     <string name="inactive_apps_section_title" msgid="7492812973696378690">"ନିଷ୍କ୍ରିୟ ଆପ୍ସ"</string>
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"ଏହି ଆପ୍ସର ଆଉ ଆକ୍ସେସ ନାହିଁ, କିନ୍ତୁ ଏବେ ବି ଷ୍ଟୋର କରାଯାଇଥିବା ଡାଟା Health Connectରେ ଅଛି"</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g> <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g> ପରେ ଯୋଗ କରାଯାଇଥିବା ଡାଟାକୁ ପଢ଼ିପାରିବ"</string>

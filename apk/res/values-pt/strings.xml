@@ -293,7 +293,7 @@
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Para gerenciar outras permissões do Android que esse app pode acessar, vá até \"Configurações\" e toque em \"Apps\""</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Leia a Política de Privacidade"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Acessado nas últimas 24 horas"</string>
-    <string name="app_access_title" msgid="7137018424885371763">"Acesso do app"</string>
+    <string name="app_access_title" msgid="7137018424885371763">"Acesso de apps"</string>
     <string name="connected_apps_empty_list_section_title" msgid="6821215432694207342">"Não há apps compatíveis instalados no momento"</string>
     <string name="additional_access_label" msgid="4645249249222528341">"Acesso adicional"</string>
     <string name="denied_apps_banner_title" msgid="1997745063608657965">"Permissões de apps removidas"</string>
