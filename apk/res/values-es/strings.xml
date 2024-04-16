@@ -722,7 +722,7 @@
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Salud conectada eliminará automáticamente los datos nuevos después de # mes. También se eliminarán los datos almacenados de hace más de # mes.}other{Salud conectada eliminará automáticamente los datos nuevos después de # meses. También se eliminarán los datos almacenados de hace más de # meses.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"Confirmar"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"Los datos almacenados se eliminarán"</string>
-    <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{Salud conectada eliminará todos los datos de hace más de # meses. Los cambios pueden tardar un día en aparecer en tus aplicaciones conectadas.}other{Salud conectada eliminará todos los datos de hace más de # meses. Los cambios pueden tardar un día en aparecer en tus aplicaciones conectadas.}}"</string>
+    <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{Salud conectada eliminará todos los datos de hace más de # meses. Los cambios pueden tardar un día en reflejarse en tus aplicaciones conectadas.}other{Salud conectada eliminará todos los datos de hace más de # meses. Los cambios pueden tardar un día en reflejarse en tus aplicaciones conectadas.}}"</string>
     <string name="deletion_started_category_list_section" msgid="3052940611815658991">"Se eliminarán los datos de estas categorías"</string>
     <string name="deletion_started_done_button" msgid="1232018689825054257">"Hecho"</string>
     <string name="priority_dialog_title" msgid="7360654442596118085">"Establecer prioridad de aplicaciones"</string>

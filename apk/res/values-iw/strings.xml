@@ -34,7 +34,7 @@
     <string name="entry_details_title" msgid="590184849040247850">"פרטי כניסה"</string>
     <string name="backup_title" msgid="211503191266235085">"גיבוי"</string>
     <string name="data_sources_and_priority_title" msgid="2360222350913604558">"מקורות הנתונים ועדיפות"</string>
-    <string name="set_units_title" msgid="2657822539603758029">"הגדרת יחידות"</string>
+    <string name="set_units_title" msgid="2657822539603758029">"יחידות מידה"</string>
     <string name="recent_access_header" msgid="7623497371790225888">"אפליקציות שניגשו לנתונים לאחרונה"</string>
     <string name="no_recent_access" msgid="4724297929902441784">"אף אפליקציה לא ניגשה לאחרונה ל-Health Connect"</string>
     <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"הצגת כל האפליקציות שניגשו לאחרונה"</string>
@@ -834,7 +834,7 @@
     <string name="app_sources_header" msgid="6343062519512947665">"המקורות של האפליקציות"</string>
     <string name="data_sources_footer" msgid="6414387142919741183">"אפשר להוסיף מקורות של אפליקציות לרשימה כדי לראות איך סכומי הנתונים משתנים. הסרת אפליקציה מהרשימה הזו תמנע ממנה לתרום לסכומים, אך עדיין יהיו לה הרשאות כתיבה."</string>
     <string name="data_sources_empty_state" msgid="1899652759274805556">"אין מקורות של אפליקציות"</string>
-    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"לאחר מתן הרשאות לאפליקציה לכתוב נתונים של <xliff:g id="CATEGORY_NAME">%1$s</xliff:g>, המקורות יופיעו כאן."</string>
+    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"אחרי שנותנים לאפליקציות הרשאה לכתוב נתונים של <xliff:g id="CATEGORY_NAME">%1$s</xliff:g>, המקורות מופיעים כאן."</string>
     <string name="data_sources_help_link" msgid="7740264923634947915">"איך מקורות הנתונים והעדיפות פועלים"</string>
     <string name="data_sources_add_app" msgid="319926596123692514">"הוספת אפליקציה"</string>
     <string name="edit_data_sources" msgid="79641360876849547">"עריכת המקורות של האפליקציות"</string>
