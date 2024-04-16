@@ -711,7 +711,7 @@
     <string name="playstore_app_title" msgid="4138464328693481809">"Play Store"</string>
     <string name="auto_delete_button" msgid="8536451792268513619">"Elimina automaticamente"</string>
     <string name="auto_delete_title" msgid="8761742828224207826">"Elimina automaticamente"</string>
-    <string name="auto_delete_header" msgid="4258649705159293715">"Gestisci per quanto tempo i dati sono memorizzati in Connessione Salute impostando l\'eliminazione automatica dopo un determinato periodo di tempo"</string>
+    <string name="auto_delete_header" msgid="4258649705159293715">"Gestisci la durata di conservazione dei tuoi dati in Connessione Salute programmando la loro eliminazione dopo un periodo prestabilito"</string>
     <string name="auto_delete_learn_more" msgid="7416469042791307994">"Scopri di più sull\'eliminazione automatica"</string>
     <string name="auto_delete_section" msgid="7732381000331475082">"Elimina i dati automaticamente"</string>
     <string name="range_after_x_months" msgid="3340127072680117121">"{count,plural, =1{Dopo # mese}other{Dopo # mesi}}"</string>
