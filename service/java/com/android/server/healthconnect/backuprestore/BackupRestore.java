@@ -640,7 +640,7 @@ public final class BackupRestore {
         try {
             grantTimeFile.createNewFile();
             GrantTimeXmlHelper.serializeGrantTimes(
-                    grantTimeFile, mFirstGrantTimeManager.createBackupState(userHandle));
+                    grantTimeFile, mFirstGrantTimeManager.getGrantTimeStateForUser(userHandle));
             backupFilesByFileNames.put(grantTimeFile.getName(), grantTimeFile);
         } catch (IOException e) {
             Slog.e(TAG, "Could not create the grant time file for backup.", e);
@@ -992,7 +992,7 @@ public final class BackupRestore {
                         GRANT_TIME_FILE_NAME);
         UserGrantTimeState userGrantTimeState =
                 GrantTimeXmlHelper.parseGrantTime(restoredGrantTimeFile);
-        mFirstGrantTimeManager.applyAndStageBackupDataForUser(
+        mFirstGrantTimeManager.applyAndStageGrantTimeStateForUser(
                 mCurrentForegroundUser, userGrantTimeState);
     }
 
