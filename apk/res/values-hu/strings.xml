@@ -65,10 +65,10 @@
     <string name="no_categories" msgid="2636778482437506241">"Nincsenek adatai a Health Connect szolgáltatásban"</string>
     <string name="permission_types_title" msgid="7698058200557389436">"Saját adatok"</string>
     <string name="app_priority_button" msgid="3126133977893705098">"Alkalmazásprioritás"</string>
-    <string name="delete_category_data_button" msgid="2324773398768267043">"<xliff:g id="CATEGORY">%s</xliff:g> kategóriájú adatok törlése"</string>
+    <string name="delete_category_data_button" msgid="2324773398768267043">"Adatok törlése: <xliff:g id="CATEGORY">%s</xliff:g>"</string>
     <string name="select_all_apps_title" msgid="884487568464305913">"Összes alkalmazás"</string>
-    <string name="can_read" msgid="4568261079308309564">"Olvashatnak <xliff:g id="PERMISSION_TYPE">%s</xliff:g> típusú adatokat"</string>
-    <string name="can_write" msgid="5082414937218423823">"Írhatnak <xliff:g id="PERMISSION_TYPE">%s</xliff:g> típusú adatokat"</string>
+    <string name="can_read" msgid="4568261079308309564">"Olvashat <xliff:g id="PERMISSION_TYPE">%s</xliff:g> típusú adatokat"</string>
+    <string name="can_write" msgid="5082414937218423823">"Írhat <xliff:g id="PERMISSION_TYPE">%s</xliff:g> típusú adatokat"</string>
     <string name="inactive_apps" msgid="8956546286760797760">"Inaktív alkalmazások"</string>
     <string name="inactive_apps_message" msgid="4666501359079362486">"Ezek az alkalmazások többé nem írhatnak <xliff:g id="DATA_TYPE">%s</xliff:g> típusú adatokat, de továbbra is tárolnak adatokat a Health Connect szolgáltatásban"</string>
     <string name="data_access_empty_message" msgid="9084350402254264452">"Az alkalmazások többé nem olvashatnak vagy írhatnak <xliff:g id="DATA_TYPE_0">%1$s</xliff:g> típusú adatokat, és a Health Connect a továbbiakban nem tárol <xliff:g id="DATA_TYPE_2">%2$s</xliff:g> típusú adatokat."</string>
