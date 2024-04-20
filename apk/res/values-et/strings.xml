@@ -245,8 +245,8 @@
     <string name="resting_heart_rate_lowercase_label" msgid="4533866739695973169">"pulss puhkamisel"</string>
     <string name="resting_heart_rate_read_content_description" msgid="1068160055773401020">"Puhkamisaegse pulsi lugemine"</string>
     <string name="resting_heart_rate_write_content_description" msgid="8848198128082739995">"Puhkamisaegse pulsi kirjutamine"</string>
-    <string name="skin_temperature_uppercase_label" msgid="4880306019368461268">"Naha temperatuur"</string>
-    <string name="skin_temperature_lowercase_label" msgid="7456421703641980581">"naha temperatuur"</string>
+    <string name="skin_temperature_uppercase_label" msgid="4880306019368461268">"Nahatemperatuur"</string>
+    <string name="skin_temperature_lowercase_label" msgid="7456421703641980581">"nahatemperatuur"</string>
     <string name="skin_temperature_read_content_description" msgid="1896127631429717621">"Saate lugeda naha temperatuuri"</string>
     <string name="skin_temperature_write_content_description" msgid="6448587289116206085">"Saate kirjutada välja naha temperatuuri"</string>
     <string name="read_permission_category" msgid="6002099618259628632">"Luba rakendusel „<xliff:g id="APP_NAME">%1$s</xliff:g>“ lugeda"</string>
