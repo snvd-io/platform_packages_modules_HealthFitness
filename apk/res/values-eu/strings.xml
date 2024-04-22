@@ -67,8 +67,8 @@
     <string name="app_priority_button" msgid="3126133977893705098">"Aplikazioen lehentasuna"</string>
     <string name="delete_category_data_button" msgid="2324773398768267043">"Ezabatu \"<xliff:g id="CATEGORY">%s</xliff:g>\" kategoriako datuak"</string>
     <string name="select_all_apps_title" msgid="884487568464305913">"Aplikazio guztiak"</string>
-    <string name="can_read" msgid="4568261079308309564">"\"<xliff:g id="PERMISSION_TYPE">%s</xliff:g>\" kategoriako datuak irakur ditzaketenak"</string>
-    <string name="can_write" msgid="5082414937218423823">"\"<xliff:g id="PERMISSION_TYPE">%s</xliff:g>\" kategoriako datuak idatz ditzaketenak"</string>
+    <string name="can_read" msgid="4568261079308309564">"Kategoria honetako datuak irakur ditzaketenak: <xliff:g id="PERMISSION_TYPE">%s</xliff:g>"</string>
+    <string name="can_write" msgid="5082414937218423823">"Kategoria honetako datuak idatz ditzaketenak: <xliff:g id="PERMISSION_TYPE">%s</xliff:g>"</string>
     <string name="inactive_apps" msgid="8956546286760797760">"Aplikazio inaktiboak"</string>
     <string name="inactive_apps_message" msgid="4666501359079362486">"Aplikazio hauek jada ezin dute idatzi \"<xliff:g id="DATA_TYPE">%s</xliff:g>\" kategoriako daturik, baina oraindik datuak gordeta dauzkate Health Connect-en"</string>
     <string name="data_access_empty_message" msgid="9084350402254264452">"Aplikazioek jada ezin dituzte irakurri eta idatzi \"<xliff:g id="DATA_TYPE_0">%1$s</xliff:g>\" kategoriako datuak, eta ez dago \"<xliff:g id="DATA_TYPE_2">%2$s</xliff:g>\" kategoriako daturik Health Connect-en gordeta"</string>

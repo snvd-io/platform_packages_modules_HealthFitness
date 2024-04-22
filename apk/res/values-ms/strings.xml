@@ -37,7 +37,7 @@
     <string name="set_units_title" msgid="2657822539603758029">"Tetapkan unit"</string>
     <string name="recent_access_header" msgid="7623497371790225888">"Akses terbaharu"</string>
     <string name="no_recent_access" msgid="4724297929902441784">"Tiada apl yang mengakses Health Connect baru-baru ini"</string>
-    <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"Lihat semua akses terkini"</string>
+    <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"Lihat semua akses terbaharu"</string>
     <string name="recent_access_screen_description" msgid="331101209889185402">"Lihat apl yang telah mengakses data anda dalam tempoh 24 jam yang lalu"</string>
     <string name="today_header" msgid="1006837293203834373">"Hari ini"</string>
     <string name="yesterday_header" msgid="6652176268273681505">"Semalam"</string>

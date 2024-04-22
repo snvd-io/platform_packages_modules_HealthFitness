@@ -758,7 +758,7 @@
     <string name="route_permissions_label" msgid="5201501195020295860">"Trainingsrouten teilen"</string>
     <string name="route_permissions_summary" msgid="4670908225783213910">"Du kannst festlegen, wie diese App auf Trainingsrouten von verbundenen Apps zugreift"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"Jedes Mal fragen"</string>
-    <string name="route_permissions_deny" msgid="4263802925221258853">"Nicht zulassen"</string>
+    <string name="route_permissions_deny" msgid="4263802925221258853">"Nicht erlauben"</string>
     <string name="exercise_permission_dialog_enable_title" msgid="4310997044811843391">"Beide Datentypen aktivieren?"</string>
     <string name="exercise_permission_dialog_disable_title" msgid="1011777519918396883">"Beide Datentypen deaktivieren?"</string>
     <string name="exercise_permission_dialog_enabled_summary" msgid="3404390796688813585">"<xliff:g id="APP_NAME">%1$s</xliff:g> benötigt Lesezugriff auf „Sport“, um die Trainingsrouten zu aktivieren"</string>

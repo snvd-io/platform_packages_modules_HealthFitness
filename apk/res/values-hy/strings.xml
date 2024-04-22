@@ -245,8 +245,8 @@
     <string name="resting_heart_rate_lowercase_label" msgid="4533866739695973169">"սրտի զարկերի հաճախականությունը հանգիստ վիճակում"</string>
     <string name="resting_heart_rate_read_content_description" msgid="1068160055773401020">"Կարդալ հանգիստ վիճակում սրտի զարկերի հաճախականության մասին տվյալները"</string>
     <string name="resting_heart_rate_write_content_description" msgid="8848198128082739995">"Գրանցել հանգիստ վիճակում սրտի զարկերի հաճախականության մասին տվյալները"</string>
-    <string name="skin_temperature_uppercase_label" msgid="4880306019368461268">"Մարմնի ջերմաստիճանը"</string>
-    <string name="skin_temperature_lowercase_label" msgid="7456421703641980581">"մարմնի ջերմաստիճանը"</string>
+    <string name="skin_temperature_uppercase_label" msgid="4880306019368461268">"Մաշկի ջերմաստիճան"</string>
+    <string name="skin_temperature_lowercase_label" msgid="7456421703641980581">"մաշկի ջերմաստիճան"</string>
     <string name="skin_temperature_read_content_description" msgid="1896127631429717621">"Կարդալ մարմնի ջերմաստիճանի տվյալները"</string>
     <string name="skin_temperature_write_content_description" msgid="6448587289116206085">"Գրել մարմնի ջերմաստիճանի տվյալները"</string>
     <string name="read_permission_category" msgid="6002099618259628632">"Թույլատրել <xliff:g id="APP_NAME">%1$s</xliff:g> հավելվածին կարդալ"</string>

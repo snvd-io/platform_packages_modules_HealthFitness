@@ -53,7 +53,7 @@
     <string name="sleep_category_uppercase" msgid="3422452674899706786">"Ұйқы"</string>
     <string name="sleep_category_lowercase" msgid="842609634386839011">"ұйқы"</string>
     <string name="vitals_category_uppercase" msgid="8982333138032938623">"Маңызды көрсеткіштер"</string>
-    <string name="vitals_category_lowercase" msgid="4664457787866407963">"маңызды көрсеткіштер"</string>
+    <string name="vitals_category_lowercase" msgid="4664457787866407963">"Маңызды көрсеткіштер"</string>
     <string name="cycle_tracking_category_uppercase" msgid="4723200714782660489">"Етеккір циклін бақылау"</string>
     <string name="cycle_tracking_category_lowercase" msgid="5245446435975317209">"етеккір циклін бақылау"</string>
     <string name="nutrition_category_uppercase" msgid="6665096097987741036">"Тамақтану"</string>
@@ -246,7 +246,7 @@
     <string name="resting_heart_rate_read_content_description" msgid="1068160055773401020">"Тынығу кезіндегі жүрек қағысы деректерін оқу"</string>
     <string name="resting_heart_rate_write_content_description" msgid="8848198128082739995">"Тынығу кезіндегі жүрек қағысы деректерін жазу"</string>
     <string name="skin_temperature_uppercase_label" msgid="4880306019368461268">"Тері температурасы"</string>
-    <string name="skin_temperature_lowercase_label" msgid="7456421703641980581">"тері температурасы"</string>
+    <string name="skin_temperature_lowercase_label" msgid="7456421703641980581">"Тері температурасы"</string>
     <string name="skin_temperature_read_content_description" msgid="1896127631429717621">"Тері температурасын оқу"</string>
     <string name="skin_temperature_write_content_description" msgid="6448587289116206085">"Тері температурасын жазу"</string>
     <string name="read_permission_category" msgid="6002099618259628632">"\"<xliff:g id="APP_NAME">%1$s</xliff:g>\" қолданбасына оқуға рұқсат беру"</string>
@@ -263,7 +263,7 @@
     <string name="permissions_disconnect_dialog_title" msgid="7355211540619034695">"Барлық рұқсатты өшіру керек пе?"</string>
     <string name="permissions_disconnect_dialog_disconnect" msgid="8854787587948224752">"Барлығын өшіру"</string>
     <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"<xliff:g id="APP_NAME">%1$s</xliff:g> қолданбасы бұдан былай Health Connect-тегі деректерді оқи немесе жаза алмайды.\n\nБұл жағдай локацияны, камераны немесе микрофонды пайдалану сияқты осы қолданбадағы басқа рұқсаттарға әсер етпейді."</string>
-    <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"Health Connect-тен <xliff:g id="APP_NAME">%1$s</xliff:g> деректері де жойылсын"</string>
+    <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"Health Connect-тен <xliff:g id="APP_NAME">%1$s</xliff:g> деректері де жойылсын."</string>
     <string name="navigation_next_day" msgid="8853443471183944219">"Келесі күн"</string>
     <string name="navigation_selected_day" msgid="2510843479734091348">"Таңдалған күн"</string>
     <string name="navigation_previous_day" msgid="718353386484938584">"Алдыңғы күн"</string>

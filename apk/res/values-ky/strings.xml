@@ -31,13 +31,13 @@
     <string name="connected_apps_all_apps_connected_subtitle" msgid="3432698291862059492">"<xliff:g id="NUM_APPS_CONNECTED">%1$s</xliff:g> колдонмо пайдалана алат"</string>
     <string name="connected_apps_one_app_connected_subtitle" msgid="9095815882509754340">"<xliff:g id="NUM_APPS_CONNECTED">%1$s</xliff:g> колдонмо пайдалана алат"</string>
     <string name="connected_apps_button_no_permissions_subtitle" msgid="1651994862419752908">"Жок"</string>
-    <string name="entry_details_title" msgid="590184849040247850">"Киргизилген маалыматтын чоо-жайы"</string>
+    <string name="entry_details_title" msgid="590184849040247850">"Киргизилген нерселердин чоо-жайы"</string>
     <string name="backup_title" msgid="211503191266235085">"Камдык көчүрмөнү сактоо"</string>
     <string name="data_sources_and_priority_title" msgid="2360222350913604558">"Маалымат булактары жана маанилүүлүгү"</string>
     <string name="set_units_title" msgid="2657822539603758029">"Бирдиктерди тууралоо"</string>
     <string name="recent_access_header" msgid="7623497371790225888">"Соңку колдонмолор"</string>
     <string name="no_recent_access" msgid="4724297929902441784">"Health Connect\'ти бир да колдонмо пайдаланган жок"</string>
-    <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"Бардык акыркы кирүүлөрдү көрүү"</string>
+    <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"Акыркы колдонулган нерселердин баарын көрүү"</string>
     <string name="recent_access_screen_description" msgid="331101209889185402">"Соңку 24 саатта кайсы колдонмолор кайсы маалыматты көргөнүн биле аласыз"</string>
     <string name="today_header" msgid="1006837293203834373">"Бүгүн"</string>
     <string name="yesterday_header" msgid="6652176268273681505">"Кечээ"</string>
@@ -65,7 +65,7 @@
     <string name="no_categories" msgid="2636778482437506241">"Health Connect\'те эч нерсе жок"</string>
     <string name="permission_types_title" msgid="7698058200557389436">"Ден-соолугуңузга байланыштуу нерселер"</string>
     <string name="app_priority_button" msgid="3126133977893705098">"Колдонмонун маанилүүлүгү"</string>
-    <string name="delete_category_data_button" msgid="2324773398768267043">"<xliff:g id="CATEGORY">%s</xliff:g> байланыштуу нерселерди өчүрүү"</string>
+    <string name="delete_category_data_button" msgid="2324773398768267043">"Эмнени өчүрүш керек: <xliff:g id="CATEGORY">%s</xliff:g>"</string>
     <string name="select_all_apps_title" msgid="884487568464305913">"Бардык колдонмолор"</string>
     <string name="can_read" msgid="4568261079308309564">"Кайсы маалыматты көрө алат: <xliff:g id="PERMISSION_TYPE">%s</xliff:g>"</string>
     <string name="can_write" msgid="5082414937218423823">"Кайсы маалыматты жаза алат: <xliff:g id="PERMISSION_TYPE">%s</xliff:g>"</string>
