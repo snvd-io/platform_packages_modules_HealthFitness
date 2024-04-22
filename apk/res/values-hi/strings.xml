@@ -53,7 +53,7 @@
     <string name="sleep_category_uppercase" msgid="3422452674899706786">"नींद"</string>
     <string name="sleep_category_lowercase" msgid="842609634386839011">"नींद से जुड़ी जानकारी"</string>
     <string name="vitals_category_uppercase" msgid="8982333138032938623">"धड़कन, बीपी वगैरह का डेटा"</string>
-    <string name="vitals_category_lowercase" msgid="4664457787866407963">"ज़रूरी जानकारी"</string>
+    <string name="vitals_category_lowercase" msgid="4664457787866407963">"धड़कन, बीपी वगैरह का डेटा"</string>
     <string name="cycle_tracking_category_uppercase" msgid="4723200714782660489">"पीरियड साइकल का डेटा"</string>
     <string name="cycle_tracking_category_lowercase" msgid="5245446435975317209">"पीरियड साइकल का डेटा"</string>
     <string name="nutrition_category_uppercase" msgid="6665096097987741036">"पोषण"</string>
@@ -262,8 +262,8 @@
     <string name="request_permissions_privacy_policy" msgid="228503452643555737">"निजता नीति"</string>
     <string name="permissions_disconnect_dialog_title" msgid="7355211540619034695">"क्या आपको सभी अनुमतियां हटानी हैं?"</string>
     <string name="permissions_disconnect_dialog_disconnect" msgid="8854787587948224752">"सभी अनुमतियां हटाएं"</string>
-    <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"अनुमतियां हटाने के बाद, <xliff:g id="APP_NAME">%1$s</xliff:g> के पास Health Connect के किसी भी डेटा को पढ़ने या उसमें बदलाव करने की अनुमति नहीं होगी.\n\nऐसा करने से, इस ऐप्लिकेशन की दूसरी अनुमतियों पर असर नहीं पड़ेगा. जैसे, जगह की जानकारी, कैमरे या माइक्रोफ़ोन के इस्तेमाल से जुड़ी अनुमतियां."</string>
-    <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"Health Connect से <xliff:g id="APP_NAME">%1$s</xliff:g> का डेटा भी मिटाएं"</string>
+    <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"अनुमतियां हटाने पर <xliff:g id="APP_NAME">%1$s</xliff:g>, Health Connect का डेटा न तो पढ़ पाएगा और न ही उसे सेव कर पाएगा.\n\nइसका असर, ऐप्लिकेशन को पहले से मिली दूसरी अनुमतियों पर नहीं पड़ेगा. जैसे, जगह की जानकारी, कैमरे या माइक्रोफ़ोन को ऐक्सेस करने से जुड़ी अनुमतियां."</string>
+    <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"<xliff:g id="APP_NAME">%1$s</xliff:g> का, Health Connect में सेव किया गया डेटा भी मिटाएं"</string>
     <string name="navigation_next_day" msgid="8853443471183944219">"अगला दिन"</string>
     <string name="navigation_selected_day" msgid="2510843479734091348">"चुना गया दिन"</string>
     <string name="navigation_previous_day" msgid="718353386484938584">"पिछला दिन"</string>
@@ -284,7 +284,7 @@
     <string name="permissions_disconnect_all_dialog_disconnect" msgid="2134136493310257746">"सभी अनुमतियां हटाएं"</string>
     <string name="manage_permissions_manage_app_header" msgid="6356348062088358761">"ऐप्लिकेशन मैनेज करें"</string>
     <string name="see_app_data" msgid="3951030076195119476">"ऐप्लिकेशन का डेटा देखें"</string>
-    <string name="delete_app_data" msgid="6890357774873859952">"ऐप्लिकेशन का डेटा मिटाएं"</string>
+    <string name="delete_app_data" msgid="6890357774873859952">"डिवाइस पर सेव किया गया, ऐप डेटा मिटाएं"</string>
     <string name="inactive_apps_section_title" msgid="7492812973696378690">"इनऐक्टिव ऐप्लिकेशन"</string>
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"ये ऐप्लिकेशन अब Health Connect को ऐक्सेस नहीं कर सकते. हालांकि, जो डेटा इन्होंने पहले सेव किया था वह अब भी Health Connect में मौजूद है"</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g>, <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g> के बाद सबमिट किए गए डेटा को देख सकता है"</string>

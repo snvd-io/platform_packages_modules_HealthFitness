@@ -20,7 +20,7 @@
     <string name="app_label" msgid="4768580772453324183">"Connessione Salute"</string>
     <string name="health_connect_summary" msgid="6401520186678972547">"Gestisci l\'accesso delle app ai dati sulla salute"</string>
     <string name="permissions_and_data_header" msgid="4406105506837487805">"Autorizzazioni e dati"</string>
-    <string name="home_subtitle" msgid="1750033322147357163">"Gestisci i dati relativi alla salute e all\'attività fisica sul telefono e stabilisci a quali app concedere l\'accesso"</string>
+    <string name="home_subtitle" msgid="1750033322147357163">"Gestisci i dati relativi alla salute e all\'attività fisica sullo smartphone e stabilisci a quali app concedere l\'accesso"</string>
     <string name="data_title" msgid="4456619761533380816">"Dati e accesso"</string>
     <string name="all_categories_title" msgid="1446410643217937926">"Tutte le categorie"</string>
     <string name="see_all_categories" msgid="5599882403901010434">"Vedi tutte le categorie"</string>

@@ -21,7 +21,7 @@
     <string name="health_connect_summary" msgid="6401520186678972547">"Эрүүл мэндийн өгөгдлийн аппын хандалтыг удирдах"</string>
     <string name="permissions_and_data_header" msgid="4406105506837487805">"Зөвшөөрөл болон өгөгдөл"</string>
     <string name="home_subtitle" msgid="1750033322147357163">"Утсан дээрээ эрүүл мэнд, фитнесийн өгөгдлөө удирдаж, үүнд ямар аппууд хандаж болохыг хянана уу"</string>
-    <string name="data_title" msgid="4456619761533380816">"Өгөгдөл болон хандалт"</string>
+    <string name="data_title" msgid="4456619761533380816">"Өгөгдөл, хандалт"</string>
     <string name="all_categories_title" msgid="1446410643217937926">"Бүх ангилал"</string>
     <string name="see_all_categories" msgid="5599882403901010434">"Бүх ангиллыг харах"</string>
     <string name="no_data" msgid="1906986019249068659">"Өгөгдөл байхгүй байна"</string>
