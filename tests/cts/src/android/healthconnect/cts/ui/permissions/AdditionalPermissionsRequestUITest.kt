@@ -38,26 +38,21 @@ import com.android.compatibility.common.util.UiAutomatorUtils2.getUiDevice
 import com.google.common.truth.Truth
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
 class AdditionalPermissionsRequestUITest : HealthConnectBaseTest() {
 
-    @get:Rule
-    val disableAnimationRule = DisableAnimationRule()
+    @get:Rule val disableAnimationRule = DisableAnimationRule()
 
-    @get:Rule
-    val freezeRotationRule = FreezeRotationRule()
+    @get:Rule val freezeRotationRule = FreezeRotationRule()
 
     @Before
     fun setup() {
         revokePermissionViaPackageManager(context, TEST_APP_PACKAGE_NAME, READ_HEALTH_DATA_HISTORY)
         revokePermissionViaPackageManager(
             context, TEST_APP_PACKAGE_NAME, READ_HEALTH_DATA_IN_BACKGROUND)
-        with(getUiDevice()) {
-            executeShellCommand("settings put system font_scale 0.85")
-        }
+        with(getUiDevice()) { executeShellCommand("settings put system font_scale 0.85") }
     }
 
     @After
@@ -132,7 +127,6 @@ class AdditionalPermissionsRequestUITest : HealthConnectBaseTest() {
     }
 
     @Test
-    @Ignore("TODO(b/334336816):Fix flaky activity being destroyed")
     fun requestAdditionalPermissions_noReadPermissions_returnsResultCanceled() {
         revokePermissionViaPackageManager(context, TEST_APP_PACKAGE_NAME, READ_HEIGHT)
         val permissions = listOf(READ_HEALTH_DATA_HISTORY, READ_HEALTH_DATA_IN_BACKGROUND)
@@ -147,7 +141,7 @@ class AdditionalPermissionsRequestUITest : HealthConnectBaseTest() {
 
         SystemUtil.runWithShellPermissionIdentity(
             {
-                val result = ProxyActivity.launchActivityForResult(intent) {}
+                val result = ProxyActivity.launchActivityForResult(intent)
                 Truth.assertThat(result.resultCode).isEqualTo(Activity.RESULT_CANCELED)
             },
             Manifest.permission.GRANT_RUNTIME_PERMISSIONS)
