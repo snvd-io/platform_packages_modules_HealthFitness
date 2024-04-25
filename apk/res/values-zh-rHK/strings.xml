@@ -289,7 +289,7 @@
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"這些應用程式不再擁有存取權，但仍有資料儲存在 Health Connect"</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"「<xliff:g id="APP_NAME">%1$s</xliff:g>」可以讀取 <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>後新增的資料"</string>
     <string name="other_android_permissions" msgid="8051485761573324702">"如要管理此應用程式可以存取的其他 Android 權限，請前往「設定」&gt; [應用程式]"</string>
-    <string name="manage_permissions_rationale" msgid="9183689798847740274">"你與「<xliff:g id="APP_NAME">%1$s</xliff:g>」分享的資料適用於該應用程式的私隱權政策"</string>
+    <string name="manage_permissions_rationale" msgid="9183689798847740274">"你與「<xliff:g id="APP_NAME">%1$s</xliff:g>」分享的資料將受應用程式的私隱權政策約束"</string>
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"如要管理此應用程式可以存取的其他 Android 權限，請前往「設定」，然後輕按 [應用程式]"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"閱讀私隱權政策"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"上次存取時間：過去 24 小時內"</string>

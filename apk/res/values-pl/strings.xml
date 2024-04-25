@@ -245,8 +245,8 @@
     <string name="resting_heart_rate_lowercase_label" msgid="4533866739695973169">"tętno spoczynkowe"</string>
     <string name="resting_heart_rate_read_content_description" msgid="1068160055773401020">"Odczytuj dane o tętnie spoczynkowym"</string>
     <string name="resting_heart_rate_write_content_description" msgid="8848198128082739995">"Zapisuj dane o tętnie spoczynkowym"</string>
-    <string name="skin_temperature_uppercase_label" msgid="4880306019368461268">"Temperatura ciała"</string>
-    <string name="skin_temperature_lowercase_label" msgid="7456421703641980581">"temperatura ciała"</string>
+    <string name="skin_temperature_uppercase_label" msgid="4880306019368461268">"Temperatura skóry"</string>
+    <string name="skin_temperature_lowercase_label" msgid="7456421703641980581">"temperatura skóry"</string>
     <string name="skin_temperature_read_content_description" msgid="1896127631429717621">"Odczytuj temperaturę skóry"</string>
     <string name="skin_temperature_write_content_description" msgid="6448587289116206085">"Zapisuj temperaturę ciała"</string>
     <string name="read_permission_category" msgid="6002099618259628632">"Zezwól aplikacji „<xliff:g id="APP_NAME">%1$s</xliff:g>” na odczytywanie"</string>

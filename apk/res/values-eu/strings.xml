@@ -35,9 +35,9 @@
     <string name="backup_title" msgid="211503191266235085">"Babeskopiak"</string>
     <string name="data_sources_and_priority_title" msgid="2360222350913604558">"Datu-iturburuak eta lehentasuna"</string>
     <string name="set_units_title" msgid="2657822539603758029">"Ezarri unitateak"</string>
-    <string name="recent_access_header" msgid="7623497371790225888">"Datuak atzitu dituzten azkenak"</string>
+    <string name="recent_access_header" msgid="7623497371790225888">"Azkenaldian datuak atzitu dituztenak"</string>
     <string name="no_recent_access" msgid="4724297929902441784">"Ez dago azkenaldian Health Connect atzitu duen aplikaziorik"</string>
-    <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"Ikusi datuak atzitu dituzten azkenak"</string>
+    <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"Ikusi azkenaldian datuak atzitu dituztenak"</string>
     <string name="recent_access_screen_description" msgid="331101209889185402">"Ikusi zein aplikaziok atzitu dituzten datuak azken 24 orduetan"</string>
     <string name="today_header" msgid="1006837293203834373">"Gaur"</string>
     <string name="yesterday_header" msgid="6652176268273681505">"Atzo"</string>

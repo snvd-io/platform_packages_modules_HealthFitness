@@ -284,7 +284,7 @@
     <string name="permissions_disconnect_all_dialog_disconnect" msgid="2134136493310257746">"Ukloni sve"</string>
     <string name="manage_permissions_manage_app_header" msgid="6356348062088358761">"Upravljajte aplikacijom"</string>
     <string name="see_app_data" msgid="3951030076195119476">"Pogledajte podatke aplikacije"</string>
-    <string name="delete_app_data" msgid="6890357774873859952">"Izbriši podatke aplikacije"</string>
+    <string name="delete_app_data" msgid="6890357774873859952">"Izbrišite podatke aplikacije"</string>
     <string name="inactive_apps_section_title" msgid="7492812973696378690">"Neaktivne aplikacije"</string>
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"Ove aplikacije više nemaju pristup, ali su im podaci i dalje pohranjeni u Health Connectu"</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"Aplikacija <xliff:g id="APP_NAME">%1$s</xliff:g> može čitati podatke koji su dodani nakon dana <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>"</string>

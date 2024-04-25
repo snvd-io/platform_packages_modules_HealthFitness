@@ -74,7 +74,7 @@
     <string name="data_access_empty_message" msgid="9084350402254264452">"Sovellukset eivät voi enää lukea tai kirjoittaa dataa (<xliff:g id="DATA_TYPE_0">%1$s</xliff:g>), eikä dataa (<xliff:g id="DATA_TYPE_2">%2$s</xliff:g>) ole tallennettu Health Connectin"</string>
     <string name="data_access_exercise_description" msgid="6868583522699443570">"Data sisältää aktiivisuusajan, harjoitustyypin, kierrosten, toistojen, harjoituskertojen ja uintityylin kaltaisia tietoja"</string>
     <string name="data_access_sleep_description" msgid="74293126050011153">"Data sisältää univaiheiden ja unikertojen kaltaisia tietoja"</string>
-    <string name="all_entries_button" msgid="5109091107239135235">"Katso kaikki merkinnät"</string>
+    <string name="all_entries_button" msgid="5109091107239135235">"Katso kaikki"</string>
     <string name="selected_date_view_action_description" msgid="6237240886988225664">"muuta"</string>
     <string name="delete_permission_type_data_button" msgid="2270819954943391797">"Poista data"</string>
     <string name="permgrouplab_health" msgid="468961137496587966">"Health Connect"</string>

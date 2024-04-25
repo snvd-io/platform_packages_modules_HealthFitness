@@ -31,11 +31,11 @@
     <string name="connected_apps_all_apps_connected_subtitle" msgid="3432698291862059492">"<xliff:g id="NUM_APPS_CONNECTED">%1$s</xliff:g> ऐप्लिकेशन के पास ऐक्सेस है"</string>
     <string name="connected_apps_one_app_connected_subtitle" msgid="9095815882509754340">"<xliff:g id="NUM_APPS_CONNECTED">%1$s</xliff:g> ऐप्लिकेशन के पास ऐक्सेस है"</string>
     <string name="connected_apps_button_no_permissions_subtitle" msgid="1651994862419752908">"कोई नहीं"</string>
-    <string name="entry_details_title" msgid="590184849040247850">"एंट्री के बारे में जानकारी"</string>
+    <string name="entry_details_title" msgid="590184849040247850">"गतिविधियों का ब्यौरा"</string>
     <string name="backup_title" msgid="211503191266235085">"बैकअप लें"</string>
     <string name="data_sources_and_priority_title" msgid="2360222350913604558">"डेटा सोर्स और प्राथमिकता"</string>
     <string name="set_units_title" msgid="2657822539603758029">"इकाइयां सेट करें"</string>
-    <string name="recent_access_header" msgid="7623497371790225888">"हाल ही में, डेटा ऐक्सेस करने वाले ऐप्लिकेशन"</string>
+    <string name="recent_access_header" msgid="7623497371790225888">"हाल ही में डेटा ऐक्सेस करने वाले ऐप्लिकेशन"</string>
     <string name="no_recent_access" msgid="4724297929902441784">"हाल ही में, किसी भी ऐप्लिकेशन ने Health Connect के डेटा का इस्तेमाल नहीं किया है"</string>
     <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"हाल में डेटा ऐक्सेस करने वाले सभी ऐप्लिकेशन देखें"</string>
     <string name="recent_access_screen_description" msgid="331101209889185402">"देखें कि पिछले 24 घंटों में किन ऐप्लिकेशन ने आपका डेटा ऐक्सेस किया है"</string>
@@ -52,8 +52,8 @@
     <string name="body_measurements_category_lowercase" msgid="2259696274629666992">"शरीर की माप से जुड़ी जानकारी"</string>
     <string name="sleep_category_uppercase" msgid="3422452674899706786">"नींद"</string>
     <string name="sleep_category_lowercase" msgid="842609634386839011">"नींद से जुड़ी जानकारी"</string>
-    <string name="vitals_category_uppercase" msgid="8982333138032938623">"धड़कन, बीपी वगैरह का डेटा"</string>
-    <string name="vitals_category_lowercase" msgid="4664457787866407963">"धड़कन, बीपी वगैरह का डेटा"</string>
+    <string name="vitals_category_uppercase" msgid="8982333138032938623">"ज़रूरी जानकारी"</string>
+    <string name="vitals_category_lowercase" msgid="4664457787866407963">"ज़रूरी जानकारी"</string>
     <string name="cycle_tracking_category_uppercase" msgid="4723200714782660489">"पीरियड साइकल का डेटा"</string>
     <string name="cycle_tracking_category_lowercase" msgid="5245446435975317209">"पीरियड साइकल का डेटा"</string>
     <string name="nutrition_category_uppercase" msgid="6665096097987741036">"पोषण"</string>
@@ -287,7 +287,7 @@
     <string name="delete_app_data" msgid="6890357774873859952">"डिवाइस पर सेव किया गया, ऐप डेटा मिटाएं"</string>
     <string name="inactive_apps_section_title" msgid="7492812973696378690">"इनऐक्टिव ऐप्लिकेशन"</string>
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"ये ऐप्लिकेशन अब Health Connect को ऐक्सेस नहीं कर सकते. हालांकि, जो डेटा इन्होंने पहले सेव किया था वह अब भी Health Connect में मौजूद है"</string>
-    <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g>, <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g> के बाद सबमिट किए गए डेटा को देख सकता है"</string>
+    <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g> <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g> के बाद सबमिट किए गए डेटा को देख सकता है"</string>
     <string name="other_android_permissions" msgid="8051485761573324702">"यह ऐप्लिकेशन, Android की जिन अन्य अनुमतियों को ऐक्सेस कर सकता है उन्हें मैनेज करने के लिए, सेटिंग &gt; ऐप्लिकेशन पर जाएं"</string>
     <string name="manage_permissions_rationale" msgid="9183689798847740274">"<xliff:g id="APP_NAME">%1$s</xliff:g> के साथ शेयर किए गए डेटा पर, इस ऐप्लिकेशन की निजता नीति लागू होती है"</string>
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"यह ऐप्लिकेशन, Android की जिन अन्य अनुमतियों को ऐक्सेस कर सकता है उन्हें मैनेज करने के लिए, \'सेटिंग\' में जाकर \'ऐप्लिकेशन\' पर टैप करें"</string>
@@ -486,7 +486,7 @@
     <string name="stretching" msgid="8667864173383423787">"स्ट्रेचिंग"</string>
     <string name="surfing" msgid="7612503593241904984">"सर्फ़िंग (सर्फ़ करना)"</string>
     <string name="swimming_open_water" msgid="1030388267758027037">"ओपन वॉटर स्विमिंग"</string>
-    <string name="swimming_pool" msgid="1584809250142187550">"पूल स्विमिंग"</string>
+    <string name="swimming_pool" msgid="1584809250142187550">"पूल में तैराकी"</string>
     <string name="swimming_freestyle" msgid="5969535751316106638">"फ़्रीस्टाइल"</string>
     <string name="swimming_backstroke" msgid="7293002996518694035">"बैकस्ट्रोक"</string>
     <string name="swimming_breaststroke" msgid="7168282910654289593">"ब्रेस्टस्ट्रोक"</string>
@@ -754,7 +754,7 @@
     <string name="request_route_allow" msgid="4427372851821847274">"इस रूट का ऐक्सेस दें"</string>
     <string name="request_route_allow_all" msgid="314830698958736916">"सभी रूट का ऐक्सेस दें"</string>
     <string name="request_route_dont_allow" msgid="1186236234664957228">"ऐक्सेस न दें"</string>
-    <string name="route_permissions_always_allow" msgid="1383816362804293137">"हमेशा इस्तेमाल की अनुमति"</string>
+    <string name="route_permissions_always_allow" msgid="1383816362804293137">"हमेशा इस्तेमाल करने की अनुमति दें"</string>
     <string name="route_permissions_label" msgid="5201501195020295860">"कसरत का रूट शेयर करने की अनुमति"</string>
     <string name="route_permissions_summary" msgid="4670908225783213910">"कंट्रोल करें कि यह ऐप्लिकेशन, जुड़े हुए दूसरे ऐप्लिकेशन में मौजूद कसरत के रूट को कैसे ऐक्सेस करे"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"हर बार पूछें"</string>

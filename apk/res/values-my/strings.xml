@@ -20,7 +20,7 @@
     <string name="app_label" msgid="4768580772453324183">"Health Connect"</string>
     <string name="health_connect_summary" msgid="6401520186678972547">"ကျန်းမာရေးဒေတာအတွက် အက်ပ်သုံးခွင့်ကို စီမံနိုင်သည်"</string>
     <string name="permissions_and_data_header" msgid="4406105506837487805">"ခွင့်ပြုချက်များနှင့် ဒေတာ"</string>
-    <string name="home_subtitle" msgid="1750033322147357163">"ကျန်းမာရေးနှင့် ကြံ့ခိုင်ရေးဒေတာကို သင့်ဖုန်းတွင် စီမံပြီး ၎င်းကို မည်သည့်အက်ပ်များက သုံးနိုင်ကြောင်း စီမံပါ"</string>
+    <string name="home_subtitle" msgid="1750033322147357163">"ကျန်းမာရေးနှင့် ကြံ့ခိုင်ရေးဒေတာကို သင့်ဖုန်းတွင် စီမံပြီး ၎င်းအား သုံးနိုင်သည့် အက်ပ်များကို သတ်မှတ်ပါ"</string>
     <string name="data_title" msgid="4456619761533380816">"ဒေတာနှင့် သုံးခွင့်"</string>
     <string name="all_categories_title" msgid="1446410643217937926">"အမျိုးအစားအားလုံး"</string>
     <string name="see_all_categories" msgid="5599882403901010434">"အမျိုးအစားအားလုံး ကြည့်ရန်"</string>
@@ -295,7 +295,7 @@
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"ပြီးခဲ့သော ၂၄ နာရီအတွင်း သုံးထားသည်"</string>
     <string name="app_access_title" msgid="7137018424885371763">"အက်ပ်သုံးခွင့်"</string>
     <string name="connected_apps_empty_list_section_title" msgid="6821215432694207342">"တွဲသုံးနိုင်သောအက်ပ်များကို လောလောဆယ် ထည့်သွင်းမထားပါ"</string>
-    <string name="additional_access_label" msgid="4645249249222528341">"နောက်ထပ်သုံးခွင့်"</string>
+    <string name="additional_access_label" msgid="4645249249222528341">"ထပ်ဆောင်းသုံးခွင့်"</string>
     <string name="denied_apps_banner_title" msgid="1997745063608657965">"ဖယ်ရှားထားသည့် အက်ပ်ခွင့်ပြုချက်များ"</string>
     <string name="denied_apps_banner_message_one_app" msgid="17659513485678315">"Health Connect က <xliff:g id="APP_DATA">%s</xliff:g> အတွက် ခွင့်ပြုချက်များကို ဖယ်ရှားလိုက်သည်"</string>
     <string name="denied_apps_banner_message_two_apps" msgid="1147216810892373640">"Health Connect က <xliff:g id="APP_DATA_0">%1$s</xliff:g> နှင့် <xliff:g id="APP_DATA_TWO">%2$s</xliff:g> အတွက် ခွင့်ပြုချက်များကို ဖယ်ရှားလိုက်သည်"</string>
