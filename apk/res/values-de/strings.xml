@@ -252,7 +252,7 @@
     <string name="read_permission_category" msgid="6002099618259628632">"„<xliff:g id="APP_NAME">%1$s</xliff:g>“ Lesezugriff gewähren"</string>
     <string name="write_permission_category" msgid="1529702804865008111">"„<xliff:g id="APP_NAME">%1$s</xliff:g>“ Schreibzugriff gewähren"</string>
     <string name="request_permissions_cancel" msgid="1787483997235365393">"Abbrechen"</string>
-    <string name="request_permissions_allow" msgid="4201324235711040631">"Zulassen"</string>
+    <string name="request_permissions_allow" msgid="4201324235711040631">"Erlauben"</string>
     <string name="request_permissions_allow_all" msgid="3419414351406638770">"Alle zulassen"</string>
     <string name="request_permissions_dont_allow" msgid="6375307410951549030">"Nicht erlauben"</string>
     <string name="request_permissions_header_desc" msgid="5561173070722750153">"Du kannst festlegen, welche Daten diese App in Health Connect lesen und schreiben darf"</string>
@@ -287,10 +287,10 @@
     <string name="delete_app_data" msgid="6890357774873859952">"App-Daten löschen"</string>
     <string name="inactive_apps_section_title" msgid="7492812973696378690">"Inaktive Apps"</string>
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"Diese Apps haben keinen Zugriff mehr, aber es sind noch Daten von ihnen in Health Connect gespeichert"</string>
-    <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g> kann Daten lesen, die nach dem <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g> hinzugefügt wurden"</string>
-    <string name="other_android_permissions" msgid="8051485761573324702">"Weitere Android-Berechtigungen, die diese App hat, kannst du in den Einstellungen unter „Apps“ verwalten"</string>
-    <string name="manage_permissions_rationale" msgid="9183689798847740274">"Die mit <xliff:g id="APP_NAME">%1$s</xliff:g> geteilten Daten sind von der Datenschutzerklärung dieser App abgedeckt"</string>
-    <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Weitere Android-Berechtigungen, die diese App hat, kannst du in den Einstellungen unter „Apps“ verwalten"</string>
+    <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g> kann Daten lesen, die nach dem <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g> hinzugefügt wurden."</string>
+    <string name="other_android_permissions" msgid="8051485761573324702">"Weitere Android-Berechtigungen, die diese App hat, kannst du in den Einstellungen unter „Apps“ verwalten."</string>
+    <string name="manage_permissions_rationale" msgid="9183689798847740274">"Die mit <xliff:g id="APP_NAME">%1$s</xliff:g> geteilten Daten sind von der Datenschutzerklärung dieser App abgedeckt."</string>
+    <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Weitere Android-Berechtigungen, die diese App hat, kannst du in den Einstellungen unter „Apps“ verwalten."</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Datenschutzerklärung lesen"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Zugriff in den letzten 24 Stunden"</string>
     <string name="app_access_title" msgid="7137018424885371763">"App-Zugriff"</string>
@@ -754,7 +754,7 @@
     <string name="request_route_allow" msgid="4427372851821847274">"Zugriff auf diese Route erlauben"</string>
     <string name="request_route_allow_all" msgid="314830698958736916">"Zugriff auf alle Routen erlauben"</string>
     <string name="request_route_dont_allow" msgid="1186236234664957228">"Nicht erlauben"</string>
-    <string name="route_permissions_always_allow" msgid="1383816362804293137">"Immer zulassen"</string>
+    <string name="route_permissions_always_allow" msgid="1383816362804293137">"Immer erlauben"</string>
     <string name="route_permissions_label" msgid="5201501195020295860">"Trainingsrouten teilen"</string>
     <string name="route_permissions_summary" msgid="4670908225783213910">"Du kannst festlegen, wie diese App auf Trainingsrouten von verbundenen Apps zugreift"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"Jedes Mal fragen"</string>

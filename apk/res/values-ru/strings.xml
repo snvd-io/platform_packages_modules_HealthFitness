@@ -37,7 +37,7 @@
     <string name="set_units_title" msgid="2657822539603758029">"Настроить единицы измерения"</string>
     <string name="recent_access_header" msgid="7623497371790225888">"Доступ за последнее время"</string>
     <string name="no_recent_access" msgid="4724297929902441784">"В последнее время приложения не получали доступ к сервису \"Здоровье и спорт\""</string>
-    <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"Посмотреть все недавние операции"</string>
+    <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"Вся информация о доступе за последнее время"</string>
     <string name="recent_access_screen_description" msgid="331101209889185402">"Посмотрите, какие приложения получали доступ к вашим данным за последние 24 ч."</string>
     <string name="today_header" msgid="1006837293203834373">"Сегодня"</string>
     <string name="yesterday_header" msgid="6652176268273681505">"Вчера"</string>
@@ -65,7 +65,7 @@
     <string name="no_categories" msgid="2636778482437506241">"В приложении \"Здоровье и спорт\" нет данных."</string>
     <string name="permission_types_title" msgid="7698058200557389436">"Ваши данные"</string>
     <string name="app_priority_button" msgid="3126133977893705098">"Приоритет приложений"</string>
-    <string name="delete_category_data_button" msgid="2324773398768267043">"Удалить данные категории \"<xliff:g id="CATEGORY">%s</xliff:g>\""</string>
+    <string name="delete_category_data_button" msgid="2324773398768267043">"Удалить данные этой категории (<xliff:g id="CATEGORY">%s</xliff:g>)"</string>
     <string name="select_all_apps_title" msgid="884487568464305913">"Все приложения"</string>
     <string name="can_read" msgid="4568261079308309564">"<xliff:g id="PERMISSION_TYPE">%s</xliff:g>: чтение"</string>
     <string name="can_write" msgid="5082414937218423823">"<xliff:g id="PERMISSION_TYPE">%s</xliff:g>: запись"</string>
@@ -254,7 +254,7 @@
     <string name="request_permissions_cancel" msgid="1787483997235365393">"Отмена"</string>
     <string name="request_permissions_allow" msgid="4201324235711040631">"Разрешить"</string>
     <string name="request_permissions_allow_all" msgid="3419414351406638770">"Разрешить все"</string>
-    <string name="request_permissions_dont_allow" msgid="6375307410951549030">"Запретить"</string>
+    <string name="request_permissions_dont_allow" msgid="6375307410951549030">"Не разрешать"</string>
     <string name="request_permissions_header_desc" msgid="5561173070722750153">"Выберите, какие данные это приложение сможет читать и записывать в сервисе \"Здоровье и спорт\"."</string>
     <string name="request_permissions_header_time_frame_desc" msgid="4617392728203291453">"Если вы предоставите приложению доступ для чтения, оно сможет получать как новые данные, так и информацию за последние 30 дней."</string>
     <string name="request_permissions_header_title" msgid="4264236128614363479">"Открыть приложению \"<xliff:g id="APP_NAME">%1$s</xliff:g>\" доступ к сервису \"Здоровье и спорт\"?"</string>
@@ -262,8 +262,8 @@
     <string name="request_permissions_privacy_policy" msgid="228503452643555737">"политике конфиденциальности"</string>
     <string name="permissions_disconnect_dialog_title" msgid="7355211540619034695">"Удалить все разрешения?"</string>
     <string name="permissions_disconnect_dialog_disconnect" msgid="8854787587948224752">"Удалить все"</string>
-    <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"Приложение \"<xliff:g id="APP_NAME">%1$s</xliff:g>\" больше не сможет читать и записывать данные в сервисе \"Здоровье и спорт\".\n\nЭто не повлияет на другие разрешения, такие как доступ к сведениям о местоположении, камере или микрофону."</string>
-    <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"Также удалить данные приложения \"<xliff:g id="APP_NAME">%1$s</xliff:g>\" из сервиса \"Здоровье и спорт\""</string>
+    <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"Приложение <xliff:g id="APP_NAME">%1$s</xliff:g> больше не сможет читать и записывать данные на платформе \"Здоровье и спорт\".\n\nЭто не повлияет на другие разрешения, такие как доступ к данным о местоположении, камере или микрофону."</string>
+    <string name="permissions_disconnect_dialog_checkbox" msgid="8646951566431872823">"Также удалить данные приложения \"<xliff:g id="APP_NAME">%1$s</xliff:g>\" из Здоровья и спорта"</string>
     <string name="navigation_next_day" msgid="8853443471183944219">"Следующий день"</string>
     <string name="navigation_selected_day" msgid="2510843479734091348">"Выбранный день"</string>
     <string name="navigation_previous_day" msgid="718353386484938584">"Предыдущий день"</string>
@@ -287,15 +287,15 @@
     <string name="delete_app_data" msgid="6890357774873859952">"Удалить данные приложения"</string>
     <string name="inactive_apps_section_title" msgid="7492812973696378690">"Неактивные приложения"</string>
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"У этих приложений больше нет доступа, но их данные по-прежнему хранятся в сервисе \"Здоровье и спорт\"."</string>
-    <string name="manage_permissions_time_frame" msgid="1299483940842401923">"Приложение \"<xliff:g id="APP_NAME">%1$s</xliff:g>\" получит доступ к данным, добавленным после <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>"</string>
+    <string name="manage_permissions_time_frame" msgid="1299483940842401923">"Приложение <xliff:g id="APP_NAME">%1$s</xliff:g> получит доступ к данным, добавленным после <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>"</string>
     <string name="other_android_permissions" msgid="8051485761573324702">"Чтобы задать разрешения для этого приложения в Android, выберите \"Настройки &gt; Приложения\"."</string>
-    <string name="manage_permissions_rationale" msgid="9183689798847740274">"На данные, которые вы предоставляете приложению \"<xliff:g id="APP_NAME">%1$s</xliff:g>\", распространяется его политика конфиденциальности."</string>
+    <string name="manage_permissions_rationale" msgid="9183689798847740274">"На данные, которые вы предоставляете приложению <xliff:g id="APP_NAME">%1$s</xliff:g>, распространяется его политика конфиденциальности."</string>
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Чтобы задать разрешения для этого приложения в Android, выберите \"Настройки &gt; Приложения\"."</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Ознакомиться с политикой конфиденциальности"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Разрешение использовалось в последние 24 часа"</string>
     <string name="app_access_title" msgid="7137018424885371763">"Доступ для приложения"</string>
     <string name="connected_apps_empty_list_section_title" msgid="6821215432694207342">"На устройстве нет совместимых приложений"</string>
-    <string name="additional_access_label" msgid="4645249249222528341">"Расширенный доступ"</string>
+    <string name="additional_access_label" msgid="4645249249222528341">"Дополнительные права доступа"</string>
     <string name="denied_apps_banner_title" msgid="1997745063608657965">"Разрешения отозваны"</string>
     <string name="denied_apps_banner_message_one_app" msgid="17659513485678315">"Сервис \"Здоровье и спорт\" отозвал разрешения для приложения \"<xliff:g id="APP_DATA">%s</xliff:g>\"."</string>
     <string name="denied_apps_banner_message_two_apps" msgid="1147216810892373640">"Сервис \"Здоровье и спорт\" отозвал разрешения для приложений \"<xliff:g id="APP_DATA_0">%1$s</xliff:g>\" и \"<xliff:g id="APP_DATA_TWO">%2$s</xliff:g>\"."</string>
@@ -758,11 +758,11 @@
     <string name="route_permissions_label" msgid="5201501195020295860">"Доступ к маршрутам тренировок"</string>
     <string name="route_permissions_summary" msgid="4670908225783213910">"Настройте доступ этого приложения к данным о маршрутах тренировок из связанных приложений."</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"Спрашивать каждый раз"</string>
-    <string name="route_permissions_deny" msgid="4263802925221258853">"Запретить"</string>
+    <string name="route_permissions_deny" msgid="4263802925221258853">"Не разрешать"</string>
     <string name="exercise_permission_dialog_enable_title" msgid="4310997044811843391">"Включить оба типа данных?"</string>
     <string name="exercise_permission_dialog_disable_title" msgid="1011777519918396883">"Отключить оба типа данных?"</string>
-    <string name="exercise_permission_dialog_enabled_summary" msgid="3404390796688813585">"Чтобы включить маршруты тренировок, нужно разрешить приложению \"<xliff:g id="APP_NAME">%1$s</xliff:g>\" их читать."</string>
-    <string name="exercise_permission_dialog_disable_summary" msgid="397599718182778347">"Чтобы отключить маршруты тренировок, нужно закрыть приложению \"<xliff:g id="APP_NAME">%1$s</xliff:g>\" доступ к ним."</string>
+    <string name="exercise_permission_dialog_enabled_summary" msgid="3404390796688813585">"Чтобы включить маршруты тренировок, нужно предоставить приложению <xliff:g id="APP_NAME">%1$s</xliff:g> доступ на чтение тренировок."</string>
+    <string name="exercise_permission_dialog_disable_summary" msgid="397599718182778347">"Чтобы включить маршруты тренировок, нужно предоставить приложению <xliff:g id="APP_NAME">%1$s</xliff:g> доступ к тренировкам."</string>
     <string name="exercise_permission_dialog_positive_button" msgid="4545939654888655556">"Да"</string>
     <string name="exercise_permission_dialog_negative_button" msgid="7433304732406274998">"Нет"</string>
     <string name="back_button" msgid="780519527385993407">"Назад"</string>
@@ -800,8 +800,8 @@
     <string name="resume_migration_notification_title" msgid="8859575633668908327">"Возобновите интеграцию приложения \"Здоровье и спорт\""</string>
     <string name="resume_migration_notification_content" msgid="46172108837648715">"Чтобы не потерять данные, завершите процесс в течение <xliff:g id="TIME_NEEDED">%1$s</xliff:g>."</string>
     <string name="app_update_needed_banner_title" msgid="4724335956851853802">"Требуется обновление"</string>
-    <string name="app_update_needed_banner_description_single" msgid="1114809360264027362">"Приложение \"<xliff:g id="APP_NAME">%1$s</xliff:g>\" нужно обновить, чтобы оно синхронизировалось с сервисом \"Здоровье и спорт\"."</string>
-    <string name="app_update_needed_banner_description_multiple" msgid="4660700626698013764">"Некоторые приложения нужно обновить, чтобы они синхронизировались с сервисом \"Здоровье и спорт\"."</string>
+    <string name="app_update_needed_banner_description_single" msgid="1114809360264027362">"Приложение <xliff:g id="APP_NAME">%1$s</xliff:g> нужно обновить, чтобы оно синхронизировалось с платформой \"Здоровье и спорт\"."</string>
+    <string name="app_update_needed_banner_description_multiple" msgid="4660700626698013764">"Некоторые приложения нужно обновить, чтобы они синхронизировались с платформой \"Здоровье и спорт\"."</string>
     <string name="app_update_needed_banner_button" msgid="8223115764065649627">"Проверить наличие обновлений"</string>
     <string name="app_update_needed_banner_learn_more_button" msgid="7269232067819258160">"Подробнее"</string>
     <string name="migration_pending_permissions_dialog_title" msgid="6019552841791757048">"Интеграция приложения \"Здоровье и спорт\""</string>

@@ -293,9 +293,9 @@
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Бул колдонмодогу башка Android уруксаттарын тескөө үчүн Тууралоого өтүп, Колдонмолорду таптап коюңуз"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Купуялык эрежелерин окуп чыгуу"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Акыркы 24 сааттын ичинде колдонулган"</string>
-    <string name="app_access_title" msgid="7137018424885371763">"Колдонмонун мүмкүнчүлүгү"</string>
+    <string name="app_access_title" msgid="7137018424885371763">"Колдонмого жеткиликтүү нерселер"</string>
     <string name="connected_apps_empty_list_section_title" msgid="6821215432694207342">"Учурда орнотулган шайкеш колдонмолоруңуз жок"</string>
-    <string name="additional_access_label" msgid="4645249249222528341">"Кошумча мүмкүнчүлүк алуу"</string>
+    <string name="additional_access_label" msgid="4645249249222528341">"Кошумча мүмкүнчүлүк берүү"</string>
     <string name="denied_apps_banner_title" msgid="1997745063608657965">"Колдонмолордун өчүрүлгөн уруксаттары"</string>
     <string name="denied_apps_banner_message_one_app" msgid="17659513485678315">"Health Connect <xliff:g id="APP_DATA">%s</xliff:g> колдонмосунун уруксаттарын өчүрдү"</string>
     <string name="denied_apps_banner_message_two_apps" msgid="1147216810892373640">"Health Connect <xliff:g id="APP_DATA_0">%1$s</xliff:g> жана <xliff:g id="APP_DATA_TWO">%2$s</xliff:g> колдонмолорунун уруксаттарын өчүрдү"</string>
