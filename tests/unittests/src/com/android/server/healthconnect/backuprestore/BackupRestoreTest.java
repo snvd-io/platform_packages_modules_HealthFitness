@@ -203,7 +203,8 @@ public class BackupRestoreTest {
         when(mTransactionManager.getDatabasePath()).thenReturn(dbFileToBackup);
         UserGrantTimeState userGrantTimeState =
                 new UserGrantTimeState(Map.of("package", Instant.now()), Map.of(), 1);
-        when(mFirstGrantTimeManager.createBackupState(mUserHandle)).thenReturn(userGrantTimeState);
+        when(mFirstGrantTimeManager.getGrantTimeStateForUser(mUserHandle))
+                .thenReturn(userGrantTimeState);
 
         Map<String, ParcelFileDescriptor> pfdsByFileName = new ArrayMap<>();
         pfdsByFileName.put(
@@ -783,7 +784,7 @@ public class BackupRestoreTest {
         when(SQLiteDatabase.openDatabase(any(), any())).thenReturn(mockDb);
 
         mBackupRestore.merge();
-        verify(mFirstGrantTimeManager).applyAndStageBackupDataForUser(eq(mUserHandle), any());
+        verify(mFirstGrantTimeManager).applyAndStageGrantTimeStateForUser(eq(mUserHandle), any());
     }
 
     @Test
@@ -823,8 +824,7 @@ public class BackupRestoreTest {
         assertThat(mFakePreferenceHelper.getPreference(DATA_RESTORE_ERROR_KEY))
                 .isEqualTo(String.valueOf(RESTORE_ERROR_VERSION_DIFF));
         verify(mFirstGrantTimeManager, never())
-                .applyAndStageBackupDataForUser(eq(mUserHandle), any());
-
+                .applyAndStageGrantTimeStateForUser(eq(mUserHandle), any());
     }
 
     @Test
@@ -849,7 +849,7 @@ public class BackupRestoreTest {
         assertThat(jobInfo.getExtras().getString(EXTRA_JOB_NAME_KEY))
                 .isEqualTo(DATA_MERGING_RETRY_KEY);
         verify(mFirstGrantTimeManager, never())
-                .applyAndStageBackupDataForUser(eq(mUserHandle), any());
+                .applyAndStageGrantTimeStateForUser(eq(mUserHandle), any());
     }
 
     @Test
