@@ -46,6 +46,7 @@ import static com.android.server.healthconnect.backuprestore.BackupRestore.INTER
 import static com.android.server.healthconnect.backuprestore.BackupRestore.INTERNAL_RESTORE_STATE_STAGING_IN_PROGRESS;
 import static com.android.server.healthconnect.backuprestore.BackupRestore.INTERNAL_RESTORE_STATE_WAITING_FOR_STAGING;
 import static com.android.server.healthconnect.backuprestore.BackupRestore.MINIMUM_LATENCY_WINDOW_MILLIS;
+import static com.android.server.healthconnect.backuprestore.BackupRestore.STAGED_DATABASE_DIR;
 import static com.android.server.healthconnect.backuprestore.BackupRestore.STAGED_DATABASE_NAME;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -119,14 +120,12 @@ public class BackupRestoreTest {
                     .mockStatic(AppInfoHelper.class)
                     .mockStatic(SQLiteDatabase.class)
                     .spyStatic(GrantTimeXmlHelper.class)
-                    .spyStatic(BackupRestore.StagedDatabaseContext.class)
                     .setStrictness(Strictness.LENIENT)
                     .build();
 
     @Mock Context mServiceContext;
     @Mock private TransactionManager mTransactionManager;
     @Mock private AppInfoHelper mAppInfoHelper;
-    @Mock private BackupRestore.StagedDatabaseContext mStagedDbContext;
     @Mock private FirstGrantTimeManager mFirstGrantTimeManager;
     @Mock private MigrationStateManager mMigrationStateManager;
     @Mock private Context mContext;
@@ -154,11 +153,6 @@ public class BackupRestoreTest {
         when(mServiceContext.getUser()).thenReturn(mUserHandle);
         when(mServiceContext.getSystemService(JobScheduler.class)).thenReturn(mJobScheduler);
         when(mServiceContext.getPackageName()).thenReturn("packageName");
-
-        when(BackupRestore.StagedDatabaseContext.create(mServiceContext, mUserHandle))
-                .thenReturn(mStagedDbContext);
-        when(mStagedDbContext.getDatabasePath(STAGED_DATABASE_NAME))
-                .thenReturn(new File(mMockStagedDataDirectory, STAGED_DATABASE_NAME));
 
         mBackupRestore =
                 new BackupRestore(mFirstGrantTimeManager, mMigrationStateManager, mServiceContext);
@@ -817,8 +811,9 @@ public class BackupRestoreTest {
         when(mockDb.getVersion()).thenReturn(2);
         when(SQLiteDatabase.openDatabase(any(), any())).thenReturn(mockDb);
 
-        when(mStagedDbContext.getDatabasePath(STAGED_DATABASE_NAME))
-                .thenReturn(createAndGetEmptyFile(mMockStagedDataDirectory, STAGED_DATABASE_NAME));
+        File hcDirectory = FilesUtil.getDataSystemCeHCDirectoryForUser(mUserHandle.getIdentifier());
+        File databaseDir = new File(hcDirectory, STAGED_DATABASE_DIR);
+        createAndGetEmptyFile(databaseDir, STAGED_DATABASE_NAME);
 
         mBackupRestore.merge();
         assertThat(mFakePreferenceHelper.getPreference(DATA_RESTORE_ERROR_KEY))
@@ -908,6 +903,7 @@ public class BackupRestoreTest {
     }
 
     private static File createAndGetEmptyFile(File dir, String fileName) throws IOException {
+        dir.mkdirs();
         File file = new File(dir, fileName);
         file.createNewFile();
         return file;
