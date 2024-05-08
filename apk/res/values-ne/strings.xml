@@ -758,7 +758,7 @@
     <string name="route_permissions_label" msgid="5201501195020295860">"व्यायाम गर्न प्रयोग गर्ने मार्गसम्बन्धी जानकारी सेयर गर्ने अनुमति"</string>
     <string name="route_permissions_summary" msgid="4670908225783213910">"यो एपले कनेक्ट गरिएका एपहरूबाट प्राप्त गरिएको व्यायाम गर्न प्रयोग गर्ने मार्गसम्बन्धी जानकारी कसरी प्रयोग गर्छ भन्ने कुरा नियन्त्रण गर्नुहोस्"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"हरेक पटक सोध्नुहोस्"</string>
-    <string name="route_permissions_deny" msgid="4263802925221258853">"अनुमति नदिइयोस्"</string>
+    <string name="route_permissions_deny" msgid="4263802925221258853">"अनुमति नदिनुहोस्"</string>
     <string name="exercise_permission_dialog_enable_title" msgid="4310997044811843391">"दुवै प्रकारका डेटा प्रयोग गर्ने अनुमति दिने हो?"</string>
     <string name="exercise_permission_dialog_disable_title" msgid="1011777519918396883">"दुवै प्रकारका डेटा प्रयोग गर्ने अनुमति नदिने हो?"</string>
     <string name="exercise_permission_dialog_enabled_summary" msgid="3404390796688813585">"कसरत गर्ने मार्गहरूको सुविधा प्रयोग गर्न <xliff:g id="APP_NAME">%1$s</xliff:g> लाई कसरतसम्बन्धी डेटा रिड गर्ने अनुमति दिनु पर्ने हुन्छ"</string>

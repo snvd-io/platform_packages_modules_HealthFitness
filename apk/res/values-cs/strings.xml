@@ -406,7 +406,7 @@
     <string name="ovulation_positive" msgid="6588547263126320238">"Pozitivní"</string>
     <string name="ovulation_negative" msgid="591588801112312454">"Negativní"</string>
     <string name="ovulation_high" msgid="205362931427158291">"Vysoká"</string>
-    <string name="ovulation_inconclusive" msgid="3447066667631538756">"Neprůkazný výsledek"</string>
+    <string name="ovulation_inconclusive" msgid="3447066667631538756">"Neprůkazné"</string>
     <string name="milliseconds" msgid="284845884516037268">"{count,plural, =1{1 ms}few{# ms}many{# ms}other{# ms}}"</string>
     <string name="milliseconds_long" msgid="93246373745977286">"{count,plural, =1{1 milisekunda}few{# milisekundy}many{# milisekundy}other{# milisekund}}"</string>
     <string name="repetitions" msgid="5092687490665962229">"{count,plural, =1{1 opakování}few{# opakování}many{# opakování}other{# opakování}}"</string>

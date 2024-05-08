@@ -53,7 +53,7 @@
     <string name="sleep_category_uppercase" msgid="3422452674899706786">"টোপনি"</string>
     <string name="sleep_category_lowercase" msgid="842609634386839011">"টোপনি"</string>
     <string name="vitals_category_uppercase" msgid="8982333138032938623">"শৰীৰৰ অভ্যন্তৰীণ অংগৰ গুৰুত্বপূৰ্ণ ডেটা"</string>
-    <string name="vitals_category_lowercase" msgid="4664457787866407963">"গুৰুত্বপূৰ্ণ"</string>
+    <string name="vitals_category_lowercase" msgid="4664457787866407963">"শৰীৰৰ অভ্যন্তৰীণ অংগৰ গুৰুত্বপূৰ্ণ ডেটা"</string>
     <string name="cycle_tracking_category_uppercase" msgid="4723200714782660489">"ঋতুচক্ৰ ট্ৰেক কৰা"</string>
     <string name="cycle_tracking_category_lowercase" msgid="5245446435975317209">"ঋতুচক্ৰ ট্ৰেক কৰা"</string>
     <string name="nutrition_category_uppercase" msgid="6665096097987741036">"পৰিপুষ্টিৰ ডেটা"</string>
