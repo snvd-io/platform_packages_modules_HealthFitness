@@ -55,7 +55,8 @@ import javax.inject.Inject
 
 /** Permissions activity for Health Connect. */
 @AndroidEntryPoint(FragmentActivity::class)
-class PermissionsActivity : Hilt_PermissionsActivity() {
+class
+PermissionsActivity : Hilt_PermissionsActivity() {
 
     companion object {
         private const val TAG = "PermissionsActivity"
@@ -81,10 +82,8 @@ class PermissionsActivity : Hilt_PermissionsActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // This flag ensures an app requesting permissions cannot show an overlay to deceive the
-        // user. For example, an app requesting permission for Sexual Activity, can overlay and
-        // replace the text with Body Weight, thus deceiving the user. b/313425281
-        getWindow().addSystemFlags(SYSTEM_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS)
+        // This flag ensures a non system app cannot show an overlay on Health Connect. b/313425281
+        window.addSystemFlags(SYSTEM_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS)
 
         // Handles unsupported devices and user profiles.
         if (!deviceInfoUtils.isHealthConnectAvailable(this)) {
