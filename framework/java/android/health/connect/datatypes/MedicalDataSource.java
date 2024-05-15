@@ -21,6 +21,8 @@ import static java.util.Objects.requireNonNull;
 
 import android.annotation.NonNull;
 import android.annotation.Nullable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Captures the data source information of medical data. All {@link MedicalResource}s are associated
@@ -28,11 +30,25 @@ import android.annotation.Nullable;
  *
  * @hide
  */
-public final class MedicalDataSource {
+public final class MedicalDataSource implements Parcelable {
     @NonNull private final String mId;
     @NonNull private final String mPackageName;
     @NonNull private final String mFhirBaseUri;
     @NonNull private final String mDisplayName;
+
+    @NonNull
+    public static final Creator<MedicalDataSource> CREATOR =
+            new Creator<MedicalDataSource>() {
+                @Override
+                public MedicalDataSource createFromParcel(Parcel in) {
+                    return new MedicalDataSource(in);
+                }
+
+                @Override
+                public MedicalDataSource[] newArray(int size) {
+                    return new MedicalDataSource[size];
+                }
+            };
 
     /**
      * @param id The unique identifier of this data source, assigned by the Android Health Platform
@@ -58,6 +74,13 @@ public final class MedicalDataSource {
         mDisplayName = displayName;
     }
 
+    private MedicalDataSource(Parcel in) {
+        mId = in.readString();
+        mPackageName = in.readString();
+        mFhirBaseUri = in.readString();
+        mDisplayName = in.readString();
+    }
+
     /** Returns the identifier. */
     @NonNull
     public String getId() {
@@ -80,6 +103,19 @@ public final class MedicalDataSource {
     @NonNull
     public String getFhirBaseUri() {
         return mFhirBaseUri;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(mId);
+        dest.writeString(mPackageName);
+        dest.writeString(mFhirBaseUri);
+        dest.writeString(mDisplayName);
     }
 
     /** Indicates whether some other object is "equal to" this one. */
