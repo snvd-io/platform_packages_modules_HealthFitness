@@ -245,36 +245,31 @@ public final class TransactionManager {
                                                 cursor, deleteTableRequest.getIdColumnName()),
                                         appInfoId);
                             }
-                            // We don't generate changelogs for bulk deletes.
-                            if (!request.isBulkDelete()) {
-                                UUID deletedRecordUuid =
-                                        StorageUtils.getCursorUUID(
-                                                cursor, deleteTableRequest.getIdColumnName());
-                                deletionChangelogs.addUUID(
-                                        deleteTableRequest.getRecordType(),
-                                        appInfoId,
-                                        deletedRecordUuid);
+                            UUID deletedRecordUuid =
+                                    StorageUtils.getCursorUUID(
+                                            cursor, deleteTableRequest.getIdColumnName());
+                            deletionChangelogs.addUUID(
+                                    deleteTableRequest.getRecordType(),
+                                    appInfoId,
+                                    deletedRecordUuid);
 
-                                // Add changelogs for affected records, e.g. a training plan being
-                                // deleted will create changelogs for affected exercise sessions.
-                                for (ReadTableRequest additionalChangelogUuidRequest :
-                                        recordHelper.getReadRequestsForRecordsModifiedByDeletion(
-                                                deletedRecordUuid)) {
-                                    Cursor cursorAdditionalUuids =
-                                            read(additionalChangelogUuidRequest);
-                                    while (cursorAdditionalUuids.moveToNext()) {
-                                        modificationChangelogs.addUUID(
-                                                additionalChangelogUuidRequest
-                                                        .getRecordHelper()
-                                                        .getRecordIdentifier(),
-                                                StorageUtils.getCursorLong(
-                                                        cursorAdditionalUuids,
-                                                        APP_INFO_ID_COLUMN_NAME),
-                                                StorageUtils.getCursorUUID(
-                                                        cursorAdditionalUuids, UUID_COLUMN_NAME));
-                                    }
-                                    cursorAdditionalUuids.close();
+                            // Add changelogs for affected records, e.g. a training plan being
+                            // deleted will create changelogs for affected exercise sessions.
+                            for (ReadTableRequest additionalChangelogUuidRequest :
+                                    recordHelper.getReadRequestsForRecordsModifiedByDeletion(
+                                            deletedRecordUuid)) {
+                                Cursor cursorAdditionalUuids = read(additionalChangelogUuidRequest);
+                                while (cursorAdditionalUuids.moveToNext()) {
+                                    modificationChangelogs.addUUID(
+                                            additionalChangelogUuidRequest
+                                                    .getRecordHelper()
+                                                    .getRecordIdentifier(),
+                                            StorageUtils.getCursorLong(
+                                                    cursorAdditionalUuids, APP_INFO_ID_COLUMN_NAME),
+                                            StorageUtils.getCursorUUID(
+                                                    cursorAdditionalUuids, UUID_COLUMN_NAME));
                                 }
+                                cursorAdditionalUuids.close();
                             }
                         }
                         deleteTableRequest.setNumberOfUuidsToDelete(numberOfUuidsToDelete);
