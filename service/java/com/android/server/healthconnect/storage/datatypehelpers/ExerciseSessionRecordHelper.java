@@ -111,7 +111,7 @@ public final class ExerciseSessionRecordHelper
 
     /** Returns the table name to be created corresponding to this helper */
     @Override
-    String getMainTableName() {
+    public String getMainTableName() {
         return EXERCISE_SESSION_RECORD_TABLE_NAME;
     }
 
