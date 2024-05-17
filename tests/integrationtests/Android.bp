@@ -18,6 +18,7 @@ package {
 
 android_test {
     name: "HealthFitnessIntegrationBackupRestoreTests",
+    team: "trendy_team_android_health",
     test_suites: [
         "device-tests",
         "general-tests",
@@ -54,6 +55,7 @@ android_test {
 
 android_test {
     name: "HealthFitnessIntegrationTests",
+    team: "trendy_team_android_health",
     test_suites: [
         "device-tests",
         "general-tests",
@@ -76,6 +78,7 @@ android_test {
     ],
     exclude_srcs: [
         "src/android/healthconnect/tests/backuprestore/*.java",
+        "src/android/healthconnect/tests/exportimport/*.java",
     ],
     min_sdk_version: "34",
     sdk_version: "module_current",
@@ -83,5 +86,36 @@ android_test {
         ":HealthFitnessPermsTestApp",
         ":HCPermsTestAppNoUsageIntent",
         ":HCSharedUserPermsTestApp",
+    ],
+}
+
+android_test {
+    name: "HealthFitnessIntegrationExportImportTests",
+    team: "trendy_team_android_health",
+    test_suites: [
+        "device-tests",
+        "general-tests",
+        "mts-healthfitness",
+    ],
+    libs: [
+        "framework-healthfitness.impl",
+    ],
+    static_libs: [
+        "androidx.test.rules",
+        "compatibility-device-util-axt",
+        "androidx.test.ext.truth",
+        "cts-healthconnect-utils",
+        "healthconnect-documentprovider-utils",
+    ],
+    srcs: [
+        "src/android/healthconnect/tests/exportimport/*.java",
+    ],
+    min_sdk_version: "34",
+    sdk_version: "module_current",
+    test_config: "AndroidTestExportImport.xml",
+    manifest: "AndroidManifestExportImport.xml",
+    data: [
+        ":HealthFitnessTestDocumentProviderApp",
+        ":HealthFitnessTestDocumentProviderApp2",
     ],
 }
