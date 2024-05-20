@@ -110,6 +110,7 @@ import android.health.connect.datatypes.HeightRecord;
 import android.health.connect.datatypes.HydrationRecord;
 import android.health.connect.datatypes.IntermenstrualBleedingRecord;
 import android.health.connect.datatypes.LeanBodyMassRecord;
+import android.health.connect.datatypes.MedicalDataSource;
 import android.health.connect.datatypes.MedicalResource;
 import android.health.connect.datatypes.MenstruationFlowRecord;
 import android.health.connect.datatypes.MenstruationPeriodRecord;
@@ -1203,6 +1204,15 @@ public final class TestUtils {
     /** Extracts and returns ids of the provided records. */
     public static List<String> getRecordIds(List<? extends Record> records) {
         return records.stream().map(Record::getMetadata).map(Metadata::getId).toList();
+    }
+
+    /** Helper function to read medical data sources from the DB, using HealthConnectManager. */
+    public static List<MedicalDataSource> getMedicalDataSourcesByIds(List<String> ids)
+            throws InterruptedException {
+        HealthConnectReceiver<List<MedicalDataSource>> receiver = new HealthConnectReceiver<>();
+        getHealthConnectManager()
+                .getMedicalDataSources(ids, Executors.newSingleThreadExecutor(), receiver);
+        return receiver.getResponse();
     }
 
     /** Helper function to read medical resources from the DB, using HealthConnectManager. */
