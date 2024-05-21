@@ -48,7 +48,6 @@ java_sdk_library {
     ],
     static_libs: [
         "modules-utils-backgroundthread",
-        "healthfitness-aconfig-flags-lib",
     ],
     jarjar_rules: "jarjar-rules.txt",
     installable: true,
