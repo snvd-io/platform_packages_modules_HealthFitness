@@ -30,7 +30,6 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -449,13 +448,6 @@ public final class PlannedExerciseSessionRecord extends IntervalRecord {
         }
         recordInternal.setExerciseType(getExerciseType());
         recordInternal.setHasExplicitTime(hasExplicitTime());
-        // Although not possible to set this via public API, internally we may convert from internal
-        // representation to external, then back to internal. Thus, we need to preserve this value
-        // during a round trip.
-        if (getCompletedExerciseSessionId() != null) {
-            recordInternal.setCompletedExerciseSessionId(
-                    UUID.fromString(getCompletedExerciseSessionId()));
-        }
         recordInternal.setExerciseBlocks(
                 getBlocks().stream().map(it -> it.toInternalObject()).collect(Collectors.toList()));
         return recordInternal;
