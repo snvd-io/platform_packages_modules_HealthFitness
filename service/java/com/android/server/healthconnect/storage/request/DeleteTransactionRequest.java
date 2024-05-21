@@ -57,10 +57,8 @@ public final class DeleteTransactionRequest {
             Map<RecordHelper<?>, List<UUID>> recordTypeToUuids = new ArrayMap<>();
             for (RecordIdFilter recordId : recordIds) {
                 RecordHelper<?> recordHelper =
-                        RecordHelperProvider.getInstance()
-                                .getRecordHelper(
-                                        RecordMapper.getInstance()
-                                                .getRecordType(recordId.getRecordType()));
+                        RecordHelperProvider.getRecordHelper(
+                                RecordMapper.getInstance().getRecordType(recordId.getRecordType()));
                 UUID uuid = StorageUtils.getUUIDFor(recordId, packageName);
                 if (uuidSet.contains(uuid)) {
                     // id has been already been processed;
@@ -92,8 +90,7 @@ public final class DeleteTransactionRequest {
 
         recordTypeFilters.forEach(
                 (recordType) -> {
-                    RecordHelper<?> recordHelper =
-                            RecordHelperProvider.getInstance().getRecordHelper(recordType);
+                    RecordHelper<?> recordHelper = RecordHelperProvider.getRecordHelper(recordType);
                     Objects.requireNonNull(recordHelper);
 
                     mDeleteTableRequests.add(

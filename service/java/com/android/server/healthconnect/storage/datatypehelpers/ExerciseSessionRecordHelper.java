@@ -507,8 +507,7 @@ public final class ExerciseSessionRecordHelper
                         }
                     };
             readRequest.setRecordHelper(
-                    RecordHelperProvider.getInstance()
-                            .getRecordHelper(RECORD_TYPE_PLANNED_EXERCISE_SESSION));
+                    RecordHelperProvider.getRecordHelper(RECORD_TYPE_PLANNED_EXERCISE_SESSION));
             result.add(readRequest);
         }
         // There may have been a previous reference to this exercise, search for those references.
@@ -526,8 +525,7 @@ public final class ExerciseSessionRecordHelper
                 COMPLETED_SESSION_ID_COLUMN_NAME, StorageUtils.getHexString(upsertedRecordId));
         affectedTrainingPlanReadRequest.setWhereClause(whereStatement);
         affectedTrainingPlanReadRequest.setRecordHelper(
-                RecordHelperProvider.getInstance()
-                        .getRecordHelper(RECORD_TYPE_PLANNED_EXERCISE_SESSION));
+                RecordHelperProvider.getRecordHelper(RECORD_TYPE_PLANNED_EXERCISE_SESSION));
         result.add(affectedTrainingPlanReadRequest);
         return result;
     }
@@ -547,8 +545,7 @@ public final class ExerciseSessionRecordHelper
                 COMPLETED_SESSION_ID_COLUMN_NAME, StorageUtils.getHexString(deletedRecordUuid));
         affectedTrainingPlanReadRequest.setWhereClause(whereStatement);
         affectedTrainingPlanReadRequest.setRecordHelper(
-                RecordHelperProvider.getInstance()
-                        .getRecordHelper(RECORD_TYPE_PLANNED_EXERCISE_SESSION));
+                RecordHelperProvider.getRecordHelper(RECORD_TYPE_PLANNED_EXERCISE_SESSION));
         return Collections.singletonList(affectedTrainingPlanReadRequest);
     }
 

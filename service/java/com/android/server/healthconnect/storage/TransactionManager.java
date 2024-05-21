@@ -226,8 +226,7 @@ public final class TransactionManager {
         try {
             for (DeleteTableRequest deleteTableRequest : request.getDeleteTableRequests()) {
                 final RecordHelper<?> recordHelper =
-                        RecordHelperProvider.getInstance()
-                                .getRecordHelper(deleteTableRequest.getRecordType());
+                        RecordHelperProvider.getRecordHelper(deleteTableRequest.getRecordType());
                 if (deleteTableRequest.requiresRead()) {
                     /*
                     Delete request needs UUID before the entry can be
@@ -546,8 +545,7 @@ public final class TransactionManager {
         final SQLiteDatabase db = getReadableDb();
         HashMap<Integer, HashSet<String>> packagesForRecordTypeMap = new HashMap<>();
         for (Integer recordType : recordTypes) {
-            RecordHelper<?> recordHelper =
-                    RecordHelperProvider.getInstance().getRecordHelper(recordType);
+            RecordHelper<?> recordHelper = RecordHelperProvider.getRecordHelper(recordType);
             HashSet<String> packageNamesForDatatype = new HashSet<>();
             try (Cursor cursorForDistinctPackageNames =
                     db.rawQuery(
@@ -860,7 +858,7 @@ public final class TransactionManager {
         // Carries out read requests provided by the record helper and uses the results to add
         // changelogs to the transaction.
         final RecordHelper<?> recordHelper =
-                RecordHelperProvider.getInstance().getRecordHelper(upsertRequest.getRecordType());
+                RecordHelperProvider.getRecordHelper(upsertRequest.getRecordType());
         for (ReadTableRequest additionalChangelogUuidRequest :
                 recordHelper.getReadRequestsForRecordsModifiedByUpsertion(
                         upsertRequest.getRecordInternal().getUuid(), upsertRequest)) {

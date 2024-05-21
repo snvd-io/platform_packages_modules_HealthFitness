@@ -170,8 +170,7 @@ public final class DatabaseMerger {
             Map<Long, String> stagedPackageNamesByAppIds,
             int recordType,
             Class<T> recordTypeClass) {
-        RecordHelper<?> recordHelper =
-                RecordHelperProvider.getInstance().getRecordHelper(recordType);
+        RecordHelper<?> recordHelper = RecordHelperProvider.getRecordHelper(recordType);
         // Read all the records of the given type from the staged db and insert them into the
         // existing healthconnect db.
         PageTokenWrapper token = EMPTY_PAGE_TOKEN;
@@ -219,8 +218,7 @@ public final class DatabaseMerger {
 
     private <T extends Record> void deleteRecordsOfType(
             HealthConnectDatabase stagedDatabase, int recordType, Class<T> recordTypeClass) {
-        RecordHelper<?> recordHelper =
-                RecordHelperProvider.getInstance().getRecordHelper(recordType);
+        RecordHelper<?> recordHelper = RecordHelperProvider.getRecordHelper(recordType);
         // Passing -1 for startTime and endTime as we don't want to have time based filtering in the
         // final query.
         Slog.d(TAG, "Deleting table for: " + recordTypeClass);
