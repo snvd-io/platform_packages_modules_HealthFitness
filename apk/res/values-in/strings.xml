@@ -748,7 +748,7 @@
     <string name="date_owner_format" msgid="4431196384037157320">"<xliff:g id="DATE">%1$s</xliff:g> • <xliff:g id="APP_NAME">%2$s</xliff:g>"</string>
     <string name="request_route_info_header_title" msgid="4149969049719763190">"Rute latihan termasuk informasi lokasi"</string>
     <string name="request_route_info_who_can_see_data_title" msgid="858355329937113994">"Siapa yang dapat melihat data ini?"</string>
-    <string name="request_route_info_who_can_see_data_summary" msgid="2439434359808367150">"Hanya aplikasi yang Anda izinkan mengakses rute latihan"</string>
+    <string name="request_route_info_who_can_see_data_summary" msgid="2439434359808367150">"Hanya aplikasi yang Anda izinkan mengakses rute olahraga"</string>
     <string name="request_route_info_access_management_title" msgid="3222594923675464852">"Bagaimana cara mengelola akses?"</string>
     <string name="request_route_info_access_management_summary" msgid="2606548838292829495">"Anda dapat mengelola akses aplikasi ke rute latihan di setelan Health Connect"</string>
     <string name="request_route_allow" msgid="4427372851821847274">"Izinkan rute ini"</string>
