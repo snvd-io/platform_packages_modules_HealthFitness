@@ -16,11 +16,14 @@
 
 package com.android.healthconnect.controller.exportimport.api
 
-/** User configured settings for scheduled export of Health Connect data. */
-sealed class ExportSettings {
-    data object Loading : ExportSettings()
+import android.health.connect.exportimport.ScheduledExportStatus
 
-    data object LoadingFailed : ExportSettings()
+/** Status for scheduled export of Health Connect data. */
+sealed class ScheduledExportUiStatus {
+    data object Loading : ScheduledExportUiStatus()
 
-    data class WithData(val frequency: ExportFrequency) : ExportSettings()
+    data object LoadingFailed : ScheduledExportUiStatus()
+
+    data class WithData(val scheduledExportStatus: ScheduledExportStatus) :
+        ScheduledExportUiStatus()
 }
