@@ -54,8 +54,10 @@ import static android.health.connect.HealthPermissionCategory.TOTAL_CALORIES_BUR
 import static android.health.connect.HealthPermissionCategory.VO2_MAX;
 import static android.health.connect.HealthPermissionCategory.WEIGHT;
 import static android.health.connect.HealthPermissionCategory.WHEELCHAIR_PUSHES;
+import static android.health.connect.MedicalPermissionCategory.IMMUNIZATION;
 
 import static com.android.healthfitness.flags.Flags.FLAG_PERSONAL_HEALTH_RECORD;
+import static com.android.healthfitness.flags.Flags.personalHealthRecord;
 
 import android.annotation.FlaggedApi;
 import android.annotation.NonNull;
@@ -819,6 +821,9 @@ public final class HealthPermissions {
     private static final Map<Integer, String[]> sDataCategoryToWritePermissionsMap =
             new ArrayMap<>();
 
+    private static final Map<Integer, String> sMedicalCategoryToReadPermissionMap =
+            new ArrayMap<>();
+
     private HealthPermissions() {}
 
     /**
@@ -884,6 +889,30 @@ public final class HealthPermissions {
                         + "PermissionCategory : "
                         + permissionCategory);
         return healthWritePermission;
+    }
+
+    /** @hide */
+    public static String getMedicalReadPermission(
+            @MedicalPermissionCategory.Type int permissionCategory) {
+        populateReadMedicalPermissionsToMedicalPermissionCategoryMap();
+        String medicalReadPermission = sMedicalCategoryToReadPermissionMap.get(permissionCategory);
+        Objects.requireNonNull(
+                medicalReadPermission,
+                "Medical read permission not found for PermissionCategory: " + permissionCategory);
+
+        return medicalReadPermission;
+    }
+
+    /**
+     * Returns all medical permissions (read and write).
+     *
+     * @hide
+     */
+    public static Set<String> getAllMedicalPermissions() {
+        populateReadMedicalPermissionsToMedicalPermissionCategoryMap();
+        Set<String> permissions = new HashSet<>(sMedicalCategoryToReadPermissionMap.values());
+        permissions.add(WRITE_MEDICAL_RESOURCES);
+        return permissions;
     }
 
     /**
@@ -1158,5 +1187,20 @@ public final class HealthPermissions {
                     WRITE_RESPIRATORY_RATE,
                     WRITE_RESTING_HEART_RATE
                 });
+    }
+
+    private static synchronized void
+            populateReadMedicalPermissionsToMedicalPermissionCategoryMap() {
+        if (!personalHealthRecord()) {
+            throw new UnsupportedOperationException(
+                    "populateReadMedicalPermissionsToMedicalPermissionCategoryMap is not"
+                            + " supported");
+        }
+
+        if (!sMedicalCategoryToReadPermissionMap.isEmpty()) {
+            return;
+        }
+        // Populate permission category to read permission map
+        sMedicalCategoryToReadPermissionMap.put(IMMUNIZATION, READ_MEDICAL_RESOURCES_IMMUNIZATION);
     }
 }
