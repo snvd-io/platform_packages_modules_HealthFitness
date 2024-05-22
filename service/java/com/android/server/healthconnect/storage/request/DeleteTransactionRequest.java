@@ -41,7 +41,6 @@ public final class DeleteTransactionRequest {
     private static final String TAG = "HealthConnectDelete";
     private final List<DeleteTableRequest> mDeleteTableRequests;
     private final long mRequestingPackageNameId;
-    private final boolean mIsBulkDelete;
     private boolean mHasHealthDataManagementPermission;
 
     @SuppressWarnings("NullAway.Init") // TODO(b/317029272): fix this suppression
@@ -49,7 +48,6 @@ public final class DeleteTransactionRequest {
         Objects.requireNonNull(packageName);
         mDeleteTableRequests = new ArrayList<>(request.getRecordTypeFilters().size());
         mRequestingPackageNameId = AppInfoHelper.getInstance().getAppInfoId(packageName);
-        mIsBulkDelete = !request.usesIdFilters();
         if (request.usesIdFilters()) {
             List<RecordIdFilter> recordIds =
                     request.getRecordIdFiltersParcel().getRecordIdFilters();
@@ -107,10 +105,6 @@ public final class DeleteTransactionRequest {
             Slog.d(TAG, "num of delete requests: " + mDeleteTableRequests.size());
         }
         return mDeleteTableRequests;
-    }
-
-    public boolean isBulkDelete() {
-        return mIsBulkDelete;
     }
 
     public void enforcePackageCheck(UUID uuid, long appInfoId) {
