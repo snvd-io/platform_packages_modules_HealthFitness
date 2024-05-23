@@ -77,7 +77,6 @@ public class RateLimiterTest {
     public static final String ENABLE_RATE_LIMITER_FLAG = "enable_rate_limiter";
     private final UiAutomation mUiAutomation =
             InstrumentationRegistry.getInstrumentation().getUiAutomation();
-    private final boolean mRateLimiterFlagValue = getRateLimiterFlagValue();
 
     @Rule public ExpectedException exception = ExpectedException.none();
 
@@ -89,17 +88,11 @@ public class RateLimiterTest {
     @Before
     public void setUp() throws InterruptedException {
         TestUtils.deleteAllStagedRemoteData();
-        if (!mRateLimiterFlagValue) {
-            setEnableRateLimiterFlag(true);
-        }
     }
 
     @After
     public void tearDown() throws InterruptedException {
         TestUtils.deleteAllStagedRemoteData();
-        if (!mRateLimiterFlagValue) {
-            setEnableRateLimiterFlag(false);
-        }
     }
 
     @Test
@@ -116,35 +109,17 @@ public class RateLimiterTest {
 
     @Test
     @ApiTest(apis = {"android.health.connect#insertRecords"})
-    public void testTryAcquireApiCallQuota_writeLimitExceeded_flagEnabled()
-            throws InterruptedException {
+    public void testTryAcquireApiCallQuota_writeLimitExceeded() throws InterruptedException {
         exception.expect(HealthConnectException.class);
         exception.expectMessage(containsString("API call quota exceeded"));
         exceedWriteQuota();
     }
 
     @Test
-    @ApiTest(apis = {"android.health.connect#insertRecords"})
-    public void testTryAcquireApiCallQuota_writeLimitExceeded_flagDisabled()
-            throws InterruptedException {
-        setEnableRateLimiterFlag(false);
-        exceedWriteQuota();
-    }
-
-    @Test
     @ApiTest(apis = {"android.health.connect#readRecords"})
-    public void testTryAcquireApiCallQuota_readLimitExceeded_flagEnabled()
-            throws InterruptedException {
+    public void testTryAcquireApiCallQuota_readLimitExceeded() throws InterruptedException {
         exception.expect(HealthConnectException.class);
         exception.expectMessage(containsString("API call quota exceeded"));
-        exceedReadQuota();
-    }
-
-    @Test
-    @ApiTest(apis = {"android.health.connect#readRecords"})
-    public void testTryAcquireApiCallQuota_readLimitExceeded_flagDisabled()
-            throws InterruptedException {
-        setEnableRateLimiterFlag(false);
         exceedReadQuota();
     }
 
@@ -348,19 +323,6 @@ public class RateLimiterTest {
                 new ReadRecordsRequestUsingIds.Builder<>(StepsRecord.class);
         recordList.forEach(v -> request.addId(v.getMetadata().getId()));
         TestUtils.readRecords(request.build());
-    }
-
-    private boolean getRateLimiterFlagValue() {
-        mUiAutomation.adoptShellPermissionIdentity("android.permission.READ_DEVICE_CONFIG");
-        DeviceConfig.Properties properties =
-                DeviceConfig.getProperties(
-                        DeviceConfig.NAMESPACE_HEALTH_FITNESS, ENABLE_RATE_LIMITER_FLAG);
-        boolean flagValue = true;
-        if (properties.getKeyset().contains(ENABLE_RATE_LIMITER_FLAG)) {
-            flagValue = properties.getBoolean(ENABLE_RATE_LIMITER_FLAG, true);
-        }
-        mUiAutomation.dropShellPermissionIdentity();
-        return flagValue;
     }
 
     private void setEnableRateLimiterFlag(boolean flag) throws InterruptedException {
