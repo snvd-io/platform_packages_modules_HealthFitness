@@ -1465,6 +1465,20 @@ public class HealthConnectManager {
     }
 
     /**
+     * Allows setting lower rate limits in tests.
+     *
+     * @hide
+     */
+    @TestApi
+    public void setLowerRateLimitsForTesting(boolean enabled) throws NullPointerException {
+        try {
+            mService.setLowerRateLimitsForTesting(enabled);
+        } catch (RemoteException e) {
+            throw e.rethrowFromSystemServer();
+        }
+    }
+
+    /**
      * Updates the download state of the Health Connect data.
      *
      * <p>The data should've been downloaded and the corresponding download states updated before
