@@ -569,6 +569,18 @@ public final class TestUtils {
                 "android.permission.DELETE_STAGED_HEALTH_CONNECT_REMOTE_DATA");
     }
 
+    /** Set lower rate limits for testing */
+    public static void setLowerRateLimitsForTesting(boolean enabled) {
+        HealthConnectManager service = getHealthConnectManager();
+        runWithShellPermissionIdentity(
+                () ->
+                        // TODO(b/241542162): Avoid reflection once TestApi can be called from CTS
+                        service.getClass()
+                                .getMethod("setLowerRateLimitsForTesting", boolean.class)
+                                .invoke(service, enabled),
+                "android.permission.DELETE_STAGED_HEALTH_CONNECT_REMOTE_DATA");
+    }
+
     public static int getHealthConnectDataMigrationState() throws InterruptedException {
         HealthConnectReceiver<HealthConnectDataState> receiver = new HealthConnectReceiver<>();
         getHealthConnectManager()
