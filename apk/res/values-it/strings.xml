@@ -59,7 +59,7 @@
     <string name="nutrition_category_uppercase" msgid="6665096097987741036">"Alimentazione"</string>
     <string name="nutrition_category_lowercase" msgid="7804134941649488990">"alimentazione"</string>
     <string name="browse_data_category" msgid="4813955610391357638">"Sfoglia i dati"</string>
-    <string name="manage_data_section" msgid="5859629270946511903">"Gestisci i dati"</string>
+    <string name="manage_data_section" msgid="5859629270946511903">"Gestisci dati"</string>
     <string name="export_data_button" msgid="7783329820434117744">"Esporta i dati"</string>
     <string name="delete_all_data_button" msgid="7238755635416521487">"Elimina tutti i dati"</string>
     <string name="no_categories" msgid="2636778482437506241">"Non hai dati in Connessione Salute"</string>
@@ -325,7 +325,7 @@
     <string name="manage_your_settings_description" msgid="557943168930365334">"Modifica le autorizzazioni dell\'app e gestisci i tuoi dati in qualsiasi momento"</string>
     <string name="onboarding_go_back_button_text" msgid="5020083846511184625">"Indietro"</string>
     <string name="onboarding_get_started_button_text" msgid="2348061971090731336">"Inizia"</string>
-    <string name="delete_button_content_description" msgid="9125115327455379618">"Elimina i dati"</string>
+    <string name="delete_button_content_description" msgid="9125115327455379618">"Elimina dati"</string>
     <string name="time_range_title" msgid="6831605283322600165">"Scegli i dati da eliminare"</string>
     <string name="time_range_next_button" msgid="5849096934896557888">"Avanti"</string>
     <string name="time_range_message_all" msgid="7280888587242744729">"Questa azione eliminerà definitivamente tutti i dati aggiunti a Connessione Salute nel periodo di tempo selezionato"</string>
