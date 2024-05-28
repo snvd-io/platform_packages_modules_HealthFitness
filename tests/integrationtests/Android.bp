@@ -29,7 +29,7 @@ android_test {
         "android.test.base",
         "framework-configinfrastructure",
         "framework-sdkextensions",
-        "framework-healthfitness.impl"
+        "framework-healthfitness.impl",
     ],
 
     static_libs: [
@@ -39,17 +39,17 @@ android_test {
         "cts-healthconnect-utils",
     ],
     srcs: [
-        "src/android/healthconnect/tests/backuprestore/*.java"
+        "src/android/healthconnect/tests/backuprestore/*.java",
     ],
     min_sdk_version: "34",
     sdk_version: "module_current",
-    test_config:"AndroidTestBackupRestore.xml",
+    test_config: "AndroidTestBackupRestore.xml",
     manifest: "AndroidManifestBackupRestore.xml",
     resource_dirs: ["res"],
     data: [
         ":HealthFitnessCtsTestApp",
-        ":HealthFitnessCtsTestApp2"
-    ]
+        ":HealthFitnessCtsTestApp2",
+    ],
 }
 
 android_test {
@@ -72,15 +72,16 @@ android_test {
 
     srcs: [
         ":healthfitness-permissions-testapp-srcs",
-        "src/**/*.java"
+        "src/**/*.java",
     ],
     exclude_srcs: [
-        "src/android/healthconnect/tests/backuprestore/*.java"
+        "src/android/healthconnect/tests/backuprestore/*.java",
     ],
+    min_sdk_version: "34",
     sdk_version: "module_current",
     data: [
         ":HealthFitnessPermsTestApp",
         ":HCPermsTestAppNoUsageIntent",
         ":HCSharedUserPermsTestApp",
-    ]
+    ],
 }
