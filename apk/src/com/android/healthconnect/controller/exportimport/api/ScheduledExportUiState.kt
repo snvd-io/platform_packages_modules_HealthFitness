@@ -16,12 +16,19 @@
 
 package com.android.healthconnect.controller.exportimport.api
 
-/** Status for scheduled export of Health Connect data. */
-sealed class ScheduledExportUiStatus {
-    data object Loading : ScheduledExportUiStatus()
+import java.time.Instant
 
-    data object LoadingFailed : ScheduledExportUiStatus()
-
-    data class WithData(val scheduledExportUiState: ScheduledExportUiState) :
-        ScheduledExportUiStatus()
+/**
+ * Internal class representing the [ScheduledExportStatus] received from the HealthConnectManager.
+ */
+data class ScheduledExportUiState(
+    val lastSuccessfulExportTime: Instant?,
+    val dataExportError: DataExportError,
+    val periodInDays: Int
+) {
+    enum class DataExportError {
+        DATA_EXPORT_ERROR_UNKNOWN,
+        DATA_EXPORT_ERROR_NONE,
+        DATA_EXPORT_LOST_FILE_ACCESS
+    }
 }

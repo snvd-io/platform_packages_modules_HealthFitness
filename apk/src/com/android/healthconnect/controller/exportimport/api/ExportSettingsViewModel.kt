@@ -34,12 +34,10 @@ class ExportSettingsViewModel
 constructor(
     private val loadExportSettingsUseCase: ILoadExportSettingsUseCase,
     private val updateExportSettingsUseCase: IUpdateExportSettingsUseCase,
-    private val loadScheduledExportStatusUseCase: ILoadScheduledExportStatusUseCase,
     private val queryDocumentProvidersUseCase: IQueryDocumentProvidersUseCase
 ) : ViewModel() {
     private val _storedExportSettings = MutableLiveData<ExportSettings>()
     private val _previousExportFrequency = MutableLiveData<ExportFrequency?>()
-    private val _storedScheduledExportStatus = MutableLiveData<ScheduledExportUiStatus>()
     private val _documentProviders = MutableLiveData<DocumentProviders>()
 
     /** Holds the export settings that is stored in the Health Connect service. */
@@ -50,17 +48,12 @@ constructor(
     val previousExportFrequency: LiveData<ExportFrequency?>
         get() = _previousExportFrequency
 
-    /** Holds the export status that is stored in the Health Connect service. */
-    val storedScheduledExportStatus: LiveData<ScheduledExportUiStatus>
-        get() = _storedScheduledExportStatus
-
     /** Holds the supported document providers. */
     val documentProviders: LiveData<DocumentProviders>
         get() = _documentProviders
 
     init {
         loadExportSettings()
-        loadScheduledExportStatus()
         loadDocumentProviders()
     }
 
@@ -74,22 +67,6 @@ constructor(
                 }
                 is ExportUseCaseResult.Failed -> {
                     _storedExportSettings.postValue(ExportSettings.LoadingFailed)
-                }
-            }
-        }
-    }
-
-    /** Triggers a load of scheduled export status. */
-    fun loadScheduledExportStatus() {
-        _storedScheduledExportStatus.postValue(ScheduledExportUiStatus.Loading)
-        viewModelScope.launch {
-            when (val result = loadScheduledExportStatusUseCase.invoke()) {
-                is ExportUseCaseResult.Success -> {
-                    _storedScheduledExportStatus.postValue(
-                        ScheduledExportUiStatus.WithData(result.data))
-                }
-                is ExportUseCaseResult.Failed -> {
-                    _storedScheduledExportStatus.postValue(ScheduledExportUiStatus.LoadingFailed)
                 }
             }
         }
