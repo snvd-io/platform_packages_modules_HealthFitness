@@ -128,6 +128,7 @@ import com.android.server.LocalManagerRegistry;
 import com.android.server.appop.AppOpsManagerLocal;
 import com.android.server.healthconnect.backuprestore.BackupRestore;
 import com.android.server.healthconnect.exportimport.DocumentProvidersManager;
+import com.android.server.healthconnect.exportimport.ExportImportJobs;
 import com.android.server.healthconnect.logging.HealthConnectServiceLogger;
 import com.android.server.healthconnect.migration.DataMigrationManager;
 import com.android.server.healthconnect.migration.MigrationCleaner;
@@ -2033,12 +2034,23 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
             @Nullable ScheduledExportSettings settings, @NonNull UserHandle user) {
         checkParamsNonNull(user);
 
-        enforceIsForegroundUser(getCallingUserHandle());
+        UserHandle userHandle = Binder.getCallingUserHandle();
+        enforceIsForegroundUser(userHandle);
         throwExceptionIfDataSyncInProgress();
 
         try {
             mContext.enforceCallingPermission(MANAGE_HEALTH_DATA_PERMISSION, null);
             ExportImportSettingsStorage.configure(settings);
+
+            HealthConnectThreadScheduler.scheduleInternalTask(
+                    () -> {
+                        try {
+                            ExportImportJobs.schedulePeriodicExportJob(
+                                    mContext, userHandle.getIdentifier());
+                        } catch (Exception e) {
+                            Slog.e(TAG, "Failed to schedule periodic export job.", e);
+                        }
+                    });
         } catch (SQLiteException sqLiteException) {
             Slog.e(TAG, "SQLiteException: ", sqLiteException);
             throw new HealthConnectException(
