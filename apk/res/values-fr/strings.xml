@@ -213,8 +213,8 @@
     <string name="basal_body_temperature_lowercase_label" msgid="3363829208971016662">"température basale"</string>
     <string name="basal_body_temperature_read_content_description" msgid="3342604362011725500">"Lire la température basale"</string>
     <string name="basal_body_temperature_write_content_description" msgid="1081636817359407622">"Modifier la température basale"</string>
-    <string name="blood_glucose_uppercase_label" msgid="7462421849184720721">"Taux de glycémie"</string>
-    <string name="blood_glucose_lowercase_label" msgid="5036157221577793772">"taux de glycémie"</string>
+    <string name="blood_glucose_uppercase_label" msgid="7462421849184720721">"Glycémie"</string>
+    <string name="blood_glucose_lowercase_label" msgid="5036157221577793772">"glycémie"</string>
     <string name="blood_glucose_read_content_description" msgid="563393834563809318">"Lire le taux de glycémie"</string>
     <string name="blood_glucose_write_content_description" msgid="7688360165458091174">"Modifier le taux de glycémie"</string>
     <string name="blood_pressure_uppercase_label" msgid="1091450873620857062">"Tension artérielle"</string>
@@ -289,7 +289,7 @@
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"Ces applis n\'ont plus accès à Santé Connect, mais ont encore des données qui y sont stockées"</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g> peut lire les données ajoutées après le <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>"</string>
     <string name="other_android_permissions" msgid="8051485761573324702">"Pour gérer d\'autres autorisations Android concernant cette appli, sélectionnez Paramètres &gt; Applis"</string>
-    <string name="manage_permissions_rationale" msgid="9183689798847740274">"Les données que vous partagez avec l\'appli <xliff:g id="APP_NAME">%1$s</xliff:g> sont soumises à ses règles de confidentialité."</string>
+    <string name="manage_permissions_rationale" msgid="9183689798847740274">"Les données que vous partagez avec l\'appli <xliff:g id="APP_NAME">%1$s</xliff:g> sont couvertes par ses règles de confidentialité"</string>
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Pour gérer d\'autres autorisations Android concernant cette appli, sélectionnez \"Paramètres\", puis appuyez sur \"Applis\""</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Lire les règles de confidentialité"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Accès au cours des dernières 24 heures"</string>
@@ -528,7 +528,7 @@
     <string name="sleep_session_default" msgid="7376764686701487196">"<xliff:g id="DURATION"> %1$s</xliff:g> de sommeil"</string>
     <string name="sleep_stage_default" msgid="1539043695578480733">"<xliff:g id="DURATION">%1$s</xliff:g> : <xliff:g id="NAME">%2$s</xliff:g>"</string>
     <string name="sleep_stage_awake" msgid="4526767634444460862">"éveillé"</string>
-    <string name="sleep_stage_awake_in_bed" msgid="5533385496857888503">"éveillé au lit"</string>
+    <string name="sleep_stage_awake_in_bed" msgid="5533385496857888503">"éveillé, au lit"</string>
     <string name="sleep_stage_sleeping" msgid="5122840110107303518">"endormi"</string>
     <string name="sleep_stage_out_of_bed" msgid="522297068981578046">"hors du lit"</string>
     <string name="sleep_stage_rem" msgid="1694477904067543104">"en sommeil paradoxal"</string>
@@ -567,7 +567,7 @@
     <string name="body_position_standing_up" msgid="1221924915768574594">"Debout"</string>
     <string name="body_position_sitting_down" msgid="8053875174780552282">"Assis"</string>
     <string name="body_position_lying_down" msgid="1472381098179371143">"Allongé"</string>
-    <string name="body_position_reclining" msgid="5676889701646839079">"Étendu"</string>
+    <string name="body_position_reclining" msgid="5676889701646839079">"Allongé"</string>
     <string name="blood_pressure_left_wrist" msgid="2047244346984766880">"Poignet gauche"</string>
     <string name="blood_pressure_right_wrist" msgid="1488133877790549424">"Poignet droit"</string>
     <string name="blood_pressure_left_arm" msgid="5150436840115504433">"Haut du bras gauche"</string>
@@ -703,9 +703,9 @@
     <string name="cant_see_all_your_apps_description" msgid="7344859063463536472">"Si vous ne voyez pas une appli installée, elle n\'est peut-être pas encore compatible avec Santé Connect"</string>
     <string name="things_to_try" msgid="8200374691546152703">"À essayer"</string>
     <string name="check_for_updates" msgid="3841090978657783101">"Rechercher les mises à jour"</string>
-    <string name="check_for_updates_description" msgid="1347667778199095160">"Vérifier que les applis installées sont à jour"</string>
+    <string name="check_for_updates_description" msgid="1347667778199095160">"Vérifiez que les applis installées sont à jour"</string>
     <string name="see_all_compatible_apps" msgid="6791146164535475726">"Voir toutes les applis compatibles"</string>
-    <string name="see_all_compatible_apps_description" msgid="2092325337403254491">"Rechercher des applis sur Google Play"</string>
+    <string name="see_all_compatible_apps_description" msgid="2092325337403254491">"Recherchez des applis sur Google Play"</string>
     <string name="send_feedback" msgid="7756927746070096780">"Envoyer des commentaires"</string>
     <string name="send_feedback_description" msgid="2887207112856240778">"Dites-nous quelles applis de santé et de fitness vous souhaitez utiliser avec Santé Connect"</string>
     <string name="playstore_app_title" msgid="4138464328693481809">"Play Store"</string>
@@ -717,10 +717,10 @@
     <string name="range_after_x_months" msgid="3340127072680117121">"{count,plural, =1{Au bout de # mois}one{Au bout de # mois}other{Au bout de # mois}}"</string>
     <string name="range_never" msgid="4429478261788361233">"Jamais"</string>
     <string name="range_off" msgid="8178520557618184215">"Désactivée"</string>
-    <string name="auto_delete_rationale" msgid="5255442126521464878">"Lorsque vous modifiez ces paramètres, Santé Connect supprime les données existantes pour tenir compte de vos nouvelles préférences"</string>
+    <string name="auto_delete_rationale" msgid="5255442126521464878">"Lorsque vous modifiez ces paramètres, Santé Connect supprime les données existantes en tenant compte de vos nouvelles préférences"</string>
     <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Supprimer automatiquement les données au bout de # mois ?}one{Supprimer automatiquement les données au bout de # mois ?}other{Supprimer automatiquement les données au bout de # mois ?}}"</string>
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Santé Connect supprimera automatiquement les nouvelles données au bout de # mois. Avec ce paramètre, les données existantes datant de plus de # mois seront aussi supprimées.}one{Santé Connect supprimera automatiquement les nouvelles données au bout de # mois. Avec ce paramètre, les données existantes datant de plus de # mois seront aussi supprimées.}other{Santé Connect supprimera automatiquement les nouvelles données au bout de # mois. Avec ce paramètre, les données existantes datant de plus de # mois seront aussi supprimées.}}"</string>
-    <string name="set_auto_delete_button" msgid="268450418318199197">"Configurer la suppression automatique"</string>
+    <string name="set_auto_delete_button" msgid="268450418318199197">"Confirmer"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"Les données existantes seront supprimées"</string>
     <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{Santé Connect supprimera les données datant de plus de # mois. Il peut s\'écouler un jour avant que ces modifications ne s\'appliquent dans vos applis connectées.}one{Santé Connect supprimera les données datant de plus de # mois. Il peut s\'écouler un jour avant que ces modifications ne s\'appliquent dans vos applis connectées.}other{Santé Connect supprimera les données datant de plus de # mois. Il peut s\'écouler un jour avant que ces modifications ne s\'appliquent dans vos applis connectées.}}"</string>
     <string name="deletion_started_category_list_section" msgid="3052940611815658991">"Données à supprimer parmi les suivantes"</string>
@@ -756,7 +756,7 @@
     <string name="request_route_dont_allow" msgid="1186236234664957228">"Ne pas autoriser"</string>
     <string name="route_permissions_always_allow" msgid="1383816362804293137">"Toujours autoriser"</string>
     <string name="route_permissions_label" msgid="5201501195020295860">"Partage du parcours sportif"</string>
-    <string name="route_permissions_summary" msgid="4670908225783213910">"Contrôler la manière dont cette appli accède aux parcours sportifs à partir d\'applis connectées"</string>
+    <string name="route_permissions_summary" msgid="4670908225783213910">"Contrôlez la manière dont cette appli accède aux parcours sportifs d\'applis connectées"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"Toujours demander"</string>
     <string name="route_permissions_deny" msgid="4263802925221258853">"Ne pas autoriser"</string>
     <string name="exercise_permission_dialog_enable_title" msgid="4310997044811843391">"Activer les deux types de données ?"</string>
@@ -834,7 +834,7 @@
     <string name="app_sources_header" msgid="6343062519512947665">"Sources d\'applications"</string>
     <string name="data_sources_footer" msgid="6414387142919741183">"Ajoutez des sources d\'applications à la liste pour voir comment les totaux de données peuvent changer. Supprimer une application de cette liste l\'empêchera de contribuer aux totaux, mais elle disposera toujours d\'autorisations d\'écriture."</string>
     <string name="data_sources_empty_state" msgid="1899652759274805556">"Aucune source d\'application"</string>
-    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"Une fois que vous aurez accordé des autorisations d\'application pour écrire des données <xliff:g id="CATEGORY_NAME">%1$s</xliff:g>, des sources s\'afficheront ici."</string>
+    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"Une fois que vous aurez autorisé des applications à écrire des données <xliff:g id="CATEGORY_NAME">%1$s</xliff:g>, des sources s\'afficheront ici."</string>
     <string name="data_sources_help_link" msgid="7740264923634947915">"Fonctionnement de la priorisation des sources"</string>
     <string name="data_sources_add_app" msgid="319926596123692514">"Ajouter une application"</string>
     <string name="edit_data_sources" msgid="79641360876849547">"Modifier les sources d\'application"</string>

@@ -293,7 +293,7 @@
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Para gerenciar outras permissões do Android que esse app pode acessar, vá até \"Configurações\" e toque em \"Apps\""</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Leia a Política de Privacidade"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Acessado nas últimas 24 horas"</string>
-    <string name="app_access_title" msgid="7137018424885371763">"Acesso do app"</string>
+    <string name="app_access_title" msgid="7137018424885371763">"Acesso de apps"</string>
     <string name="connected_apps_empty_list_section_title" msgid="6821215432694207342">"Não há apps compatíveis instalados no momento"</string>
     <string name="additional_access_label" msgid="4645249249222528341">"Acesso adicional"</string>
     <string name="denied_apps_banner_title" msgid="1997745063608657965">"Permissões de apps removidas"</string>
@@ -705,7 +705,7 @@
     <string name="check_for_updates" msgid="3841090978657783101">"Verificar se há atualizações"</string>
     <string name="check_for_updates_description" msgid="1347667778199095160">"Confira se os apps instalados estão atualizados"</string>
     <string name="see_all_compatible_apps" msgid="6791146164535475726">"Mostrar todos os apps compatíveis"</string>
-    <string name="see_all_compatible_apps_description" msgid="2092325337403254491">"Encontrar apps no Google Play"</string>
+    <string name="see_all_compatible_apps_description" msgid="2092325337403254491">"Encontre apps no Google Play"</string>
     <string name="send_feedback" msgid="7756927746070096780">"Enviar feedback"</string>
     <string name="send_feedback_description" msgid="2887207112856240778">"Conte para nós quais são os apps de saúde e fitness que você gostaria de vincular ao Conexão Saúde"</string>
     <string name="playstore_app_title" msgid="4138464328693481809">"Play Store"</string>

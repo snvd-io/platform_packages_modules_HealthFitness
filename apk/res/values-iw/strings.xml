@@ -722,7 +722,7 @@
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{נתונים חדשים יימחקו מ-Health Connect באופן אוטומטי אחרי חודש אחד. ההגדרה הזאת תמחק גם נתונים קיימים מלפני חודש.}one{נתונים חדשים יימחקו מ-Health Connect באופן אוטומטי אחרי # חודשים. ההגדרה הזאת תמחק גם נתונים קיימים מלפני # חודשים.}two{נתונים חדשים יימחקו מ-Health Connect באופן אוטומטי אחרי חודשיים. ההגדרה הזאת תמחק גם נתונים קיימים מלפני # חודשים.}other{נתונים חדשים יימחקו מ-Health Connect באופן אוטומטי אחרי # חודשים. ההגדרה הזאת תמחק גם נתונים קיימים מלפני # חודשים.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"הגדרת מחיקה אוטומטית"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"הנתונים הקיימים יימחקו"</string>
-    <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{כל הנתונים מלפני # חודשים ויותר יימחקו מ-Health Connect‏. ייתכן שיעבור יום עד שהשינויים האלה יופיעו באפליקציות המקושרות שלך.}one{Health Connect will delete all data older than # months. It may take a day for these changes to appear in your connected apps.}two{כל הנתונים מלפני חודשיים ויותר יימחקו מ-Health Connect‏. ייתכן שיעבור יום עד שהשינויים האלה יופיעו באפליקציות המקושרות שלך.}other{כל הנתונים מלפני # חודשים ויותר יימחקו מ-Health Connect‏. ייתכן שיעבור יום עד שהשינויים האלה יופיעו באפליקציות המקושרות שלך.}}"</string>
+    <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{כל הנתונים מלפני # חודשים ויותר יימחקו מ-Health Connect‏. ייתכן שיעבור יום עד שהשינויים האלה יופיעו באפליקציות המחוברות שלך.}one{Health Connect will delete all data older than # months. It may take a day for these changes to appear in your connected apps.}two{כל הנתונים מלפני חודשיים ויותר יימחקו מ-Health Connect‏. ייתכן שיעבור יום עד שהשינויים האלה יופיעו באפליקציות המחוברות שלך.}other{כל הנתונים מלפני # חודשים ויותר יימחקו מ-Health Connect‏. ייתכן שיעבור יום עד שהשינויים האלה יופיעו באפליקציות המחוברות שלך.}}"</string>
     <string name="deletion_started_category_list_section" msgid="3052940611815658991">"הנתונים שיימחקו מהקטגוריות האלה"</string>
     <string name="deletion_started_done_button" msgid="1232018689825054257">"סיום"</string>
     <string name="priority_dialog_title" msgid="7360654442596118085">"הגדרת העדיפות של האפליקציות"</string>
@@ -759,18 +759,12 @@
     <string name="route_permissions_summary" msgid="4670908225783213910">"שליטה באופן שבו האפליקציה ניגשת לנתונים של מסלולי אימון כושר מאפליקציות מקושרות"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"אני רוצה לבחור בכל פעם"</string>
     <string name="route_permissions_deny" msgid="4263802925221258853">"אין אישור"</string>
-    <!-- no translation found for exercise_permission_dialog_enable_title (4310997044811843391) -->
-    <skip />
-    <!-- no translation found for exercise_permission_dialog_disable_title (1011777519918396883) -->
-    <skip />
-    <!-- no translation found for exercise_permission_dialog_enabled_summary (3404390796688813585) -->
-    <skip />
-    <!-- no translation found for exercise_permission_dialog_disable_summary (397599718182778347) -->
-    <skip />
-    <!-- no translation found for exercise_permission_dialog_positive_button (4545939654888655556) -->
-    <skip />
-    <!-- no translation found for exercise_permission_dialog_negative_button (7433304732406274998) -->
-    <skip />
+    <string name="exercise_permission_dialog_enable_title" msgid="4310997044811843391">"להפעיל את שני סוגי הנתונים?"</string>
+    <string name="exercise_permission_dialog_disable_title" msgid="1011777519918396883">"להשבית את שני סוגי הנתונים?"</string>
+    <string name="exercise_permission_dialog_enabled_summary" msgid="3404390796688813585">"לאפליקציית <xliff:g id="APP_NAME">%1$s</xliff:g> נדרשת גישה לקריאת נתוני הפעילות הגופנית כדי להפעיל מסלולי אימון"</string>
+    <string name="exercise_permission_dialog_disable_summary" msgid="397599718182778347">"לאפליקציית <xliff:g id="APP_NAME">%1$s</xliff:g> נדרשת גישה לנתוני הפעילות הגופנית כדי להפעיל מסלולי אימון"</string>
+    <string name="exercise_permission_dialog_positive_button" msgid="4545939654888655556">"כן"</string>
+    <string name="exercise_permission_dialog_negative_button" msgid="7433304732406274998">"לא"</string>
     <string name="back_button" msgid="780519527385993407">"חזרה"</string>
     <string name="loading" msgid="2526615755685950317">"בטעינה…"</string>
     <string name="migration_in_progress_screen_title" msgid="6564515269988205874">"השילוב מתבצע"</string>

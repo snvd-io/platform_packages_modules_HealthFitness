@@ -229,8 +229,8 @@
     <string name="heart_rate_lowercase_label" msgid="693492686337628283">"ਦਿਲ ਦੀ ਧੜਕਣ"</string>
     <string name="heart_rate_read_content_description" msgid="4165867166260001259">"ਦਿਲ ਦੀ ਧੜਕਣ ਸੰਬੰਧੀ ਡਾਟਾ ਪੜ੍ਹੋ"</string>
     <string name="heart_rate_write_content_description" msgid="2876667918366409170">"ਦਿਲ ਦੀ ਧੜਕਣ ਸੰਬੰਧੀ ਡਾਟੇ ਦਾ ਸੰਪਾਦਨ ਕਰੋ"</string>
-    <string name="heart_rate_variability_uppercase_label" msgid="2047887230527012536">"ਦਿਲ ਧੜਕਣ ਦੀ ਭਿੰਨਤਾ ਸੰਬੰਧੀ ਡਾਟਾ"</string>
-    <string name="heart_rate_variability_lowercase_label" msgid="2332638559415663836">"ਦਿਲ ਧੜਕਣ ਦੀ ਭਿੰਨਤਾ ਸੰਬੰਧੀ ਡਾਟਾ"</string>
+    <string name="heart_rate_variability_uppercase_label" msgid="2047887230527012536">"ਦਿਲ ਦੀ ਧੜਕਣ ਦੀ ਦਰ ਵਿੱਚ ਉਤਾਰ-ਚੜਾਅ"</string>
+    <string name="heart_rate_variability_lowercase_label" msgid="2332638559415663836">"ਦਿਲ ਦੀ ਧੜਕਣ ਦੀ ਦਰ ਵਿੱਚ ਉਤਾਰ-ਚੜਾਅ"</string>
     <string name="heart_rate_variability_read_content_description" msgid="5812707457872629556">"ਦਿਲ ਧੜਕਣ ਦੀ ਭਿੰਨਤਾ ਸੰਬੰਧੀ ਡਾਟਾ ਪੜ੍ਹੋ"</string>
     <string name="heart_rate_variability_write_content_description" msgid="3628171603035566114">"ਦਿਲ ਧੜਕਣ ਦੀ ਭਿੰਨਤਾ ਸੰਬੰਧੀ ਡਾਟੇ ਦਾ ਸੰਪਾਦਨ ਕਰੋ"</string>
     <string name="oxygen_saturation_uppercase_label" msgid="1396254185616418355">"ਆਕਸੀਜਨ ਸੈਚੂਰੇਸ਼ਨ ਸੰਬੰਧੀ ਡਾਟਾ"</string>
@@ -683,8 +683,8 @@
     <string name="units_cancel" msgid="5947097690625771995">"ਰੱਦ ਕਰੋ"</string>
     <string name="units_title" msgid="6504086463237869339">"ਇਕਾਈਆਂ"</string>
     <string name="distance_unit_title" msgid="4696952932438418209">"ਦੂਰੀ"</string>
-    <string name="height_unit_title" msgid="5461594609577078049">"ਕੱਦ ਸੰਬੰਧੀ ਡਾਟਾ"</string>
-    <string name="weight_unit_title" msgid="7405186541678939987">"ਭਾਰ ਸੰਬੰਧੀ ਡਾਟਾ"</string>
+    <string name="height_unit_title" msgid="5461594609577078049">"ਕੱਦ"</string>
+    <string name="weight_unit_title" msgid="7405186541678939987">"ਭਾਰ"</string>
     <string name="energy_unit_title" msgid="1714627395963766769">"ਊਰਜਾ"</string>
     <string name="temperature_unit_title" msgid="1973985121774654017">"ਤਾਪਮਾਨ"</string>
     <string name="distance_unit_kilometers_label" msgid="1361363017122240294">"ਕਿਲੋਮੀਟਰ"</string>

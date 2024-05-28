@@ -708,7 +708,7 @@
     <string name="see_all_compatible_apps_description" msgid="2092325337403254491">"Thola ama-app ku-Google Play"</string>
     <string name="send_feedback" msgid="7756927746070096780">"Thumela impendulo"</string>
     <string name="send_feedback_description" msgid="2887207112856240778">"Sitshele ukuthi yimaphi ama-app ezempilo nokufaneleka ongathanda ukusebenza ngawo nge-Health Connect"</string>
-    <string name="playstore_app_title" msgid="4138464328693481809">"I-Google Play Isitolo"</string>
+    <string name="playstore_app_title" msgid="4138464328693481809">"Isitolo seGoogle Play"</string>
     <string name="auto_delete_button" msgid="8536451792268513619">"Sula ngokuzenzekela"</string>
     <string name="auto_delete_title" msgid="8761742828224207826">"Sula ngokuzenzekela"</string>
     <string name="auto_delete_header" msgid="4258649705159293715">"Lawula ukuthi idatha yakho igcinwa isikhathi esingakanani ku-Health Connect ngokuyishejula ukuthi isulwe ngemva esisethiwe"</string>
