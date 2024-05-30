@@ -24,10 +24,13 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
 import com.android.healthconnect.controller.R
 import com.android.healthconnect.controller.exportimport.api.DocumentProvider
 import com.android.healthconnect.controller.exportimport.api.DocumentProviderRoot
+import com.android.healthconnect.controller.shared.dialog.AlertDialogBuilder
+import com.android.healthconnect.controller.utils.logging.ErrorPageElement
 
 /** Adds the views for the documents provider list when setting up export and import. */
 class DocumentProvidersViewBinder {
@@ -70,15 +73,61 @@ class DocumentProvidersViewBinder {
 
                     onSelectionChanged(root)
                 }
-
-                // TODO: b/339189778 - Handle multiple document provider roots.
             } else {
                 summaryView.setText("")
                 summaryView.setVisibility(GONE)
+
+                documentProviderView.setOnClickListener {
+                    showChooseAccountDialog(inflater, documentProvider.roots) { root ->
+                        uncheckRadioButtons(documentProvidersView)
+                        radioButtonView.setChecked(true)
+
+                        summaryView.setText(root.summary)
+                        summaryView.setVisibility(VISIBLE)
+
+                        onSelectionChanged(root)
+                    }
+                }
             }
 
             documentProvidersView.addView(documentProviderView)
         }
+    }
+
+    private fun showChooseAccountDialog(
+        inflater: LayoutInflater,
+        roots: List<DocumentProviderRoot>,
+        onSelectionChanged: (root: DocumentProviderRoot) -> Unit
+    ) {
+        val view = inflater.inflate(R.layout.dialog_export_import_account, null)
+
+        val radioGroup = view.findViewById<RadioGroup>(R.id.radio_group_account)
+
+        for (i in roots.indices) {
+            val radioButton =
+                inflater.inflate(R.layout.item_document_provider_account, radioGroup, false)
+                    as RadioButton
+            radioButton.text = roots[i].summary
+            radioButton.id = i
+            if (i == 0) {
+                radioButton.isChecked = true
+            }
+            radioGroup.addView(radioButton)
+        }
+
+        // TODO: b/339189778 - Add proper logging for the account picker dialog.
+        AlertDialogBuilder(inflater.context, ErrorPageElement.UNKNOWN_ELEMENT)
+            .setView(view)
+            .setNegativeButton(
+                R.string.export_import_choose_account_cancel_button,
+                ErrorPageElement.UNKNOWN_ELEMENT)
+            .setPositiveButton(
+                R.string.export_import_choose_account_done_button,
+                ErrorPageElement.UNKNOWN_ELEMENT) { _, _ ->
+                    onSelectionChanged(roots[radioGroup.checkedRadioButtonId])
+                }
+            .create()
+            .show()
     }
 
     private fun loadPackageIcon(context: Context, authority: String, icon: Int): Drawable? {
