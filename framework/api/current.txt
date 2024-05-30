@@ -1036,6 +1036,7 @@ package android.health.connect.datatypes {
     method public int getType();
     method public void writeToParcel(@NonNull android.os.Parcel, int);
     field @NonNull public static final android.os.Parcelable.Creator<android.health.connect.datatypes.MedicalResource> CREATOR;
+    field public static final int MEDICAL_RESOURCE_TYPE_IMMUNIZATION = 1; // 0x1
     field public static final int MEDICAL_RESOURCE_TYPE_UNKNOWN = 0; // 0x0
   }
 
