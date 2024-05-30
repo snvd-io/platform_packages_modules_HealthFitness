@@ -56,9 +56,7 @@ import org.junit.Test
 @HiltAndroidTest
 class ExportSettingsViewModelTest {
     companion object {
-        private val TEST_SECRET_KEY = byteArrayOf(1, 2, 3, 4)
-        private val TEST_SALT = byteArrayOf(5, 6, 7, 8)
-        private val TEST_EXPORT_FREQUENCY_IN_DAYS = 7
+        private const val TEST_EXPORT_FREQUENCY_IN_DAYS = 7
         private val TEST_URI: Uri = Uri.parse("content://com.android.server.healthconnect/testuri")
 
         private val TEST_DOCUMENT_PROVIDER_TITLE = "Document provider"
@@ -155,39 +153,10 @@ class ExportSettingsViewModelTest {
     }
 
     @Test
-    fun updateExportSecretKey() = runTest {
-        viewModel.updateExportSecretKey(TEST_SECRET_KEY, TEST_SALT)
-        advanceUntilIdle()
-
-        assertThat(updateExportSettingsUseCase.mostRecentSettings.secretKey)
-            .isEqualTo(TEST_SECRET_KEY)
-        assertThat(updateExportSettingsUseCase.mostRecentSettings.salt).isEqualTo(TEST_SALT)
-        assertThat(updateExportSettingsUseCase.mostRecentSettings.uri).isNull()
-        assertThat(updateExportSettingsUseCase.mostRecentSettings.periodInDays)
-            .isEqualTo(DEFAULT_INT)
-    }
-
-    @Test
-    fun updateExportSecretKey_keepsExistingFrequencySetting() = runTest {
-        val testObserver = TestObserver<ExportSettings>()
-        viewModel.storedExportSettings.observeForever(testObserver)
-        loadExportSettingsUseCase.updateExportFrequency(EXPORT_FREQUENCY_MONTHLY)
-        viewModel.loadExportSettings()
-
-        viewModel.updateExportSecretKey(TEST_SECRET_KEY, TEST_SALT)
-        advanceUntilIdle()
-
-        assertThat(testObserver.getLastValue())
-            .isEqualTo(ExportSettings.WithData(EXPORT_FREQUENCY_MONTHLY))
-    }
-
-    @Test
     fun updateExportUri() = runTest {
         viewModel.updateExportUri(TEST_URI)
         advanceUntilIdle()
 
-        assertThat(updateExportSettingsUseCase.mostRecentSettings.secretKey).isNull()
-        assertThat(updateExportSettingsUseCase.mostRecentSettings.salt).isNull()
         assertThat(updateExportSettingsUseCase.mostRecentSettings.uri).isEqualTo(TEST_URI)
         assertThat(updateExportSettingsUseCase.mostRecentSettings.periodInDays)
             .isEqualTo(DEFAULT_INT)
@@ -212,8 +181,6 @@ class ExportSettingsViewModelTest {
         viewModel.updateExportFrequency(EXPORT_FREQUENCY_DAILY)
         advanceUntilIdle()
 
-        assertThat(updateExportSettingsUseCase.mostRecentSettings.secretKey).isNull()
-        assertThat(updateExportSettingsUseCase.mostRecentSettings.salt).isNull()
         assertThat(updateExportSettingsUseCase.mostRecentSettings.uri).isNull()
         assertThat(updateExportSettingsUseCase.mostRecentSettings.periodInDays)
             .isEqualTo(EXPORT_FREQUENCY_DAILY.periodInDays)

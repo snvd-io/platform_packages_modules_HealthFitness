@@ -110,15 +110,6 @@ constructor(
         }
     }
 
-    /**
-     * Updates the secret key and salt used for encrypting data in scheduled exports of Health
-     * Connect data.
-     */
-    fun updateExportSecretKey(secretKey: ByteArray, salt: ByteArray) {
-        val settings = ScheduledExportSettings.withSecretKey(secretKey, salt)
-        updateExportSettings(settings)
-    }
-
     /** Updates the previous frequency of scheduled exports of Health Connect data. */
     fun updatePreviousExportFrequency(frequency: ExportFrequency) {
         if (frequency != ExportFrequency.EXPORT_FREQUENCY_NEVER) {
