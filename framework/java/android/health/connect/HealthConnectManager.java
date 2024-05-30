@@ -2150,13 +2150,14 @@ public class HealthConnectManager {
      * @param callback Callback to receive result of performing this operation.
      * @throws IllegalArgumentException if request page size set is less than 1 or more than 5000 in
      *     {@link ReadMedicalResourcesRequest}.
-     * @hide
      */
-    // TODO(b/340569771): Make this flagged Api and add CTS tests.
+    @FlaggedApi(FLAG_PERSONAL_HEALTH_RECORD)
     public void readMedicalResources(
             @NonNull ReadMedicalResourcesRequest request,
             @NonNull Executor executor,
-            @NonNull OutcomeReceiver<List<MedicalResource>, HealthConnectException> callback) {
+            @NonNull
+                    OutcomeReceiver<ReadMedicalResourcesResponse, HealthConnectException>
+                            callback) {
         Objects.requireNonNull(request);
         Objects.requireNonNull(executor);
         Objects.requireNonNull(callback);
