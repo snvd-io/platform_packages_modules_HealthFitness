@@ -202,6 +202,14 @@ package android.health.connect {
     field @NonNull public static final android.os.Parcelable.Creator<android.health.connect.MedicalResourceId> CREATOR;
   }
 
+  @FlaggedApi("com.android.healthfitness.flags.personal_health_record") public final class ReadMedicalResourcesResponse implements android.os.Parcelable {
+    ctor public ReadMedicalResourcesResponse(@NonNull java.util.List<android.health.connect.datatypes.MedicalResource>);
+    method public int describeContents();
+    method @NonNull public java.util.List<android.health.connect.datatypes.MedicalResource> getMedicalResources();
+    method public void writeToParcel(@NonNull android.os.Parcel, int);
+    field @NonNull public static final android.os.Parcelable.Creator<android.health.connect.ReadMedicalResourcesResponse> CREATOR;
+  }
+
   public abstract class ReadRecordsRequest<T extends android.health.connect.datatypes.Record> {
     method @NonNull public Class<T> getRecordType();
   }
