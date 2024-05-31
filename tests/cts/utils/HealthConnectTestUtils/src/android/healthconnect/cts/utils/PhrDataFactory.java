@@ -18,17 +18,22 @@ package android.healthconnect.cts.utils;
 
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_UNKNOWN;
 
+import android.health.connect.MedicalResourceId;
 import android.health.connect.datatypes.MedicalResource;
 
 public class PhrDataFactory {
     public static final String MEDICAL_RESOURCE_ID = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
     public static final String DATA_SOURCE_ID = "nhs/123";
     public static final String FHIR_DATA_IMMUNIZATION = "{\"resourceType\" : \"Immunization\"}";
+    public static final String FHIR_RESOURCE_TYPE_IMMUNIZATION = "Immunization";
+    public static final String FHIR_RESOURCE_ID_IMMUNIZATION = "Immunization1";
 
     public static final String DIFFERENT_MEDICAL_RESOURCE_ID =
             "ffffffff-gggg-hhhh-iiii-jjjjjjjjjjjj";
     public static final String DIFFERENT_DATA_SOURCE_ID = "nhs/456";
     public static final String FHIR_DATA_ALLERGY = "{\"resourceType\" : \"Allergy\"}";
+    public static final String FHIR_RESOURCE_TYPE_ALLERGY = "Allergy";
+    public static final String FHIR_RESOURCE_ID_ALLERGY = "Allergy1";
 
     /**
      * Creates and returns a {@link MedicalResource.Builder} with default arguments.
@@ -50,5 +55,16 @@ public class PhrDataFactory {
      */
     public static MedicalResource getMedicalResource() {
         return getMedicalResourceBuilder().build();
+    }
+
+    /**
+     * Creates and returns a {@link MedicalResourceId} with default arguments.
+     *
+     * <p>By default, it contains the {@link PhrDataFactory#FHIR_RESOURCE_TYPE_IMMUNIZATION} and
+     * {@link PhrDataFactory#FHIR_RESOURCE_ID_IMMUNIZATION}.
+     */
+    public static MedicalResourceId getMedicalResourceId() {
+        return new MedicalResourceId(
+                DATA_SOURCE_ID, FHIR_RESOURCE_TYPE_IMMUNIZATION, FHIR_RESOURCE_ID_IMMUNIZATION);
     }
 }
