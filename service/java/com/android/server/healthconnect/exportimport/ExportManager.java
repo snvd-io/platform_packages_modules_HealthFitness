@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Clock;
 import java.util.List;
 
 /**
@@ -57,6 +58,8 @@ public class ExportManager {
 
     private static final String TAG = "HealthConnectExportImport";
 
+    private Clock mClock;
+
     // Tables to drop instead of tables to keep to avoid risk of bugs if new data types are added.
 
     /**
@@ -70,10 +73,12 @@ public class ExportManager {
 
     private final DatabaseContext mDatabaseContext;
 
-    public ExportManager(@NonNull Context context) {
+    public ExportManager(@NonNull Context context, Clock clock) {
         requireNonNull(context);
+        requireNonNull(clock);
         mDatabaseContext =
                 DatabaseContext.create(context, LOCAL_EXPORT_DATABASE_DIR_NAME, context.getUser());
+        mClock = clock;
     }
 
     /**
@@ -96,7 +101,7 @@ public class ExportManager {
 
         try {
             try {
-                deleteLogTablesContent();
+                deleteLogTablesContent(LOCAL_EXPORT_DATABASE_FILE_NAME);
             } catch (Exception e) {
                 Slog.e(TAG, "Failed to prepare local file for export", e);
                 ExportImportSettingsStorage.setLastExportError(
@@ -119,6 +124,7 @@ public class ExportManager {
             }
 
             Slog.i(TAG, "Export completed.");
+            ExportImportSettingsStorage.setLastSuccessfulExport(mClock.instant());
             return true;
         } finally {
             deleteLocalExportFile(localExportFile);
@@ -128,15 +134,7 @@ public class ExportManager {
     private File exportLocally() throws IOException {
         Slog.i(TAG, "Local export started.");
 
-        File exportDir = mDatabaseContext.getDatabaseDir();
-        if (!exportDir.isDirectory() && !exportDir.mkdir()) {
-            throw new IOException("Unable to create directory for local export.");
-        }
-        // Delete the file if it already exists before writing.
-        File exportFile = new File(exportDir, LOCAL_EXPORT_DATABASE_FILE_NAME);
-        if ((exportFile.exists() && !exportFile.delete()) || !exportFile.createNewFile()) {
-            throw new IOException("Unable to create file for local export.");
-        }
+        File exportFile = getExportFile(LOCAL_EXPORT_DATABASE_FILE_NAME);
 
         try (ParcelFileDescriptor pfd =
                 ParcelFileDescriptor.open(exportFile, ParcelFileDescriptor.MODE_WRITE_ONLY)) {
@@ -155,6 +153,20 @@ public class ExportManager {
         return exportFile;
     }
 
+    private File getExportFile(String dbName) throws IOException {
+        File exportDir = mDatabaseContext.getDatabaseDir();
+        if (!exportDir.isDirectory() && !exportDir.mkdir()) {
+            throw new IOException("Unable to create directory for local export.");
+        }
+        // Delete the file if it already exists before writing.
+        File exportFile = new File(exportDir, dbName);
+        if ((exportFile.exists() && !exportFile.delete()) || !exportFile.createNewFile()) {
+            throw new IOException("Unable to create file for local export.");
+        }
+        Slog.i(TAG, "Local export completed: " + exportFile.toPath().toAbsolutePath());
+        return exportFile;
+    }
+
     private void exportToUri(Uri destinationUri, Path originPath) throws IOException {
         Slog.i(TAG, "Export to URI started.");
         try (OutputStream outputStream =
@@ -168,15 +180,17 @@ public class ExportManager {
     }
 
     // TODO(b/325599879): Double check if we need to vacuum the database after clearing the tables.
-    private void deleteLogTablesContent() throws IOException {
-        Slog.i(TAG, "Drop log tables started.");
+
+    private void deleteLogTablesContent(String dbName) throws IOException {
         try (HealthConnectDatabase exportDatabase =
-                new HealthConnectDatabase(mDatabaseContext, LOCAL_EXPORT_DATABASE_FILE_NAME)) {
+                new HealthConnectDatabase(mDatabaseContext, dbName)) {
             for (String tableName : TABLES_TO_CLEAR) {
                 exportDatabase.getWritableDatabase().execSQL("DELETE FROM " + tableName + ";");
             }
         } catch (Exception e) {
-            throw new IOException("Unable to drop log tables for export database.");
+            // This exception is not passed up the stack for error handling, because it has no
+            // user visible effect other than the data being larger.
+            Slog.e(TAG, "Unable to drop log tables for export database.");
         }
         Slog.i(TAG, "Drop log tables completed.");
     }

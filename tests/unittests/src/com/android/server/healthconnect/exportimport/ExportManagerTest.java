@@ -46,6 +46,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneId;
 
 @RunWith(AndroidJUnit4.class)
 public class ExportManagerTest {
@@ -68,6 +71,7 @@ public class ExportManagerTest {
     private TransactionTestUtils mTransactionTestUtils;
     private ExportManager mExportManager;
     private DatabaseContext mExportedDbContext;
+    private Instant mTimeStamp;
 
     @Before
     public void setUp() throws Exception {
@@ -75,7 +79,11 @@ public class ExportManagerTest {
         mTransactionManager = mDatabaseTestRule.getTransactionManager();
         mTransactionTestUtils = new TransactionTestUtils(mContext, mTransactionManager);
         mTransactionTestUtils.insertApp(TEST_PACKAGE_NAME);
-        mExportManager = new ExportManager(mContext);
+
+        mTimeStamp = Instant.parse("2024-06-04T16:39:12Z");
+        Clock fakeClock = Clock.fixed(mTimeStamp, ZoneId.of("UTC"));
+
+        mExportManager = new ExportManager(mContext, fakeClock);
 
         mExportedDbContext =
                 DatabaseContext.create(
@@ -170,6 +178,30 @@ public class ExportManagerTest {
         assertThat(mExportManager.runExport()).isFalse();
         assertThat(ExportImportSettingsStorage.getScheduledExportStatus().getDataExportError())
                 .isEqualTo(HealthConnectManager.DATA_EXPORT_LOST_FILE_ACCESS);
+    }
+
+    @Test
+    public void runExport_updatesLastSuccessfulExport_onSuccessOnly() {
+        mTransactionTestUtils.insertRecords(TEST_PACKAGE_NAME, createStepsRecord(123, 456, 7));
+        HealthConnectDatabase originalDatabase =
+                new HealthConnectDatabase(mContext, "healthconnect.db");
+        assertTableSize(originalDatabase, "steps_record_table", 1);
+
+        // running a successful export records a "last successful export"
+        assertThat(mExportManager.runExport()).isTrue();
+        Instant lastSuccessfulExport =
+                ExportImportSettingsStorage.getScheduledExportStatus()
+                        .getLastSuccessfulExportTime();
+        assertThat(lastSuccessfulExport).isEqualTo(Instant.parse("2024-06-04T16:39:12Z"));
+
+        // Export running at a later time with an error
+        mTimeStamp = Instant.parse("2024-12-12T16:39:12Z");
+        ExportImportSettingsStorage.configure(
+                ScheduledExportSettings.withUri(Uri.fromFile(new File("inaccessible"))));
+        assertThat(mExportManager.runExport()).isFalse();
+
+        // Last successful export should hold the previous timestamp as the last export failed
+        assertThat(lastSuccessfulExport).isEqualTo(Instant.parse("2024-06-04T16:39:12Z"));
     }
 
     private void configureExportUri() {
