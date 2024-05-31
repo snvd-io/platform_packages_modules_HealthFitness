@@ -16,7 +16,7 @@
 
 package android.healthconnect.cts.utils;
 
-import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_UNKNOWN;
+import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_IMMUNIZATION;
 
 import android.health.connect.MedicalResourceId;
 import android.health.connect.datatypes.MedicalResource;
@@ -43,7 +43,7 @@ public class PhrDataFactory {
     public static MedicalResource.Builder getMedicalResourceBuilder() {
         return new MedicalResource.Builder(
                 MEDICAL_RESOURCE_ID,
-                MEDICAL_RESOURCE_TYPE_UNKNOWN,
+                MEDICAL_RESOURCE_TYPE_IMMUNIZATION,
                 DATA_SOURCE_ID,
                 FHIR_DATA_IMMUNIZATION);
     }
