@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package android.healthconnect;
+package android.health.connect;
 
 import static android.health.connect.Constants.DEFAULT_LONG;
 import static android.health.connect.Constants.DEFAULT_PAGE_SIZE;
@@ -25,7 +25,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import static org.junit.Assert.assertThrows;
 
-import android.health.connect.ReadMedicalResourcesRequest;
 import android.os.Parcel;
 
 import org.junit.Test;
