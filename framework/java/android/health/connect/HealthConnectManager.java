@@ -313,20 +313,20 @@ public class HealthConnectManager {
     @SystemApi public static final int DATA_DOWNLOAD_COMPLETE = 4;
 
     /**
-     * Unknown error during the last data export.
-     *
-     * @hide
-     */
-    @FlaggedApi(FLAG_EXPORT_IMPORT)
-    public static final int DATA_EXPORT_ERROR_UNKNOWN = 0;
-
-    /**
      * No error during the last data export.
      *
      * @hide
      */
     @FlaggedApi(FLAG_EXPORT_IMPORT)
-    public static final int DATA_EXPORT_ERROR_NONE = 1;
+    public static final int DATA_EXPORT_ERROR_NONE = 0;
+
+    /**
+     * Unknown error during the last data export.
+     *
+     * @hide
+     */
+    @FlaggedApi(FLAG_EXPORT_IMPORT)
+    public static final int DATA_EXPORT_ERROR_UNKNOWN = 1;
 
     /**
      * Indicates that the last export failed because we lost access to the export file location.
