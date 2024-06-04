@@ -99,6 +99,7 @@ import android.health.connect.migration.MigrationEntityParcel;
 import android.health.connect.migration.MigrationException;
 import android.health.connect.restore.StageRemoteDataException;
 import android.health.connect.restore.StageRemoteDataRequest;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.OutcomeReceiver;
 import android.os.ParcelFileDescriptor;
@@ -1845,6 +1846,24 @@ public class HealthConnectManager {
                             returnError(executor, exception, callback);
                         }
                     });
+        } catch (RemoteException e) {
+            e.rethrowFromSystemServer();
+        }
+    }
+
+    /**
+     * Queries the status of a data import.
+     *
+     * @throws RuntimeException for internal errors
+     * @hide
+     */
+    @FlaggedApi(FLAG_EXPORT_IMPORT)
+    @WorkerThread
+    @RequiresPermission(MANAGE_HEALTH_DATA_PERMISSION)
+    public void runImport(@NonNull Uri file) {
+        Objects.requireNonNull(file);
+        try {
+            mService.runImport(mContext.getUser(), file);
         } catch (RemoteException e) {
             e.rethrowFromSystemServer();
         }
