@@ -36,7 +36,6 @@ import androidx.test.runner.AndroidJUnit4;
 import com.android.server.healthconnect.permission.FirstGrantTimeManager;
 import com.android.server.healthconnect.permission.HealthConnectPermissionHelper;
 import com.android.server.healthconnect.storage.TransactionManager;
-import com.android.server.healthconnect.storage.datatypehelpers.ActivityDateHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.AppInfoHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.DeviceInfoHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.HealthDataCategoryPriorityHelper;
@@ -77,7 +76,6 @@ public class PriorityMigrationTest {
     @Mock MigrationEntityHelper mMigrationEntityHelper;
     @Mock HealthDataCategoryPriorityHelper mHealthDataCategoryPriorityHelper;
     @Mock PriorityMigrationHelper mPriorityMigrationHelper;
-    @Mock ActivityDateHelper mActivityDateHelper;
     @Mock SQLiteDatabase mSQLiteDatabase;
 
     DataMigrationManager mDataMigrationManager;
@@ -109,8 +107,7 @@ public class PriorityMigrationTest {
                         mAppInfoHelper,
                         mMigrationEntityHelper,
                         mHealthDataCategoryPriorityHelper,
-                        mPriorityMigrationHelper,
-                        mActivityDateHelper);
+                        mPriorityMigrationHelper);
     }
 
     @Test

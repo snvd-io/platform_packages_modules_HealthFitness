@@ -68,7 +68,6 @@ public final class DataMigrationManager {
     private final MigrationEntityHelper mMigrationEntityHelper;
     private final PriorityMigrationHelper mPriorityMigrationHelper;
     private final HealthDataCategoryPriorityHelper mHealthDataCategoryPriorityHelper;
-    private final ActivityDateHelper mActivityDateHelper;
 
     public DataMigrationManager(
             @NonNull Context userContext,
@@ -79,8 +78,7 @@ public final class DataMigrationManager {
             @NonNull AppInfoHelper appInfoHelper,
             @NonNull MigrationEntityHelper migrationEntityHelper,
             @NonNull HealthDataCategoryPriorityHelper healthDataCategoryPriorityHelper,
-            @NonNull PriorityMigrationHelper priorityMigrationHelper,
-            @NonNull ActivityDateHelper activityDateHelper) {
+            @NonNull PriorityMigrationHelper priorityMigrationHelper) {
         mUserContext = userContext;
         mTransactionManager = transactionManager;
         mPermissionHelper = permissionHelper;
@@ -90,7 +88,6 @@ public final class DataMigrationManager {
         mMigrationEntityHelper = migrationEntityHelper;
         mHealthDataCategoryPriorityHelper = healthDataCategoryPriorityHelper;
         mPriorityMigrationHelper = priorityMigrationHelper;
-        mActivityDateHelper = activityDateHelper;
     }
 
     /**
@@ -147,7 +144,7 @@ public final class DataMigrationManager {
         long recordRowId = mTransactionManager.insertOrIgnore(db, parseRecord(payload));
         if (recordRowId != -1) {
             mTransactionManager.insertOrIgnore(
-                    db, mActivityDateHelper.getUpsertTableRequest(payload.getRecordInternal()));
+                    db, ActivityDateHelper.getUpsertTableRequest(payload.getRecordInternal()));
         }
     }
 
