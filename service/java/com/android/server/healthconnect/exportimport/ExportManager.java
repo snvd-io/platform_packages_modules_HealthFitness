@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 
 import android.annotation.NonNull;
 import android.content.Context;
+import android.health.connect.HealthConnectManager;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.util.Slog;
@@ -32,6 +33,7 @@ import com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper
 import com.android.server.healthconnect.storage.datatypehelpers.ChangeLogsHelper;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -82,20 +84,31 @@ public class ExportManager {
         File localExportFile;
         try {
             localExportFile = exportLocally();
-        } catch (IOException e) {
-            Slog.e(TAG, "Failed to create local file for export.", e);
+        } catch (Exception e) {
+            Slog.e(TAG, "Failed to create local file for export", e);
+            ExportImportSettingsStorage.setLastExportError(
+                    HealthConnectManager.DATA_EXPORT_ERROR_UNKNOWN);
             return false;
         }
         try {
             deleteLogTablesContent();
-        } catch (IOException e) {
-            Slog.e(TAG, "Failed to drop log tables.", e);
+        } catch (Exception e) {
+            Slog.e(TAG, "Failed to create local file for export", e);
+            ExportImportSettingsStorage.setLastExportError(
+                    HealthConnectManager.DATA_EXPORT_ERROR_UNKNOWN);
             return false;
         }
         try {
             exportToUri(ExportImportSettingsStorage.getUri(), localExportFile.toPath());
-        } catch (IOException e) {
-            Slog.e(TAG, "Failed to export to URI.", e);
+        } catch (FileNotFoundException e) {
+            Slog.e(TAG, "Lost access to export location", e);
+            ExportImportSettingsStorage.setLastExportError(
+                    HealthConnectManager.DATA_EXPORT_LOST_FILE_ACCESS);
+            return false;
+        } catch (Exception e) {
+            Slog.e(TAG, "Failed to export to URI", e);
+            ExportImportSettingsStorage.setLastExportError(
+                    HealthConnectManager.DATA_EXPORT_ERROR_UNKNOWN);
             return false;
         }
         // TODO(b/325599879): Clean local file.
@@ -116,21 +129,17 @@ public class ExportManager {
             throw new IOException("Unable to create file for local export.");
         }
 
-        ParcelFileDescriptor pfd =
-                ParcelFileDescriptor.open(exportFile, ParcelFileDescriptor.MODE_WRITE_ONLY);
-        try (FileOutputStream outputStream = new FileOutputStream(pfd.getFileDescriptor())) {
-            // TODO(b/325599879): Add functionality for checking that the copy is not
-            //  corrupted. If so, repeat the copy and check again a limited number of times.
-            Files.copy(
-                    TransactionManager.getInitialisedInstance().getDatabasePath().toPath(),
-                    outputStream);
-        } catch (SecurityException e) {
-            Slog.e(TAG, "Failed to send data for local export.", e);
-        } finally {
-            try {
-                pfd.close();
-            } catch (IOException e) {
-                Slog.e(TAG, "Failed to close stream for local export.", e);
+        try (ParcelFileDescriptor pfd =
+                ParcelFileDescriptor.open(exportFile, ParcelFileDescriptor.MODE_WRITE_ONLY)) {
+            if (pfd == null) {
+                throw new IOException("Unable to copy data to local file for export");
+            }
+            try (FileOutputStream outputStream = new FileOutputStream(pfd.getFileDescriptor())) {
+                // TODO(b/325599879): Add functionality for checking that the copy is not
+                //  corrupted. If so, repeat the copy and check again a limited number of times.
+                Files.copy(
+                        TransactionManager.getInitialisedInstance().getDatabasePath().toPath(),
+                        outputStream);
             }
         }
 
@@ -142,6 +151,9 @@ public class ExportManager {
         Slog.i(TAG, "Export to URI started.");
         try (OutputStream outputStream =
                 mDatabaseContext.getContentResolver().openOutputStream(destinationUri)) {
+            if (outputStream == null) {
+                throw new IOException("Unable to copy data to URI for export.");
+            }
             Files.copy(originPath, outputStream);
             Slog.i(TAG, "Export to URI completed.");
         }
