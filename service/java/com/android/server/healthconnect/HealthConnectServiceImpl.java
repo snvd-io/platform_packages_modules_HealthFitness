@@ -695,8 +695,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                             boolean requiresLogging =
                                     !holdsDataManagementPermission && !enforceSelfRead;
                             if (requiresLogging) {
-                                AccessLogsHelper.getInstance()
-                                        .addAccessLog(callingPackageName, recordTypes, READ);
+                                AccessLogsHelper.addAccessLog(
+                                        callingPackageName, recordTypes, READ);
                             }
                             callback.onResult(
                                     new ReadRecordsResponseParcel(
@@ -1536,8 +1536,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         enforceIsForegroundUser(userHandle);
                         mContext.enforcePermission(MANAGE_HEALTH_DATA_PERMISSION, pid, uid, null);
                         throwExceptionIfDataSyncInProgress();
-                        final List<AccessLog> accessLogsList =
-                                AccessLogsHelper.getInstance().queryAccessLogs();
+                        final List<AccessLog> accessLogsList = AccessLogsHelper.queryAccessLogs();
                         callback.onResult(new AccessLogsResponseParcel(accessLogsList));
                     } catch (SecurityException securityException) {
                         Slog.e(TAG, "SecurityException: ", securityException);

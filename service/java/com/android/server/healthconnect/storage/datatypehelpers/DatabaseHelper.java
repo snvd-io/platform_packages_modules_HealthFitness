@@ -40,7 +40,7 @@ public abstract class DatabaseHelper {
                 ChangeLogsRequestHelper.getInstance(),
                 HealthDataCategoryPriorityHelper.getInstance(),
                 PreferenceHelper.getInstance(),
-                AccessLogsHelper.getInstance(),
+                new AccessLogsHelper(),
                 MigrationEntityHelper.getInstance(),
                 PriorityMigrationHelper.getInstance());
     }
