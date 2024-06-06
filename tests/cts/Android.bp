@@ -97,7 +97,7 @@ android_test {
         "cts-healthconnect-lib",
     ],
     min_sdk_version: "34",
-    sdk_version: "module_current",
+    sdk_version: "test_current",
     test_config: "AndroidTestNoPermission.xml",
     manifest: "AndroidManifestNoPermission.xml",
     data: [
@@ -174,7 +174,7 @@ android_test {
         "cts-healthconnect-utils",
     ],
     min_sdk_version: "34",
-    sdk_version: "module_current",
+    sdk_version: "test_current",
     test_config: "AndroidTestRateLimiter.xml",
     manifest: "AndroidManifestRateLimiter.xml",
 }
@@ -217,7 +217,7 @@ android_test {
         "cts-healthconnect-utils",
     ],
     min_sdk_version: "34",
-    sdk_version: "module_current",
+    sdk_version: "test_current",
     test_config: "AndroidTestUI.xml",
     manifest: "AndroidManifestUI.xml",
     data: [
@@ -258,7 +258,7 @@ android_test {
         "cts-healthconnect-utils",
     ],
     min_sdk_version: "34",
-    sdk_version: "module_current",
+    sdk_version: "test_current",
     test_config: "AndroidTestShowMigrationInfoIntentAbsent.xml",
     manifest: "AndroidManifestShowMigrationInfoIntentAbsent.xml",
 }
