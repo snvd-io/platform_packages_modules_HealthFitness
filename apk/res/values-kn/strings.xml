@@ -305,7 +305,7 @@
     <string name="denied_apps_dialog_title" msgid="7470227827315635099">"Health Connect, ಆ್ಯಪ್ ಅನುಮತಿಗಳನ್ನು ಏಕೆ ತೆಗೆದುಹಾಕುತ್ತದೆ"</string>
     <string name="denied_apps_dialog_message" msgid="7876664965504466099">"Google Play ನಿಂದ ಆ್ಯಪ್ ಅನ್ನು ಅಮಾನತುಗೊಳಿಸಿದರೆ ಅಥವಾ ತೆಗೆದುಹಾಕಿದರೆ, Health Connect ಅದರ ಅನುಮತಿಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ತೆಗೆದುಹಾಕುತ್ತದೆ.\n\nಇದರರ್ಥ Health Connect ನಲ್ಲಿ ಸಂಗ್ರಹಿಸಲಾದ ಡೇಟಾವನ್ನು ಆ್ಯಕ್ಸೆಸ್ ಮಾಡಲು ಆ್ಯಪ್‌ಗೆ ಇನ್ನು ಮುಂದೆ ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ. ಈ ಆ್ಯಪ್ ಈ ಹಿಂದೆ ಬರೆದ ಡೇಟಾವನ್ನು ಹೊಂದಿದ್ದರೆ, ಅದು ನಿಷ್ಕ್ರಿಯ ಆ್ಯಪ್‌ಗಳ ಪಟ್ಟಿಯಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತದೆ."</string>
     <string name="denied_apps_dialog_got_it_button" msgid="4698003516923683959">"ಅರ್ಥವಾಯಿತು"</string>
-    <string name="export_settings_screen_title" msgid="887671826359158339">"ಡೇಟಾವನ್ನು ಉಳಿಸಿ"</string>
+    <string name="export_settings_screen_title" msgid="887671826359158339">"ಡೇಟಾವನ್ನು ಸೇವ್ ಮಾಡಿ"</string>
     <string name="export_settings_screen_description" msgid="5477618165331360989">"Health Connect ಡೇಟಾ ಮತ್ತು ಅನುಮತಿಗಳನ್ನು ಸೇವ್ ಮಾಡಿ ಇದರಿಂದ ನೀವು ಹೊಸ ಫೋನ್‌ಗೆ ಬದಲಿಸಿಕೊಂಡಾಗ ಅವುಗಳನ್ನು ಇಂಪೋರ್ಟ್ ಮಾಡಿಕೊಳ್ಳಬಹುದು. ಸೇವ್ ಮಾಡುವ ಮುನ್ನ ಈ ಡೇಟಾವನ್ನು ಎಲ್ಲಿ ಸಂಗ್ರಹಣೆ ಮಾಡಬೇಕೆಂಬುದನ್ನು ನೀವು ಆಯ್ಕೆಮಾಡಬಹುದು."</string>
     <string name="setup_button" msgid="1407942598553043961">"ಸೆಟಪ್ ಮಾಡಿ"</string>
     <string name="export_settings_header" msgid="2435738153550683355">"ಸೆಟ್ಟಿಂಗ್‌ಗಳು"</string>
