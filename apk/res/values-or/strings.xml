@@ -284,7 +284,7 @@
     <string name="permissions_disconnect_all_dialog_disconnect" msgid="2134136493310257746">"ସବୁ କାଢ଼ି ଦିଅନ୍ତୁ"</string>
     <string name="manage_permissions_manage_app_header" msgid="6356348062088358761">"ଆପକୁ ପରିଚାଳନା କରନ୍ତୁ"</string>
     <string name="see_app_data" msgid="3951030076195119476">"ଆପ ଡାଟା ଦେଖନ୍ତୁ"</string>
-    <string name="delete_app_data" msgid="6890357774873859952">"ଆପ ଡାଟାକୁ ଡିଲିଟ କରିବେ?"</string>
+    <string name="delete_app_data" msgid="6890357774873859952">"ଆପ ଡାଟାକୁ ଡିଲିଟ କରନ୍ତୁ"</string>
     <string name="inactive_apps_section_title" msgid="7492812973696378690">"ନିଷ୍କ୍ରିୟ ଆପ୍ସ"</string>
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"ଏହି ଆପ୍ସର ଆଉ ଆକ୍ସେସ ନାହିଁ, କିନ୍ତୁ ଏବେ ବି ଷ୍ଟୋର କରାଯାଇଥିବା ଡାଟା Health Connectରେ ଅଛି"</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g> <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g> ପରେ ଯୋଗ କରାଯାଇଥିବା ଡାଟାକୁ ପଢ଼ିପାରିବ"</string>
@@ -754,7 +754,7 @@
     <string name="request_route_allow" msgid="4427372851821847274">"ଏହି ରୁଟକୁ ଅନୁମତି ଦିଅନ୍ତୁ"</string>
     <string name="request_route_allow_all" msgid="314830698958736916">"ସମସ୍ତ ରୁଟକୁ ଅନୁମତି ଦିଅନ୍ତୁ"</string>
     <string name="request_route_dont_allow" msgid="1186236234664957228">"ଅନୁମତି ଦିଅନ୍ତୁ ନାହିଁ"</string>
-    <string name="route_permissions_always_allow" msgid="1383816362804293137">"ସର୍ବଦା ଅନୁମତି ଦିଅ"</string>
+    <string name="route_permissions_always_allow" msgid="1383816362804293137">"ସର୍ବଦା ଅନୁମତି ଦିଅନ୍ତୁ"</string>
     <string name="route_permissions_label" msgid="5201501195020295860">"ବ୍ୟାୟାମ ରୁଟ ସେୟାର କରିବା"</string>
     <string name="route_permissions_summary" msgid="4670908225783213910">"କନେକ୍ଟ ହୋଇଥିବା ଆପ୍ସରୁ ଏହି ଆପ ବ୍ୟାୟାମ ରୁଟଗୁଡ଼ିକୁ କିପରି ଆକ୍ସେସ କରିବ ତାହା ନିୟନ୍ତ୍ରଣ କରନ୍ତୁ"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"ପ୍ରତ୍ୟେକ ଥର ପଚାରନ୍ତୁ"</string>

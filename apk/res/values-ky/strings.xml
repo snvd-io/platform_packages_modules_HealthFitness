@@ -94,8 +94,8 @@
     <string name="exercise_write_content_description" msgid="3267630937895011886">"Көнүгүүнү жазуу"</string>
     <string name="exercise_route_uppercase_label" msgid="6678863538041931754">"Машыгуу маршруту"</string>
     <string name="exercise_route_lowercase_label" msgid="1691912731748211252">"машыгуу маршруту"</string>
-    <string name="exercise_route_write_content_description" msgid="257809942953352611">"Машыгуу маршрутун жазуу"</string>
-    <string name="exercise_route_read_content_description" msgid="8394028537674463440">"Машыгуу маршрутун окуу"</string>
+    <string name="exercise_route_write_content_description" msgid="257809942953352611">"Машыгуу багытын жазуу"</string>
+    <string name="exercise_route_read_content_description" msgid="8394028537674463440">"Машыгуу багытын окуу"</string>
     <string name="exercise_routes_read_content_description" msgid="9001690141308870706">"Машыгуу маршруттарын окуу"</string>
     <string name="planned_exercise_uppercase_label" msgid="3315909901236811375">"Машыгуу пландары"</string>
     <string name="planned_exercise_lowercase_label" msgid="7642993032791009809">"машыгуу пландары"</string>
@@ -259,7 +259,7 @@
     <string name="request_permissions_header_time_frame_desc" msgid="4617392728203291453">"Эгер окуу мүмкүнчүлүгүн берсеңиз, бул колдонмо жаңы жана соңку 30 күндөгү нерселерди окуй алат"</string>
     <string name="request_permissions_header_title" msgid="4264236128614363479">"<xliff:g id="APP_NAME">%1$s</xliff:g> колдонмосуна Health Connect\'ке кирүүгө уруксат бересизби?"</string>
     <string name="request_permissions_rationale" msgid="6154280355215802538">"<xliff:g id="APP_NAME">%1$s</xliff:g> колдонмосу сизге таандык нерселерди кантип иштете турганын иштеп чыгуучунун бул документинен биле аласыз:<xliff:g id="PRIVACY_POLICY_LINK">%2$s</xliff:g>"</string>
-    <string name="request_permissions_privacy_policy" msgid="228503452643555737">"купуялык саясаты"</string>
+    <string name="request_permissions_privacy_policy" msgid="228503452643555737">"купуялык эрежелери"</string>
     <string name="permissions_disconnect_dialog_title" msgid="7355211540619034695">"Бардык уруксаттар өчүрүлсүнбү?"</string>
     <string name="permissions_disconnect_dialog_disconnect" msgid="8854787587948224752">"Баарын өчүрүү"</string>
     <string name="permissions_disconnect_dialog_message" msgid="8679363015400954541">"<xliff:g id="APP_NAME">%1$s</xliff:g> мындан ары Health Connect\'теги бир дагы нерсени окуп же жаза албай калат.\n\nБул нерсе колдонмодогу башка уруксаттарга, мисалы, жайгашкан жер, камера же микрофонго кедергисин тийгизбейт."</string>
@@ -289,7 +289,7 @@
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"Бул колдонмолорго бул нерселер мындан ары жеткиликсиз, бирок алар Health Connect\'те сактала берет"</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g> <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g> кийин кошулган маалыматты окуй алат"</string>
     <string name="other_android_permissions" msgid="8051485761573324702">"Бул колдонмодогу башка Android уруксаттарын башкаруу үчүн Параметрлер &gt; Колдонмолорго өтүңүз"</string>
-    <string name="manage_permissions_rationale" msgid="9183689798847740274">"<xliff:g id="APP_NAME">%1$s</xliff:g> менен бөлүшкөн нерселериңиз анын купуялык саясаты менен корголот."</string>
+    <string name="manage_permissions_rationale" msgid="9183689798847740274">"<xliff:g id="APP_NAME">%1$s</xliff:g> менен бөлүшкөн нерселериңиз анын купуялык эрежелери менен корголот."</string>
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Бул колдонмодогу башка Android уруксаттарын тескөө үчүн Тууралоого өтүп, Колдонмолорду таптап коюңуз"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Купуялык эрежелерин окуп чыгуу"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Акыркы 24 сааттын ичинде колдонулган"</string>
@@ -350,7 +350,7 @@
     <string name="confirming_question_category_one_month" msgid="9181788460112796273">"Акыркы 30 күндөгү <xliff:g id="CATEGORY">%s</xliff:g> категориясындагы нерселерди биротоло өчүрөсүзбү?"</string>
     <string name="confirming_question_app_data_all" msgid="4818571921949673097">"<xliff:g id="APP_DATA">%s</xliff:g> колдонмосундагы бардык нерселерди биротоло өчүрөсүзбү?"</string>
     <string name="confirming_question_app_data_one_day" msgid="444028969015975031">"Акыркы 24 сааттын ичиндеги <xliff:g id="APP_DATA">%s</xliff:g> колдонмосундагы нерселерди биротоло өчүрөсүзбү?"</string>
-    <string name="confirming_question_app_data_one_week" msgid="2096555081811730496">"Акыркы 7 күндөгү <xliff:g id="APP_DATA">%s</xliff:g> колдонмосундагы нерселерди биротоло өчүрөсүзбү?"</string>
+    <string name="confirming_question_app_data_one_week" msgid="2096555081811730496">"Соңку 7 күндөгү <xliff:g id="APP_DATA">%s</xliff:g> колдонмосундагы нерселерди биротоло өчүрөсүзбү?"</string>
     <string name="confirming_question_app_data_one_month" msgid="6438241250825892892">"Акыркы 30 күндөгү <xliff:g id="APP_DATA">%s</xliff:g> колдонмосундагы нерселерди биротоло өчүрөсүзбү?"</string>
     <string name="confirming_question_app_remove_all_permissions" msgid="4170343072352701421">"Ошондой эле <xliff:g id="APP_WITH_PERMISSIONS">%s</xliff:g> колдонмосунун бардык уруксаттары Health Connect\'тен өчүрүлсүн"</string>
     <string name="confirming_question_data_type_from_app_all" msgid="8361163993548510509">"<xliff:g id="APP_DATA">%2$s</xliff:g> колдонмосунан алынган <xliff:g id="DATA_TYPE">%1$s</xliff:g> байланыштуу нерселердин баарын биротоло өчүрөсүзбү?"</string>
@@ -755,8 +755,8 @@
     <string name="request_route_allow_all" msgid="314830698958736916">"Бардык маршрутка уруксат берүү"</string>
     <string name="request_route_dont_allow" msgid="1186236234664957228">"Тыюу салуу"</string>
     <string name="route_permissions_always_allow" msgid="1383816362804293137">"Ар дайым уруксат берүү"</string>
-    <string name="route_permissions_label" msgid="5201501195020295860">"Машыгуу маршрутун бөлүшүү"</string>
-    <string name="route_permissions_summary" msgid="4670908225783213910">"Бул колдонмо туташып турган башка колдонмолордон машыгуу маршрутун кантип аларын көзөмөлдөө"</string>
+    <string name="route_permissions_label" msgid="5201501195020295860">"Машыгуу багытын бөлүшүү"</string>
+    <string name="route_permissions_summary" msgid="4670908225783213910">"Бул колдонмо туташып турган башка колдонмолордогу машыгуу багыттарын көрө алгыдай кыласыз"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"Ар дайым суралсын"</string>
     <string name="route_permissions_deny" msgid="4263802925221258853">"Тыюу салуу"</string>
     <string name="exercise_permission_dialog_enable_title" msgid="4310997044811843391">"Маалыматтардын эки түрүн тең иштетесизби?"</string>

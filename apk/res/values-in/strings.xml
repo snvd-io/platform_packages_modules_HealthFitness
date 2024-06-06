@@ -700,7 +700,7 @@
     <string name="temperature_unit_fahrenheit_label" msgid="6590261955872562854">"Fahrenheit"</string>
     <string name="temperature_unit_kelvin_label" msgid="3786210768294615821">"Kelvin"</string>
     <string name="help_and_feedback" msgid="4772169905005369871">"Bantuan &amp; masukan"</string>
-    <string name="cant_see_all_your_apps_description" msgid="7344859063463536472">"Jika Anda tidak melihat aplikasi terinstal, aplikasi mungkin belum kompatibel dengan Health Connect"</string>
+    <string name="cant_see_all_your_apps_description" msgid="7344859063463536472">"Jika Anda tidak melihat aplikasi yang sudah terinstal, aplikasi itu mungkin belum kompatibel dengan Health Connect"</string>
     <string name="things_to_try" msgid="8200374691546152703">"Yang bisa dicoba"</string>
     <string name="check_for_updates" msgid="3841090978657783101">"Periksa update"</string>
     <string name="check_for_updates_description" msgid="1347667778199095160">"Pastikan aplikasi terinstal merupakan versi terbaru"</string>
@@ -719,7 +719,7 @@
     <string name="range_off" msgid="8178520557618184215">"Nonaktif"</string>
     <string name="auto_delete_rationale" msgid="5255442126521464878">"Jika Anda mengubah setelan ini, Health Connect akan menghapus data yang ada untuk menerapkan preferensi baru"</string>
     <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Hapus otomatis data setelah # bulan?}other{Hapus otomatis data setelah # bulan?}}"</string>
-    <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Health Connect akan menghapus otomatis data baru setelah # bulan. Menyetel ini juga akan menghapus data lama yang berumur lebih dari # bulan.}other{Health Connect akan menghapus otomatis data baru setelah # bulan. Menyetel ini juga akan menghapus data lama yang berumur lebih dari # bulan.}}"</string>
+    <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Health Connect akan menghapus otomatis data baru setelah # bulan. Jika setelan ini dipilih, data lama yang berumur lebih dari # bulan juga akan dihapus.}other{Health Connect akan menghapus otomatis data baru setelah # bulan. Jika setelan ini dipilih, data lama yang berumur lebih dari # bulan juga akan dihapus.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"Setel hapus otomatis"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"Data yang ada akan dihapus"</string>
     <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{Health Connect akan menghapus semua data yang berumur lebih dari # bulan. Penerapan perubahan ini ke aplikasi yang terhubung mungkin perlu waktu sampai satu hari.}other{Health Connect akan menghapus semua data yang berumur lebih dari # bulan. Penerapan perubahan ini ke aplikasi yang terhubung mungkin perlu waktu sampai satu hari.}}"</string>

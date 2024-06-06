@@ -289,7 +289,7 @@
     <string name="inactive_apps_section_message" msgid="2610789262055974739">"Programu hizi hazina tena ufikiaji, lakini bado zina data iliyohifadhiwa kwenye Health Connect"</string>
     <string name="manage_permissions_time_frame" msgid="1299483940842401923">"<xliff:g id="APP_NAME">%1$s</xliff:g> inaweza kusoma data iliyowekwa baada ya <xliff:g id="DATA_ACCESS_DATE">%2$s</xliff:g>"</string>
     <string name="other_android_permissions" msgid="8051485761573324702">"Ili udhibiti ruhusa zingine za Android ambazo programu hii inaweza kufikia, nenda kwenye Mipangilio &gt; Programu"</string>
-    <string name="manage_permissions_rationale" msgid="9183689798847740274">"Data unayoshiriki na programu ya <xliff:g id="APP_NAME">%1$s</xliff:g> inalindwa na sera yake ya faragha"</string>
+    <string name="manage_permissions_rationale" msgid="9183689798847740274">"Data unayoruhusu <xliff:g id="APP_NAME">%1$s</xliff:g> ifikie inasimamiwa na sera yake ya faragha"</string>
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Ili udhibiti ruhusa zingine za Android ambazo programu hii inaweza kufikia, nenda kwenye Mipangilio kisha uguse Programu"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Soma sera ya faragha"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Ilifikiwa katika saa 24 zilizopita"</string>
@@ -834,7 +834,7 @@
     <string name="app_sources_header" msgid="6343062519512947665">"Vyanzo vya programu"</string>
     <string name="data_sources_footer" msgid="6414387142919741183">"Weka vyanzo vya data kwenye orodha ili uone jinsi jumla ya data inavyobadilika. Kuondoa programu kwenye orodha hii kutaisimamisha kuchangia kwenye jumla, lakini bado itakuwa na ruhusa za kuandika."</string>
     <string name="data_sources_empty_state" msgid="1899652759274805556">"Hamna vyanzo vya programu"</string>
-    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"Ukishaipa programu ruhusa za kuandika data ya<xliff:g id="CATEGORY_NAME">%1$s</xliff:g>, vyanzo vitaonekana hapa."</string>
+    <string name="data_sources_empty_state_footer" msgid="8933950342291569638">"Ukishaipa programu ruhusa za kuandika data ya <xliff:g id="CATEGORY_NAME">%1$s</xliff:g>, vyanzo vitaonekana hapa."</string>
     <string name="data_sources_help_link" msgid="7740264923634947915">"Jinsi vyanzo na uwekaji kipaumbele vinavyofanya kazi"</string>
     <string name="data_sources_add_app" msgid="319926596123692514">"Ongeza programu"</string>
     <string name="edit_data_sources" msgid="79641360876849547">"Badilisha vyanzo vya programu"</string>

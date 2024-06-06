@@ -36,7 +36,7 @@
     <string name="data_sources_and_priority_title" msgid="2360222350913604558">"Zdroje dat a priorita"</string>
     <string name="set_units_title" msgid="2657822539603758029">"Nastavit jednotky"</string>
     <string name="recent_access_header" msgid="7623497371790225888">"Nedávný přístup"</string>
-    <string name="no_recent_access" msgid="4724297929902441784">"Žádné aplikace ke službě Health Connect v poslední době nepřistupovaly"</string>
+    <string name="no_recent_access" msgid="4724297929902441784">"Přístup ke službě Health Connect neměly v poslední době žádné aplikace"</string>
     <string name="show_recent_access_entries_button_title" msgid="3483460066767350419">"Zobrazit veškerý nedávný přístup"</string>
     <string name="recent_access_screen_description" msgid="331101209889185402">"Zobrazte, které aplikace měly přístup k vašim datům za posledních 24 hodin"</string>
     <string name="today_header" msgid="1006837293203834373">"Dnes"</string>
@@ -282,7 +282,7 @@
     <string name="permissions_disconnect_all_dialog_title" msgid="27474286046207122">"Odebrat přístup všem aplikacím?"</string>
     <string name="permissions_disconnect_all_dialog_message" msgid="3151109627457270499">"Žádné z vašich aplikací nebudou mít přístup k datům služby Health Connect a nebudou moci přidávat nová. Touto akcí nesmažete žádná existující data.\n\nTato akce nebude mít vliv na ostatní oprávnění, která aplikace má, jako je přístup k poloze, fotoaparátu nebo mikrofonu."</string>
     <string name="permissions_disconnect_all_dialog_disconnect" msgid="2134136493310257746">"Odstranit vše"</string>
-    <string name="manage_permissions_manage_app_header" msgid="6356348062088358761">"Spravovat aplikaci"</string>
+    <string name="manage_permissions_manage_app_header" msgid="6356348062088358761">"Správa aplikace"</string>
     <string name="see_app_data" msgid="3951030076195119476">"Zobrazit data aplikace"</string>
     <string name="delete_app_data" msgid="6890357774873859952">"Smazat data aplikace"</string>
     <string name="inactive_apps_section_title" msgid="7492812973696378690">"Neaktivní aplikace"</string>
@@ -293,7 +293,7 @@
     <string name="other_android_permissions_content_description" msgid="2261431010048933820">"Pokud chcete spravovat ostatní oprávnění Androidu, ke kterým má aplikace přístup, přejděte do Nastavení a klepněte na Aplikace"</string>
     <string name="manage_permissions_learn_more" msgid="2503189875093300767">"Zobrazit zásady ochrany soukromí"</string>
     <string name="app_perms_content_provider_24h" msgid="5977152673988158889">"Použito během posledních 24 hodin"</string>
-    <string name="app_access_title" msgid="7137018424885371763">"Přístup aplikací"</string>
+    <string name="app_access_title" msgid="7137018424885371763">"Přístup aplikace"</string>
     <string name="connected_apps_empty_list_section_title" msgid="6821215432694207342">"Momentálně nemáte nainstalované žádné kompatibilní aplikace"</string>
     <string name="additional_access_label" msgid="4645249249222528341">"Další přístup"</string>
     <string name="denied_apps_banner_title" msgid="1997745063608657965">"Odebrání oprávnění aplikacím"</string>
@@ -705,19 +705,19 @@
     <string name="check_for_updates" msgid="3841090978657783101">"Zkontrolovat dostupnost aktualizací"</string>
     <string name="check_for_updates_description" msgid="1347667778199095160">"Ověřte, zda jsou nainstalované aplikace aktuální"</string>
     <string name="see_all_compatible_apps" msgid="6791146164535475726">"Zobrazit všechny kompatibilní aplikace"</string>
-    <string name="see_all_compatible_apps_description" msgid="2092325337403254491">"Najít aplikace na Google Play"</string>
+    <string name="see_all_compatible_apps_description" msgid="2092325337403254491">"Projděte si aplikace na Google Play"</string>
     <string name="send_feedback" msgid="7756927746070096780">"Odeslat zpětnou vazbu"</string>
     <string name="send_feedback_description" msgid="2887207112856240778">"Sdělte nám, které aplikace pro zdraví a fitness byste se službou Health Connect chtěli používat"</string>
     <string name="playstore_app_title" msgid="4138464328693481809">"Obchod Play"</string>
     <string name="auto_delete_button" msgid="8536451792268513619">"Automatické mazání"</string>
     <string name="auto_delete_title" msgid="8761742828224207826">"Automatické mazání"</string>
-    <string name="auto_delete_header" msgid="4258649705159293715">"Naplánujete smazání svých dat ze služby Health Connect a tím určete, jak dlouho budou uložena"</string>
+    <string name="auto_delete_header" msgid="4258649705159293715">"Můžete naplánovat, jak dlouho mají být data ve službě Health Connect uložena a tím určit, po jaké době se mají smazat"</string>
     <string name="auto_delete_learn_more" msgid="7416469042791307994">"Další informace o automatickém mazání"</string>
     <string name="auto_delete_section" msgid="7732381000331475082">"Automatické mazání dat"</string>
     <string name="range_after_x_months" msgid="3340127072680117121">"{count,plural, =1{Po # měsíci}few{Po # měsících}many{Po # měsíce}other{Po # měsících}}"</string>
     <string name="range_never" msgid="4429478261788361233">"Nikdy"</string>
     <string name="range_off" msgid="8178520557618184215">"Vypnuto"</string>
-    <string name="auto_delete_rationale" msgid="5255442126521464878">"Když tato nastavení změníte, Health Connect odpovídajícím způsobem smažte stávající data"</string>
+    <string name="auto_delete_rationale" msgid="5255442126521464878">"Když tato nastavení změníte, Health Connect odpovídajícím způsobem smaže stávající data."</string>
     <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Automaticky mazat data po # měsíci?}few{Automaticky mazat data po # měsících?}many{Automaticky mazat data po # měsíce?}other{Automaticky mazat data po # měsících?}}"</string>
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Health Connect automaticky smaže nová data po # měsíci. Nastavením této možnosti se smažou také stávající data starší než # měsíc.}few{Health Connect automaticky smaže nová data po # měsících. Nastavením této možnosti se smažou také stávající data starší než # měsíce.}many{Health Connect automaticky smaže nová data po # měsíce. Nastavením této možnosti se smažou také stávající data starší než # měsíce.}other{Health Connect automaticky smaže nová data po # měsících. Nastavením této možnosti se smažou také stávající data starší než # měsíců.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"Nastavit automatické mazání"</string>
@@ -756,7 +756,7 @@
     <string name="request_route_dont_allow" msgid="1186236234664957228">"Nepovolovat"</string>
     <string name="route_permissions_always_allow" msgid="1383816362804293137">"Vždy povolit"</string>
     <string name="route_permissions_label" msgid="5201501195020295860">"Sdílení tréninkových tras"</string>
-    <string name="route_permissions_summary" msgid="4670908225783213910">"Ovládejte, jak tato aplikace přistupuje k tréninkovým trasám z připojených aplikací"</string>
+    <string name="route_permissions_summary" msgid="4670908225783213910">"Určete, jak má tato aplikace přistupovat k tréninkovým trasám z připojených aplikací"</string>
     <string name="route_permissions_ask" msgid="3927020960754781917">"Pokaždé se zeptat"</string>
     <string name="route_permissions_deny" msgid="4263802925221258853">"Nepovolovat"</string>
     <string name="exercise_permission_dialog_enable_title" msgid="4310997044811843391">"Povolit oba typy dat?"</string>

@@ -229,8 +229,8 @@
     <string name="heart_rate_lowercase_label" msgid="693492686337628283">"puls"</string>
     <string name="heart_rate_read_content_description" msgid="4165867166260001259">"Să citească pulsul"</string>
     <string name="heart_rate_write_content_description" msgid="2876667918366409170">"Să scrie pulsul"</string>
-    <string name="heart_rate_variability_uppercase_label" msgid="2047887230527012536">"Variabilitatea ritmului cardiac"</string>
-    <string name="heart_rate_variability_lowercase_label" msgid="2332638559415663836">"variabilitatea ritmului cardiac"</string>
+    <string name="heart_rate_variability_uppercase_label" msgid="2047887230527012536">"Variabilitatea pulsului"</string>
+    <string name="heart_rate_variability_lowercase_label" msgid="2332638559415663836">"variabilitatea pulsului"</string>
     <string name="heart_rate_variability_read_content_description" msgid="5812707457872629556">"Să citească date despre variabilitatea ritmului cardiac"</string>
     <string name="heart_rate_variability_write_content_description" msgid="3628171603035566114">"Să scrie date despre variabilitatea ritmului cardiac"</string>
     <string name="oxygen_saturation_uppercase_label" msgid="1396254185616418355">"Saturația oxigenului"</string>
@@ -241,8 +241,8 @@
     <string name="respiratory_rate_lowercase_label" msgid="8138249029197360098">"frecvența respiratorie"</string>
     <string name="respiratory_rate_read_content_description" msgid="8545898979648419722">"Să citească frecvența respiratorie"</string>
     <string name="respiratory_rate_write_content_description" msgid="7689533746809591931">"Să scrie frecvența respiratorie"</string>
-    <string name="resting_heart_rate_uppercase_label" msgid="5700827752396195453">"Ritm cardiac de repaus"</string>
-    <string name="resting_heart_rate_lowercase_label" msgid="4533866739695973169">"ritm cardiac de repaus"</string>
+    <string name="resting_heart_rate_uppercase_label" msgid="5700827752396195453">"Puls în repaus"</string>
+    <string name="resting_heart_rate_lowercase_label" msgid="4533866739695973169">"puls în repaus"</string>
     <string name="resting_heart_rate_read_content_description" msgid="1068160055773401020">"Să citească ritmul cardiac de repaus"</string>
     <string name="resting_heart_rate_write_content_description" msgid="8848198128082739995">"Să scrie ritmul cardiac de repaus"</string>
     <string name="skin_temperature_uppercase_label" msgid="4880306019368461268">"Temperatura pielii"</string>
@@ -448,7 +448,7 @@
     <string name="guided_breathing" msgid="8688586393796970733">"Respirație ghidată"</string>
     <string name="gymnastics" msgid="1122967371410769598">"Gimnastică"</string>
     <string name="handball" msgid="3088985331906235361">"Handbal"</string>
-    <string name="high_intensity_interval_training" msgid="8873384314130026442">"Antrenament foarte intens, pe intervale"</string>
+    <string name="high_intensity_interval_training" msgid="8873384314130026442">"Antrenament pe intervale de intensitate ridicată"</string>
     <string name="hiking" msgid="5477476795295322496">"Drumeție"</string>
     <string name="ice_hockey" msgid="3615167122989198051">"Hochei pe gheață"</string>
     <string name="ice_skating" msgid="8509270149324068230">"Patinaj pe gheață"</string>

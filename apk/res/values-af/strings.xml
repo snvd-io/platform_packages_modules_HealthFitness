@@ -720,7 +720,7 @@
     <string name="auto_delete_rationale" msgid="5255442126521464878">"As jy hierdie instellings verander, sal Health Connect bestaande data uitvee om jou nuwe voorkeure te weerspieël"</string>
     <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Vee data ná # maand outomaties uit?}other{Vee data ná # maande outomaties uit?}}"</string>
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Health Connect sal nuwe data ná # maand outomaties uitvee. As dit gestel is, sal bestaande data ouer as # maand ook uitgevee word.}other{Health Connect sal nuwe data ná # maande outomaties uitvee. As dit gestel word, sal bestaande data ouer as # maande ook uitgevee word.}}"</string>
-    <string name="set_auto_delete_button" msgid="268450418318199197">"Stel outomatiese uitvee"</string>
+    <string name="set_auto_delete_button" msgid="268450418318199197">"Stel Vee Outomaties Uit"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"Bestaande data sal uitgevee word"</string>
     <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{Health Connect sal alle data ouer as # maande uitvee. Dit kan ’n dag neem voordat hierdie veranderinge in jou gekoppelde apps verskyn.}other{Health Connect sal alle data ouer as # maande uitvee. Dit kan ’n dag neem voordat hierdie veranderinge in jou gekoppelde apps verskyn.}}"</string>
     <string name="deletion_started_category_list_section" msgid="3052940611815658991">"Data in hierdie kategorieë sal uitgevee word"</string>

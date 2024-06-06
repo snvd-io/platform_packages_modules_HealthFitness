@@ -352,7 +352,7 @@
     <string name="confirming_question_app_data_one_day" msgid="444028969015975031">"Želite trajno da izbrišete podatke iz aplikacije <xliff:g id="APP_DATA">%s</xliff:g> iz poslednja 24 sata?"</string>
     <string name="confirming_question_app_data_one_week" msgid="2096555081811730496">"Želite trajno da izbrišete podatke iz aplikacije <xliff:g id="APP_DATA">%s</xliff:g> iz poslednjih 7 dana?"</string>
     <string name="confirming_question_app_data_one_month" msgid="6438241250825892892">"Želite trajno da izbrišete podatke iz aplikacije <xliff:g id="APP_DATA">%s</xliff:g> iz poslednjih 30 dana?"</string>
-    <string name="confirming_question_app_remove_all_permissions" msgid="4170343072352701421">"Uklonite i sve dozvole za aplikaciju <xliff:g id="APP_WITH_PERMISSIONS">%s</xliff:g> iz Povezivanja zdravlja"</string>
+    <string name="confirming_question_app_remove_all_permissions" msgid="4170343072352701421">"Ukloni i sve dozvole za aplikaciju <xliff:g id="APP_WITH_PERMISSIONS">%s</xliff:g> iz Povezivanja zdravlja"</string>
     <string name="confirming_question_data_type_from_app_all" msgid="8361163993548510509">"Želite da trajno izbrišete sve podatke (<xliff:g id="DATA_TYPE">%1$s</xliff:g>) koje je dodala aplikacija <xliff:g id="APP_DATA">%2$s</xliff:g>?"</string>
     <string name="confirming_question_single_entry" msgid="330919962071369305">"Želite trajno da izbrišete ovaj unos?"</string>
     <string name="confirming_question_message" msgid="2934249835529079545">"Povezane aplikacije više neće moći da pristupaju ovim podacima iz Povezivanja zdravlja"</string>
@@ -718,7 +718,7 @@
     <string name="range_never" msgid="4429478261788361233">"Nikad"</string>
     <string name="range_off" msgid="8178520557618184215">"Isključeno"</string>
     <string name="auto_delete_rationale" msgid="5255442126521464878">"Kada promenite ova podešavanja, Povezivanje zdravlja briše postojeće podatke u skladu sa novim podešavanjima"</string>
-    <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Želite da automatski izbrišete podatke posle # meseca?}one{Želite da automatski izbrišete podatke posle # meseca?}few{Želite da automatski izbrišete podatke posle # meseca?}other{Želite da automatski izbrišete podatke posle # meseci?}}"</string>
+    <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Želite da automatski brišete podatke posle # meseca?}one{Želite da automatski brišete podatke posle # meseca?}few{Želite da automatski brišete podatke posle # meseca?}other{Želite da automatski brišete podatke posle # meseci?}}"</string>
     <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Povezivanje zdravlja će automatski izbrisati nove podatke posle # meseca. Ovo podešavanje će izbrisati i postojeće podatke starije od # meseca.}one{Povezivanje zdravlja će automatski izbrisati nove podatke posle # meseca. Ovo podešavanje će izbrisati i postojeće podatke starije od # meseca.}few{Povezivanje zdravlja će automatski izbrisati nove podatke posle # meseca. Ovo podešavanje će izbrisati i postojeće podatke starije od # meseca.}other{Povezivanje zdravlja će automatski izbrisati nove podatke posle # meseci. Ovo podešavanje će izbrisati i postojeće podatke starije od # meseci.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"Podesi automatsko brisanje"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"Postojeći podaci će se izbrisati"</string>
