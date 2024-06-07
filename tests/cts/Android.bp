@@ -54,6 +54,8 @@ android_test {
         "cts-wm-util",
         "modules-utils-build",
         "testng",
+        "flag-junit",
+        "healthfitness-aconfig-flags-lib",
         "cts-healthconnect-utils",
         "cts-healthconnect-lib",
     ],
