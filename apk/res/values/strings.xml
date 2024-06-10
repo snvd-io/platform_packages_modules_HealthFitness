@@ -362,6 +362,13 @@
     <string name="immunization_content_description" description="Content description for switch that enables permissions for reading the user's immunization data [CHAR_LIMIT=NONE]">Read immunization</string>
     <!--endregion-->
 
+    <!-- region Wellness -->
+    <string name="mindfulness_session_uppercase_label" description="Uppercase label used to show user's mindfulness session data [CHAR_LIMIT=50]">Mindfulness session</string>
+    <string name="mindfulness_session_lowercase_label" description="Lowercase label used to show user's mindfulness session data [CHAR_LIMIT=50]">mindfulness session</string>
+    <string name="mindfulness_session_read_content_description" description="Content description for switch that enables permissions for reading user's mindfulness session data [CHAR_LIMIT=NONE]">Read mindfulness session</string>
+    <string name="mindfulness_session_write_content_description" description="Content description for switch that enables permissions for writing user's mindfulness session data [CHAR_LIMIT=NONE]">Write mindfulness session</string>
+    <!--endregion-->
+
     <!-- region Permissions -->
     <string name="read_permission_category" description="Title for read permission category in the app permission screen">Allow &#8220;<xliff:g example="Run Tracker" id="app_name">%1$s</xliff:g>&#8221; to read</string>
     <string name="write_permission_category" description="Title for write permission category in the app permission screen">Allow &#8220;<xliff:g example="Run Tracker" id="app_name">%1$s</xliff:g>&#8221; to write</string>
@@ -1281,9 +1288,9 @@
     <!-- region Additional Access -->
     <string name="request_additional_permissions_header_title" description="Title for screen to give additional permissions to an app. [CHAR_LIMIT=NONE]">Allow additional access for <xliff:g example="Run Tracker" id="app_name">%1$s</xliff:g>?</string>
     <string name="request_additional_permissions_description" description="Description for screen to give additional permissions to an app. [CHAR_LIMIT=NONE]"><xliff:g example="Run Tracker" id="app_name">%1$s</xliff:g> also wants to access these Health&#160;Connect settings</string>
-    <string name="additional_access_combined_footer" description="Footer of screen to manage additional permissions for an app when no read data type permissions are granted [CHAR_LIMIT=NONE]">Enable at least one read permission in order to turn on background or past data access for this app</string>
-    <string name="additional_access_background_footer" description="Footer of screen to manage additional permissions for an app when no read data type permissions are granted [CHAR_LIMIT=NONE]">Enable at least one read permission in order to turn on background access for this app</string>
-    <string name="additional_access_history_footer" description="Footer of screen to manage additional permissions for an app when no read data type permissions are granted [CHAR_LIMIT=NONE]">Enable at least one read permission in order to turn on past data access for this app</string>
+    <string name="additional_access_combined_footer" description="Footer of screen to manage additional permissions for an app when no read fitness permissions are granted [CHAR_LIMIT=NONE]">Enable at least one read permission in order to turn on background or past data access for this app</string>
+    <string name="additional_access_background_footer" description="Footer of screen to manage additional permissions for an app when no read fitness permissions are granted [CHAR_LIMIT=NONE]">Enable at least one read permission in order to turn on background access for this app</string>
+    <string name="additional_access_history_footer" description="Footer of screen to manage additional permissions for an app when no read fitness permissions are granted [CHAR_LIMIT=NONE]">Enable at least one read permission in order to turn on past data access for this app</string>
     <!--  endregion -->
 
     <!-- region Delete dialogs -->
