@@ -17,13 +17,14 @@
 package com.android.healthconnect.controller.tests.exportimport.api
 
 import android.health.connect.HealthConnectException
-import android.health.connect.exportimport.ScheduledExportSettings
-import com.android.healthconnect.controller.exportimport.api.ExportFrequency
+import android.health.connect.exportimport.ImportStatus
+import android.health.connect.exportimport.ImportStatus.DATA_IMPORT_ERROR_NONE
 import com.android.healthconnect.controller.exportimport.api.ExportImportUseCaseResult
-import com.android.healthconnect.controller.exportimport.api.HealthDataExportManager
-import com.android.healthconnect.controller.exportimport.api.LoadExportSettingsUseCase
-import com.android.healthconnect.controller.service.HealthDataExportManagerModule
-import com.android.healthconnect.controller.tests.utils.di.FakeHealthDataExportManager
+import com.android.healthconnect.controller.exportimport.api.HealthDataImportManager
+import com.android.healthconnect.controller.exportimport.api.ImportUiState
+import com.android.healthconnect.controller.exportimport.api.LoadImportStatusUseCase
+import com.android.healthconnect.controller.service.HealthDataImportManagerModule
+import com.android.healthconnect.controller.tests.utils.di.FakeHealthDataImportManager
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -33,40 +34,45 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-@UninstallModules(HealthDataExportManagerModule::class)
+@UninstallModules(HealthDataImportManagerModule::class)
 @HiltAndroidTest
-class LoadExportSettingsUseCaseTest {
-    @BindValue val healthDataExportManager: HealthDataExportManager = FakeHealthDataExportManager()
+class LoadImportStatusUseCaseTest {
+    @BindValue val healthDataImportManager: HealthDataImportManager = FakeHealthDataImportManager()
 
-    private lateinit var useCase: LoadExportSettingsUseCase
+    private lateinit var useCase: LoadImportStatusUseCase
 
     @Before
     fun setup() {
-        useCase = LoadExportSettingsUseCase(healthDataExportManager)
+        useCase = LoadImportStatusUseCase(healthDataImportManager)
     }
 
     @After
     fun teardown() {
-        (healthDataExportManager as FakeHealthDataExportManager).reset()
+        (healthDataImportManager as FakeHealthDataImportManager).reset()
     }
 
     @Test
-    fun invoke_callsHealthDataExportManager() = runTest {
-        healthDataExportManager.configureScheduledExport(
-            ScheduledExportSettings.withPeriodInDays(
-                ExportFrequency.EXPORT_FREQUENCY_DAILY.periodInDays))
+    fun invoke_callsHealthDataImportManager() = runTest {
+        val importStatus =
+            ImportStatus(
+                DATA_IMPORT_ERROR_NONE,
+                /** isImportOngoing= */
+                true)
+        (healthDataImportManager as FakeHealthDataImportManager).setImportStatus(importStatus)
         val result = useCase.invoke()
 
         assertThat(result is ExportImportUseCaseResult.Success).isTrue()
-        assertThat((result as ExportImportUseCaseResult.Success).data)
-            .isEqualTo(ExportFrequency.EXPORT_FREQUENCY_DAILY)
+        val importStatusResult = (result as ExportImportUseCaseResult.Success).data
+        assertThat(importStatusResult.dataImportError)
+            .isEqualTo(ImportUiState.DataImportError.DATA_IMPORT_ERROR_NONE)
+        assertThat(importStatusResult.isImportOngoing).isEqualTo(true)
     }
 
     @Test
-    fun invoke_callsHealthDataExportManager_returnsFailure() = runTest {
+    fun invoke_callsHealthDataImportManager_returnsFailure() = runTest {
         val exception = HealthConnectException(HealthConnectException.ERROR_UNKNOWN)
-        (healthDataExportManager as FakeHealthDataExportManager)
-            .setGetScheduledPeriodInDaysException(exception)
+        (healthDataImportManager as FakeHealthDataImportManager).setGetImportStatusException(
+            exception)
         val result = useCase.invoke()
 
         assertThat(result is ExportImportUseCaseResult.Failed).isTrue()

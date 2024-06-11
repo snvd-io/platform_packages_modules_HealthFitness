@@ -391,9 +391,7 @@ class ExportDestinationFragmentTest {
             .configureScheduledExport(
                 ScheduledExportSettings.withUriAndPeriodInDays(
                     TEST_DOCUMENT_PROVIDER_1_ROOT_1_DOCUMENT_URI,
-                    ExportFrequency.EXPORT_FREQUENCY_NEVER.periodInDays
-                )
-            )
+                    ExportFrequency.EXPORT_FREQUENCY_NEVER.periodInDays))
     }
 
     @Test
