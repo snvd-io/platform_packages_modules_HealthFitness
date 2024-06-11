@@ -32,9 +32,6 @@ import com.android.server.healthconnect.storage.HealthConnectDatabase;
 import com.android.server.healthconnect.storage.TransactionManager;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.zip.ZipInputStream;
 
 /**
  * Manages import related tasks.
@@ -66,25 +63,11 @@ public final class ImportManager {
                 DatabaseContext.create(mContext, IMPORT_DATABASE_DIR_NAME, userHandle);
 
         File importDbFile = dbContext.getDatabasePath(IMPORT_DATABASE_FILE_NAME);
-        importDbFile.mkdirs();
-        importDbFile.delete();
         try {
-            File fileToImport = new File(file.getPath());
-            ZipInputStream inputStream = new ZipInputStream(new FileInputStream(fileToImport));
-            inputStream.getNextEntry();
-            FileOutputStream outputStream = new FileOutputStream(importDbFile);
-            int len;
-            byte[] buffer = new byte[1024];
-            while ((len = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, len);
-            }
-            outputStream.close();
-            inputStream.closeEntry();
-            inputStream.close();
+            Compressor.decompress(new File(file.getPath()), importDbFile);
             Slog.i(TAG, "Import file unzipped: " + importDbFile.getAbsolutePath());
         } catch (Exception e) {
             Slog.e(TAG, "Failed to get copy to destination: " + importDbFile.getAbsolutePath(), e);
-            importDbFile.delete();
             return;
         }
 

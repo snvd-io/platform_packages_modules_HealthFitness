@@ -33,17 +33,13 @@ import com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper
 import com.android.server.healthconnect.storage.datatypehelpers.ChangeLogsHelper;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.Clock;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /**
  * Class that manages export related tasks. In this context, export means to make an encrypted copy
@@ -116,7 +112,7 @@ public class ExportManager {
             }
 
             try {
-                compress(localExportDbFile, localExportZipFile);
+                Compressor.compress(localExportDbFile, localExportZipFile);
             } catch (Exception e) {
                 Slog.e(TAG, "Failed to compress local file for export", e);
                 ExportImportSettingsStorage.setLastExportError(
@@ -177,28 +173,6 @@ public class ExportManager {
             }
             Files.copy(source.toPath(), outputStream);
             Slog.i(TAG, "Export to URI completed.");
-        }
-    }
-
-    private void compress(File source, File destination) throws IOException {
-        destination.mkdirs();
-        destination.delete();
-        try {
-            ZipOutputStream outputStream = new ZipOutputStream(new FileOutputStream(destination));
-            outputStream.putNextEntry(new ZipEntry(source.getName()));
-            FileInputStream inputStream = new FileInputStream(source);
-            byte[] bytes = new byte[1024];
-            int length;
-            while ((length = inputStream.read(bytes)) >= 0) {
-                outputStream.write(bytes, 0, length);
-            }
-            outputStream.close();
-            inputStream.close();
-            Slog.i(TAG, "Export file zipped: " + destination.getAbsolutePath());
-        } catch (Exception e) {
-            Slog.e(TAG, "Failed to create zip file for export", e);
-            destination.delete();
-            throw e;
         }
     }
 
