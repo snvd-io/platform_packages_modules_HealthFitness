@@ -96,9 +96,7 @@ public final class ChangeLogsRequestHelper extends DatabaseHelper {
                 RECORD_TYPES_COLUMN_NAME,
                 StorageUtils.flattenIntArray(request.getRecordTypesArray()));
         contentValues.put(PACKAGE_NAME_COLUMN_NAME, packageName);
-        contentValues.put(
-                ROW_ID_CHANGE_LOGS_TABLE_COLUMN_NAME,
-                ChangeLogsHelper.getInstance().getLatestRowId());
+        contentValues.put(ROW_ID_CHANGE_LOGS_TABLE_COLUMN_NAME, ChangeLogsHelper.getLatestRowId());
         contentValues.put(TIME_COLUMN_NAME, Instant.now().toEpochMilli());
 
         return String.valueOf(

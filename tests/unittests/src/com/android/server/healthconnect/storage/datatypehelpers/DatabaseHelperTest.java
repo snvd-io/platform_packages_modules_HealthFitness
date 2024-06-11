@@ -27,7 +27,11 @@ import java.util.Set;
 public class DatabaseHelperTest {
 
     private final Set<Class<?>> mNonSingletonClasses =
-            Set.of(ActivityDateHelper.class, AccessLogsHelper.class, MigrationEntityHelper.class);
+            Set.of(
+                    ActivityDateHelper.class,
+                    AccessLogsHelper.class,
+                    MigrationEntityHelper.class,
+                    ChangeLogsHelper.class);
 
     @Test
     public void nonSingletons_doNotHaveCentralState() {
