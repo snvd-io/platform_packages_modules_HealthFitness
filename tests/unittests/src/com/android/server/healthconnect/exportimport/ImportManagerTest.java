@@ -52,14 +52,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 @RunWith(AndroidJUnit4.class)
 public class ImportManagerTest {
@@ -102,7 +98,7 @@ public class ImportManagerTest {
         File dbToImport = new File(mContext.getDir("test", Context.MODE_PRIVATE), "export.db");
         Files.copy(originalDb.toPath(), dbToImport.toPath(), StandardCopyOption.REPLACE_EXISTING);
         File zipToImport = new File(mContext.getDir("test", Context.MODE_PRIVATE), "export.zip");
-        assertThat(compress(dbToImport, zipToImport)).isTrue();
+        Compressor.compress(dbToImport, zipToImport);
 
         DatabaseHelper.clearAllData(mTransactionManager);
 
@@ -147,7 +143,7 @@ public class ImportManagerTest {
         }
 
         File zipToImport = new File(mContext.getDir("test", Context.MODE_PRIVATE), "export.zip");
-        assertThat(compress(dbToImport, zipToImport)).isTrue();
+        Compressor.compress(dbToImport, zipToImport);
 
         DatabaseHelper.clearAllData(mTransactionManager);
 
@@ -180,24 +176,5 @@ public class ImportManagerTest {
                 DatabaseContext.create(mContext, IMPORT_DATABASE_DIR_NAME, mContext.getUser())
                         .getDatabaseDir();
         assertThat(new File(databaseDir, IMPORT_DATABASE_FILE_NAME).exists()).isFalse();
-    }
-
-    private boolean compress(File file, File output) {
-        try {
-            ZipOutputStream outputStream = new ZipOutputStream(new FileOutputStream(output));
-            outputStream.putNextEntry(new ZipEntry(file.getName()));
-            FileInputStream inputStream = new FileInputStream(file);
-            byte[] bytes = new byte[1024];
-            int length;
-            while ((length = inputStream.read(bytes)) >= 0) {
-                outputStream.write(bytes, 0, length);
-            }
-            outputStream.close();
-            inputStream.close();
-            file.delete();
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
     }
 }
