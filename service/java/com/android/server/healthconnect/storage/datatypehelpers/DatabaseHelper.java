@@ -41,7 +41,7 @@ public abstract class DatabaseHelper {
                 HealthDataCategoryPriorityHelper.getInstance(),
                 PreferenceHelper.getInstance(),
                 new AccessLogsHelper(),
-                MigrationEntityHelper.getInstance(),
+                new MigrationEntityHelper(),
                 PriorityMigrationHelper.getInstance());
     }
 
