@@ -913,10 +913,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                 request.getRecordTypesList(), attributionSource);
                         callback.onResult(
                                 new ChangeLogTokenResponse(
-                                        ChangeLogsRequestHelper.getInstance()
-                                                .getToken(
-                                                        attributionSource.getPackageName(),
-                                                        request)));
+                                        ChangeLogsRequestHelper.getToken(
+                                                attributionSource.getPackageName(), request)));
                         logger.setHealthDataServiceApiStatusSuccess();
                     } catch (SQLiteException sqLiteException) {
                         logger.setHealthDataServiceApiStatusError(HealthConnectException.ERROR_IO);

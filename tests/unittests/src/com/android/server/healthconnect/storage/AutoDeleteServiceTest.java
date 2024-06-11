@@ -330,10 +330,7 @@ public class AutoDeleteServiceTest {
         Set<String> tableNames = new HashSet<>();
 
         tableNames.add(ChangeLogsHelper.getDeleteRequestForAutoDelete().getTableName());
-        tableNames.add(
-                ChangeLogsRequestHelper.getInstance()
-                        .getDeleteRequestForAutoDelete()
-                        .getTableName());
+        tableNames.add(ChangeLogsRequestHelper.getDeleteRequestForAutoDelete().getTableName());
 
         return tableNames;
     }
