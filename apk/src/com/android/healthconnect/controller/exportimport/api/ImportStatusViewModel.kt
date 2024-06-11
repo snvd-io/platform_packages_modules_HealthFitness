@@ -16,6 +16,7 @@
 
 package com.android.healthconnect.controller.exportimport.api
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,35 +25,34 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-/** View model for Export status. */
+/** View model for import status. */
 @HiltViewModel
-class ExportStatusViewModel
+class ImportStatusViewModel
 @Inject
 constructor(
-    private val loadScheduledExportStatusUseCase: ILoadScheduledExportStatusUseCase,
+    private val loadImportStatusUseCase: ILoadImportStatusUseCase,
 ) : ViewModel() {
-    private val _storedScheduledExportStatus = MutableLiveData<ScheduledExportUiStatus>()
+    private val _storedImportStatus = MutableLiveData<ImportUiStatus>()
 
-    /** Holds the export status that is stored in the Health Connect service. */
-    val storedScheduledExportStatus: LiveData<ScheduledExportUiStatus>
-        get() = _storedScheduledExportStatus
+    /** Holds the import status that is stored in the Health Connect service. */
+    val storedImportStatus: LiveData<ImportUiStatus>
+        get() = _storedImportStatus
 
     init {
-
-        loadScheduledExportStatus()
+        loadImportStatus()
     }
 
-    /** Triggers a load of scheduled export status. */
-    fun loadScheduledExportStatus() {
-        _storedScheduledExportStatus.postValue(ScheduledExportUiStatus.Loading)
+    /** Triggers a load of import status. */
+    @VisibleForTesting
+    fun loadImportStatus() {
+        _storedImportStatus.postValue(ImportUiStatus.Loading)
         viewModelScope.launch {
-            when (val result = loadScheduledExportStatusUseCase.invoke()) {
+            when (val result = loadImportStatusUseCase.invoke()) {
                 is ExportImportUseCaseResult.Success -> {
-                    _storedScheduledExportStatus.postValue(
-                        ScheduledExportUiStatus.WithData(result.data))
+                    _storedImportStatus.postValue(ImportUiStatus.WithData(result.data))
                 }
                 is ExportImportUseCaseResult.Failed -> {
-                    _storedScheduledExportStatus.postValue(ScheduledExportUiStatus.LoadingFailed)
+                    _storedImportStatus.postValue(ImportUiStatus.LoadingFailed)
                 }
             }
         }
