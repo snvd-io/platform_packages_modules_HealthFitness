@@ -70,7 +70,7 @@ public class AutoDeleteService {
             // Update the recordTypesUsed by packages if required after the deletion of records.
             AppInfoHelper.getInstance().syncAppInfoRecordTypesUsed();
             // Re-sync activity dates table
-            ActivityDateHelper.getInstance().reSyncForAllRecords();
+            ActivityDateHelper.reSyncForAllRecords();
             // Sync health data priority list table
             HealthDataCategoryPriorityHelper.getInstance().reSyncHealthDataPriorityTable(context);
         } catch (Exception e) {

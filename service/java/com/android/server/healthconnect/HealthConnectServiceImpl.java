@@ -420,7 +420,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
 
     private void postInsertTasks(
             @NonNull AttributionSource attributionSource, @NonNull RecordsParcel recordsParcel) {
-        ActivityDateHelper.getInstance().insertRecordDate(recordsParcel.getRecords());
+        ActivityDateHelper.insertRecordDate(recordsParcel.getRecords());
         Set<Integer> recordsTypesInsertedSet =
                 recordsParcel.getRecords().stream()
                         .map(RecordInternal::getRecordType)
@@ -837,11 +837,10 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         // Update activity dates table
                         HealthConnectThreadScheduler.scheduleInternalTask(
                                 () ->
-                                        ActivityDateHelper.getInstance()
-                                                .reSyncByRecordTypeIds(
-                                                        recordInternals.stream()
-                                                                .map(RecordInternal::getRecordType)
-                                                                .toList()));
+                                        ActivityDateHelper.reSyncByRecordTypeIds(
+                                                recordInternals.stream()
+                                                        .map(RecordInternal::getRecordType)
+                                                        .toList()));
                     } catch (SecurityException securityException) {
                         logger.setHealthDataServiceApiStatusError(ERROR_SECURITY);
                         tryAndThrowException(callback, securityException, ERROR_SECURITY);
@@ -1582,9 +1581,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         mContext.enforcePermission(MANAGE_HEALTH_DATA_PERMISSION, pid, uid, null);
                         throwExceptionIfDataSyncInProgress();
                         List<LocalDate> localDates =
-                                ActivityDateHelper.getInstance()
-                                        .getActivityDates(
-                                                activityDatesRequestParcel.getRecordTypes());
+                                ActivityDateHelper.getActivityDates(
+                                        activityDatesRequestParcel.getRecordTypes());
 
                         callback.onResult(new ActivityDatesResponseParcel(localDates));
                     } catch (SQLiteException sqLiteException) {
@@ -2273,8 +2271,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                 AppInfoHelper.getInstance(),
                 MigrationEntityHelper.getInstance(),
                 HealthDataCategoryPriorityHelper.getInstance(),
-                PriorityMigrationHelper.getInstance(),
-                ActivityDateHelper.getInstance());
+                PriorityMigrationHelper.getInstance());
     }
 
     private void enforceCallingPackageBelongsToUid(String packageName, int callingUid) {
@@ -2477,7 +2474,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
         if (recordTypeIdsToDelete != null && !recordTypeIdsToDelete.isEmpty()) {
             AppInfoHelper.getInstance()
                     .syncAppInfoRecordTypesUsed(new HashSet<>(recordTypeIdsToDelete));
-            ActivityDateHelper.getInstance().reSyncByRecordTypeIds(recordTypeIdsToDelete);
+            ActivityDateHelper.reSyncByRecordTypeIds(recordTypeIdsToDelete);
         }
     }
 
