@@ -65,7 +65,6 @@ public final class DataMigrationManager {
     private final FirstGrantTimeManager mFirstGrantTimeManager;
     private final DeviceInfoHelper mDeviceInfoHelper;
     private final AppInfoHelper mAppInfoHelper;
-    private final MigrationEntityHelper mMigrationEntityHelper;
     private final PriorityMigrationHelper mPriorityMigrationHelper;
     private final HealthDataCategoryPriorityHelper mHealthDataCategoryPriorityHelper;
 
@@ -76,7 +75,6 @@ public final class DataMigrationManager {
             @NonNull FirstGrantTimeManager firstGrantTimeManager,
             @NonNull DeviceInfoHelper deviceInfoHelper,
             @NonNull AppInfoHelper appInfoHelper,
-            @NonNull MigrationEntityHelper migrationEntityHelper,
             @NonNull HealthDataCategoryPriorityHelper healthDataCategoryPriorityHelper,
             @NonNull PriorityMigrationHelper priorityMigrationHelper) {
         mUserContext = userContext;
@@ -85,7 +83,6 @@ public final class DataMigrationManager {
         mFirstGrantTimeManager = firstGrantTimeManager;
         mDeviceInfoHelper = deviceInfoHelper;
         mAppInfoHelper = appInfoHelper;
-        mMigrationEntityHelper = migrationEntityHelper;
         mHealthDataCategoryPriorityHelper = healthDataCategoryPriorityHelper;
         mPriorityMigrationHelper = priorityMigrationHelper;
     }
@@ -242,7 +239,7 @@ public final class DataMigrationManager {
     @GuardedBy("sLock")
     private boolean insertEntityIdIfNotPresent(
             @NonNull SQLiteDatabase db, @NonNull String entityId) {
-        final UpsertTableRequest request = mMigrationEntityHelper.getInsertRequest(entityId);
+        final UpsertTableRequest request = MigrationEntityHelper.getInsertRequest(entityId);
         return mTransactionManager.insertOrIgnore(db, request) != -1;
     }
 

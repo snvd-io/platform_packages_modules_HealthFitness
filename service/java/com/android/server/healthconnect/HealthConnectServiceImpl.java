@@ -151,7 +151,6 @@ import com.android.server.healthconnect.storage.datatypehelpers.ChangeLogsReques
 import com.android.server.healthconnect.storage.datatypehelpers.DatabaseHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.DeviceInfoHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.HealthDataCategoryPriorityHelper;
-import com.android.server.healthconnect.storage.datatypehelpers.MigrationEntityHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.RecordHelper;
 import com.android.server.healthconnect.storage.request.AggregateTransactionRequest;
 import com.android.server.healthconnect.storage.request.DeleteTransactionRequest;
@@ -2268,7 +2267,6 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                 mFirstGrantTimeManager,
                 DeviceInfoHelper.getInstance(),
                 AppInfoHelper.getInstance(),
-                MigrationEntityHelper.getInstance(),
                 HealthDataCategoryPriorityHelper.getInstance(),
                 PriorityMigrationHelper.getInstance());
     }

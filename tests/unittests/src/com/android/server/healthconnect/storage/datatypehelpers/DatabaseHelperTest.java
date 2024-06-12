@@ -16,7 +16,7 @@
 
 package com.android.server.healthconnect.storage.datatypehelpers;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import org.junit.Test;
 
@@ -27,19 +27,30 @@ import java.util.Set;
 public class DatabaseHelperTest {
 
     private final Set<Class<?>> mNonSingletonClasses =
-            Set.of(ActivityDateHelper.class, AccessLogsHelper.class);
+            Set.of(ActivityDateHelper.class, AccessLogsHelper.class, MigrationEntityHelper.class);
 
     @Test
     public void nonSingletons_doNotHaveCentralState() {
         for (Class<?> nonSingletonClass : mNonSingletonClasses) {
             Field[] declaredFields = nonSingletonClass.getDeclaredFields();
+            String className = nonSingletonClass.getName();
             for (Field declaredField : declaredFields) {
+                String fieldName = declaredField.getName();
 
                 if (!declaredField.getType().equals(String.class)) {
-                    assertThat(declaredField.getType().isPrimitive()).isTrue();
+                    assertWithMessage(
+                                    className
+                                            + " has non-primitive (except String) member variable "
+                                            + fieldName)
+                            .that(declaredField.getType().isPrimitive())
+                            .isTrue();
                 }
-                assertThat(Modifier.isStatic(declaredField.getModifiers())).isTrue();
-                assertThat(Modifier.isFinal(declaredField.getModifiers())).isTrue();
+                assertWithMessage(className + " has non-static member variable " + fieldName)
+                        .that(Modifier.isStatic(declaredField.getModifiers()))
+                        .isTrue();
+                assertWithMessage(className + " has non-final member variable " + fieldName)
+                        .that(Modifier.isFinal(declaredField.getModifiers()))
+                        .isTrue();
             }
         }
     }
