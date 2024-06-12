@@ -126,9 +126,7 @@ public class AutoDeleteService {
         try {
             TransactionManager.getInitialisedInstance()
                     .deleteWithoutChangeLogs(
-                            List.of(
-                                    AccessLogsHelper.getInstance()
-                                            .getDeleteRequestForAutoDelete()));
+                            List.of(AccessLogsHelper.getDeleteRequestForAutoDelete()));
         } catch (Exception exception) {
             Slog.e(TAG, "Auto delete for Access logs failed", exception);
             // Don't rethrow as that will crash system_server

@@ -145,9 +145,8 @@ public class UpsertTransactionRequest {
         if (!mRecordTypes.isEmpty()) {
             if (!mSkipPackageNameAndLogs) {
                 mAccessLogs.add(
-                        AccessLogsHelper.getInstance()
-                                .getUpsertTableRequest(
-                                        packageName, new ArrayList<>(mRecordTypes), UPSERT));
+                        AccessLogsHelper.getUpsertTableRequest(
+                                packageName, new ArrayList<>(mRecordTypes), UPSERT));
             }
 
             if (Constants.DEBUG) {
