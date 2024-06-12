@@ -37,7 +37,7 @@ public abstract class DatabaseHelper {
                 AppInfoHelper.getInstance(),
                 new ActivityDateHelper(),
                 new ChangeLogsHelper(),
-                ChangeLogsRequestHelper.getInstance(),
+                new ChangeLogsRequestHelper(),
                 HealthDataCategoryPriorityHelper.getInstance(),
                 PreferenceHelper.getInstance(),
                 new AccessLogsHelper(),

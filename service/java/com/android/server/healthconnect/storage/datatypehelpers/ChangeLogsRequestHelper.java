@@ -65,11 +65,6 @@ public final class ChangeLogsRequestHelper extends DatabaseHelper {
     private static final String ROW_ID_CHANGE_LOGS_TABLE_COLUMN_NAME = "row_id_change_logs_table";
     private static final String TIME_COLUMN_NAME = "time";
 
-    @SuppressWarnings("NullAway.Init") // TODO(b/317029272): fix this suppression
-    private static volatile ChangeLogsRequestHelper sChangeLogsRequestHelper;
-
-    private ChangeLogsRequestHelper() {}
-
     @Override
     protected String getMainTableName() {
         return TABLE_NAME;
@@ -81,7 +76,8 @@ public final class ChangeLogsRequestHelper extends DatabaseHelper {
     }
 
     @NonNull
-    public String getToken(@NonNull String packageName, @NonNull ChangeLogTokenRequest request) {
+    public static String getToken(
+            @NonNull String packageName, @NonNull ChangeLogTokenRequest request) {
         ContentValues contentValues = new ContentValues();
 
         /**
@@ -104,7 +100,7 @@ public final class ChangeLogsRequestHelper extends DatabaseHelper {
                         .insert(new UpsertTableRequest(TABLE_NAME, contentValues)));
     }
 
-    public DeleteTableRequest getDeleteRequestForAutoDelete() {
+    public static DeleteTableRequest getDeleteRequestForAutoDelete() {
         return new DeleteTableRequest(TABLE_NAME)
                 .setTimeFilter(
                         TIME_COLUMN_NAME,
@@ -125,15 +121,6 @@ public final class ChangeLogsRequestHelper extends DatabaseHelper {
         columnInfo.add(new Pair<>(TIME_COLUMN_NAME, INTEGER));
 
         return columnInfo;
-    }
-
-    @NonNull
-    public static synchronized ChangeLogsRequestHelper getInstance() {
-        if (sChangeLogsRequestHelper == null) {
-            sChangeLogsRequestHelper = new ChangeLogsRequestHelper();
-        }
-
-        return sChangeLogsRequestHelper;
     }
 
     @NonNull

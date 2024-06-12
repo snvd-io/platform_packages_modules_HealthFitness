@@ -31,7 +31,8 @@ public class DatabaseHelperTest {
                     ActivityDateHelper.class,
                     AccessLogsHelper.class,
                     MigrationEntityHelper.class,
-                    ChangeLogsHelper.class);
+                    ChangeLogsHelper.class,
+                    ChangeLogsRequestHelper.class);
 
     @Test
     public void nonSingletons_doNotHaveCentralState() {
