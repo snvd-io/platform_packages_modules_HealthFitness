@@ -357,7 +357,7 @@ class HomeFragment : Hilt_HomeFragment() {
                             newPreference.setOnPreferenceClickListener {
                                 findNavController()
                                     .navigate(
-                                        R.id.action_homeFragment_to_connectedAppFragment,
+                                        R.id.action_homeFragment_to_fitnessAppFragment,
                                         bundleOf(
                                             Intent.EXTRA_PACKAGE_NAME to
                                                 recentApp.metadata.packageName,
