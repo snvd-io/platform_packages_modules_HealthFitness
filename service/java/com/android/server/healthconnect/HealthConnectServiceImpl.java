@@ -1012,8 +1012,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                             .toEpochMilli();
                         }
                         final ChangeLogsHelper.ChangeLogsResponse changeLogsResponse =
-                                ChangeLogsHelper.getInstance()
-                                        .getChangeLogs(changeLogsTokenRequest, request);
+                                ChangeLogsHelper.getChangeLogs(changeLogsTokenRequest, request);
 
                         Map<Integer, List<UUID>> recordTypeToInsertedUuids =
                                 ChangeLogsHelper.getRecordTypeToInsertedUuids(

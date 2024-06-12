@@ -329,8 +329,7 @@ public class AutoDeleteServiceTest {
     Set<String> getTableNamesForDeletingStaleChangeLogEntries() {
         Set<String> tableNames = new HashSet<>();
 
-        tableNames.add(
-                ChangeLogsHelper.getInstance().getDeleteRequestForAutoDelete().getTableName());
+        tableNames.add(ChangeLogsHelper.getDeleteRequestForAutoDelete().getTableName());
         tableNames.add(
                 ChangeLogsRequestHelper.getInstance()
                         .getDeleteRequestForAutoDelete()

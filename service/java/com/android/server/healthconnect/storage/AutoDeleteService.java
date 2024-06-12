@@ -113,7 +113,7 @@ public class AutoDeleteService {
             TransactionManager.getInitialisedInstance()
                     .deleteWithoutChangeLogs(
                             List.of(
-                                    ChangeLogsHelper.getInstance().getDeleteRequestForAutoDelete(),
+                                    ChangeLogsHelper.getDeleteRequestForAutoDelete(),
                                     ChangeLogsRequestHelper.getInstance()
                                             .getDeleteRequestForAutoDelete()));
         } catch (Exception exception) {
