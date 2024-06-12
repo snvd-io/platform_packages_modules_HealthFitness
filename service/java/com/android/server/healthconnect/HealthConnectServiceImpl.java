@@ -204,6 +204,13 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
     private final MigrationUiStateManager mMigrationUiStateManager;
     private final ImportManager mImportManager;
 
+    private final HealthDataCategoryPriorityHelper mHealthDataCategoryPriorityHelper;
+    private final AppInfoHelper mAppInfoHelper;
+    private final PriorityMigrationHelper mPriorityMigrationHelper;
+    private final RecordMapper mRecordMapper;
+    private final AggregationTypeIdMapper mAggregationTypeIdMapper;
+    private final DeviceInfoHelper mDeviceInfoHelper;
+
     private volatile UserHandle mCurrentForegroundUser;
 
     HealthConnectServiceImpl(
@@ -232,16 +239,21 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
         mImportManager = new ImportManager(mContext);
         migrationCleaner.attachTo(migrationStateManager);
         mMigrationUiStateManager.attachTo(migrationStateManager);
+        mHealthDataCategoryPriorityHelper = HealthDataCategoryPriorityHelper.getInstance();
+        mAppInfoHelper = AppInfoHelper.getInstance();
+        mPriorityMigrationHelper = PriorityMigrationHelper.getInstance();
+        mRecordMapper = RecordMapper.getInstance();
+        mAggregationTypeIdMapper = AggregationTypeIdMapper.getInstance();
+        mDeviceInfoHelper = DeviceInfoHelper.getInstance();
     }
 
     public void onUserSwitching(UserHandle currentForegroundUser) {
         mCurrentForegroundUser = currentForegroundUser;
         mBackupRestore.setupForUser(currentForegroundUser);
         HealthConnectThreadScheduler.scheduleInternalTask(
-                () -> {
-                    HealthDataCategoryPriorityHelper.getInstance()
-                            .maybeAddContributingAppsToPriorityList(mContext);
-                });
+                () ->
+                        mHealthDataCategoryPriorityHelper.maybeAddContributingAppsToPriorityList(
+                                mContext));
     }
 
     @Override
@@ -426,9 +438,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         .collect(Collectors.toSet());
         // Update AppInfo table with the record types of records inserted in the request for the
         // current package.
-        AppInfoHelper.getInstance()
-                .updateAppInfoRecordTypesUsedOnInsert(
-                        recordsTypesInsertedSet, attributionSource.getPackageName());
+        mAppInfoHelper.updateAppInfoRecordTypesUsedOnInsert(
+                recordsTypesInsertedSet, attributionSource.getPackageName());
     }
 
     /**
@@ -463,7 +474,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         List<Integer> recordTypesToTest = new ArrayList<>();
                         for (int aggregateId : request.getAggregateIds()) {
                             recordTypesToTest.addAll(
-                                    AggregationTypeIdMapper.getInstance()
+                                    mAggregationTypeIdMapper
                                             .getAggregationTypeFor(aggregateId)
                                             .getApplicableRecordTypeIds());
                         }
@@ -505,7 +516,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                     "aggregationTypes: "
                                             + Arrays.stream(request.getAggregateIds())
                                                     .mapToObj(
-                                                            AggregationTypeIdMapper.getInstance()
+                                                            mAggregationTypeIdMapper
                                                                     ::getAggregationTypeFor)
                                                     .collect(Collectors.toList()));
                         }
@@ -612,7 +623,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                         callingPackageName,
                                         enforceSelfRead,
                                         "recordType: "
-                                                + RecordMapper.getInstance()
+                                                + mRecordMapper
                                                         .getRecordIdToExternalRecordClassMap()
                                                         .get(request.getRecordType()));
                             }
@@ -1117,7 +1128,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                 (!request.getRecordTypeFilters().isEmpty())
                                         ? request.getRecordTypeFilters()
                                         : new ArrayList<>(
-                                                RecordMapper.getInstance()
+                                                mRecordMapper
                                                         .getRecordIdToExternalRecordClassMap()
                                                         .keySet());
                         // Requests from non controller apps are not allowed to use non-id
@@ -1213,7 +1224,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                 (!request.getRecordTypeFilters().isEmpty())
                                         ? request.getRecordTypeFilters()
                                         : new ArrayList<>(
-                                                RecordMapper.getInstance()
+                                                mRecordMapper
                                                         .getRecordIdToExternalRecordClassMap()
                                                         .keySet());
 
@@ -1303,10 +1314,10 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         enforceIsForegroundUser(userHandle);
                         mContext.enforcePermission(MANAGE_HEALTH_DATA_PERMISSION, pid, uid, null);
                         throwExceptionIfDataSyncInProgress();
-                        HealthDataCategoryPriorityHelper priorityHelper =
-                                HealthDataCategoryPriorityHelper.getInstance();
                         List<DataOrigin> dataOriginInPriorityOrder =
-                                priorityHelper.getPriorityOrder(dataCategory, mContext).stream()
+                                mHealthDataCategoryPriorityHelper
+                                        .getPriorityOrder(dataCategory, mContext)
+                                        .stream()
                                         .map(
                                                 (name) ->
                                                         new DataOrigin.Builder()
@@ -1354,10 +1365,9 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         enforceIsForegroundUser(userHandle);
                         mContext.enforcePermission(MANAGE_HEALTH_DATA_PERMISSION, pid, uid, null);
                         throwExceptionIfDataSyncInProgress();
-                        HealthDataCategoryPriorityHelper.getInstance()
-                                .setPriorityOrder(
-                                        updatePriorityRequest.getDataCategory(),
-                                        updatePriorityRequest.getPackagePriorityOrder());
+                        mHealthDataCategoryPriorityHelper.setPriorityOrder(
+                                updatePriorityRequest.getDataCategory(),
+                                updatePriorityRequest.getPackagePriorityOrder());
                         callback.onResult();
                     } catch (SQLiteException sqLiteException) {
                         Slog.e(TAG, "SQLiteException: ", sqLiteException);
@@ -1456,7 +1466,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         mContext.enforcePermission(MANAGE_HEALTH_DATA_PERMISSION, pid, uid, null);
                         throwExceptionIfDataSyncInProgress();
                         List<AppInfo> applicationInfos =
-                                AppInfoHelper.getInstance().getApplicationInfosWithRecordTypes();
+                                mAppInfoHelper.getApplicationInfosWithRecordTypes();
 
                         callback.onResult(new ApplicationInfoResponseParcel(applicationInfos));
                     } catch (SQLiteException sqLiteException) {
@@ -1637,7 +1647,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                     }
                                     mMigrationStateManager.startMigration(mContext);
                                 });
-                        PriorityMigrationHelper.getInstance().populatePreMigrationPriority();
+                        mPriorityMigrationHelper.populatePreMigrationPriority();
                         callback.onSuccess();
                     } catch (Exception e) {
                         Slog.e(TAG, "Exception: ", e);
@@ -1673,7 +1683,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                 "Caller does not have " + MIGRATE_HEALTH_CONNECT_DATA);
                         enforceShowMigrationInfoIntent(packageName, uid);
                         mMigrationStateManager.finishMigration(mContext);
-                        AppInfoHelper.getInstance().syncAppInfoRecordTypesUsed();
+                        mAppInfoHelper.syncAppInfoRecordTypesUsed();
                         callback.onSuccess();
                     } catch (Exception e) {
                         Slog.e(TAG, "Exception: ", e);
@@ -2262,10 +2272,10 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                 mTransactionManager,
                 mPermissionHelper,
                 mFirstGrantTimeManager,
-                DeviceInfoHelper.getInstance(),
-                AppInfoHelper.getInstance(),
-                HealthDataCategoryPriorityHelper.getInstance(),
-                PriorityMigrationHelper.getInstance());
+                mDeviceInfoHelper,
+                mAppInfoHelper,
+                mHealthDataCategoryPriorityHelper,
+                mPriorityMigrationHelper);
     }
 
     private void enforceCallingPackageBelongsToUid(String packageName, int callingUid) {
@@ -2348,12 +2358,11 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
 
     private Map<Integer, List<DataOrigin>> getPopulatedRecordTypeInfoResponses() {
         Map<Integer, Class<? extends Record>> recordIdToExternalRecordClassMap =
-                RecordMapper.getInstance().getRecordIdToExternalRecordClassMap();
-        AppInfoHelper appInfoHelper = AppInfoHelper.getInstance();
+                mRecordMapper.getRecordIdToExternalRecordClassMap();
         Map<Integer, List<DataOrigin>> recordTypeInfoResponses =
                 new ArrayMap<>(recordIdToExternalRecordClassMap.size());
         Map<Integer, Set<String>> recordTypeToContributingPackagesMap =
-                appInfoHelper.getRecordTypesToContributingPackagesMap();
+                mAppInfoHelper.getRecordTypesToContributingPackagesMap();
         recordIdToExternalRecordClassMap
                 .keySet()
                 .forEach(
@@ -2464,10 +2473,9 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
         }
     }
 
-    private static void postDeleteTasks(List<Integer> recordTypeIdsToDelete) {
+    private void postDeleteTasks(List<Integer> recordTypeIdsToDelete) {
         if (recordTypeIdsToDelete != null && !recordTypeIdsToDelete.isEmpty()) {
-            AppInfoHelper.getInstance()
-                    .syncAppInfoRecordTypesUsed(new HashSet<>(recordTypeIdsToDelete));
+            mAppInfoHelper.syncAppInfoRecordTypesUsed(new HashSet<>(recordTypeIdsToDelete));
             ActivityDateHelper.reSyncByRecordTypeIds(recordTypeIdsToDelete);
         }
     }
