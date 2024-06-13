@@ -398,10 +398,8 @@ public class AggregateWithFiltersTest {
         LocalDateTime endLocalTime = filterEndTime.atOffset(dataZone).toLocalDateTime();
         insertRecords(
                 List.of(
-                        // near EPOCH, fully in range
-                        // TODO(b/343425986): fix the prod code to handle EPOCH properly
-                        getStepsRecord(
-                                123, Instant.ofEpochSecond(86400), Instant.ofEpochSecond(86500)),
+                        // fully in range
+                        getStepsRecord(123, Instant.EPOCH, Instant.ofEpochSecond(456)),
                         // partially in range (29/30)
                         getStepsRecord(
                                 30000,
