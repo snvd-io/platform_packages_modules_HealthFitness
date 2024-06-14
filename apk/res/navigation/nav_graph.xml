@@ -83,6 +83,9 @@
         android:name="com.android.healthconnect.controller.backuprestore.BackupAndRestoreSettingsFragment"
         android:label="@string/backup_and_restore_settings_screen_title">
         <action
+            android:id="@+id/action_backupAndRestoreSettingsFragment_to_systemUpdateActivity"
+            app:destination="@id/systemUpdateActivity" />
+        <action
             android:id="@+id/action_backupAndRestoreSettingsFragment_to_exportSetupActivity"
             app:destination="@id/exportSetupActivity" />
         <action
@@ -90,7 +93,7 @@
             app:destination="@id/scheduledExportFragment" />
         <action
             android:id="@+id/action_backupAndRestoreSettingsFragment_to_importFlowActivity"
-            app:destination="@+id/importFlowActivity" />
+            app:destination="@id/importFlowActivity" />
     </fragment>
 
     <fragment
