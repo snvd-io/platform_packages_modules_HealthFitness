@@ -24,15 +24,19 @@ import android.health.connect.aidl.IInsertRecordsResponseCallback;
 import android.health.connect.aidl.RecordsParcel;
 import android.health.connect.aidl.UpdatePriorityRequestParcel;
 import android.health.connect.aidl.IReadRecordsResponseCallback;
+import android.health.connect.aidl.MedicalIdFiltersParcel;
+import android.health.connect.aidl.IReadMedicalResourcesResponseCallback;
 import android.health.connect.aidl.IActivityDatesResponseCallback;
 import android.health.connect.aidl.IRecordTypeInfoResponseCallback;
 import android.health.connect.aidl.ReadRecordsRequestParcel;
+import android.health.connect.exportimport.IImportStatusCallback;
 import android.health.connect.exportimport.IQueryDocumentProvidersCallback;
 import android.health.connect.exportimport.IScheduledExportStatusCallback;
 import android.health.connect.exportimport.ScheduledExportSettings;
 import android.health.connect.migration.MigrationEntity;
 import android.health.connect.restore.BackupFileNamesSet;
 import android.health.connect.restore.StageRemoteDataRequest;
+import android.net.Uri;
 
 import android.os.UserHandle;
 
@@ -366,4 +370,30 @@ interface IHealthConnectService {
      * @hide
      */
     void setLowerRateLimitsForTesting(in boolean enabled);
+
+    /**
+    * Gets the status of the ongoing data import.
+    *
+    * @hide
+    */
+    void getImportStatus(in UserHandle userHandle, in IImportStatusCallback callback);
+
+    /**
+    * Imports the given compressed database file.
+    *
+    * @hide
+    */
+    void runImport(in UserHandle userHandle, in Uri file);
+
+    /**
+     * Reads from the HealthConnect database.
+     *
+     * @param attributionSource attribution source for the data.
+     * @param medicalIdFiltersParcel represents the ids to be read.
+     * @param callback Callback to receive result of performing this operation.
+     */
+    void readMedicalResources(
+        in AttributionSource attributionSource,
+        in MedicalIdFiltersParcel medicalIdFiltersParcel,
+        in IReadMedicalResourcesResponseCallback callback);
 }

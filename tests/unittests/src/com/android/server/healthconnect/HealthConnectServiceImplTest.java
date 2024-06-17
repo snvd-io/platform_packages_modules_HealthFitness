@@ -17,8 +17,10 @@
 package com.android.server.healthconnect;
 
 import static android.Manifest.permission.MIGRATE_HEALTH_CONNECT_DATA;
+import static android.health.connect.HealthConnectException.ERROR_UNSUPPORTED_OPERATION;
 import static android.health.connect.HealthConnectManager.DATA_DOWNLOAD_STARTED;
 
+import static com.android.healthfitness.flags.Flags.FLAG_PERSONAL_HEALTH_RECORD;
 import static com.android.server.healthconnect.backuprestore.BackupRestore.DATA_DOWNLOAD_STATE_KEY;
 import static com.android.server.healthconnect.backuprestore.BackupRestore.DATA_RESTORE_STATE_KEY;
 import static com.android.server.healthconnect.backuprestore.BackupRestore.INTERNAL_RESTORE_STATE_STAGING_DONE;
@@ -43,17 +45,25 @@ import static org.mockito.Mockito.when;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.health.connect.MedicalIdFilter;
+import android.health.connect.aidl.HealthConnectExceptionParcel;
 import android.health.connect.aidl.IDataStagingFinishedCallback;
 import android.health.connect.aidl.IHealthConnectService;
 import android.health.connect.aidl.IMigrationCallback;
+import android.health.connect.aidl.IReadMedicalResourcesResponseCallback;
+import android.health.connect.aidl.MedicalIdFiltersParcel;
+import android.health.connect.exportimport.ScheduledExportSettings;
 import android.health.connect.migration.MigrationEntityParcel;
 import android.health.connect.migration.MigrationException;
 import android.health.connect.restore.StageRemoteDataRequest;
 import android.healthconnect.cts.utils.AssumptionCheckerRule;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.os.UserHandle;
+import android.platform.test.annotations.DisableFlags;
+import android.platform.test.flag.junit.SetFlagsRule;
 import android.util.ArrayMap;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -76,6 +86,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.quality.Strictness;
 
@@ -84,8 +96,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 /** Unit test class for {@link HealthConnectServiceImpl} */
@@ -132,7 +146,10 @@ public class HealthConnectServiceImplTest {
                     "getActivityDates",
                     "configureScheduledExport",
                     "getScheduledExportStatus",
-                    "getScheduledExportPeriodInDays");
+                    "getScheduledExportPeriodInDays",
+                    "getImportStatus",
+                    "runImport",
+                    "readMedicalResources");
 
     /** Health connect service APIs that do not block calls when data sync is in progress. */
     public static final Set<String> DO_NOT_BLOCK_CALLS_DURING_DATA_SYNC_LIST =
@@ -152,6 +169,10 @@ public class HealthConnectServiceImplTest {
                     "asBinder",
                     "queryDocumentProviders");
 
+    private static final String TEST_URI = "content://com.android.server.healthconnect/testuri";
+
+    @Rule public final SetFlagsRule mSetFlagsRule = new SetFlagsRule();
+
     @Rule
     public final ExtendedMockitoRule mExtendedMockitoRule =
             new ExtendedMockitoRule.Builder(this)
@@ -159,6 +180,7 @@ public class HealthConnectServiceImplTest {
                     .mockStatic(PreferenceHelper.class)
                     .mockStatic(LocalManagerRegistry.class)
                     .mockStatic(UserHandle.class)
+                    .mockStatic(TransactionManager.class)
                     .setStrictness(Strictness.LENIENT)
                     .build();
 
@@ -174,10 +196,12 @@ public class HealthConnectServiceImplTest {
     @Mock private AppOpsManagerLocal mAppOpsManagerLocal;
     @Mock private PackageManager mPackageManager;
     @Mock IMigrationCallback mCallback;
+    @Captor ArgumentCaptor<HealthConnectExceptionParcel> mErrorCaptor;
     private Context mContext;
     private HealthConnectServiceImpl mHealthConnectService;
     private UserHandle mUserHandle;
     private File mMockDataDirectory;
+    private ThreadPoolExecutor mInternalTaskScheduler;
 
     @Rule
     public AssumptionCheckerRule mSupportedHardwareRule =
@@ -191,6 +215,7 @@ public class HealthConnectServiceImplTest {
         mUserHandle = UserHandle.of(UserHandle.myUserId());
         when(mServiceContext.getPackageManager()).thenReturn(mPackageManager);
         when(mServiceContext.getUser()).thenReturn(mUserHandle);
+        mInternalTaskScheduler = HealthConnectThreadScheduler.sInternalBackgroundExecutor;
 
         mContext =
                 new HealthConnectUserContext(
@@ -200,6 +225,7 @@ public class HealthConnectServiceImplTest {
         when(PreferenceHelper.getInstance()).thenReturn(mPreferenceHelper);
         when(LocalManagerRegistry.getManager(AppOpsManagerLocal.class))
                 .thenReturn(mAppOpsManagerLocal);
+        when(TransactionManager.getInitialisedInstance()).thenReturn(mTransactionManager);
 
         mHealthConnectService =
                 new HealthConnectServiceImpl(
@@ -450,6 +476,16 @@ public class HealthConnectServiceImplTest {
         verify(mCallback).onSuccess();
     }
 
+    @Test
+    public void testConfigureScheduledExport_schedulesAnInternalTask() throws Exception {
+        long taskCount = mInternalTaskScheduler.getCompletedTaskCount();
+        mHealthConnectService.configureScheduledExport(
+                ScheduledExportSettings.withUri(Uri.parse(TEST_URI)), mUserHandle);
+        Thread.sleep(500);
+
+        assertThat(mInternalTaskScheduler.getCompletedTaskCount()).isEqualTo(taskCount + 1);
+    }
+
     /**
      * Tests that new HealthConnect APIs block API calls during data sync using {@link
      * HealthConnectServiceImpl.BlockCallsDuringDataSync} annotation.
@@ -487,6 +523,22 @@ public class HealthConnectServiceImplTest {
                                     && BLOCK_CALLS_DURING_DATA_SYNC_LIST.contains(m.getName()))
                     .isFalse();
         }
+    }
+
+    @Test
+    @DisableFlags(FLAG_PERSONAL_HEALTH_RECORD)
+    public void testReadMedicalResources_byIds_flagOff_throws() throws Exception {
+        IReadMedicalResourcesResponseCallback callback =
+                mock(IReadMedicalResourcesResponseCallback.class);
+
+        mHealthConnectService.readMedicalResources(
+                mContext.getAttributionSource(),
+                new MedicalIdFiltersParcel(List.of(MedicalIdFilter.fromId("id"))),
+                callback);
+
+        verify(callback, timeout(5000).times(1)).onError(mErrorCaptor.capture());
+        assertThat(mErrorCaptor.getValue().getHealthConnectException().getErrorCode())
+                .isEqualTo(ERROR_UNSUPPORTED_OPERATION);
     }
 
     private void setUpPassingPermissionCheckFor(String permission) {
