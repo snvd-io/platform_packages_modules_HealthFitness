@@ -102,29 +102,29 @@ class HomeFragment : Fragment() {
             .beginTransaction()
             .add(performanceTesting, "PERFORMANCE_TESTING_FRAGMENT")
             .commit()
-        view.findViewById<Button>(R.id.launch_health_connect_button).setOnClickListener {
+        view.requireViewById<Button>(R.id.launch_health_connect_button).setOnClickListener {
             launchHealthConnect()
         }
-        view.findViewById<Button>(R.id.request_permissions_button).setOnClickListener {
+        view.requireViewById<Button>(R.id.request_permissions_button).setOnClickListener {
             requestPermissions()
         }
-        view.findViewById<Button>(R.id.request_route_button).setOnClickListener {
+        view.requireViewById<Button>(R.id.request_route_button).setOnClickListener {
             goToRequestRoute()
         }
-        view.findViewById<Button>(R.id.insert_update_data_button).setOnClickListener {
+        view.requireViewById<Button>(R.id.insert_update_data_button).setOnClickListener {
             goToCategoryListPage()
         }
-        view.findViewById<Button>(R.id.seed_random_data_button).setOnClickListener {
+        view.requireViewById<Button>(R.id.seed_random_data_button).setOnClickListener {
             seedDataButtonPressed()
         }
-        view.findViewById<Button>(R.id.seed_performance_read_data_button).setOnClickListener {
+        view.requireViewById<Button>(R.id.seed_performance_read_data_button).setOnClickListener {
             performanceTestingViewModel.beginReadingData()
         }
-        view.findViewById<Button>(R.id.seed_performance_insert_data_button).setOnClickListener {
+        view.requireViewById<Button>(R.id.seed_performance_insert_data_button).setOnClickListener {
             performanceTestingViewModel.beginInsertingData(false)
         }
 
-        view.findViewById<Button>(R.id.toggle_permission_intent_filter).setOnClickListener {
+        view.requireViewById<Button>(R.id.toggle_permission_intent_filter).setOnClickListener {
             togglePermissionIntentFilter()
         }
 
