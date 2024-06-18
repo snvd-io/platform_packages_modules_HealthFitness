@@ -14,23 +14,26 @@
 
 package {
     default_applicable_licenses: ["Android-Apache-2.0"],
+    default_team: "trendy_team_android_health",
 }
 
 android_test {
     name: "CtsHealthFitnessDeviceTestCases",
+    team: "trendy_team_android_health",
     defaults: ["cts_defaults"],
     libs: [
         "android.test.runner",
         "android.test.base",
         "framework-healthfitness",
         "framework-configinfrastructure",
-        "framework-sdkextensions"
+        "framework-sdkextensions",
     ],
     srcs: [
         ":healthfitness-cts-testapp-srcs",
         ":healthfitness-permissions-testapp-srcs",
         "src/android/healthconnect/cts/*.java",
         "src/android/healthconnect/cts/aggregation/*.java",
+        "src/android/healthconnect/cts/backgroundread/*.java",
         "src/android/healthconnect/cts/changelogs/*.java",
         "src/android/healthconnect/cts/datatypes/**/*.java",
         "src/android/healthconnect/cts/migration/*.java",
@@ -52,7 +55,12 @@ android_test {
         "cts-wm-util",
         "modules-utils-build",
         "testng",
+        "flag-junit",
+        "healthfitness-aconfig-flags-lib",
         "cts-healthconnect-utils",
+        "cts-healthconnect-lib",
+        "flag-junit",
+        "healthfitness-aconfig-flags-lib",
     ],
     min_sdk_version: "34",
     sdk_version: "module_current",
@@ -60,11 +68,13 @@ android_test {
         ":HealthFitnessCtsTestApp",
         ":HealthFitnessCtsTestApp2",
         ":HealthFitnessPermsTestApp",
+        ":CtsHealthConnectTestAppWithWritePermissionsOnly",
     ],
 }
 
 android_test {
     name: "CtsHealthFitnessDeviceTestCasesNoPermission",
+    team: "trendy_team_android_health",
     defaults: ["cts_defaults"],
     libs: [
         "android.test.runner",
@@ -72,7 +82,7 @@ android_test {
         "framework-healthfitness",
     ],
     srcs: [
-        "src/android/healthconnect/cts/nopermission/*.java",
+        "src/android/healthconnect/cts/nopermission/HealthConnectManagerNoPermissionsGrantedTest.java",
     ],
     // Tag this module as a cts test artifact
     test_suites: [
@@ -89,11 +99,53 @@ android_test {
         "cts-wm-util",
         "testng",
         "cts-healthconnect-utils",
+        "cts-healthconnect-lib",
     ],
     min_sdk_version: "34",
     sdk_version: "test_current",
     test_config: "AndroidTestNoPermission.xml",
     manifest: "AndroidManifestNoPermission.xml",
+    data: [
+        ":CtsHealthConnectTestAppAWithNormalReadWritePermission",
+    ],
+}
+
+android_test {
+    name: "CtsHealthFitnessDeviceTestCasesNotAllPermissionsAreGranted",
+    team: "trendy_team_android_health",
+    defaults: ["cts_defaults"],
+    libs: [
+        "android.test.runner",
+        "android.test.base",
+        "framework-healthfitness",
+    ],
+    srcs: [
+        "src/android/healthconnect/cts/nopermission/HealthConnectManagerNotAllPermissionsAreGrantedTest.java",
+    ],
+    // Tag this module as a cts test artifact
+    test_suites: [
+        "cts",
+        "general-tests",
+        "mts-healthfitness",
+        "mcts-healthfitness",
+    ],
+    static_libs: [
+        "androidx.test.rules",
+        "androidx.test.ext.truth",
+        "compatibility-device-util-axt",
+        "ctstestrunner-axt",
+        "cts-wm-util",
+        "testng",
+        "cts-healthconnect-utils",
+        "cts-healthconnect-lib",
+    ],
+    min_sdk_version: "34",
+    sdk_version: "module_current",
+    test_config: "AndroidTestNotAllPermissionsAreGranted.xml",
+    manifest: "AndroidManifestNotAllPermissionsAreGranted.xml",
+    data: [
+        ":CtsHealthConnectTestAppAWithNormalReadWritePermission",
+    ],
 }
 
 android_test {
@@ -104,7 +156,7 @@ android_test {
         "android.test.base",
         "framework-healthfitness",
         "framework-configinfrastructure",
-        "framework-sdkextensions"
+        "framework-sdkextensions",
     ],
     srcs: [
         "src/android/healthconnect/cts/ratelimiter/*.java",
@@ -134,10 +186,12 @@ android_test {
 
 android_test {
     name: "CtsHealthConnectControllerTestCases",
+    team: "trendy_team_android_health",
     defaults: ["cts_defaults"],
     libs: [
         "android.test.runner",
         "android.test.base",
+        "android.test.mock",
         "framework-healthfitness",
     ],
     srcs: [
@@ -156,6 +210,9 @@ android_test {
     static_libs: [
         "androidx.test.rules",
         "androidx.test.ext.truth",
+        "androidx.test.core",
+        "platform-test-annotations",
+        "mockito-kotlin2",
         "compatibility-device-util-axt",
         "ctstestrunner-axt",
         "cts-wm-util",
@@ -169,11 +226,11 @@ android_test {
     test_config: "AndroidTestUI.xml",
     manifest: "AndroidManifestUI.xml",
     data: [
-            ":HealthFitnessCtsTestApp",
-            ":HealthFitnessCtsTestApp2",
-            ":CtsHealthConnectTestAppAWithNormalReadWritePermission",
-            ":CtsHealthConnectTestAppBWithNormalReadWritePermission",
-        ],
+        ":HealthFitnessCtsTestApp",
+        ":HealthFitnessCtsTestApp2",
+        ":CtsHealthConnectTestAppAWithNormalReadWritePermission",
+        ":CtsHealthConnectTestAppBWithNormalReadWritePermission",
+    ],
 }
 
 android_test {
@@ -183,7 +240,7 @@ android_test {
         "android.test.runner",
         "android.test.base",
         "framework-healthfitness",
-        "framework-sdkextensions"
+        "framework-sdkextensions",
     ],
     srcs: [
         "src/android/healthconnect/cts/showmigrationinfointent/ShowMigrationInfoIntentAbsentTest.java",
@@ -201,7 +258,7 @@ android_test {
         "compatibility-device-util-axt",
         "ctstestrunner-axt",
         "cts-wm-util",
-	"modules-utils-build",
+        "modules-utils-build",
         "testng",
         "cts-healthconnect-utils",
     ],
@@ -213,13 +270,14 @@ android_test {
 
 android_test {
     name: "CtsHealthFitnessDeviceTestCasesHistoricAccessLimitWithPermission",
+    team: "trendy_team_android_health",
     defaults: ["cts_defaults"],
     libs: [
         "android.test.runner",
         "android.test.base",
         "framework-healthfitness",
         "framework-configinfrastructure",
-        "framework-sdkextensions"
+        "framework-sdkextensions",
     ],
     srcs: [
         "src/android/healthconnect/cts/historicaccess/HistoricAccessLimitWithPermissionTest.java",
@@ -243,7 +301,7 @@ android_test {
     ],
     min_sdk_version: "34",
     sdk_version: "module_current",
-    test_config:"AndroidTestHistoricAccessLimitWithPermission.xml",
+    test_config: "AndroidTestHistoricAccessLimitWithPermission.xml",
     manifest: "AndroidManifestHistoricAccessLimitWithPermission.xml",
     data: [
         ":HealthFitnessPermsTestApp",
