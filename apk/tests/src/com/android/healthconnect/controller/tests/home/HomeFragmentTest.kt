@@ -192,11 +192,11 @@ class HomeFragmentTest {
     }
 
     @Test
-    fun recentAccessApp_navigatesToConnectedAppFragment() {
+    fun recentAccessApp_navigatesToFitnessAppFragment() {
         setupFragmentForNavigation()
         onView(withText(TEST_APP_NAME)).check(matches(isDisplayed()))
         onView(withText(TEST_APP_NAME)).perform(click())
-        assertThat(navHostController.currentDestination?.id).isEqualTo(R.id.connectedAppFragment)
+        assertThat(navHostController.currentDestination?.id).isEqualTo(R.id.fitnessAppFragment)
     }
 
     @Test

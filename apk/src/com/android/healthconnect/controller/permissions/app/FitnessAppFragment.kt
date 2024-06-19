@@ -82,7 +82,7 @@ import javax.inject.Inject
 
 /** Fragment for connected app screen. */
 @AndroidEntryPoint(HealthPreferenceFragment::class)
-class ConnectedAppFragment : Hilt_ConnectedAppFragment() {
+class FitnessAppFragment : Hilt_FitnessAppFragment() {
 
     companion object {
         private const val PERMISSION_HEADER = "manage_app_permission_header"
@@ -258,7 +258,7 @@ class ConnectedAppFragment : Hilt_ConnectedAppFragment() {
                             val extras = bundleOf(EXTRA_PACKAGE_NAME to packageName)
                             findNavController()
                                 .navigate(
-                                    R.id.action_connectedAppFragment_to_additionalAccessFragment,
+                                    R.id.action_fitnessAppFragment_to_additionalAccessFragment,
                                     extras)
                             true
                         }
