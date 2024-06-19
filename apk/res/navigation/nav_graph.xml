@@ -104,7 +104,10 @@
             android:id="@+id/action_connectedApps_to_helpAndFeedback"
             app:destination="@id/helpAndFeedbackFragment" />
         <action
-            android:id="@+id/action_connectedApps_to_connectedApp"
+            android:id="@+id/action_connectedApps_to_fitnessApp"
+            app:destination="@id/connected_app_nav_graph" />
+        <action
+            android:id="@+id/action_connectedApps_to_medicalApp"
             app:destination="@id/connected_app_nav_graph" />
         <action
             android:id="@+id/action_connectedApps_to_searchApps"

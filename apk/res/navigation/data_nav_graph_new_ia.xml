@@ -100,7 +100,7 @@
             android:name="android.intent.extra.PACKAGE_NAME"
             app:argType="string" />
         <action
-            android:id="@+id/action_connectedApp_to_appData"
+            android:id="@+id/action_fitnessApp_to_appData"
             app:destination="@id/appDataFragment" />
     </fragment>
 
