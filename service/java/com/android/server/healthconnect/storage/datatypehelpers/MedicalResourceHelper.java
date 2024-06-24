@@ -20,6 +20,7 @@ import static android.health.connect.Constants.MAXIMUM_ALLOWED_CURSOR_COUNT;
 
 import static com.android.healthfitness.flags.Flags.personalHealthRecord;
 import static com.android.server.healthconnect.storage.HealthConnectDatabase.createTable;
+import static com.android.server.healthconnect.storage.datatypehelpers.MedicalResourceIndicesHelper.getCreateMedicalResourceIndicesTableRequest;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.LAST_MODIFIED_TIME_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.PRIMARY_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.UUID_COLUMN_NAME;
@@ -53,6 +54,7 @@ import com.android.server.healthconnect.storage.utils.StorageUtils;
 import com.android.server.healthconnect.storage.utils.WhereClauses;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -107,10 +109,11 @@ public final class MedicalResourceHelper {
                 Pair.create(LAST_MODIFIED_TIME_COLUMN_NAME, INTEGER));
     }
 
-    // TODO(b/338198993): add unit tests covering getCreateTableRequest.
     @NonNull
     public static CreateTableRequest getCreateTableRequest() {
-        return new CreateTableRequest(MEDICAL_RESOURCE_TABLE_NAME, getColumnInfo());
+        return new CreateTableRequest(MEDICAL_RESOURCE_TABLE_NAME, getColumnInfo())
+                .setChildTableRequests(
+                        Collections.singletonList(getCreateMedicalResourceIndicesTableRequest()));
     }
 
     /** Creates the medical_resource table. */
