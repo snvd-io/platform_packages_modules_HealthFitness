@@ -428,6 +428,10 @@
     <string name="connected_apps_empty_list_section_title" description="Title of section when there are no connected apps">You don\'t currently have any compatible apps installed</string>
     <string name="additional_access_label" description="Label of a button that opens additional permissions access for an app. [CHAR_LIMIT=40]">Additional access</string>
     <string name="removed_additional_permissions_toast" description="Message letting the user know that additional permissions have also been removed for this app">Removed additional permissions for this app</string>
+    <string name="permissions_header" description="Title shown for section that lists permissions. [CHAR_LIMIT=40]">Permissions</string>
+    <string name="manage_fitness_permissions" description="Label of a button that opens the fitness permissions screen. [CHAR_LIMIT=40]">Manage fitness permissions</string>
+    <string name="manage_medical_permissions" description="Label of a button that opens the medical permissions screen. [CHAR_LIMIT=40]">Manage health record permissions</string>
+
     <!--endregion-->
 
     <!--region Denied Apps -->
