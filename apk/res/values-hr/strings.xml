@@ -23,7 +23,7 @@
     <string name="home_subtitle" msgid="1750033322147357163">"Upravljajte podacima o zdravlju i fitnessu na telefonu i odredite koje im aplikacije mogu pristupati"</string>
     <string name="data_title" msgid="4456619761533380816">"Podaci i pristup"</string>
     <string name="all_categories_title" msgid="1446410643217937926">"Sve kategorije"</string>
-    <string name="see_all_categories" msgid="5599882403901010434">"Pregled svih kategorija"</string>
+    <string name="see_all_categories" msgid="5599882403901010434">"Pogledajte sve kategorije"</string>
     <string name="no_data" msgid="1906986019249068659">"Nema podataka"</string>
     <string name="connected_apps_title" msgid="279942692804743223">"Dopuštenja aplikacija"</string>
     <string name="connected_apps_subtitle" msgid="8464462995533399175">"Upravljajte aplikacijama i dopuštenjima"</string>
