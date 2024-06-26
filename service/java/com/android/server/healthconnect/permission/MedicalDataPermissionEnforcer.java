@@ -43,11 +43,11 @@ public class MedicalDataPermissionEnforcer {
     }
 
     /**
-     * Enforces that caller has write permission for medical resources.
+     * Enforces that caller has write permission for medical data.
      *
      * @throws SecurityException if the app does not have write permission.
      */
-    public void enforceWriteMedicalResourcePermission(AttributionSource attributionSource) {
+    public void enforceWriteMedicalDataPermission(AttributionSource attributionSource) {
         enforceMedicalResourcePermission(
                 WRITE_MEDICAL_DATA, attributionSource, /* isReadPermission= */ false);
     }
