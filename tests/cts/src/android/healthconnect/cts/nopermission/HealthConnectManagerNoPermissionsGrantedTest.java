@@ -45,9 +45,12 @@ import static android.healthconnect.cts.utils.TestUtils.getAggregateResponseGrou
 import static android.healthconnect.cts.utils.TestUtils.getAggregateResponseGroupByPeriod;
 import static android.healthconnect.cts.utils.TestUtils.getChangeLogToken;
 import static android.healthconnect.cts.utils.TestUtils.insertRecords;
+import static android.healthconnect.cts.utils.TestUtils.readMedicalResourcesByIds;
 import static android.healthconnect.cts.utils.TestUtils.readRecords;
 import static android.healthconnect.cts.utils.TestUtils.updateRecords;
 import static android.healthconnect.cts.utils.TestUtils.verifyDeleteRecords;
+
+import static com.android.healthfitness.flags.Flags.FLAG_PERSONAL_HEALTH_RECORD;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -56,6 +59,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 import android.health.connect.AggregateRecordsRequest;
 import android.health.connect.HealthConnectException;
 import android.health.connect.LocalTimeRangeFilter;
+import android.health.connect.MedicalResourceId;
 import android.health.connect.ReadRecordsRequestUsingFilters;
 import android.health.connect.ReadRecordsRequestUsingIds;
 import android.health.connect.TimeInstantRangeFilter;
@@ -74,6 +78,9 @@ import android.healthconnect.cts.lib.TestAppProxy;
 import android.healthconnect.cts.utils.AssumptionCheckerRule;
 import android.healthconnect.cts.utils.TestUtils;
 import android.platform.test.annotations.AppModeFull;
+import android.platform.test.annotations.RequiresFlagsEnabled;
+import android.platform.test.flag.junit.CheckFlagsRule;
+import android.platform.test.flag.junit.DeviceFlagsValueProvider;
 import android.util.Pair;
 
 import androidx.test.runner.AndroidJUnit4;
@@ -103,6 +110,9 @@ public class HealthConnectManagerNoPermissionsGrantedTest {
     public AssumptionCheckerRule mSupportedHardwareRule =
             new AssumptionCheckerRule(
                     TestUtils::isHardwareSupported, "Tests should run on supported hardware only.");
+
+    @Rule
+    public final CheckFlagsRule mCheckFlagsRule = DeviceFlagsValueProvider.createCheckFlagsRule();
 
     @Test
     public void testInsert_noPermissions_expectError() throws InterruptedException {
@@ -367,6 +377,22 @@ public class HealthConnectManagerNoPermissionsGrantedTest {
                 assertThat(healthConnectException.getErrorCode())
                         .isEqualTo(HealthConnectException.ERROR_SECURITY);
             }
+        }
+    }
+
+    @Test
+    @RequiresFlagsEnabled(FLAG_PERSONAL_HEALTH_RECORD)
+    public void testReadMedicalResources_noPermission_expectError() throws InterruptedException {
+        try {
+            readMedicalResourcesByIds(List.of(new MedicalResourceId("123", "observation", "456")));
+            Assert.fail(
+                    "Read medical resources by ids must be not allowed without right HC PHR "
+                            + "permission");
+        } catch (HealthConnectException healthConnectException) {
+            assertThat(healthConnectException.getErrorCode())
+                    .isEqualTo(HealthConnectException.ERROR_SECURITY);
+            assertThat(healthConnectException.getMessage())
+                    .contains("Caller doesn't have permission to read or write medical data");
         }
     }
 
