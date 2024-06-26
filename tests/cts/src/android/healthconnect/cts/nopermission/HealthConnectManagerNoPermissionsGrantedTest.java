@@ -28,6 +28,7 @@ import static android.health.connect.datatypes.HeartRateRecord.BPM_MAX;
 import static android.health.connect.datatypes.SleepSessionRecord.SLEEP_DURATION_TOTAL;
 import static android.health.connect.datatypes.StepsRecord.STEPS_COUNT_TOTAL;
 import static android.health.connect.datatypes.TotalCaloriesBurnedRecord.ENERGY_TOTAL;
+import static android.healthconnect.cts.lib.RecordFactory.newEmptyMetadataWithClientId;
 import static android.healthconnect.cts.utils.DataFactory.NOW;
 import static android.healthconnect.cts.utils.DataFactory.buildExerciseSession;
 import static android.healthconnect.cts.utils.DataFactory.buildSleepSession;
@@ -74,6 +75,7 @@ import android.health.connect.datatypes.Record;
 import android.health.connect.datatypes.SleepSessionRecord;
 import android.health.connect.datatypes.StepsRecord;
 import android.health.connect.datatypes.TotalCaloriesBurnedRecord;
+import android.healthconnect.cts.lib.MindfulnessSessionRecordFactory;
 import android.healthconnect.cts.lib.TestAppProxy;
 import android.healthconnect.cts.utils.AssumptionCheckerRule;
 import android.healthconnect.cts.utils.TestUtils;
@@ -105,6 +107,8 @@ import java.util.List;
 public class HealthConnectManagerNoPermissionsGrantedTest {
     private static final TestAppProxy APP_A_WITH_READ_WRITE_PERMS =
             TestAppProxy.forPackageName("android.healthconnect.cts.testapp.readWritePerms.A");
+    private static final MindfulnessSessionRecordFactory MINDFULNESS_SESSION_RECORD_FACTORY =
+            new MindfulnessSessionRecordFactory();
 
     @Rule
     public AssumptionCheckerRule mSupportedHardwareRule =
@@ -403,6 +407,10 @@ public class HealthConnectManagerNoPermissionsGrantedTest {
                 buildSleepSession(),
                 getDistanceRecordWithNonEmptyId(),
                 getTotalCaloriesBurnedRecord("client_id"),
-                buildExerciseSession());
+                buildExerciseSession(),
+                MINDFULNESS_SESSION_RECORD_FACTORY.newEmptyRecord(
+                        newEmptyMetadataWithClientId("mindfulness-client-id"),
+                        NOW.minus(Duration.ofMinutes(20)),
+                        NOW.minus(Duration.ofMinutes(10))));
     }
 }
