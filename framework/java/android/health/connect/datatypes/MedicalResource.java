@@ -135,10 +135,8 @@ public final class MedicalResource implements Parcelable {
     /**
      * Valid set of values for this IntDef. Update this set when add new type or deprecate existing
      * type.
-     *
-     * @hide
      */
-    public static final Set<Integer> VALID_TYPES =
+    private static final Set<Integer> VALID_TYPES =
             Set.of(MEDICAL_RESOURCE_TYPE_UNKNOWN, MEDICAL_RESOURCE_TYPE_IMMUNIZATION);
 
     /**
@@ -205,6 +203,10 @@ public final class MedicalResource implements Parcelable {
             mData = data;
         }
 
+        /**
+         * @param original The other {@link MedicalResource.Builder} to provide data to construct
+         *     this new instance from.
+         */
         public Builder(@NonNull Builder original) {
             requireNonNull(original);
             mType = original.mType;
@@ -212,6 +214,10 @@ public final class MedicalResource implements Parcelable {
             mData = original.mData;
         }
 
+        /**
+         * @param original The other {@link MedicalResource} instance to provide data to construct
+         *     this new instance from.
+         */
         public Builder(@NonNull MedicalResource original) {
             requireNonNull(original);
             mType = original.getType();
