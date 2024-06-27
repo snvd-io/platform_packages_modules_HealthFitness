@@ -18,6 +18,7 @@ package com.android.server.healthconnect.storage.utils;
 
 import static android.health.connect.HealthDataCategory.ACTIVITY;
 import static android.health.connect.HealthDataCategory.SLEEP;
+import static android.health.connect.HealthDataCategory.WELLNESS;
 import static android.health.connect.datatypes.AggregationType.SUM;
 import static android.health.connect.datatypes.RecordTypeIdentifier.RECORD_TYPE_BASAL_METABOLIC_RATE;
 import static android.health.connect.datatypes.RecordTypeIdentifier.RECORD_TYPE_HYDRATION;
@@ -373,7 +374,7 @@ public final class StorageUtils {
 
     /**
      * Returns if priority of apps needs to be considered to compute the aggregate request for the
-     * record type. Priority to be considered only for sleep and Activity categories.
+     * record type.
      */
     public static boolean supportsPriority(int recordType, int operationType) {
         if (operationType != SUM) {
@@ -383,7 +384,7 @@ public final class StorageUtils {
         @HealthDataCategory.Type
         int recordCategory =
                 RecordTypeRecordCategoryMapper.getRecordCategoryForRecordType(recordType);
-        return recordCategory == ACTIVITY || recordCategory == SLEEP;
+        return recordCategory == ACTIVITY || recordCategory == SLEEP || recordCategory == WELLNESS;
     }
 
     /** Returns list of app Ids of contributing apps for the record type in the priority order */
