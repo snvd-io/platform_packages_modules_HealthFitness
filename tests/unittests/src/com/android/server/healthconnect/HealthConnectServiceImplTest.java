@@ -617,6 +617,50 @@ public class HealthConnectServiceImplTest {
 
     @Test
     @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
+    public void testUpsertMedicalResources_hasDataManagementPermission_throws()
+            throws RemoteException {
+        when(mServiceContext.checkPermission(eq(MANAGE_HEALTH_DATA_PERMISSION), anyInt(), anyInt()))
+                .thenReturn(PERMISSION_GRANTED);
+
+        IMedicalResourcesResponseCallback callback = mock(IMedicalResourcesResponseCallback.class);
+
+        mHealthConnectService.upsertMedicalResources(
+                mAttributionSource,
+                List.of(
+                        new UpsertMedicalResourceRequest.Builder(
+                                        DATA_SOURCE_LONG_ID, FHIR_DATA_IMMUNIZATION)
+                                .build()),
+                callback);
+
+        verify(callback, timeout(5000).times(1)).onError(mErrorCaptor.capture());
+        assertThat(mErrorCaptor.getValue().getHealthConnectException().getErrorCode())
+                .isEqualTo(HealthConnectException.ERROR_SECURITY);
+    }
+
+    @Test
+    @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
+    public void testUpsertMedicalResources_noWriteMedicalDataPermission_throws() throws Exception {
+        when(mPermissionManager.checkPermissionForDataDelivery(
+                        WRITE_MEDICAL_DATA, mAttributionSource, null))
+                .thenReturn(PermissionManager.PERMISSION_HARD_DENIED);
+
+        IMedicalResourcesResponseCallback callback = mock(IMedicalResourcesResponseCallback.class);
+
+        mHealthConnectService.upsertMedicalResources(
+                mAttributionSource,
+                List.of(
+                        new UpsertMedicalResourceRequest.Builder(
+                                        DATA_SOURCE_LONG_ID, FHIR_DATA_IMMUNIZATION)
+                                .build()),
+                callback);
+
+        verify(callback, timeout(5000).times(1)).onError(mErrorCaptor.capture());
+        assertThat(mErrorCaptor.getValue().getHealthConnectException().getErrorCode())
+                .isEqualTo(HealthConnectException.ERROR_SECURITY);
+    }
+
+    @Test
+    @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
     public void testCreateMedicalDataSource_hasDataManagementPermission_throws()
             throws RemoteException {
         setUpCreateMedicalDataSourceDefaultMocks();
