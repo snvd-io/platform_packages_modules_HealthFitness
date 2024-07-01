@@ -46,11 +46,13 @@ class ImportConfirmationDialogFragment : Hilt_ImportConfirmationDialogFragment()
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val importFileUriString = arguments?.getString(IMPORT_FILE_URI_KEY) ?: ""
         val importFileName = getFileName(importFileUriString)
+        val importMessage = requireContext().getString(R.string.import_confirmation_dialog_text, importFileName)
+
         return AlertDialogBuilder(
                 requireContext(), ImportConfirmationDialogElement.IMPORT_CONFIRMATION_CONTAINER)
             .setIcon(R.attr.importIcon)
             .setTitle(R.string.import_confirmation_dialog_title)
-            .setMessage(importFileName)
+            .setMessage(importMessage)
             .setPositiveButton(
                 R.string.import_confirmation_dialog_import_button,
                 ImportConfirmationDialogElement.IMPORT_CONFIRMATION_DONE_BUTTON) {
