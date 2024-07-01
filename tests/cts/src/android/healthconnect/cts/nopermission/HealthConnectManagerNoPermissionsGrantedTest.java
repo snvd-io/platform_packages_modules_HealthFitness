@@ -25,6 +25,7 @@ import static android.health.connect.HealthPermissions.READ_TOTAL_CALORIES_BURNE
 import static android.health.connect.datatypes.DistanceRecord.DISTANCE_TOTAL;
 import static android.health.connect.datatypes.ExerciseSessionRecord.EXERCISE_DURATION_TOTAL;
 import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_IMMUNIZATION;
+import static android.health.connect.datatypes.FhirVersion.parseFhirVersion;
 import static android.health.connect.datatypes.HeartRateRecord.BPM_MAX;
 import static android.health.connect.datatypes.SleepSessionRecord.SLEEP_DURATION_TOTAL;
 import static android.health.connect.datatypes.StepsRecord.STEPS_COUNT_TOTAL;
@@ -43,8 +44,9 @@ import static android.healthconnect.cts.utils.PermissionHelper.grantPermission;
 import static android.healthconnect.cts.utils.PermissionHelper.revokeAllPermissions;
 import static android.healthconnect.cts.utils.PhrDataFactory.DATA_SOURCE_DISPLAY_NAME;
 import static android.healthconnect.cts.utils.PhrDataFactory.DATA_SOURCE_FHIR_BASE_URI;
-import static android.healthconnect.cts.utils.PhrDataFactory.DATA_SOURCE_LONG_ID;
+import static android.healthconnect.cts.utils.PhrDataFactory.DATA_SOURCE_ID;
 import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_DATA_IMMUNIZATION;
+import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_VERSION_R4;
 import static android.healthconnect.cts.utils.TestUtils.deleteRecords;
 import static android.healthconnect.cts.utils.TestUtils.getAggregateResponse;
 import static android.healthconnect.cts.utils.TestUtils.getAggregateResponseGroupByDuration;
@@ -434,12 +436,14 @@ public class HealthConnectManagerNoPermissionsGrantedTest {
 
     @Test
     @RequiresFlagsEnabled(FLAG_PERSONAL_HEALTH_RECORD)
-    public void upsertMedicalResources_noPermission_expectError() throws InterruptedException {
+    public void upsertMedicalResources_noPermission_expectError() {
         HealthConnectManager manager = TestUtils.getHealthConnectManager();
         HealthConnectReceiver<List<MedicalResource>> receiver = new HealthConnectReceiver<>();
         UpsertMedicalResourceRequest request =
                 new UpsertMedicalResourceRequest.Builder(
-                                DATA_SOURCE_LONG_ID, FHIR_DATA_IMMUNIZATION)
+                                DATA_SOURCE_ID,
+                                parseFhirVersion(FHIR_VERSION_R4),
+                                FHIR_DATA_IMMUNIZATION)
                         .build();
 
         HealthConnectException exception =
