@@ -29,6 +29,10 @@ import static com.android.server.healthconnect.storage.datatypehelpers.Transacti
 
 import static com.google.common.truth.Truth.assertThat;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import android.Manifest;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -36,12 +40,14 @@ import android.health.connect.HealthDataCategory;
 import android.health.connect.datatypes.RecordTypeIdentifier;
 import android.health.connect.internal.datatypes.RecordInternal;
 import android.net.Uri;
+import android.os.UserHandle;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.server.healthconnect.HealthConnectDeviceConfigManager;
 import com.android.server.healthconnect.HealthConnectUserContext;
+import com.android.server.healthconnect.notifications.HealthConnectNotificationSender;
 import com.android.server.healthconnect.storage.ExportImportSettingsStorage;
 import com.android.server.healthconnect.storage.TransactionManager;
 import com.android.server.healthconnect.storage.datatypehelpers.AppInfoHelper;
@@ -72,8 +78,12 @@ import java.util.UUID;
 @RunWith(AndroidJUnit4.class)
 public class ImportManagerTest {
 
+    private static final String TAG = "ImportManagerTest";
     private static final String TEST_PACKAGE_NAME = "package.name";
     private static final String TEST_DIRECTORY_NAME = "test";
+    private static final UserHandle DEFAULT_USER_HANDLE = UserHandle.of(UserHandle.myUserId());
+
+    private static final String CHANNEL_ID = "healthconnect-channel";
 
     @Rule
     public final HealthConnectDatabaseTestRule mDatabaseTestRule =
@@ -86,6 +96,7 @@ public class ImportManagerTest {
     private HealthDataCategoryPriorityHelper mPriorityHelper;
 
     private ImportManager mImportManager;
+    private HealthConnectNotificationSender mNotificationSender;
 
     @Before
     public void setUp() throws Exception {
@@ -96,11 +107,11 @@ public class ImportManagerTest {
         mTransactionManager = mDatabaseTestRule.getTransactionManager();
         mTransactionTestUtils = new TransactionTestUtils(mContext, mTransactionManager);
         mTransactionTestUtils.insertApp(TEST_PACKAGE_NAME);
+        mNotificationSender = mock(HealthConnectNotificationSender.class);
+        mImportManager = new ImportManager(mContext, mNotificationSender);
         HealthConnectDeviceConfigManager.initializeInstance(mContext);
         mPriorityHelper = HealthDataCategoryPriorityHelper.getInstance();
         mPriorityHelper.setPriorityOrder(HealthDataCategory.ACTIVITY, List.of(TEST_PACKAGE_NAME));
-
-        mImportManager = new ImportManager(mContext);
     }
 
     @After
@@ -130,6 +141,15 @@ public class ImportManagerTest {
         DatabaseHelper.clearAllData(mTransactionManager);
 
         mImportManager.runImport(mContext.getUser(), Uri.fromFile(zipToImport));
+
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender.NOTIFICATION_TYPE_IMPORT_IN_PROGRESS,
+                        DEFAULT_USER_HANDLE);
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender.NOTIFICATION_TYPE_IMPORT_COMPLETE,
+                        DEFAULT_USER_HANDLE);
 
         List<UUID> stepsUuids = ImmutableList.of(UUID.fromString(uuids.get(0)));
         List<UUID> bloodPressureUuids = ImmutableList.of(UUID.fromString(uuids.get(1)));
@@ -172,6 +192,15 @@ public class ImportManagerTest {
 
         mImportManager.runImport(mContext.getUser(), Uri.fromFile(zipToImport));
 
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender.NOTIFICATION_TYPE_IMPORT_IN_PROGRESS,
+                        DEFAULT_USER_HANDLE);
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender.NOTIFICATION_TYPE_IMPORT_COMPLETE,
+                        DEFAULT_USER_HANDLE);
+
         assertThat(mPriorityHelper.getPriorityOrder(HealthDataCategory.ACTIVITY, mContext))
                 .containsExactly("other.app", TEST_PACKAGE_NAME)
                 .inOrder();
@@ -203,6 +232,15 @@ public class ImportManagerTest {
 
         mImportManager.runImport(mContext.getUser(), Uri.fromFile(zipToImport));
 
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender.NOTIFICATION_TYPE_IMPORT_IN_PROGRESS,
+                        DEFAULT_USER_HANDLE);
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender.NOTIFICATION_TYPE_IMPORT_COMPLETE,
+                        DEFAULT_USER_HANDLE);
+
         List<UUID> stepsUuids = ImmutableList.of(UUID.fromString(uuids.get(0)));
         List<UUID> bloodPressureUuids = ImmutableList.of(UUID.fromString(uuids.get(1)));
         ReadTransactionRequest request =
@@ -224,6 +262,16 @@ public class ImportManagerTest {
 
         mImportManager.runImport(mContext.getUser(), Uri.fromFile(dbToImport));
 
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender.NOTIFICATION_TYPE_IMPORT_IN_PROGRESS,
+                        DEFAULT_USER_HANDLE);
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender
+                                .NOTIFICATION_TYPE_IMPORT_UNSUCCESSFUL_INVALID_FILE,
+                        DEFAULT_USER_HANDLE);
+
         File databaseDir =
                 DatabaseContext.create(mContext, IMPORT_DATABASE_DIR_NAME, mContext.getUser())
                         .getDatabaseDir();
@@ -238,6 +286,16 @@ public class ImportManagerTest {
         File zipToImport = zipExportedDb(textFileToImport);
 
         mImportManager.runImport(mContext.getUser(), Uri.fromFile(zipToImport));
+
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender.NOTIFICATION_TYPE_IMPORT_IN_PROGRESS,
+                        DEFAULT_USER_HANDLE);
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender
+                                .NOTIFICATION_TYPE_IMPORT_UNSUCCESSFUL_INVALID_FILE,
+                        DEFAULT_USER_HANDLE);
 
         assertThat(ExportImportSettingsStorage.getImportStatus().getDataImportError())
                 .isEqualTo(DATA_IMPORT_ERROR_WRONG_FILE);
@@ -255,6 +313,16 @@ public class ImportManagerTest {
 
         mImportManager.runImport(mContext.getUser(), Uri.fromFile(zipToImport));
 
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender.NOTIFICATION_TYPE_IMPORT_IN_PROGRESS,
+                        DEFAULT_USER_HANDLE);
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender
+                                .NOTIFICATION_TYPE_IMPORT_UNSUCCESSFUL_INVALID_FILE,
+                        DEFAULT_USER_HANDLE);
+
         assertThat(ExportImportSettingsStorage.getImportStatus().getDataImportError())
                 .isEqualTo(DATA_IMPORT_ERROR_WRONG_FILE);
     }
@@ -271,6 +339,16 @@ public class ImportManagerTest {
 
         mImportManager.runImport(mContext.getUser(), Uri.fromFile(zipToImport));
 
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender.NOTIFICATION_TYPE_IMPORT_IN_PROGRESS,
+                        DEFAULT_USER_HANDLE);
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender
+                                .NOTIFICATION_TYPE_IMPORT_UNSUCCESSFUL_VERSION_MISMATCH,
+                        DEFAULT_USER_HANDLE);
+
         assertThat(ExportImportSettingsStorage.getImportStatus().getDataImportError())
                 .isEqualTo(DATA_IMPORT_ERROR_VERSION_MISMATCH);
     }
@@ -280,6 +358,15 @@ public class ImportManagerTest {
         File zipToImport = zipExportedDb(exportCurrentDb());
 
         mImportManager.runImport(mContext.getUser(), Uri.fromFile(zipToImport));
+
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender.NOTIFICATION_TYPE_IMPORT_IN_PROGRESS,
+                        DEFAULT_USER_HANDLE);
+        verify(mNotificationSender, times(1))
+                .sendNotificationAsUser(
+                        ExportImportNotificationSender.NOTIFICATION_TYPE_IMPORT_COMPLETE,
+                        DEFAULT_USER_HANDLE);
 
         assertThat(ExportImportSettingsStorage.getImportStatus().getDataImportError())
                 .isEqualTo(DATA_IMPORT_ERROR_NONE);
