@@ -229,7 +229,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
     private final RecordMapper mRecordMapper;
     private final AggregationTypeIdMapper mAggregationTypeIdMapper;
     private final DeviceInfoHelper mDeviceInfoHelper;
-    private final MedicalResourceHelper mMedicalResourceHelper;
+    private MedicalResourceHelper mMedicalResourceHelper;
+    private MedicalDataSourceHelper mMedicalDataSourceHelper;
 
     private volatile UserHandle mCurrentForegroundUser;
 
@@ -241,7 +242,34 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
             FirstGrantTimeManager firstGrantTimeManager,
             MigrationStateManager migrationStateManager,
             MigrationUiStateManager migrationUiStateManager,
+            MedicalResourceHelper medicalResourceHelper,
+            MedicalDataSourceHelper medicalDataSourceHelper,
             Context context) {
+        this(
+                transactionManager,
+                deviceConfigManager,
+                permissionHelper,
+                migrationCleaner,
+                firstGrantTimeManager,
+                migrationStateManager,
+                migrationUiStateManager,
+                context,
+                medicalResourceHelper,
+                medicalDataSourceHelper);
+    }
+
+    @VisibleForTesting
+    HealthConnectServiceImpl(
+            TransactionManager transactionManager,
+            HealthConnectDeviceConfigManager deviceConfigManager,
+            HealthConnectPermissionHelper permissionHelper,
+            MigrationCleaner migrationCleaner,
+            FirstGrantTimeManager firstGrantTimeManager,
+            MigrationStateManager migrationStateManager,
+            MigrationUiStateManager migrationUiStateManager,
+            Context context,
+            MedicalResourceHelper medicalResourceHelper,
+            MedicalDataSourceHelper medicalDataSourceHelper) {
         mTransactionManager = transactionManager;
         mDeviceConfigManager = deviceConfigManager;
         mPermissionHelper = permissionHelper;
@@ -266,7 +294,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
         mRecordMapper = RecordMapper.getInstance();
         mAggregationTypeIdMapper = AggregationTypeIdMapper.getInstance();
         mDeviceInfoHelper = DeviceInfoHelper.getInstance();
-        mMedicalResourceHelper = new MedicalResourceHelper(mTransactionManager);
+        mMedicalResourceHelper = medicalResourceHelper;
+        mMedicalDataSourceHelper = medicalDataSourceHelper;
     }
 
     public void onUserSwitching(UserHandle currentForegroundUser) {
@@ -2289,7 +2318,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
 
                         // TODO(b/344560623) - Enforce uniqueness constraint on fhir base uri.
                         MedicalDataSource dataSource =
-                                MedicalDataSourceHelper.createMedicalDataSource(
+                                mMedicalDataSourceHelper.createMedicalDataSource(
                                         request, packageName);
 
                         tryAndReturnResult(callback, dataSource, logger);
