@@ -111,7 +111,6 @@ import android.health.connect.exportimport.IScheduledExportStatusCallback;
 import android.health.connect.exportimport.ImportStatus;
 import android.health.connect.exportimport.ScheduledExportSettings;
 import android.health.connect.exportimport.ScheduledExportStatus;
-import android.health.connect.internal.datatypes.MedicalResourceInternal;
 import android.health.connect.internal.datatypes.RecordInternal;
 import android.health.connect.internal.datatypes.utils.AggregationTypeIdMapper;
 import android.health.connect.internal.datatypes.utils.RecordMapper;
@@ -170,6 +169,7 @@ import com.android.server.healthconnect.storage.datatypehelpers.RecordHelper;
 import com.android.server.healthconnect.storage.request.AggregateTransactionRequest;
 import com.android.server.healthconnect.storage.request.DeleteTransactionRequest;
 import com.android.server.healthconnect.storage.request.ReadTransactionRequest;
+import com.android.server.healthconnect.storage.request.UpsertMedicalResourceInternalRequest;
 import com.android.server.healthconnect.storage.request.UpsertTransactionRequest;
 import com.android.server.healthconnect.storage.utils.RecordHelperProvider;
 
@@ -2409,12 +2409,14 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         mMedicalDataPermissionEnforcer.enforceWriteMedicalDataPermission(
                                 attributionSource);
 
-                        List<MedicalResourceInternal> medicalResourcesToUpsert = new ArrayList<>();
+                        List<UpsertMedicalResourceInternalRequest> medicalResourcesToUpsert =
+                                new ArrayList<>();
                         for (UpsertMedicalResourceRequest upsertMedicalResourceRequest : requests) {
-                            MedicalResourceInternal medicalResourceInternal =
-                                    MedicalResourceInternal.fromUpsertRequest(
-                                            upsertMedicalResourceRequest);
-                            medicalResourcesToUpsert.add(medicalResourceInternal);
+                            UpsertMedicalResourceInternalRequest
+                                    upsertMedicalResourceInternalRequest =
+                                            UpsertMedicalResourceInternalRequest.fromUpsertRequest(
+                                                    upsertMedicalResourceRequest);
+                            medicalResourcesToUpsert.add(upsertMedicalResourceInternalRequest);
                         }
                         List<MedicalResource> medicalResources =
                                 mMedicalResourceHelper.upsertMedicalResources(
