@@ -44,6 +44,9 @@ public class PhrDataFactory {
 
     public static final String FHIR_DATA_IMMUNIZATION =
             "{\"resourceType\" : \"Immunization\", \"id\" : \"Immunization1\"}";
+    public static final String DIFFERENT_FHIR_DATA_IMMUNIZATION =
+            "{\"resourceType\" : \"Immunization\", \"id\" : \"Immunization2\"}";
+    public static final String DIFFERENT_FHIR_RESOURCE_ID_IMMUNIZATION = "Immunization2";
 
     public static final String FHIR_DATA_IMMUNIZATION_ID_NOT_EXISTS =
             "{\"resourceType\" : \"Immunization\"}";
@@ -136,6 +139,18 @@ public class PhrDataFactory {
                         FHIR_RESOURCE_TYPE_UNKNOWN,
                         FHIR_RESOURCE_ID_ALLERGY,
                         addCompletedStatus(FHIR_DATA_ALLERGY))
+                .build();
+    }
+
+    /**
+     * Creates and returns a {@link FhirResource} with {@link
+     * PhrDataFactory#DIFFERENT_FHIR_DATA_IMMUNIZATION} data.
+     */
+    public static FhirResource getFhirResourceDifferentImmunization() {
+        return new FhirResource.Builder(
+                        FhirResource.FHIR_RESOURCE_TYPE_IMMUNIZATION,
+                        DIFFERENT_FHIR_RESOURCE_ID_IMMUNIZATION,
+                        DIFFERENT_FHIR_DATA_IMMUNIZATION)
                 .build();
     }
 
