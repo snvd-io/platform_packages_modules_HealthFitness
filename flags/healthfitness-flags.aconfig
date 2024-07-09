@@ -23,7 +23,7 @@ flag {
     name: "export_import"
     namespace: "health_fitness_aconfig"
     description: "Flag for adding new export/import feature."
-    bug: "318484778"
+    bug: "318484000"
     is_fixed_read_only: true
 }
 
