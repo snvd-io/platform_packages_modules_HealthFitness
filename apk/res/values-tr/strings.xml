@@ -267,14 +267,10 @@
     <string name="immunization_uppercase_label" msgid="1467176749064014020">"Aşı"</string>
     <string name="immunization_lowercase_label" msgid="6464922369026887687">"aşı"</string>
     <string name="immunization_content_description" msgid="2910674919337229803">"Aşı verilerini okuma"</string>
-    <!-- no translation found for mindfulness_uppercase_label (7678646522566275472) -->
-    <skip />
-    <!-- no translation found for mindfulness_lowercase_label (5184488636180881614) -->
-    <skip />
-    <!-- no translation found for mindfulness_read_content_description (739187536826062524) -->
-    <skip />
-    <!-- no translation found for mindfulness_write_content_description (7925112426563398421) -->
-    <skip />
+    <string name="mindfulness_uppercase_label" msgid="7678646522566275472">"Farkındalık"</string>
+    <string name="mindfulness_lowercase_label" msgid="5184488636180881614">"farkındalık"</string>
+    <string name="mindfulness_read_content_description" msgid="739187536826062524">"Farkındalık oturumuna ait veriler okunur"</string>
+    <string name="mindfulness_write_content_description" msgid="7925112426563398421">"Farkındalık oturumuna ait veriler yazılır"</string>
     <string name="read_permission_category" msgid="6002099618259628632">"“<xliff:g id="APP_NAME">%1$s</xliff:g>” uygulamasına okuma izni ver"</string>
     <string name="write_permission_category" msgid="1529702804865008111">"\"<xliff:g id="APP_NAME">%1$s</xliff:g>\" uygulamasına yazma izni ver"</string>
     <string name="request_permissions_cancel" msgid="1787483997235365393">"İptal"</string>
@@ -463,7 +459,7 @@
     <string name="velocity_minute_per_one_hundred_meters_long" msgid="6806485527680697198">"100 metre başına <xliff:g id="MINUTE">%1$s</xliff:g> dakika"</string>
     <string name="time_range_long" msgid="5067423945245490288">"<xliff:g id="START_TIME">%1$s</xliff:g> - <xliff:g id="END_TIME">%2$s</xliff:g> arası"</string>
     <string name="date_range_long" msgid="6022190423982451176">"<xliff:g id="START_TIME">%1$s</xliff:g> - <xliff:g id="END_TIME">%2$s</xliff:g> arası"</string>
-    <string name="wheelchair_pushes" msgid="5807293867148465190">"{count,plural, =1{Tekerlekli sandalyede 1 şınav}other{Tekerlekli sandalyede # şınav}}"</string>
+    <string name="wheelchair_pushes" msgid="5807293867148465190">"{count,plural, =1{Tekerlekli sandalyeyi 1 kez itme}other{Tekerlekli sandalyeyi # kez itme}}"</string>
     <string name="liter" msgid="8276522589564337053">"{count,plural, =1{1 L}other{# L}}"</string>
     <string name="liter_long" msgid="7094280457555707835">"{count,plural, =1{1 litre}other{# litre}}"</string>
     <string name="floors_climbed" msgid="7483572478744998930">"{count,plural, =1{1 kat}other{# kat}}"</string>

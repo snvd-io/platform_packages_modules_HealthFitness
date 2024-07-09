@@ -88,7 +88,7 @@
     <string name="permdesc_readCaloriesBurned" msgid="9012595355389868570">"允許應用程式讀取卡路里燃燒量資料"</string>
     <string name="background_read_title" msgid="5061383169517186234">"在背景存取資料"</string>
     <string name="background_read_request_title" msgid="8492898140120977977">"要允許「<xliff:g id="APP_NAME">%1$s</xliff:g>」在背景存取資料嗎？"</string>
-    <string name="background_read_description" msgid="3203594555849969283">"允許這個應用程式在你未使用時存取健康資料同步的資料"</string>
+    <string name="background_read_description" msgid="3203594555849969283">"允許這個應用程式在你未使用時，存取「健康資料同步」的資料"</string>
     <string name="background_read_request_description" msgid="1664402237648709581">"如果允許，這個應用程式將可在你未使用時存取健康資料同步的資料。"</string>
     <string name="historic_access_title" msgid="3584594624937737030">"存取過往資料"</string>
     <string name="historic_access_request_title" msgid="4645920231853414742">"要允許「<xliff:g id="APP_NAME">%1$s</xliff:g>」存取過往資料嗎？"</string>
@@ -267,14 +267,10 @@
     <string name="immunization_uppercase_label" msgid="1467176749064014020">"免疫接種"</string>
     <string name="immunization_lowercase_label" msgid="6464922369026887687">"免疫接種"</string>
     <string name="immunization_content_description" msgid="2910674919337229803">"讀取免疫接種資料"</string>
-    <!-- no translation found for mindfulness_uppercase_label (7678646522566275472) -->
-    <skip />
-    <!-- no translation found for mindfulness_lowercase_label (5184488636180881614) -->
-    <skip />
-    <!-- no translation found for mindfulness_read_content_description (739187536826062524) -->
-    <skip />
-    <!-- no translation found for mindfulness_write_content_description (7925112426563398421) -->
-    <skip />
+    <string name="mindfulness_uppercase_label" msgid="7678646522566275472">"正念"</string>
+    <string name="mindfulness_lowercase_label" msgid="5184488636180881614">"正念"</string>
+    <string name="mindfulness_read_content_description" msgid="739187536826062524">"讀取正念練習資料"</string>
+    <string name="mindfulness_write_content_description" msgid="7925112426563398421">"寫入正念練習資料"</string>
     <string name="read_permission_category" msgid="6002099618259628632">"允許「<xliff:g id="APP_NAME">%1$s</xliff:g>」讀取"</string>
     <string name="write_permission_category" msgid="1529702804865008111">"允許「<xliff:g id="APP_NAME">%1$s</xliff:g>」寫入"</string>
     <string name="request_permissions_cancel" msgid="1787483997235365393">"取消"</string>
