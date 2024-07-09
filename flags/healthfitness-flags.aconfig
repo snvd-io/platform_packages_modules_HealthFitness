@@ -34,3 +34,11 @@ flag {
     bug: "341704006"
     is_fixed_read_only: true
 }
+
+flag {
+    name: "dependency_injection"
+    namespace: "health_fitness_aconfig"
+    description: "Enables dependency injection."
+    bug: "341654919"
+    is_fixed_read_only: true
+}
