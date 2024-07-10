@@ -30,6 +30,7 @@ import static com.android.server.healthconnect.storage.datatypehelpers.RecordHel
 import static java.util.Objects.requireNonNull;
 
 import android.annotation.NonNull;
+import android.annotation.Nullable;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -84,8 +85,7 @@ public final class TransactionManager {
     private static final ConcurrentHashMap<UserHandle, HealthConnectDatabase>
             mUserHandleToDatabaseMap = new ConcurrentHashMap<>();
 
-    @SuppressWarnings("NullAway.Init") // TODO(b/317029272): fix this suppression
-    private static volatile TransactionManager sTransactionManager;
+    @Nullable private static volatile TransactionManager sTransactionManager;
 
     private volatile HealthConnectDatabase mHealthConnectDatabase;
     private UserHandle mUserHandle;
@@ -955,7 +955,6 @@ public final class TransactionManager {
     }
 
     /** Cleans up the database and this manager, so unit tests can run correctly. */
-    @SuppressWarnings("NullAway") // TODO(b/317029272): fix this suppression
     @VisibleForTesting
     public static void cleanUpForTest() {
         if (sTransactionManager != null) {
