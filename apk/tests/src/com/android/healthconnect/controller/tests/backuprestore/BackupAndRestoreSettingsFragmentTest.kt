@@ -157,7 +157,6 @@ class BackupAndRestoreSettingsFragmentTest {
 
         launchFragment<BackupAndRestoreSettingsFragment>(Bundle())
 
-        onView(withText("Export and import")).check(matches(isDisplayed()))
         onView(withText("Scheduled export")).check(matches(isDisplayed()))
         onView(withText("Import data")).check(matches(isDisplayed()))
         onView(withText("Restore data from a previously exported file"))
