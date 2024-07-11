@@ -53,12 +53,13 @@ import static android.healthconnect.cts.utils.TestUtils.getChangeLogToken;
 import static android.healthconnect.cts.utils.TestUtils.insertRecords;
 import static android.healthconnect.cts.utils.TestUtils.readRecords;
 import static android.healthconnect.cts.utils.TestUtils.updateRecords;
-import static android.healthconnect.cts.utils.TestUtils.upsertMedicalResources;
 import static android.healthconnect.cts.utils.TestUtils.verifyDeleteRecords;
 
 import static com.android.healthfitness.flags.Flags.FLAG_PERSONAL_HEALTH_RECORD;
 
 import static com.google.common.truth.Truth.assertThat;
+
+import static org.junit.Assert.assertThrows;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -439,20 +440,22 @@ public class HealthConnectManagerNoPermissionsGrantedTest {
     @Test
     @RequiresFlagsEnabled(FLAG_PERSONAL_HEALTH_RECORD)
     public void upsertMedicalResources_noPermission_expectError() throws InterruptedException {
-        try {
-            UpsertMedicalResourceRequest request =
-                    new UpsertMedicalResourceRequest.Builder(
-                                    DATA_SOURCE_LONG_ID, FHIR_DATA_IMMUNIZATION)
-                            .build();
+        HealthConnectManager manager = TestUtils.getHealthConnectManager();
+        HealthConnectReceiver<List<MedicalResource>> receiver = new HealthConnectReceiver<>();
+        UpsertMedicalResourceRequest request =
+                new UpsertMedicalResourceRequest.Builder(
+                                DATA_SOURCE_LONG_ID, FHIR_DATA_IMMUNIZATION)
+                        .build();
 
-            upsertMedicalResources(List.of(request));
-            Assert.fail(
-                    "Upsert medical resources must be not allowed without correct HC PHR"
-                            + " permission");
-        } catch (HealthConnectException healthConnectException) {
-            assertThat(healthConnectException.getErrorCode())
-                    .isEqualTo(HealthConnectException.ERROR_SECURITY);
-        }
+        HealthConnectException exception =
+                assertThrows(
+                        HealthConnectException.class,
+                        () ->
+                                manager.upsertMedicalResources(
+                                        List.of(request),
+                                        Executors.newSingleThreadExecutor(),
+                                        receiver));
+        assertThat(exception.getErrorCode()).isEqualTo(HealthConnectException.ERROR_SECURITY);
     }
 
     private static List<Record> getTestRecords() {
