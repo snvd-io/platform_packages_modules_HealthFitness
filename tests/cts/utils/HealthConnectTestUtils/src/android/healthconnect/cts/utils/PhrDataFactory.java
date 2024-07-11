@@ -71,9 +71,7 @@ public class PhrDataFactory {
                 DATA_SOURCE_DISPLAY_NAME);
     }
 
-    /**
-     * Creates and returns a {@link MedicalResource} with default arguments.
-     */
+    /** Creates and returns a {@link MedicalResource} with default arguments. */
     public static MedicalDataSource getMedicalDataSource() {
         return getMedicalDataSourceBuilder().build();
     }
