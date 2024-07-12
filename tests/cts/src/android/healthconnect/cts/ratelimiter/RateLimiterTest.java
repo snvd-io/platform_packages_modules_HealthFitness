@@ -16,11 +16,14 @@
 
 package android.healthconnect.cts.ratelimiter;
 
+import static android.health.connect.datatypes.FhirVersion.parseFhirVersion;
 import static android.health.connect.datatypes.StepsRecord.STEPS_COUNT_TOTAL;
 import static android.healthconnect.cts.utils.DataFactory.buildDevice;
 import static android.healthconnect.cts.utils.DataFactory.getCompleteStepsRecord;
 import static android.healthconnect.cts.utils.DataFactory.getUpdatedStepsRecord;
 import static android.healthconnect.cts.utils.PhrDataFactory.DATA_SOURCE_FHIR_BASE_URI;
+import static android.healthconnect.cts.utils.PhrDataFactory.DATA_SOURCE_ID;
+import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_VERSION_R4;
 import static android.healthconnect.cts.utils.PhrDataFactory.getUpsertMedicalResourceRequest;
 
 import static com.android.healthfitness.flags.Flags.FLAG_PERSONAL_HEALTH_RECORD;
@@ -209,7 +212,11 @@ public class RateLimiterTest {
         HealthConnectReceiver<List<MedicalResource>> receiver = new HealthConnectReceiver<>();
         int nCopies = 1000 / mLimitsAdjustmentForTesting;
         UpsertMedicalResourceRequest request =
-                new UpsertMedicalResourceRequest.Builder(1, "UpsertMedicalResourceRequest").build();
+                new UpsertMedicalResourceRequest.Builder(
+                                DATA_SOURCE_ID,
+                                parseFhirVersion(FHIR_VERSION_R4),
+                                "UpsertMedicalResourceRequest")
+                        .build();
         List<UpsertMedicalResourceRequest> requests = Collections.nCopies(nCopies, request);
 
         HealthConnectException thrown =
@@ -229,7 +236,9 @@ public class RateLimiterTest {
         int nCharacters = 200000 / mLimitsAdjustmentForTesting;
         List<Character> data = Collections.nCopies(nCharacters, '0');
         UpsertMedicalResourceRequest request =
-                new UpsertMedicalResourceRequest.Builder(1, data.toString()).build();
+                new UpsertMedicalResourceRequest.Builder(
+                                DATA_SOURCE_ID, parseFhirVersion(FHIR_VERSION_R4), data.toString())
+                        .build();
 
         HealthConnectException thrown =
                 assertThrows(

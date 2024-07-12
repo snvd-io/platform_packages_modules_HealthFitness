@@ -18,6 +18,7 @@ package com.android.server.healthconnect.storage.datatypehelpers;
 
 import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_IMMUNIZATION;
 import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_UNKNOWN;
+import static android.health.connect.datatypes.FhirVersion.parseFhirVersion;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_IMMUNIZATION;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_UNKNOWN;
 import static android.healthconnect.cts.utils.PhrDataFactory.DATA_SOURCE_DISPLAY_NAME;
@@ -30,6 +31,7 @@ import static android.healthconnect.cts.utils.PhrDataFactory.DIFFERENT_DATA_SOUR
 import static android.healthconnect.cts.utils.PhrDataFactory.DIFFERENT_DATA_SOURCE_PACKAGE_NAME;
 import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_DATA_ALLERGY;
 import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_DATA_IMMUNIZATION;
+import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_VERSION_R4;
 import static android.healthconnect.cts.utils.PhrDataFactory.addCompletedStatus;
 import static android.healthconnect.cts.utils.PhrDataFactory.getFhirResource;
 import static android.healthconnect.cts.utils.PhrDataFactory.getFhirResourceAllergy;
@@ -57,7 +59,6 @@ import static com.android.server.healthconnect.storage.utils.StorageUtils.INTEGE
 import static com.android.server.healthconnect.storage.utils.StorageUtils.INTEGER_NOT_NULL;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.PRIMARY_AUTOINCREMENT;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.TEXT_NOT_NULL;
-import static com.android.server.healthconnect.storage.utils.StorageUtils.TEXT_NULL;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.generateMedicalResourceUUID;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.getCursorInt;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.getHexString;
@@ -130,7 +131,7 @@ public class MedicalResourceHelperTest {
                         Pair.create(FHIR_RESOURCE_TYPE_COLUMN_NAME, INTEGER_NOT_NULL),
                         Pair.create(FHIR_RESOURCE_ID_COLUMN_NAME, TEXT_NOT_NULL),
                         Pair.create(FHIR_DATA_COLUMN_NAME, TEXT_NOT_NULL),
-                        Pair.create(FHIR_VERSION_COLUMN_NAME, TEXT_NULL),
+                        Pair.create(FHIR_VERSION_COLUMN_NAME, TEXT_NOT_NULL),
                         Pair.create(DATA_SOURCE_ID_COLUMN_NAME, INTEGER_NOT_NULL),
                         Pair.create(UUID_COLUMN_NAME, BLOB_UNIQUE_NON_NULL),
                         Pair.create(LAST_MODIFIED_TIME_COLUMN_NAME, INTEGER));
@@ -164,6 +165,7 @@ public class MedicalResourceHelperTest {
                 new UpsertMedicalResourceInternalRequest()
                         .setFhirResourceId(fhirResource.getId())
                         .setFhirResourceType(fhirResource.getType())
+                        .setFhirVersion(parseFhirVersion(FHIR_VERSION_R4))
                         .setData(fhirResource.getData())
                         .setDataSourceId(DATA_SOURCE_ID);
         UUID uuid =
@@ -181,10 +183,11 @@ public class MedicalResourceHelperTest {
 
         assertThat(upsertRequest.getTable()).isEqualTo(MEDICAL_RESOURCE_TABLE_NAME);
         assertThat(upsertRequest.getUniqueColumnsCount()).isEqualTo(1);
-        assertThat(contentValues.size()).isEqualTo(5);
+        assertThat(contentValues.size()).isEqualTo(6);
         assertThat(contentValues.get(FHIR_RESOURCE_TYPE_COLUMN_NAME))
                 .isEqualTo(fhirResource.getType());
         assertThat(contentValues.get(DATA_SOURCE_ID_COLUMN_NAME)).isEqualTo(DATA_SOURCE_ROW_ID);
+        assertThat(contentValues.get(FHIR_VERSION_COLUMN_NAME)).isEqualTo(FHIR_VERSION_R4);
         assertThat(contentValues.get(FHIR_DATA_COLUMN_NAME)).isEqualTo(fhirResource.getData());
         assertThat(contentValues.get(UUID_COLUMN_NAME))
                 .isEqualTo(StorageUtils.convertUUIDToBytes(uuid));
@@ -458,6 +461,7 @@ public class MedicalResourceHelperTest {
                 new UpsertMedicalResourceInternalRequest()
                         .setFhirResourceId(fhirResource.getId())
                         .setFhirResourceType(fhirResource.getType())
+                        .setFhirVersion(parseFhirVersion(FHIR_VERSION_R4))
                         .setData(fhirResource.getData())
                         .setDataSourceId("acc6c726-b7ea-42f1-a063-e34f5b4e6247");
 
@@ -551,6 +555,7 @@ public class MedicalResourceHelperTest {
                 new UpsertMedicalResourceInternalRequest()
                         .setFhirResourceId(fhirResource.getId())
                         .setFhirResourceType(fhirResource.getType())
+                        .setFhirVersion(parseFhirVersion(FHIR_VERSION_R4))
                         .setData(fhirResource.getData())
                         .setDataSourceId(dataSource.getId());
 
@@ -575,6 +580,7 @@ public class MedicalResourceHelperTest {
                 new UpsertMedicalResourceInternalRequest()
                         .setFhirResourceId(fhirResource.getId())
                         .setFhirResourceType(fhirResource.getType())
+                        .setFhirVersion(parseFhirVersion(FHIR_VERSION_R4))
                         .setData(fhirResource.getData())
                         .setDataSourceId(dataSource.getId());
         List<MedicalResourceId> ids =
@@ -619,6 +625,7 @@ public class MedicalResourceHelperTest {
                 new UpsertMedicalResourceInternalRequest()
                         .setFhirResourceId(fhirResource1.getId())
                         .setFhirResourceType(fhirResource1.getType())
+                        .setFhirVersion(parseFhirVersion(FHIR_VERSION_R4))
                         .setData(fhirResource1.getData())
                         .setDataSourceId(dataSource.getId());
         MedicalResource resource1 =
@@ -635,6 +642,7 @@ public class MedicalResourceHelperTest {
                 new UpsertMedicalResourceInternalRequest()
                         .setFhirResourceId(fhirResource2.getId())
                         .setFhirResourceType(fhirResource2.getType())
+                        .setFhirVersion(parseFhirVersion(FHIR_VERSION_R4))
                         .setData(fhirResource2.getData())
                         .setDataSourceId(dataSource.getId());
         MedicalResource resource2 =
@@ -684,6 +692,7 @@ public class MedicalResourceHelperTest {
                 new UpsertMedicalResourceInternalRequest()
                         .setFhirResourceId(fhirResource.getId())
                         .setFhirResourceType(fhirResource.getType())
+                        .setFhirVersion(parseFhirVersion(FHIR_VERSION_R4))
                         .setData(fhirResource.getData())
                         .setDataSourceId(dataSource1.getId());
         MedicalResource resource1 =
@@ -699,6 +708,7 @@ public class MedicalResourceHelperTest {
                 new UpsertMedicalResourceInternalRequest()
                         .setFhirResourceId(fhirResource.getId())
                         .setFhirResourceType(fhirResource.getType())
+                        .setFhirVersion(parseFhirVersion(FHIR_VERSION_R4))
                         .setData(fhirResource.getData())
                         .setDataSourceId(dataSource2.getId());
         MedicalResource resource2 =
@@ -748,12 +758,14 @@ public class MedicalResourceHelperTest {
                 new UpsertMedicalResourceInternalRequest()
                         .setFhirResourceId(fhirResource.getId())
                         .setFhirResourceType(fhirResource.getType())
+                        .setFhirVersion(parseFhirVersion(FHIR_VERSION_R4))
                         .setData(fhirResource.getData())
                         .setDataSourceId(dataSource.getId());
         UpsertMedicalResourceInternalRequest upsertMedicalResourceInternalRequestUpdated =
                 new UpsertMedicalResourceInternalRequest()
                         .setFhirResourceId(fhirResource.getId())
                         .setFhirResourceType(fhirResource.getType())
+                        .setFhirVersion(parseFhirVersion(FHIR_VERSION_R4))
                         .setData(fhirResourceUpdated.getData())
                         .setDataSourceId(dataSource.getId());
         List<MedicalResourceId> ids =
@@ -996,6 +1008,7 @@ public class MedicalResourceHelperTest {
                 new UpsertMedicalResourceInternalRequest()
                         .setFhirResourceId(fhirResource.getId())
                         .setFhirResourceType(fhirResource.getType())
+                        .setFhirVersion(parseFhirVersion(FHIR_VERSION_R4))
                         .setData(fhirResource.getData())
                         .setDataSourceId(dataSource.getId());
         mMedicalResourceHelper.upsertMedicalResources(
@@ -1028,6 +1041,7 @@ public class MedicalResourceHelperTest {
                 new UpsertMedicalResourceInternalRequest()
                         .setFhirResourceId(fhirResource1.getId())
                         .setFhirResourceType(fhirResource1.getType())
+                        .setFhirVersion(parseFhirVersion(FHIR_VERSION_R4))
                         .setData(fhirResource1.getData())
                         .setDataSourceId(dataSource.getId());
         FhirResource fhirResource2 = getFhirResourceAllergy();
@@ -1035,6 +1049,7 @@ public class MedicalResourceHelperTest {
                 new UpsertMedicalResourceInternalRequest()
                         .setFhirResourceId(fhirResource2.getId())
                         .setFhirResourceType(fhirResource2.getType())
+                        .setFhirVersion(parseFhirVersion(FHIR_VERSION_R4))
                         .setData(fhirResource2.getData())
                         .setDataSourceId(dataSource.getId());
 

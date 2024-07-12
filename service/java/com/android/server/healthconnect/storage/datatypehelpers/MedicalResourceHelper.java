@@ -35,7 +35,6 @@ import static com.android.server.healthconnect.storage.utils.StorageUtils.INTEGE
 import static com.android.server.healthconnect.storage.utils.StorageUtils.INTEGER_NOT_NULL;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.PRIMARY_AUTOINCREMENT;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.TEXT_NOT_NULL;
-import static com.android.server.healthconnect.storage.utils.StorageUtils.TEXT_NULL;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.generateMedicalResourceUUID;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.getCursorInt;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.getCursorString;
@@ -116,7 +115,7 @@ public final class MedicalResourceHelper {
                 Pair.create(FHIR_RESOURCE_TYPE_COLUMN_NAME, INTEGER_NOT_NULL),
                 Pair.create(FHIR_RESOURCE_ID_COLUMN_NAME, TEXT_NOT_NULL),
                 Pair.create(FHIR_DATA_COLUMN_NAME, TEXT_NOT_NULL),
-                Pair.create(FHIR_VERSION_COLUMN_NAME, TEXT_NULL),
+                Pair.create(FHIR_VERSION_COLUMN_NAME, TEXT_NOT_NULL),
                 Pair.create(DATA_SOURCE_ID_COLUMN_NAME, INTEGER_NOT_NULL),
                 Pair.create(UUID_COLUMN_NAME, BLOB_UNIQUE_NON_NULL),
                 Pair.create(LAST_MODIFIED_TIME_COLUMN_NAME, INTEGER));
@@ -392,6 +391,8 @@ public final class MedicalResourceHelper {
         resourceContentValues.put(DATA_SOURCE_ID_COLUMN_NAME, dataSourceRowId);
         resourceContentValues.put(
                 FHIR_DATA_COLUMN_NAME, upsertMedicalResourceInternalRequest.getData());
+        resourceContentValues.put(
+                FHIR_VERSION_COLUMN_NAME, upsertMedicalResourceInternalRequest.getFhirVersion());
         resourceContentValues.put(
                 FHIR_RESOURCE_TYPE_COLUMN_NAME,
                 upsertMedicalResourceInternalRequest.getFhirResourceType());
