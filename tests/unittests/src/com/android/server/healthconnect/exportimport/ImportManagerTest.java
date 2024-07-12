@@ -32,19 +32,22 @@ import static com.google.common.truth.Truth.assertThat;
 import android.Manifest;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.health.connect.HealthDataCategory;
 import android.health.connect.datatypes.RecordTypeIdentifier;
 import android.health.connect.internal.datatypes.RecordInternal;
 import android.net.Uri;
 
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.server.healthconnect.HealthConnectDeviceConfigManager;
 import com.android.server.healthconnect.HealthConnectUserContext;
-import com.android.server.healthconnect.TestUtils;
 import com.android.server.healthconnect.storage.ExportImportSettingsStorage;
 import com.android.server.healthconnect.storage.TransactionManager;
+import com.android.server.healthconnect.storage.datatypehelpers.AppInfoHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.DatabaseHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.HealthConnectDatabaseTestRule;
+import com.android.server.healthconnect.storage.datatypehelpers.HealthDataCategoryPriorityHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.TransactionTestUtils;
 import com.android.server.healthconnect.storage.request.ReadTransactionRequest;
 import com.android.server.healthconnect.storage.utils.RecordHelperProvider;
@@ -80,18 +83,22 @@ public class ImportManagerTest {
 
     private TransactionManager mTransactionManager;
     private TransactionTestUtils mTransactionTestUtils;
+    private HealthDataCategoryPriorityHelper mPriorityHelper;
 
     private ImportManager mImportManager;
 
     @Before
     public void setUp() throws Exception {
+        InstrumentationRegistry.getInstrumentation()
+                .getUiAutomation()
+                .adoptShellPermissionIdentity(Manifest.permission.READ_DEVICE_CONFIG);
         mContext = mDatabaseTestRule.getUserContext();
         mTransactionManager = mDatabaseTestRule.getTransactionManager();
         mTransactionTestUtils = new TransactionTestUtils(mContext, mTransactionManager);
         mTransactionTestUtils.insertApp(TEST_PACKAGE_NAME);
-        TestUtils.runWithShellPermissionIdentity(
-                () -> HealthConnectDeviceConfigManager.initializeInstance(mContext),
-                Manifest.permission.READ_DEVICE_CONFIG);
+        HealthConnectDeviceConfigManager.initializeInstance(mContext);
+        mPriorityHelper = HealthDataCategoryPriorityHelper.getInstance();
+        mPriorityHelper.setPriorityOrder(HealthDataCategory.ACTIVITY, List.of(TEST_PACKAGE_NAME));
 
         mImportManager = new ImportManager(mContext);
     }
@@ -118,13 +125,7 @@ public class ImportManagerTest {
                         createStepsRecord(123, 345, 100),
                         createBloodPressureRecord(234, 120.0, 80.0));
 
-        File originalDb = mTransactionManager.getDatabasePath();
-        File dbToImport =
-                new File(mContext.getDir(TEST_DIRECTORY_NAME, Context.MODE_PRIVATE), "export.db");
-        Files.copy(originalDb.toPath(), dbToImport.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        File zipToImport =
-                new File(mContext.getDir(TEST_DIRECTORY_NAME, Context.MODE_PRIVATE), "export.zip");
-        Compressor.compress(dbToImport, LOCAL_EXPORT_DATABASE_FILE_NAME, zipToImport);
+        File zipToImport = zipExportedDb(exportCurrentDb());
 
         DatabaseHelper.clearAllData(mTransactionManager);
 
@@ -149,6 +150,34 @@ public class ImportManagerTest {
     }
 
     @Test
+    public void mergesPriorityList() throws Exception {
+        // Insert data so that getPriorityOrder doesn't remove apps from priority list.
+        mTransactionTestUtils.insertApp("other.app");
+        mTransactionTestUtils.insertRecords(TEST_PACKAGE_NAME, createStepsRecord(123, 345, 100));
+        mTransactionTestUtils.insertRecords("other.app", createStepsRecord(234, 432, 200));
+        AppInfoHelper.getInstance().syncAppInfoRecordTypesUsed();
+
+        mPriorityHelper.setPriorityOrder(
+                HealthDataCategory.ACTIVITY, List.of(TEST_PACKAGE_NAME, "other.app"));
+        assertThat(mPriorityHelper.getPriorityOrder(HealthDataCategory.ACTIVITY, mContext))
+                .containsExactly(TEST_PACKAGE_NAME, "other.app")
+                .inOrder();
+
+        File zipToImport = zipExportedDb(exportCurrentDb());
+
+        mPriorityHelper.setPriorityOrder(HealthDataCategory.ACTIVITY, List.of("other.app"));
+        assertThat(mPriorityHelper.getPriorityOrder(HealthDataCategory.ACTIVITY, mContext))
+                .containsExactly("other.app")
+                .inOrder();
+
+        mImportManager.runImport(mContext.getUser(), Uri.fromFile(zipToImport));
+
+        assertThat(mPriorityHelper.getPriorityOrder(HealthDataCategory.ACTIVITY, mContext))
+                .containsExactly("other.app", TEST_PACKAGE_NAME)
+                .inOrder();
+    }
+
+    @Test
     public void skipsMissingTables() throws Exception {
         List<String> uuids =
                 mTransactionTestUtils.insertRecords(
@@ -156,10 +185,7 @@ public class ImportManagerTest {
                         createStepsRecord(123, 345, 100),
                         createBloodPressureRecord(234, 120.0, 80.0));
 
-        File originalDb = mTransactionManager.getDatabasePath();
-        File dbToImport =
-                new File(mContext.getDir(TEST_DIRECTORY_NAME, Context.MODE_PRIVATE), "export.db");
-        Files.copy(originalDb.toPath(), dbToImport.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        File dbToImport = exportCurrentDb();
 
         // Delete steps record table in import db.
         String stepsRecordTableName =
@@ -171,9 +197,7 @@ public class ImportManagerTest {
             importDb.execSQL("DROP TABLE " + stepsRecordTableName);
         }
 
-        File zipToImport =
-                new File(mContext.getDir(TEST_DIRECTORY_NAME, Context.MODE_PRIVATE), "export.zip");
-        Compressor.compress(dbToImport, LOCAL_EXPORT_DATABASE_FILE_NAME, zipToImport);
+        File zipToImport = zipExportedDb(dbToImport);
 
         DatabaseHelper.clearAllData(mTransactionManager);
 
@@ -196,10 +220,7 @@ public class ImportManagerTest {
 
     @Test
     public void deletesTheDatabase() throws Exception {
-        File originalDb = mTransactionManager.getDatabasePath();
-        File dbToImport =
-                new File(mContext.getDir(TEST_DIRECTORY_NAME, Context.MODE_PRIVATE), "export.db");
-        Files.copy(originalDb.toPath(), dbToImport.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        File dbToImport = exportCurrentDb();
 
         mImportManager.runImport(mContext.getUser(), Uri.fromFile(dbToImport));
 
@@ -214,9 +235,7 @@ public class ImportManagerTest {
         File textFileToImport =
                 createTextFile(
                         mContext.getDir(TEST_DIRECTORY_NAME, Context.MODE_PRIVATE), "export.txt");
-        File zipToImport =
-                new File(mContext.getDir(TEST_DIRECTORY_NAME, Context.MODE_PRIVATE), "export.zip");
-        Compressor.compress(textFileToImport, LOCAL_EXPORT_DATABASE_FILE_NAME, zipToImport);
+        File zipToImport = zipExportedDb(textFileToImport);
 
         mImportManager.runImport(mContext.getUser(), Uri.fromFile(zipToImport));
 
@@ -242,23 +261,43 @@ public class ImportManagerTest {
 
     @Test
     public void versionMismatch_setsVersionMismatchError() throws Exception {
-        File originalDb = mTransactionManager.getDatabasePath();
-        File dbToImport =
-                new File(mContext.getDir(TEST_DIRECTORY_NAME, Context.MODE_PRIVATE), "export.db");
-        Files.copy(originalDb.toPath(), dbToImport.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        File dbToImport = exportCurrentDb();
         try (SQLiteDatabase sqlDbToImport =
                 SQLiteDatabase.openDatabase(
                         dbToImport, new SQLiteDatabase.OpenParams.Builder().build())) {
             sqlDbToImport.setVersion(100);
         }
-        File zipToImport =
-                new File(mContext.getDir(TEST_DIRECTORY_NAME, Context.MODE_PRIVATE), "export.zip");
-        Compressor.compress(dbToImport, LOCAL_EXPORT_DATABASE_FILE_NAME, zipToImport);
+        File zipToImport = zipExportedDb(dbToImport);
 
         mImportManager.runImport(mContext.getUser(), Uri.fromFile(zipToImport));
 
         assertThat(ExportImportSettingsStorage.getImportStatus().getDataImportError())
                 .isEqualTo(DATA_IMPORT_ERROR_VERSION_MISMATCH);
+    }
+
+    @Test
+    public void successfulImport_setsNoError() throws Exception {
+        File zipToImport = zipExportedDb(exportCurrentDb());
+
+        mImportManager.runImport(mContext.getUser(), Uri.fromFile(zipToImport));
+
+        assertThat(ExportImportSettingsStorage.getImportStatus().getDataImportError())
+                .isEqualTo(DATA_IMPORT_ERROR_NONE);
+    }
+
+    private File exportCurrentDb() throws Exception {
+        File originalDb = mTransactionManager.getDatabasePath();
+        File dbToImport =
+                new File(mContext.getDir(TEST_DIRECTORY_NAME, Context.MODE_PRIVATE), "export.db");
+        Files.copy(originalDb.toPath(), dbToImport.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        return dbToImport;
+    }
+
+    private File zipExportedDb(File dbToImport) throws Exception {
+        File zipToImport =
+                new File(mContext.getDir(TEST_DIRECTORY_NAME, Context.MODE_PRIVATE), "export.zip");
+        Compressor.compress(dbToImport, LOCAL_EXPORT_DATABASE_FILE_NAME, zipToImport);
+        return zipToImport;
     }
 
     private static File createTextFile(File dir, String fileName) throws IOException {
