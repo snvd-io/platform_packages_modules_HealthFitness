@@ -49,6 +49,7 @@ import android.health.connect.datatypes.DataOrigin;
 import android.health.connect.datatypes.Device;
 import android.health.connect.datatypes.HeartRateRecord;
 import android.health.connect.datatypes.MedicalDataSource;
+import android.health.connect.datatypes.MedicalResource;
 import android.health.connect.datatypes.Metadata;
 import android.health.connect.datatypes.Record;
 import android.health.connect.datatypes.StepsRecord;
@@ -204,6 +205,8 @@ public class RateLimiterTest {
     @Test
     @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_PERSONAL_HEALTH_RECORD_DATABASE})
     public void testMedicalResourcesChunkSizeLimitExceeded() {
+        HealthConnectManager manager = TestUtils.getHealthConnectManager();
+        HealthConnectReceiver<List<MedicalResource>> receiver = new HealthConnectReceiver<>();
         int nCopies = 1000 / mLimitsAdjustmentForTesting;
         UpsertMedicalResourceRequest request =
                 new UpsertMedicalResourceRequest.Builder(1, "UpsertMedicalResourceRequest").build();
@@ -212,13 +215,17 @@ public class RateLimiterTest {
         HealthConnectException thrown =
                 assertThrows(
                         HealthConnectException.class,
-                        () -> TestUtils.upsertMedicalResources(requests));
+                        () ->
+                                manager.upsertMedicalResources(
+                                        requests, Executors.newSingleThreadExecutor(), receiver));
         assertThat(thrown.getMessage()).contains("Records chunk size exceeded the max chunk limit");
     }
 
     @Test
     @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_PERSONAL_HEALTH_RECORD_DATABASE})
     public void testMedicalResourceSizeLimitExceeded() {
+        HealthConnectManager manager = TestUtils.getHealthConnectManager();
+        HealthConnectReceiver<List<MedicalResource>> receiver = new HealthConnectReceiver<>();
         int nCharacters = 200000 / mLimitsAdjustmentForTesting;
         List<Character> data = Collections.nCopies(nCharacters, '0');
         UpsertMedicalResourceRequest request =
@@ -227,7 +234,11 @@ public class RateLimiterTest {
         HealthConnectException thrown =
                 assertThrows(
                         HealthConnectException.class,
-                        () -> TestUtils.upsertMedicalResources(List.of(request)));
+                        () ->
+                                manager.upsertMedicalResources(
+                                        List.of(request),
+                                        Executors.newSingleThreadExecutor(),
+                                        receiver));
         assertThat(thrown.getMessage())
                 .contains("Record size exceeded the single record size limit");
     }
@@ -316,16 +327,21 @@ public class RateLimiterTest {
     }
 
     private void exceedWriteQuotaWithUpsertMedicalResources() throws InterruptedException {
+        HealthConnectManager manager = TestUtils.getHealthConnectManager();
         float quotaAcquired = acquireCallQuotaForWrite();
-        UpsertMedicalResourceRequest request = getUpsertMedicalResourceRequest();
+        List<UpsertMedicalResourceRequest> request = List.of(getUpsertMedicalResourceRequest());
 
         while (quotaAcquired > 1) {
-            TestUtils.upsertMedicalResources(List.of(request));
+            HealthConnectReceiver<List<MedicalResource>> receiver = new HealthConnectReceiver<>();
+            manager.upsertMedicalResources(request, Executors.newSingleThreadExecutor(), receiver);
+            receiver.verifyNoExceptionOrThrow();
             quotaAcquired--;
         }
         int tryWriteWithBuffer = 20;
         while (tryWriteWithBuffer > 0) {
-            TestUtils.upsertMedicalResources(List.of(request));
+            HealthConnectReceiver<List<MedicalResource>> receiver = new HealthConnectReceiver<>();
+            manager.upsertMedicalResources(request, Executors.newSingleThreadExecutor(), receiver);
+            receiver.verifyNoExceptionOrThrow();
             tryWriteWithBuffer--;
         }
     }
