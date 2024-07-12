@@ -49,6 +49,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.health.connect.Constants;
 import android.health.connect.MedicalResourceId;
+import android.health.connect.ReadMedicalResourcesRequest;
 import android.health.connect.datatypes.FhirResource;
 import android.health.connect.datatypes.MedicalResource;
 import android.util.Pair;
@@ -148,7 +149,26 @@ public final class MedicalResourceHelper {
     public List<MedicalResource> readMedicalResourcesByIds(
             @NonNull List<MedicalResourceId> medicalResourceIds) throws SQLiteException {
         List<MedicalResource> medicalResources;
-        ReadTableRequest readTableRequest = getReadTableRequest(medicalResourceIds);
+        ReadTableRequest readTableRequest = getReadTableRequestByIds(medicalResourceIds);
+        try (Cursor cursor = mTransactionManager.read(readTableRequest)) {
+            medicalResources = getMedicalResources(cursor);
+        }
+        return medicalResources;
+    }
+
+    /**
+     * Reads the {@link MedicalResource}s stored in the HealthConnect database by {@code request}.
+     *
+     * @param request a {@link ReadMedicalResourcesRequest}.
+     * @return List of {@link MedicalResource}s read from medical_resource table using the {@code
+     *     request}.
+     */
+    // TODO(b/351817943): Add pagination support.
+    @NonNull
+    public List<MedicalResource> readMedicalResourcesByRequest(
+            @NonNull ReadMedicalResourcesRequest request) {
+        List<MedicalResource> medicalResources;
+        ReadTableRequest readTableRequest = getReadTableRequestUsingRequest(request);
         try (Cursor cursor = mTransactionManager.read(readTableRequest)) {
             medicalResources = getMedicalResources(cursor);
         }
@@ -158,21 +178,37 @@ public final class MedicalResourceHelper {
     /** Creates {@link ReadTableRequest} for the given {@link MedicalResourceId}s. */
     @NonNull
     @VisibleForTesting
-    static ReadTableRequest getReadTableRequest(
+    static ReadTableRequest getReadTableRequestByIds(
             @NonNull List<MedicalResourceId> medicalResourceIds) {
         return new ReadTableRequest(getMainTableName())
                 .setWhereClause(getResourceIdsWhereClause(medicalResourceIds))
-                .setJoinClause(getReadRequestJoin());
+                .setJoinClause(getJoinForReadByIds());
+    }
+
+    /** Creates {@link ReadTableRequest} for the given {@link ReadMedicalResourcesRequest}. */
+    @NonNull
+    @VisibleForTesting
+    static ReadTableRequest getReadTableRequestUsingRequest(
+            @NonNull ReadMedicalResourcesRequest request) {
+        return new ReadTableRequest(getMainTableName())
+                .setJoinClause(getJoinForReadByRequest(request.getMedicalResourceType()));
     }
 
     /**
-     * Creates {@link SqlJoin} that is a left join from medical_resource_table to
-     * medical_resource_indices_table followed by another left join from medical_resource_table to
+     * Creates {@link SqlJoin} that is an inner join from medical_resource_table to
+     * medical_resource_indices_table followed by another inner join from medical_resource_table to
      * medical_data_source_table.
      */
     @NonNull
-    private static SqlJoin getReadRequestJoin() {
+    private static SqlJoin getJoinForReadByIds() {
         return joinWithMedicalResourceIndicesTable().attachJoin(joinWithMedicalDataSourceTable());
+    }
+
+    @NonNull
+    private static SqlJoin getJoinForReadByRequest(int medicalResourceType) {
+        SqlJoin join = joinWithMedicalResourceIndicesTable();
+        join.setSecondTableWhereClause(getMedicalResourceTypeWhereClause(medicalResourceType));
+        return join.attachJoin(joinWithMedicalDataSourceTable());
     }
 
     @NonNull
@@ -182,7 +218,7 @@ public final class MedicalResourceHelper {
                         getTableName(),
                         PRIMARY_COLUMN_NAME,
                         MedicalResourceIndicesHelper.getParentColumnReference())
-                .setJoinType(SqlJoin.SQL_JOIN_INNER);
+                .setJoinType(SQL_JOIN_INNER);
     }
 
     @NonNull
@@ -195,10 +231,18 @@ public final class MedicalResourceHelper {
                 .setJoinType(SQL_JOIN_INNER);
     }
 
+    @NonNull
     private static WhereClauses getResourceIdsWhereClause(
             @NonNull List<MedicalResourceId> medicalResourceIds) {
         List<String> hexUuids = medicalResourceIdsToHexUuids(medicalResourceIds);
         return new WhereClauses(AND).addWhereInClauseWithoutQuotes(UUID_COLUMN_NAME, hexUuids);
+    }
+
+    @NonNull
+    private static WhereClauses getMedicalResourceTypeWhereClause(int medicalResourceType) {
+        return new WhereClauses(AND)
+                .addWhereEqualsClause(
+                        getMedicalResourceTypeColumnName(), String.valueOf(medicalResourceType));
     }
 
     @NonNull
