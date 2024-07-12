@@ -2545,7 +2545,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
 
                         // TODO(b/343921816): Creates access log.
 
-                        callback.onResult(new ReadMedicalResourcesResponse(medicalResources));
+                        callback.onResult(new ReadMedicalResourcesResponse(medicalResources, null));
                         logger.setHealthDataServiceApiStatusSuccess();
                     } catch (SQLiteException sqLiteException) {
                         logger.setHealthDataServiceApiStatusError(HealthConnectException.ERROR_IO);
