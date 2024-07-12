@@ -93,7 +93,7 @@
     <string name="historic_access_title" msgid="3584594624937737030">"Prístup k minulým údajom"</string>
     <string name="historic_access_request_title" msgid="4645920231853414742">"Chcete aplikácii <xliff:g id="APP_NAME">%1$s</xliff:g> povoliť prístup k minulým údajom?"</string>
     <string name="historic_access_description" msgid="2616669701088141765">"Povoliť tejto aplikácii prístup k údajom Dát o zdraví pridaným pred <xliff:g id="DATA_ACCESS_DATE">%1$s</xliff:g>"</string>
-    <string name="historic_access_description_fallback" msgid="3361696143557784403">"Povolenie prístupu tejto aplikácie k všetkým minulým údajom Dát o zdraví"</string>
+    <string name="historic_access_description_fallback" msgid="3361696143557784403">"Povoliť tejto aplikácii prístup k všetkým minulým údajom Dát o zdraví"</string>
     <string name="historic_access_request_description" msgid="136335743939253358">"Ak ho povolíte, táto aplikácia bude mať prístup k údajom Dát o zdraví pridaným pred <xliff:g id="DATA_ACCESS_DATE">%1$s</xliff:g>."</string>
     <string name="historic_access_request_description_fallback" msgid="8519401358044984479">"Ak ho povolíte, táto aplikácia bude mať prístup k všetkým minulým údajom Dát o zdraví."</string>
     <string name="active_calories_burned_uppercase_label" msgid="6231684842932528272">"Kalórie spálené počas aktivity"</string>
@@ -267,14 +267,10 @@
     <string name="immunization_uppercase_label" msgid="1467176749064014020">"Imunizácia"</string>
     <string name="immunization_lowercase_label" msgid="6464922369026887687">"imunizácia"</string>
     <string name="immunization_content_description" msgid="2910674919337229803">"Čítať imunizáciu"</string>
-    <!-- no translation found for mindfulness_uppercase_label (7678646522566275472) -->
-    <skip />
-    <!-- no translation found for mindfulness_lowercase_label (5184488636180881614) -->
-    <skip />
-    <!-- no translation found for mindfulness_read_content_description (739187536826062524) -->
-    <skip />
-    <!-- no translation found for mindfulness_write_content_description (7925112426563398421) -->
-    <skip />
+    <string name="mindfulness_uppercase_label" msgid="7678646522566275472">"Bdelá pozornosť"</string>
+    <string name="mindfulness_lowercase_label" msgid="5184488636180881614">"bdelá pozornosť"</string>
+    <string name="mindfulness_read_content_description" msgid="739187536826062524">"Čítať údaje bdelej pozornosti"</string>
+    <string name="mindfulness_write_content_description" msgid="7925112426563398421">"Zapisovať údaje bdelej pozornosti"</string>
     <string name="read_permission_category" msgid="6002099618259628632">"Povolenie aplikácii <xliff:g id="APP_NAME">%1$s</xliff:g> čítať"</string>
     <string name="write_permission_category" msgid="1529702804865008111">"Povolenie aplikácii <xliff:g id="APP_NAME">%1$s</xliff:g> zapisovať"</string>
     <string name="request_permissions_cancel" msgid="1787483997235365393">"Zrušiť"</string>
