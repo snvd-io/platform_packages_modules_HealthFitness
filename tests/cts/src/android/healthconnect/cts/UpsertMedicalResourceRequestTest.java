@@ -125,7 +125,7 @@ public class UpsertMedicalResourceRequestTest {
     @Test
     public void testRequestBuilder_nullData_throws() {
         assertThrows(
-                IllegalArgumentException.class,
+                NullPointerException.class,
                 () -> new UpsertMedicalResourceRequest.Builder(-1L, null));
     }
 }
