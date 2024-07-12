@@ -783,6 +783,49 @@ public class HealthConnectServiceImplTest {
                 .isEqualTo(ERROR_UNSUPPORTED_OPERATION);
     }
 
+    @Test
+    @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
+    public void testDeleteMedicalResources_noWriteMedicalDataPermission_throws() throws Exception {
+        when(mPermissionManager.checkPermissionForDataDelivery(
+                        WRITE_MEDICAL_DATA, mAttributionSource, null))
+                .thenReturn(PermissionManager.PERMISSION_HARD_DENIED);
+        IEmptyResponseCallback callback = mock(IEmptyResponseCallback.class);
+
+        mHealthConnectService.deleteMedicalResources(
+                mAttributionSource,
+                List.of(
+                        new MedicalResourceId(
+                                DATA_SOURCE_ID,
+                                FHIR_RESOURCE_TYPE_IMMUNIZATION,
+                                FHIR_RESOURCE_ID_IMMUNIZATION)),
+                callback);
+
+        verify(callback, timeout(5000).times(1)).onError(mErrorCaptor.capture());
+        assertThat(mErrorCaptor.getValue().getHealthConnectException().getErrorCode())
+                .isEqualTo(HealthConnectException.ERROR_SECURITY);
+    }
+
+    @Test
+    @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
+    public void testDeleteMedicalResources_dataManagementPermission_unsupported() throws Exception {
+        when(mServiceContext.checkPermission(eq(MANAGE_HEALTH_DATA_PERMISSION), anyInt(), anyInt()))
+                .thenReturn(PERMISSION_GRANTED);
+        IEmptyResponseCallback callback = mock(IEmptyResponseCallback.class);
+
+        mHealthConnectService.deleteMedicalResources(
+                mAttributionSource,
+                List.of(
+                        new MedicalResourceId(
+                                DATA_SOURCE_ID,
+                                FHIR_RESOURCE_TYPE_IMMUNIZATION,
+                                FHIR_RESOURCE_ID_IMMUNIZATION)),
+                callback);
+
+        verify(callback, timeout(5000).times(1)).onError(mErrorCaptor.capture());
+        assertThat(mErrorCaptor.getValue().getHealthConnectException().getErrorCode())
+                .isEqualTo(ERROR_UNSUPPORTED_OPERATION);
+    }
+
     private void setUpCreateMedicalDataSourceDefaultMocks() {
         when(mServiceContext.checkPermission(eq(MANAGE_HEALTH_DATA_PERMISSION), anyInt(), anyInt()))
                 .thenReturn(PERMISSION_DENIED);
