@@ -425,15 +425,10 @@ public class HealthConnectManagerNoPermissionsGrantedTest {
         HealthConnectReceiver<MedicalDataSource> receiver = new HealthConnectReceiver<>();
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
-        try {
-            manager.createMedicalDataSource(request, executor, receiver);
-            Assert.fail(
-                    "Create medical data source must be not allowed without correct HC PHR "
-                            + "permission");
-        } catch (HealthConnectException healthConnectException) {
-            assertThat(healthConnectException.getErrorCode())
-                    .isEqualTo(HealthConnectException.ERROR_SECURITY);
-        }
+        manager.createMedicalDataSource(request, executor, receiver);
+
+        assertThat(receiver.assertAndGetException().getErrorCode())
+                .isEqualTo(HealthConnectException.ERROR_SECURITY);
     }
 
     @Test
