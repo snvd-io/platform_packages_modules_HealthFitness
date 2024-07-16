@@ -2620,11 +2620,18 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                             tryAndReturnResult(callback, logger);
                             return;
                         }
+                        mMedicalDataPermissionEnforcer.enforceWriteMedicalDataPermission(
+                                attributionSource);
+
                         UnsupportedOperationException unsupportedException =
                                 new UnsupportedOperationException(
                                         "Deleting MedicalResources by ids is not yet implemented.");
                         tryAndThrowException(
                                 callback, unsupportedException, ERROR_UNSUPPORTED_OPERATION);
+                    } catch (SecurityException securityException) {
+                        logger.setHealthDataServiceApiStatusError(ERROR_SECURITY);
+                        Slog.e(TAG, "SecurityException: ", securityException);
+                        tryAndThrowException(callback, securityException, ERROR_SECURITY);
                     } catch (Exception e) {
                         logger.setHealthDataServiceApiStatusError(ERROR_INTERNAL);
                         Slog.e(TAG, "Exception: ", e);
