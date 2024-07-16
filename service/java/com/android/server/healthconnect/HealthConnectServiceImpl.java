@@ -1664,8 +1664,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
     }
 
     /**
-     * Changes migration state to {@link MIGRATION_STATE_IN_PROGRESS} if the current state allows
-     * migration to be started.
+     * Changes migration state to {@link HealthConnectDataState#MIGRATION_STATE_IN_PROGRESS} if the
+     * current state allows migration to be started.
      *
      * @param packageName calling package name
      * @param callback Callback to receive a result or an error encountered while performing this
@@ -1710,8 +1710,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
     }
 
     /**
-     * Changes migration state to {@link MIGRATION_STATE_COMPLETE} if migration is not already
-     * complete.
+     * Changes migration state to {@link HealthConnectDataState#MIGRATION_STATE_COMPLETE} if
+     * migration is not already complete.
      *
      * @param packageName calling package name
      * @param callback Callback to receive a result or an error encountered while performing this
@@ -1746,8 +1746,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
     }
 
     /**
-     * Write data to module storage. The migration state must be {@link MIGRATION_STATE_IN_PROGRESS}
-     * to be able to write data.
+     * Write data to module storage. The migration state must be {@link
+     * HealthConnectDataState#MIGRATION_STATE_IN_PROGRESS} to be able to write data.
      *
      * @param packageName calling package name
      * @param parcel Migration entity containing the data being migrated.
