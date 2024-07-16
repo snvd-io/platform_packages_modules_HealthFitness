@@ -2431,10 +2431,12 @@ public class HealthConnectManager {
     /**
      * Deletes a {@link MedicalDataSource} and all data contained within it.
      *
+     * <p>If the datasource does not exist, {@code callback.onError()} is passed an exception with
+     * code {@link HealthConnectException#ERROR_INVALID_ARGUMENT}.
+     *
      * @param id The id of the data source to delete.
      * @param executor Executor on which to invoke the callback.
      * @param callback Callback to receive result of performing this operation.
-     * @throws IllegalArgumentException if the datasource does not exist.
      */
     @FlaggedApi(FLAG_PERSONAL_HEALTH_RECORD)
     public void deleteMedicalDataSourceWithData(
@@ -2442,6 +2444,27 @@ public class HealthConnectManager {
             @NonNull Executor executor,
             @NonNull OutcomeReceiver<Void, HealthConnectException> callback) {
 
-        throw new UnsupportedOperationException("Not implemented");
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(executor);
+        Objects.requireNonNull(callback);
+
+        try {
+            mService.deleteMedicalDataSourceWithData(
+                    mContext.getAttributionSource(),
+                    id,
+                    new IEmptyResponseCallback.Stub() {
+                        @Override
+                        public void onResult() {
+                            returnResult(executor, null, callback);
+                        }
+
+                        @Override
+                        public void onError(HealthConnectExceptionParcel exception) {
+                            returnError(executor, exception, callback);
+                        }
+                    });
+        } catch (RemoteException e) {
+            throw e.rethrowFromSystemServer();
+        }
     }
 }
