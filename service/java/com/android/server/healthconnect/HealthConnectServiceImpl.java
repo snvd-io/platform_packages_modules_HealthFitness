@@ -2327,7 +2327,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         // TODO(b/344560623) - Enforce uniqueness constraint on fhir base uri.
                         MedicalDataSource dataSource =
                                 mMedicalDataSourceHelper.createMedicalDataSource(
-                                        request, packageName);
+                                        mContext, request, packageName);
 
                         tryAndReturnResult(callback, dataSource, logger);
                     } catch (SQLiteException sqLiteException) {
