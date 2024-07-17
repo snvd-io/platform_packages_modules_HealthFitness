@@ -92,7 +92,7 @@ class AllEntriesFragmentTest {
 
         val scenario =
                 launchFragment<AllEntriesFragment>(
-                        bundleOf(PERMISSION_TYPE_KEY to STEPS))
+                        bundleOf(PERMISSION_TYPE_KEY to STEPS.name))
         scenario.onActivity { activity ->
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
@@ -106,7 +106,7 @@ class AllEntriesFragmentTest {
 
         val scenario =
                 launchFragment<AllEntriesFragment>(
-                        bundleOf(PERMISSION_TYPE_KEY to STEPS))
+                        bundleOf(PERMISSION_TYPE_KEY to STEPS.name))
         scenario.onActivity { activity ->
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
@@ -120,7 +120,7 @@ class AllEntriesFragmentTest {
 
         val scenario =
                 launchFragment<AllEntriesFragment>(
-                        bundleOf(PERMISSION_TYPE_KEY to STEPS))
+                        bundleOf(PERMISSION_TYPE_KEY to STEPS.name))
         scenario.onActivity { activity ->
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
@@ -134,7 +134,7 @@ class AllEntriesFragmentTest {
 
         val scenario =
                 launchFragment<AllEntriesFragment>(
-                        bundleOf(PERMISSION_TYPE_KEY to STEPS))
+                        bundleOf(PERMISSION_TYPE_KEY to STEPS.name))
         scenario.onActivity { activity ->
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
@@ -148,7 +148,7 @@ class AllEntriesFragmentTest {
 
         val scenario =
                 launchFragment<AllEntriesFragment>(
-                        bundleOf(PERMISSION_TYPE_KEY to STEPS))
+                        bundleOf(PERMISSION_TYPE_KEY to STEPS.name))
         scenario.onActivity { activity ->
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
@@ -165,7 +165,7 @@ class AllEntriesFragmentTest {
 
         val scenario =
                 launchFragment<AllEntriesFragment>(
-                        bundleOf(PERMISSION_TYPE_KEY to STEPS))
+                        bundleOf(PERMISSION_TYPE_KEY to STEPS.name))
         scenario.onActivity { activity ->
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
@@ -180,7 +180,7 @@ class AllEntriesFragmentTest {
 
         val scenario =
                 launchFragment<AllEntriesFragment>(
-                        bundleOf(PERMISSION_TYPE_KEY to STEPS))
+                        bundleOf(PERMISSION_TYPE_KEY to STEPS.name))
         scenario.onActivity { activity ->
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }

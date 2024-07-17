@@ -18,9 +18,11 @@ package com.android.healthconnect.controller.service
 import android.content.Context
 import android.health.connect.HealthConnectManager
 import com.android.healthconnect.controller.data.access.ILoadAccessUseCase
-import com.android.healthconnect.controller.data.access.ILoadPermissionTypeContributorAppsUseCase
+import com.android.healthconnect.controller.data.access.ILoadFitnessTypeContributorAppsUseCase
+import com.android.healthconnect.controller.data.access.ILoadMedicalTypeContributorAppsUseCase
 import com.android.healthconnect.controller.data.access.LoadAccessUseCase
-import com.android.healthconnect.controller.data.access.LoadPermissionTypeContributorAppsUseCase
+import com.android.healthconnect.controller.data.access.LoadFitnessTypeContributorAppsUseCase
+import com.android.healthconnect.controller.data.access.LoadMedicalTypeContributorAppsUseCase
 import com.android.healthconnect.controller.data.entries.api.ILoadDataAggregationsUseCase
 import com.android.healthconnect.controller.data.entries.api.ILoadDataEntriesUseCase
 import com.android.healthconnect.controller.data.entries.api.ILoadMenstruationDataUseCase
@@ -253,15 +255,17 @@ class UseCaseModule {
     }
 
     @Provides
-    fun providesLoadAccessUseCase(
-        loadPermissionTypeContributorAppsUseCase: ILoadPermissionTypeContributorAppsUseCase,
+    fun providesLoadFitnessAccessUseCase(
+        loadFitnessTypeContributorAppsUseCase: ILoadFitnessTypeContributorAppsUseCase,
+        loadMedicalTypeContributorAppsUseCase: ILoadMedicalTypeContributorAppsUseCase,
         loadGrantedHealthPermissionsUseCase: IGetGrantedHealthPermissionsUseCase,
         healthPermissionReader: HealthPermissionReader,
         appInfoReader: AppInfoReader,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): ILoadAccessUseCase {
         return LoadAccessUseCase(
-            loadPermissionTypeContributorAppsUseCase,
+            loadFitnessTypeContributorAppsUseCase,
+            loadMedicalTypeContributorAppsUseCase,
             loadGrantedHealthPermissionsUseCase,
             healthPermissionReader,
             appInfoReader,
@@ -269,14 +273,25 @@ class UseCaseModule {
     }
 
     @Provides
-    fun providesLoadPermissionTypeContributorAppsUseCase(
+    fun providesLoadFitnessTypeContributorAppsUseCase(
         appInfoReader: AppInfoReader,
         healthConnectManager: HealthConnectManager,
         @IoDispatcher dispatcher: CoroutineDispatcher
-    ): ILoadPermissionTypeContributorAppsUseCase {
-        return LoadPermissionTypeContributorAppsUseCase(
+    ): ILoadFitnessTypeContributorAppsUseCase {
+        return LoadFitnessTypeContributorAppsUseCase(
             appInfoReader, healthConnectManager, dispatcher)
     }
+
+    @Provides
+    fun providesLoadMedicalTypeContributorAppsUseCase(
+            appInfoReader: AppInfoReader,
+            healthConnectManager: HealthConnectManager,
+            @IoDispatcher dispatcher: CoroutineDispatcher
+    ): ILoadMedicalTypeContributorAppsUseCase {
+        return LoadMedicalTypeContributorAppsUseCase(
+                appInfoReader, healthConnectManager, dispatcher)
+    }
+
 
     @Provides
     fun providesGetGrantedHealthPermissionsUseCase(

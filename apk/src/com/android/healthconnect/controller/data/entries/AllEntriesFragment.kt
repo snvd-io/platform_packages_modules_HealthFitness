@@ -37,6 +37,7 @@ import com.android.healthconnect.controller.data.entries.datenavigation.DateNavi
 import com.android.healthconnect.controller.entrydetails.DataEntryDetailsFragment
 import com.android.healthconnect.controller.permissions.data.FitnessPermissionStrings.Companion.fromPermissionType
 import com.android.healthconnect.controller.permissions.data.FitnessPermissionType
+import com.android.healthconnect.controller.permissions.data.fromPermissionTypeName
 import com.android.healthconnect.controller.permissiontypes.HealthPermissionTypesFragment.Companion.PERMISSION_TYPE_KEY
 import com.android.healthconnect.controller.shared.recyclerview.RecyclerViewAdapter
 import com.android.healthconnect.controller.utils.logging.HealthConnectLogger
@@ -78,7 +79,7 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
         }
     }
     private val aggregationViewBinder by lazy {
-        com.android.healthconnect.controller.data.entries.AggregationViewBinder()
+        AggregationViewBinder()
     }
     private val entryViewBinder by lazy { EntryItemViewBinder() }
     private val sectionTitleViewBinder by lazy { SectionTitleViewBinder() }
@@ -100,9 +101,10 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
 
         val view = inflater.inflate(R.layout.fragment_entries, container, false)
         if (requireArguments().containsKey(PERMISSION_TYPE_KEY)) {
-            permissionType =
-                arguments?.getSerializable(PERMISSION_TYPE_KEY, FitnessPermissionType::class.java)
+            val permissionTypeName =
+                arguments?.getString(PERMISSION_TYPE_KEY)
                     ?: throw IllegalArgumentException("PERMISSION_TYPE_KEY can't be null!")
+            permissionType = fromPermissionTypeName(permissionTypeName) as FitnessPermissionType
         }
         setTitle(fromPermissionType(permissionType).uppercaseLabel)
         setupMenu(R.menu.set_data_units_with_send_feedback_and_help, viewLifecycleOwner, logger) {
