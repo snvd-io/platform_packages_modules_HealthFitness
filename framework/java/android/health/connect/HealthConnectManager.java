@@ -2264,8 +2264,6 @@ public class HealthConnectManager {
         } catch (RemoteException e) {
             throw e.rethrowFromSystemServer();
         }
-
-        throw new UnsupportedOperationException("Not implemented");
     }
 
     /**
