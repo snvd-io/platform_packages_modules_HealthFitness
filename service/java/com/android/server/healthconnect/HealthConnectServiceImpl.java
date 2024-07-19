@@ -53,6 +53,7 @@ import android.health.connect.Constants;
 import android.health.connect.CreateMedicalDataSourceRequest;
 import android.health.connect.DeleteMedicalResourcesRequest;
 import android.health.connect.FetchDataOriginsPriorityOrderResponse;
+import android.health.connect.GetMedicalDataSourcesRequest;
 import android.health.connect.HealthConnectDataState;
 import android.health.connect.HealthConnectException;
 import android.health.connect.HealthConnectManager;
@@ -89,6 +90,7 @@ import android.health.connect.aidl.IGetPriorityResponseCallback;
 import android.health.connect.aidl.IHealthConnectService;
 import android.health.connect.aidl.IInsertRecordsResponseCallback;
 import android.health.connect.aidl.IMedicalDataSourceResponseCallback;
+import android.health.connect.aidl.IMedicalDataSourcesResponseCallback;
 import android.health.connect.aidl.IMedicalResourceTypesInfoResponseCallback;
 import android.health.connect.aidl.IMedicalResourcesResponseCallback;
 import android.health.connect.aidl.IMigrationCallback;
@@ -133,6 +135,7 @@ import android.health.connect.restore.StageRemoteDataException;
 import android.health.connect.restore.StageRemoteDataRequest;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.OutcomeReceiver;
 import android.os.ParcelFileDescriptor;
 import android.os.Process;
 import android.os.RemoteException;
@@ -198,6 +201,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
 /**
@@ -2111,6 +2115,59 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                 errorCallback,
                 uid,
                 /* isController= */ holdsDataManagementPermission);
+    }
+
+    /**
+     * Service implementation of {@link HealthConnectManager#getMedicalDataSources(List, Executor,
+     * OutcomeReceiver)}.
+     */
+    @Override
+    public void getMedicalDataSourcesByIds(
+            @NonNull AttributionSource attributionSource,
+            @NonNull List<String> ids,
+            @NonNull IMedicalDataSourcesResponseCallback callback) {
+        ErrorCallback errorCallback = callback::onError;
+        if (!personalHealthRecord()) {
+            HealthConnectException unsupportedException =
+                    new HealthConnectException(
+                            ERROR_UNSUPPORTED_OPERATION,
+                            "Creating MedicalDataSource by ids is not supported.");
+            Slog.e(TAG, "HealthConnectException: ", unsupportedException);
+            tryAndThrowException(
+                    errorCallback, unsupportedException, unsupportedException.getErrorCode());
+            return;
+        }
+        UnsupportedOperationException unsupportedException =
+                new UnsupportedOperationException(
+                        "Getting MedicalDataSources by ids is not yet implemented.");
+        tryAndThrowException(errorCallback, unsupportedException, ERROR_UNSUPPORTED_OPERATION);
+    }
+
+    /**
+     * Service implementation of {@link
+     * HealthConnectManager#getMedicalDataSources(GetMedicalDataSourcesRequest, Executor,
+     * OutcomeReceiver)}.
+     */
+    @Override
+    public void getMedicalDataSourcesByRequest(
+            @NonNull AttributionSource attributionSource,
+            @NonNull GetMedicalDataSourcesRequest request,
+            @NonNull IMedicalDataSourcesResponseCallback callback) {
+        ErrorCallback errorCallback = callback::onError;
+        if (!personalHealthRecord()) {
+            HealthConnectException unsupportedException =
+                    new HealthConnectException(
+                            ERROR_UNSUPPORTED_OPERATION,
+                            "Getting MedicalDataSources by request is not supported.");
+            Slog.e(TAG, "HealthConnectException: ", unsupportedException);
+            tryAndThrowException(
+                    errorCallback, unsupportedException, unsupportedException.getErrorCode());
+            return;
+        }
+        UnsupportedOperationException unsupportedException =
+                new UnsupportedOperationException(
+                        "Getting MedicalDataSources by request is not yet implemented.");
+        tryAndThrowException(errorCallback, unsupportedException, ERROR_UNSUPPORTED_OPERATION);
     }
 
     /** Service implementation of {@link HealthConnectManager#deleteMedicalDataSourceWithData} */
