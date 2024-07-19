@@ -137,18 +137,13 @@ class HomeFragment : Hilt_HomeFragment() {
             true
         }
 
-        if (featureUtils.isNewAppPriorityEnabled() ||
-            featureUtils.isNewInformationArchitectureEnabled()) {
-            mManageDataPreference?.logName = HomePageElement.MANAGE_DATA_BUTTON
-            mManageDataPreference?.setOnPreferenceClickListener {
-                findNavController().navigate(R.id.action_homeFragment_to_manageDataFragment)
-                true
-            }
-            if (exportImport()) {
-                mManageDataPreference?.summary = getString(R.string.manage_data_summary)
-            }
-        } else {
-            preferenceScreen.removePreferenceRecursively(MANAGE_DATA_PREFERENCE_KEY)
+        mManageDataPreference?.logName = HomePageElement.MANAGE_DATA_BUTTON
+        mManageDataPreference?.setOnPreferenceClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_manageDataFragment)
+            true
+        }
+        if (exportImport()) {
+            mManageDataPreference?.summary = getString(R.string.manage_data_summary)
         }
 
         // TODO(b/343148212): Change condition to whether there is any medical data stored in HC
@@ -226,7 +221,7 @@ class HomeFragment : Hilt_HomeFragment() {
         val (migrationUiState, dataRestoreUiState, dataErrorState) = migrationRestoreState
 
         if (dataRestoreUiState == DataRestoreUiState.PENDING) {
-             preferenceScreen.addPreference(getDataRestorePendingBanner())
+            preferenceScreen.addPreference(getDataRestorePendingBanner())
         } else if (migrationUiState in
             listOf(
                 MigrationUiState.ALLOWED_PAUSED,
