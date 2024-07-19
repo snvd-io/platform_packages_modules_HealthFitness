@@ -25,10 +25,12 @@ import com.android.healthconnect.controller.data.access.LoadFitnessTypeContribut
 import com.android.healthconnect.controller.data.access.LoadMedicalTypeContributorAppsUseCase
 import com.android.healthconnect.controller.data.entries.api.ILoadDataAggregationsUseCase
 import com.android.healthconnect.controller.data.entries.api.ILoadDataEntriesUseCase
+import com.android.healthconnect.controller.data.entries.api.ILoadMedicalEntriesUseCase
 import com.android.healthconnect.controller.data.entries.api.ILoadMenstruationDataUseCase
 import com.android.healthconnect.controller.data.entries.api.LoadDataAggregationsUseCase
 import com.android.healthconnect.controller.data.entries.api.LoadDataEntriesUseCase
 import com.android.healthconnect.controller.data.entries.api.LoadEntriesHelper
+import com.android.healthconnect.controller.data.entries.api.LoadMedicalEntriesUseCase
 import com.android.healthconnect.controller.data.entries.api.LoadMenstruationDataUseCase
 import com.android.healthconnect.controller.dataentries.formatters.DistanceFormatter
 import com.android.healthconnect.controller.dataentries.formatters.MenstruationPeriodFormatter
@@ -124,6 +126,14 @@ class UseCaseModule {
         loadEntriesHelper: LoadEntriesHelper
     ): ILoadDataEntriesUseCase {
         return LoadDataEntriesUseCase(dispatcher, loadEntriesHelper)
+    }
+
+    @Provides
+    fun providesLoadMedicalEntriesUseCase(
+            @IoDispatcher dispatcher: CoroutineDispatcher,
+            loadEntriesHelper: LoadEntriesHelper
+    ): ILoadMedicalEntriesUseCase {
+        return LoadMedicalEntriesUseCase(dispatcher)
     }
 
     @Provides

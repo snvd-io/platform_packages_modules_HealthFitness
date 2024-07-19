@@ -30,6 +30,7 @@ import com.android.healthconnect.controller.data.entries.AllEntriesFragment
 import com.android.healthconnect.controller.permissions.data.FitnessPermissionType
 import com.android.healthconnect.controller.permissions.data.HealthPermissionType
 import com.android.healthconnect.controller.permissions.data.MedicalPermissionType
+import com.android.healthconnect.controller.permissions.data.fromPermissionTypeName
 import com.android.healthconnect.controller.utils.logging.HealthConnectLogger
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -54,9 +55,10 @@ class EntriesAndAccessFragment : Hilt_EntriesAndAccessFragment() {
         // logger.setPageId(pageName)
 
         if (requireArguments().containsKey(PERMISSION_TYPE_KEY)) {
-            permissionType =
-                arguments?.getSerializable(PERMISSION_TYPE_KEY, FitnessPermissionType::class.java)
-                    ?: throw IllegalArgumentException("PERMISSION_TYPE_KEY can't be null!")
+            val permissionTypeName =
+                    arguments?.getString(PERMISSION_TYPE_KEY)
+                            ?: throw IllegalArgumentException("PERMISSION_TYPE_KEY can't be null!")
+            permissionType =  fromPermissionTypeName(permissionTypeName)
         }
         return inflater.inflate(R.layout.fragment_entries_access, container, false)
     }

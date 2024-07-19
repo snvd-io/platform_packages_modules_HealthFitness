@@ -27,9 +27,11 @@ import com.android.healthconnect.controller.data.access.ILoadMedicalTypeContribu
 import com.android.healthconnect.controller.data.entries.FormattedEntry
 import com.android.healthconnect.controller.data.entries.api.ILoadDataAggregationsUseCase
 import com.android.healthconnect.controller.data.entries.api.ILoadDataEntriesUseCase
+import com.android.healthconnect.controller.data.entries.api.ILoadMedicalEntriesUseCase
 import com.android.healthconnect.controller.data.entries.api.ILoadMenstruationDataUseCase
 import com.android.healthconnect.controller.data.entries.api.LoadAggregationInput
 import com.android.healthconnect.controller.data.entries.api.LoadDataEntriesInput
+import com.android.healthconnect.controller.data.entries.api.LoadMedicalEntriesInput
 import com.android.healthconnect.controller.data.entries.api.LoadMenstruationDataInput
 import com.android.healthconnect.controller.datasources.AggregationCardInfo
 import com.android.healthconnect.controller.datasources.api.ILoadLastDateWithPriorityDataUseCase
@@ -194,6 +196,22 @@ class FakeLoadMostRecentAggregationsUseCase : ILoadMostRecentAggregationsUseCase
 
     fun reset() {
         this.mostRecentAggregations = listOf()
+    }
+}
+
+class FakeLoadMedicalEntriesUseCase : ILoadMedicalEntriesUseCase {
+    private var formattedList = listOf<FormattedEntry>()
+
+    fun updateList(list: List<FormattedEntry>) {
+        formattedList = list
+    }
+
+    override suspend fun invoke(input: LoadMedicalEntriesInput): UseCaseResults<List<FormattedEntry>> {
+        return UseCaseResults.Success(formattedList)
+    }
+
+    override suspend fun execute(input: LoadMedicalEntriesInput): List<FormattedEntry> {
+        return formattedList
     }
 }
 
