@@ -2126,6 +2126,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
             @NonNull AttributionSource attributionSource,
             @NonNull List<String> ids,
             @NonNull IMedicalDataSourcesResponseCallback callback) {
+        checkParamsNonNull(attributionSource, ids, callback);
         ErrorCallback errorCallback = callback::onError;
         if (!personalHealthRecord()) {
             HealthConnectException unsupportedException =
@@ -2137,10 +2138,26 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                     errorCallback, unsupportedException, unsupportedException.getErrorCode());
             return;
         }
-        UnsupportedOperationException unsupportedException =
-                new UnsupportedOperationException(
-                        "Getting MedicalDataSources by ids is not yet implemented.");
-        tryAndThrowException(errorCallback, unsupportedException, ERROR_UNSUPPORTED_OPERATION);
+        final int uid = Binder.getCallingUid();
+        final int pid = Binder.getCallingPid();
+        final boolean holdsDataManagementPermission = hasDataManagementPermission(uid, pid);
+        final String callingPackageName =
+                Objects.requireNonNull(attributionSource.getPackageName());
+        final HealthConnectServiceLogger.Builder logger =
+                new HealthConnectServiceLogger.Builder(holdsDataManagementPermission, READ_DATA)
+                        .setPackageName(callingPackageName);
+        scheduleLoggingHealthDataApiErrors(
+                () -> {
+                    // TODO: b/350010186 - Add rate limiting, permission checking, package name
+                    // checking.
+                    List<MedicalDataSource> result =
+                            mMedicalDataSourceHelper.getMedicalDataSources(ids);
+                    tryAndReturnResult(callback, result, logger);
+                },
+                logger,
+                errorCallback,
+                uid,
+                holdsDataManagementPermission);
     }
 
     /**
@@ -2153,6 +2170,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
             @NonNull AttributionSource attributionSource,
             @NonNull GetMedicalDataSourcesRequest request,
             @NonNull IMedicalDataSourcesResponseCallback callback) {
+        checkParamsNonNull(attributionSource, request, callback);
         ErrorCallback errorCallback = callback::onError;
         if (!personalHealthRecord()) {
             HealthConnectException unsupportedException =
@@ -2164,10 +2182,27 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                     errorCallback, unsupportedException, unsupportedException.getErrorCode());
             return;
         }
-        UnsupportedOperationException unsupportedException =
-                new UnsupportedOperationException(
-                        "Getting MedicalDataSources by request is not yet implemented.");
-        tryAndThrowException(errorCallback, unsupportedException, ERROR_UNSUPPORTED_OPERATION);
+        final int uid = Binder.getCallingUid();
+        final int pid = Binder.getCallingPid();
+        final boolean holdsDataManagementPermission = hasDataManagementPermission(uid, pid);
+        final String callingPackageName =
+                Objects.requireNonNull(attributionSource.getPackageName());
+        final HealthConnectServiceLogger.Builder logger =
+                new HealthConnectServiceLogger.Builder(holdsDataManagementPermission, READ_DATA)
+                        .setPackageName(callingPackageName);
+        scheduleLoggingHealthDataApiErrors(
+                () -> {
+                    // TODO: b/350010186 - Add rate limiting, permission checking, package name
+                    // checking.
+                    List<MedicalDataSource> result =
+                            mMedicalDataSourceHelper.getMedicalDataSourcesByPackage(
+                                    new ArrayList<>(request.getPackageNames()));
+                    tryAndReturnResult(callback, result, logger);
+                },
+                logger,
+                errorCallback,
+                uid,
+                holdsDataManagementPermission);
     }
 
     /** Service implementation of {@link HealthConnectManager#deleteMedicalDataSourceWithData} */
@@ -3032,6 +3067,19 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
             logger.setHealthDataServiceApiStatusSuccess();
         } catch (RemoteException e) {
             Slog.e(TAG, "Remote call failed", e);
+            logger.setHealthDataServiceApiStatusError(ERROR_INTERNAL);
+        }
+    }
+
+    private static void tryAndReturnResult(
+            IMedicalDataSourcesResponseCallback callback,
+            List<MedicalDataSource> response,
+            HealthConnectServiceLogger.Builder logger) {
+        try {
+            callback.onResult(response);
+            logger.setHealthDataServiceApiStatusSuccess();
+        } catch (RemoteException e) {
+            Slog.e(TAG, "Remote call failed when returning GetMedicalDataSources response", e);
             logger.setHealthDataServiceApiStatusError(ERROR_INTERNAL);
         }
     }

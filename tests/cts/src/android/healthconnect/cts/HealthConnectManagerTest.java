@@ -172,14 +172,15 @@ public class HealthConnectManagerTest {
     @Before
     public void before() throws InterruptedException {
         deleteAllRecords();
-        // TODO(b/348158309) Clean up PHR data here when delete APIs are implemented.
         TestUtils.deleteAllStagedRemoteData();
+        TestUtils.deleteAllMedicalData();
         mManager = TestUtils.getHealthConnectManager();
     }
 
     @After
     public void after() throws InterruptedException {
         deleteAllRecords();
+        TestUtils.deleteAllMedicalData();
     }
 
     private void deleteAllRecords() throws InterruptedException {
@@ -1958,26 +1959,58 @@ public class HealthConnectManagerTest {
 
     @Test
     @RequiresFlagsEnabled(FLAG_PERSONAL_HEALTH_RECORD)
-    public void testGetMedicalDataSources_byId_throws() throws Exception {
+    public void testGetMedicalDataSourcesById_notPresent_returnsEmptyList() throws Exception {
         HealthConnectReceiver<List<MedicalDataSource>> receiver = new HealthConnectReceiver<>();
-        List<String> ids = List.of("1");
+        List<String> ids = List.of("foo");
 
         mManager.getMedicalDataSources(ids, Executors.newSingleThreadExecutor(), receiver);
 
-        assertThat(receiver.assertAndGetException().getErrorCode())
-                .isEqualTo(HealthConnectException.ERROR_UNSUPPORTED_OPERATION);
+        assertThat(receiver.getResponse()).isEmpty();
     }
 
     @Test
     @RequiresFlagsEnabled(FLAG_PERSONAL_HEALTH_RECORD)
-    public void testGetMedicalDataSources_byRequest_throws() throws Exception {
+    public void testGetMedicalDataSourcesById_onePresent_returnsIt() throws Exception {
+        HealthConnectReceiver<MedicalDataSource> createReceiver = new HealthConnectReceiver<>();
+        mManager.createMedicalDataSource(
+                getCreateMedicalDataSourceRequest(),
+                Executors.newSingleThreadExecutor(),
+                createReceiver);
+        MedicalDataSource dataSource = createReceiver.getResponse();
+        HealthConnectReceiver<List<MedicalDataSource>> receiver = new HealthConnectReceiver<>();
+
+        mManager.getMedicalDataSources(
+                List.of(dataSource.getId()), Executors.newSingleThreadExecutor(), receiver);
+
+        assertThat(receiver.getResponse()).containsExactly(dataSource);
+    }
+
+    @Test
+    @RequiresFlagsEnabled(FLAG_PERSONAL_HEALTH_RECORD)
+    public void testGetMedicalDataSourcesByRequest_nothingPresent_returnsEmpty() throws Exception {
         HealthConnectReceiver<List<MedicalDataSource>> receiver = new HealthConnectReceiver<>();
         GetMedicalDataSourcesRequest request = new GetMedicalDataSourcesRequest.Builder().build();
 
         mManager.getMedicalDataSources(request, Executors.newSingleThreadExecutor(), receiver);
 
-        assertThat(receiver.assertAndGetException().getErrorCode())
-                .isEqualTo(HealthConnectException.ERROR_UNSUPPORTED_OPERATION);
+        assertThat(receiver.getResponse()).isEmpty();
+    }
+
+    @Test
+    @RequiresFlagsEnabled(FLAG_PERSONAL_HEALTH_RECORD)
+    public void testGetMedicalDataSourcesByRequest_onePresent_returnsIt() throws Exception {
+        HealthConnectReceiver<MedicalDataSource> createReceiver = new HealthConnectReceiver<>();
+        mManager.createMedicalDataSource(
+                getCreateMedicalDataSourceRequest(),
+                Executors.newSingleThreadExecutor(),
+                createReceiver);
+        MedicalDataSource dataSource = createReceiver.getResponse();
+        HealthConnectReceiver<List<MedicalDataSource>> receiver = new HealthConnectReceiver<>();
+        GetMedicalDataSourcesRequest request = new GetMedicalDataSourcesRequest.Builder().build();
+
+        mManager.getMedicalDataSources(request, Executors.newSingleThreadExecutor(), receiver);
+
+        assertThat(receiver.getResponse()).containsExactly(dataSource);
     }
 
     @Test
