@@ -128,7 +128,7 @@ constructor(
             is FitnessPermissionType ->  permissionsPerPackage.contains(
                     FitnessPermission(healthPermissionType, PermissionsAccessType.WRITE).toString())
             is MedicalPermissionType ->  permissionsPerPackage.contains(
-                    MedicalPermission(healthPermissionType).toString()) && healthPermissionType == MedicalPermissionType.ALL_MEDICAL_DATA
+                    MedicalPermission(MedicalPermissionType.ALL_MEDICAL_DATA).toString())
             else -> throw IllegalArgumentException(exceptionMessage(healthPermissionType))
         }
     }

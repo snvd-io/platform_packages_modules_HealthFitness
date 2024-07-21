@@ -211,7 +211,10 @@ class LoadAccessUseCaseTest {
         val actual = (useCase.invoke(MedicalPermissionType.IMMUNIZATION) as UseCaseResults.Success).data
 
         assertThat(actual[AppAccessState.Write]).isNotNull()
-        assertThat(actual[AppAccessState.Write]!!.size).isEqualTo(0)
+        assertThat(actual[AppAccessState.Write]!!.size).isEqualTo(1)
+        assertThat(actual[AppAccessState.Write]!![0].appMetadata.packageName).isEqualTo(TEST_APP_PACKAGE_NAME)
+        assertThat(actual[AppAccessState.Write]!![0].appMetadata.appName).isEqualTo(TEST_APP_NAME)
+        assertThat(actual[AppAccessState.Write]!![0].appPermissionsType).isEqualTo(COMBINED_PERMISSIONS)
         assertThat(actual[AppAccessState.Read]).isNotNull()
         assertThat(actual[AppAccessState.Read]!!.size).isEqualTo(1)
         assertThat(actual[AppAccessState.Read]!![0].appMetadata.packageName).isEqualTo(TEST_APP_PACKAGE_NAME)
