@@ -2360,7 +2360,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                 holdsDataManagementPermission);
     }
 
-    /** Service implementation of {@link HealthConnectManager#createMedicalDataSource} */
+    /** Service implementation of {@link HealthConnectManager#deleteMedicalDataSourceWithData} */
     @Override
     public void deleteMedicalDataSourceWithData(
             @NonNull AttributionSource attributionSource,
