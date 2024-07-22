@@ -221,7 +221,7 @@ class AllEntriesFragmentTest {
     }
 
     @Test
-    fun appEntriesInit_medicalError_showsErrorView() {
+    fun allEntriesInit_medicalError_showsErrorView() {
         Mockito.`when`(viewModel.entries).thenReturn(MutableLiveData(LoadingFailed))
 
         val scenario =
@@ -235,7 +235,7 @@ class AllEntriesFragmentTest {
     }
 
     @Test
-    fun appEntriesInit_medicalLoading_showsLoading() {
+    fun allEntriesInit_medicalLoading_showsLoading() {
         Mockito.`when`(viewModel.entries).thenReturn(MutableLiveData(Loading))
 
         val scenario =
@@ -249,7 +249,7 @@ class AllEntriesFragmentTest {
     }
 
     @Test
-    fun appEntriesInit_withMedicalData_showsListOfEntries() {
+    fun allEntriesInit_withMedicalData_showsListOfEntries() {
         Mockito.`when`(viewModel.entries).thenReturn(MutableLiveData(With(FORMATTED_IMMUNIZATION_LIST)))
 
         val scenario =

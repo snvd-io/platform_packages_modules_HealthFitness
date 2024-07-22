@@ -143,12 +143,15 @@ constructor(
         _entries.postValue(EntriesFragmentState.Loading)
 
         viewModelScope.launch {
-            val list = ArrayList<FormattedEntry>()
             val entriesResults = loadAppEntries(permissionType, packageName, showDataOrigin)
             when (entriesResults) {
                 is UseCaseResults.Success -> {
-                    list.addAll(entriesResults.data)
-                    _entries.postValue(EntriesFragmentState.With(list))
+                    val list = entriesResults.data
+                    if (list.isEmpty()) {
+                        _entries.postValue(EntriesFragmentState.Empty)
+                    } else {
+                        _entries.postValue(EntriesFragmentState.With(list))
+                    }
                 }
                 is UseCaseResults.Failed -> {
                     Log.e(TAG, "Loading error ", entriesResults.exception)

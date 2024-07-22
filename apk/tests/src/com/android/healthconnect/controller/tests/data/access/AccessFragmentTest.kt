@@ -22,7 +22,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -79,7 +78,7 @@ class AccessFragmentTest {
         whenever(viewModel.appMetadataMap).then {
             MutableLiveData<AccessScreenState>(WithData(emptyMap()))
         }
-        launchFragment<AccessFragment>(distanceBundle())
+        launchFragment<AccessFragment>(distanceBundle)
 
         onView(withText("Can read distance")).check(doesNotExist())
         onView(withText("Can write distance")).check(doesNotExist())
@@ -96,7 +95,7 @@ class AccessFragmentTest {
         whenever(viewModel.appMetadataMap).then {
             MutableLiveData<AccessScreenState>(WithData(emptyMap()))
         }
-        launchFragment<AccessFragment>(allMedicalDataBuilder())
+        launchFragment<AccessFragment>(allMedicalDataBundle)
 
         onView(withText("Can read distance")).check(doesNotExist())
         onView(withText("Can write distance")).check(doesNotExist())
@@ -117,7 +116,7 @@ class AccessFragmentTest {
         whenever(viewModel.appMetadataMap).then {
             MutableLiveData<AccessScreenState>(WithData(map))
         }
-        launchFragment<AccessFragment>(distanceBundle())
+        launchFragment<AccessFragment>(distanceBundle)
 
         onView(withText("Can read distance")).check(matches(isDisplayed()))
         onView(withText("Can write distance")).check(doesNotExist())
@@ -138,7 +137,7 @@ class AccessFragmentTest {
         whenever(viewModel.appMetadataMap).then {
             MutableLiveData<AccessScreenState>(WithData(map))
         }
-        launchFragment<AccessFragment>(distanceBundle())
+        launchFragment<AccessFragment>(distanceBundle)
 
         onView(withText("Can read distance")).check(matches(isDisplayed()))
         onView(withText("Can write distance")).check(matches(isDisplayed()))
@@ -159,7 +158,7 @@ class AccessFragmentTest {
         whenever(viewModel.appMetadataMap).then {
             MutableLiveData<AccessScreenState>(WithData(map))
         }
-        launchFragment<AccessFragment>(distanceBundle())
+        launchFragment<AccessFragment>(distanceBundle)
 
         onView(withText("Can read distance")).check(doesNotExist())
         onView(withText("Can write distance")).check(doesNotExist())
@@ -175,7 +174,7 @@ class AccessFragmentTest {
         whenever(viewModel.appMetadataMap).then {
             MutableLiveData<AccessScreenState>(AccessScreenState.Loading)
         }
-        launchFragment<AccessFragment>(distanceBundle())
+        launchFragment<AccessFragment>(distanceBundle)
         onView(withId(R.id.progress_indicator)).check(matches(isDisplayed()))
     }
 
@@ -184,7 +183,7 @@ class AccessFragmentTest {
         whenever(viewModel.appMetadataMap).then {
             MutableLiveData<AccessScreenState>(WithData(emptyMap()))
         }
-        launchFragment<AccessFragment>(distanceBundle())
+        launchFragment<AccessFragment>(distanceBundle)
         onView(withId(R.id.progress_indicator)).check(matches(not(isDisplayed())))
     }
 
@@ -193,7 +192,7 @@ class AccessFragmentTest {
         whenever(viewModel.appMetadataMap).then {
             MutableLiveData<AccessScreenState>(AccessScreenState.Error)
         }
-        launchFragment<AccessFragment>(distanceBundle())
+        launchFragment<AccessFragment>(distanceBundle)
         onView(withId(R.id.progress_indicator)).check(matches(not(isDisplayed())))
         onView(withId(R.id.error_view)).check(matches(isDisplayed()))
     }
@@ -210,7 +209,7 @@ class AccessFragmentTest {
             MutableLiveData<AccessScreenState>(WithData(map))
         }
 
-        launchFragment<AccessFragment>(distanceBundle()) {
+        launchFragment<AccessFragment>(distanceBundle) {
             navHostController.setGraph(R.navigation.data_nav_graph_new_ia)
             navHostController.setCurrentDestination(R.id.entriesAndAccessFragment)
             Navigation.setViewNavController(this.requireView(), navHostController)
@@ -233,7 +232,7 @@ class AccessFragmentTest {
             MutableLiveData<AccessScreenState>(WithData(map))
         }
 
-        launchFragment<AccessFragment>(distanceBundle()) {
+        launchFragment<AccessFragment>(distanceBundle) {
             navHostController.setGraph(R.navigation.data_nav_graph_new_ia)
             navHostController.setCurrentDestination(R.id.entriesAndAccessFragment)
             Navigation.setViewNavController(this.requireView(), navHostController)
@@ -256,7 +255,7 @@ class AccessFragmentTest {
             MutableLiveData<AccessScreenState>(WithData(map))
         }
 
-        launchFragment<AccessFragment>(distanceBundle()) {
+        launchFragment<AccessFragment>(distanceBundle) {
             navHostController.setGraph(R.navigation.data_nav_graph_new_ia)
             navHostController.setCurrentDestination(R.id.entriesAndAccessFragment)
             Navigation.setViewNavController(this.requireView(), navHostController)
@@ -277,7 +276,7 @@ class AccessFragmentTest {
         whenever(viewModel.appMetadataMap).then {
             MutableLiveData<AccessScreenState>(WithData(map))
         }
-        launchFragment<AccessFragment>(immunizationBuilder())
+        launchFragment<AccessFragment>(immunizationBundle)
 
         onView(withText("Can read immunization")).check(matches(isDisplayed()))
         onView(withText("Can write immunization")).check(doesNotExist())
@@ -298,7 +297,7 @@ class AccessFragmentTest {
         whenever(viewModel.appMetadataMap).then {
             MutableLiveData<AccessScreenState>(WithData(map))
         }
-        launchFragment<AccessFragment>(allMedicalDataBuilder())
+        launchFragment<AccessFragment>(allMedicalDataBundle)
 
         onView(withText("Can read all medical data")).check(doesNotExist())
         onView(withText("Can write all medical data")).check(matches(isDisplayed()))
@@ -309,22 +308,25 @@ class AccessFragmentTest {
                 .check(doesNotExist())
     }
 
-    private fun distanceBundle(): Bundle {
-        val bundle = Bundle()
-        bundle.putString(PERMISSION_TYPE_KEY, FitnessPermissionType.DISTANCE.name)
-        return bundle
-    }
+    private val distanceBundle: Bundle
+        get() {
+            val bundle = Bundle()
+            bundle.putString(PERMISSION_TYPE_KEY, FitnessPermissionType.DISTANCE.name)
+            return bundle
+        }
 
-    private fun immunizationBuilder(): Bundle {
-        val bundle = Bundle()
-        bundle.putString(PERMISSION_TYPE_KEY, MedicalPermissionType.IMMUNIZATION.name)
-        return bundle
-    }
+    private val immunizationBundle: Bundle
+        get() {
+            val bundle = Bundle()
+            bundle.putString(PERMISSION_TYPE_KEY, MedicalPermissionType.IMMUNIZATION.name)
+            return bundle
+        }
 
 
-    private fun allMedicalDataBuilder(): Bundle {
-        val bundle = Bundle()
-        bundle.putString(PERMISSION_TYPE_KEY, MedicalPermissionType.ALL_MEDICAL_DATA.name)
-        return bundle
-    }
+    private val allMedicalDataBundle: Bundle
+        get() {
+            val bundle = Bundle()
+            bundle.putString(PERMISSION_TYPE_KEY, MedicalPermissionType.ALL_MEDICAL_DATA.name)
+            return bundle
+        }
 }
