@@ -123,6 +123,7 @@ class CombinedPermissionsFragment : Hilt_CombinedPermissionsFragment() {
         managePermissionsCategory.addPreference(
             HealthPreference(requireContext()).also {
                 it.title = getString(R.string.manage_fitness_permissions)
+                it.summary = getString(R.string.manage_fitness_permissions_summary)
                 it.setOnPreferenceClickListener {
                     findNavController()
                         .navigate(
@@ -136,6 +137,7 @@ class CombinedPermissionsFragment : Hilt_CombinedPermissionsFragment() {
         managePermissionsCategory.addPreference(
             HealthPreference(requireContext()).also {
                 it.title = getString(R.string.manage_medical_permissions)
+                it.summary = getString(R.string.manage_medical_permissions_summary)
                 it.setOnPreferenceClickListener {
                     findNavController()
                         .navigate(
