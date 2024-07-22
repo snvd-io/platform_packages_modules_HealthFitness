@@ -1990,7 +1990,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
     }
 
     @Override
-    public void runImport(@NonNull UserHandle user, @NonNull Uri file) {
+    public void runImport(
+            @NonNull UserHandle user, @NonNull Uri file, @NonNull IEmptyResponseCallback callback) {
         if (mImportManager == null) return;
         checkParamsNonNull(file);
 
@@ -2003,6 +2004,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         enforceIsForegroundUser(userHandle);
                         mContext.enforcePermission(MANAGE_HEALTH_DATA_PERMISSION, pid, uid, null);
                         mImportManager.runImport(userHandle, file);
+                        callback.onResult();
                     } catch (Exception exception) {
                         throw new HealthConnectException(
                                 HealthConnectException.ERROR_IO, exception.toString());
