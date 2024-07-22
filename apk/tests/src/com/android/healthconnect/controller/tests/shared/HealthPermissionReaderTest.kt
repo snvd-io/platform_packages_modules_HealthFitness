@@ -179,7 +179,7 @@ class HealthPermissionReaderTest {
     }
 
     @Test
-    fun getAppsWithMedicalPermissions_flagDisabled_returnsEMptyList() = runTest {
+    fun getAppsWithMedicalPermissions_flagDisabled_returnsEmptyList() = runTest {
         (fakeFeatureUtils as FakeFeatureUtils).setIsPersonalHealthRecordEnabled(false)
 
         assertThat(permissionReader.getAppsWithMedicalPermissions())
