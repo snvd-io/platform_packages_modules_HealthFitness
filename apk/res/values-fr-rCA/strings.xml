@@ -516,7 +516,7 @@
     <string name="leg_extension" msgid="1843556289395164421">"Extension des jambes"</string>
     <string name="leg_press" msgid="4544551493384600086">"Développé des jambes"</string>
     <string name="leg_raise" msgid="3206754140765952088">"Élévation des jambes"</string>
-    <string name="mountain_climber" msgid="6666288676718010900">"Grimpeur"</string>
+    <string name="mountain_climber" msgid="6666288676718010900">"Alpiniste"</string>
     <string name="pull_up" msgid="4056233737860296184">"Traction à la barre fixe"</string>
     <string name="punch" msgid="7915247952566217050">"Frappe"</string>
     <string name="shoulder_press" msgid="4071573271892122319">"Développé des épaules"</string>
@@ -528,13 +528,13 @@
     <string name="sleep_session_default" msgid="7376764686701487196">"<xliff:g id="DURATION"> %1$s</xliff:g> de sommeil"</string>
     <string name="sleep_stage_default" msgid="1539043695578480733">"<xliff:g id="DURATION">%1$s</xliff:g> <xliff:g id="NAME">%2$s</xliff:g>⁠"</string>
     <string name="sleep_stage_awake" msgid="4526767634444460862">"d\'éveil"</string>
-    <string name="sleep_stage_awake_in_bed" msgid="5533385496857888503">"éveillé au lit"</string>
+    <string name="sleep_stage_awake_in_bed" msgid="5533385496857888503">"d\'éveil au lit"</string>
     <string name="sleep_stage_sleeping" msgid="5122840110107303518">"de sommeil"</string>
     <string name="sleep_stage_out_of_bed" msgid="522297068981578046">"hors du lit"</string>
     <string name="sleep_stage_rem" msgid="1694477904067543104">"de sommeil paradoxal"</string>
     <string name="sleep_stage_light" msgid="1070117964678317880">"de sommeil léger"</string>
     <string name="sleep_stage_deep" msgid="3134557407657258364">"de sommeil profond"</string>
-    <string name="sleep_stage_unknown" msgid="8664190491902295991">"inconnu"</string>
+    <string name="sleep_stage_unknown" msgid="8664190491902295991">"inconnue"</string>
     <string name="minute_duration" msgid="9035288227090160206">"<xliff:g id="MINUTE">%1$s</xliff:g> min"</string>
     <string name="hour_minute_duration_short" msgid="6862483734123680444">"<xliff:g id="HOUR">%1$s</xliff:g> h <xliff:g id="MIN">%2$s</xliff:g> min"</string>
     <string name="hour_duration" msgid="3472489613837138711">"<xliff:g id="HOUR">%1$s</xliff:g> h"</string>
@@ -565,9 +565,9 @@
     <string name="blood_pressure" msgid="7892828162554266437">"<xliff:g id="SYSTOLIC">%1$s</xliff:g>/<xliff:g id="DIASTOLIC">%2$s</xliff:g> mmHg"</string>
     <string name="blood_pressure_long" msgid="6487761539434451764">"<xliff:g id="SYSTOLIC">%1$s</xliff:g>/<xliff:g id="DIASTOLIC">%2$s</xliff:g> millimètre(s) de mercure"</string>
     <string name="body_position_standing_up" msgid="1221924915768574594">"Debout"</string>
-    <string name="body_position_sitting_down" msgid="8053875174780552282">"Assis"</string>
-    <string name="body_position_lying_down" msgid="1472381098179371143">"Allongé"</string>
-    <string name="body_position_reclining" msgid="5676889701646839079">"Incliné"</string>
+    <string name="body_position_sitting_down" msgid="8053875174780552282">"Position assise"</string>
+    <string name="body_position_lying_down" msgid="1472381098179371143">"Position allongée"</string>
+    <string name="body_position_reclining" msgid="5676889701646839079">"Position inclinée"</string>
     <string name="blood_pressure_left_wrist" msgid="2047244346984766880">"Poignet gauche"</string>
     <string name="blood_pressure_right_wrist" msgid="1488133877790549424">"Poignet droit"</string>
     <string name="blood_pressure_left_arm" msgid="5150436840115504433">"Haut du bras gauche"</string>
