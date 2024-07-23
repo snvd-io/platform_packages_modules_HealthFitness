@@ -26,8 +26,8 @@ import static android.healthconnect.cts.utils.PhrDataFactory.DATA_SOURCE_ID;
 import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_VERSION_R4;
 import static android.healthconnect.cts.utils.PhrDataFactory.getUpsertMedicalResourceRequest;
 
+import static com.android.healthfitness.flags.Flags.FLAG_DEVELOPMENT_DATABASE;
 import static com.android.healthfitness.flags.Flags.FLAG_PERSONAL_HEALTH_RECORD;
-import static com.android.healthfitness.flags.Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -152,7 +152,7 @@ public class RateLimiterTest {
 
     @Test
     @ApiTest(apis = {"android.health.connect#createMedicalDataSource"})
-    @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_PERSONAL_HEALTH_RECORD_DATABASE})
+    @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_DEVELOPMENT_DATABASE})
     public void testTryAcquireApiCallQuota_createMedicalDataSource_writeLimitExceeded()
             throws InterruptedException {
         exception.expect(HealthConnectException.class);
@@ -162,7 +162,7 @@ public class RateLimiterTest {
 
     @Test
     @ApiTest(apis = {"android.health.connect#deleteMedicalResource"})
-    @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_PERSONAL_HEALTH_RECORD_DATABASE})
+    @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_DEVELOPMENT_DATABASE})
     public void testTryAcquireApiCallQuota_deleteMedicalResourcesById_writeLimitExceeded()
             throws InterruptedException {
         exception.expect(HealthConnectException.class);
@@ -172,7 +172,7 @@ public class RateLimiterTest {
 
     @Test
     @ApiTest(apis = {"android.health.connect#deleteMedicalResource"})
-    @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_PERSONAL_HEALTH_RECORD_DATABASE})
+    @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_DEVELOPMENT_DATABASE})
     public void testTryAcquireApiCallQuota_deleteMedicalResourcesByRequest_writeLimitExceeded()
             throws InterruptedException {
         exception.expect(HealthConnectException.class);
@@ -182,7 +182,7 @@ public class RateLimiterTest {
 
     @Test
     @ApiTest(apis = {"android.health.connect#upsertMedicalResources"})
-    @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_PERSONAL_HEALTH_RECORD_DATABASE})
+    @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_DEVELOPMENT_DATABASE})
     public void testTryAcquireApiCallQuota_upsertMedicalResources_writeLimitExceeded_throws() {
         HealthConnectException thrown =
                 assertThrows(
@@ -228,7 +228,7 @@ public class RateLimiterTest {
     // TODO(b/346256048): re-evaluate the "magic number"s in the tests below once we turn on the PHR
     // flags on pre/post submit.
     @Test
-    @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_PERSONAL_HEALTH_RECORD_DATABASE})
+    @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_DEVELOPMENT_DATABASE})
     public void testMedicalResourcesChunkSizeLimitExceeded() throws InterruptedException {
         HealthConnectManager manager = TestUtils.getHealthConnectManager();
         HealthConnectReceiver<List<MedicalResource>> receiver = new HealthConnectReceiver<>();
@@ -248,7 +248,7 @@ public class RateLimiterTest {
     }
 
     @Test
-    @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_PERSONAL_HEALTH_RECORD_DATABASE})
+    @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_DEVELOPMENT_DATABASE})
     public void testMedicalResourceSizeLimitExceeded() throws InterruptedException {
         HealthConnectManager manager = TestUtils.getHealthConnectManager();
         HealthConnectReceiver<List<MedicalResource>> receiver = new HealthConnectReceiver<>();

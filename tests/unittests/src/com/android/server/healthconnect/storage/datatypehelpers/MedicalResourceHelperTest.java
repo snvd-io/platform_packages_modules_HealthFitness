@@ -177,7 +177,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
     public void getUpsertTableRequest_correctResult() {
         FhirResource fhirResource = getFhirResource();
         UpsertMedicalResourceInternalRequest upsertMedicalResourceInternalRequest =
@@ -273,7 +273,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE})
+    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
     public void readMedicalResourcesByIds_returnsEmpty() {
         List<MedicalResourceId> medicalResourceIds =
                 List.of(
@@ -289,7 +289,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE})
+    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
     public void readMedicalResourcesByRequest_dbEmpty_returnsEmpty() {
         ReadMedicalResourcesRequest readImmunizationRequest =
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
@@ -301,7 +301,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
     public void upsertAndReadMedicalResourcesByRequest_MedicalResourceTypeDoesNotExist_success() {
         MedicalDataSource dataSource =
                 insertMedicalDataSource(
@@ -339,7 +339,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
     public void upsertMedicalResourcesSameDataSource_readMedicalResourcesByRequest_success() {
         MedicalDataSource dataSource =
                 insertMedicalDataSource(
@@ -419,7 +419,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
     public void upsertMedicalResourcesDifferentDataSources_readMedicalResourcesByRequest_success() {
         MedicalDataSource dataSource1 =
                 insertMedicalDataSource(
@@ -504,7 +504,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
     public void insertMedicalResources_dataSourceNotInserted_exceptionThrown() {
         FhirResource fhirResource = getFhirResource();
         UpsertMedicalResourceInternalRequest upsertMedicalResourceInternalRequest =
@@ -530,7 +530,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
     public void readSubsetOfResources_multipleResourcesUpserted_success() throws JSONException {
         MedicalDataSource dataSource =
                 insertMedicalDataSource(
@@ -594,7 +594,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
     public void insertMedicalResources_returnsMedicalResources() {
         MedicalDataSource dataSource =
                 insertMedicalDataSource(
@@ -629,7 +629,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
     public void insertSingleMedicalResource_readSingleResource() throws JSONException {
         MedicalDataSource dataSource =
                 insertMedicalDataSource(
@@ -674,7 +674,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
     public void insertMultipleMedicalResourcesWithSameDataSource_readMultipleResources()
             throws JSONException {
         // TODO(b/351992434): Create test utilities to make these large repeated code blocks
@@ -745,7 +745,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
     public void insertMultipleMedicalResourcesWithDifferentDataSources_readMultipleResources()
             throws JSONException {
         MedicalDataSource dataSource1 =
@@ -818,7 +818,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
     public void updateSingleMedicalResource_success() throws JSONException {
         MedicalDataSource dataSource =
                 insertMedicalDataSource(
@@ -877,7 +877,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
     public void insertMultipleMedicalResources_updateSingleMedicalResource_success()
             throws JSONException {
         MedicalDataSource dataSource =
@@ -970,7 +970,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
     public void insertMultipleMedicalResources_updateMultipleMedicalResources_success()
             throws JSONException {
         MedicalDataSource dataSource =
@@ -1080,7 +1080,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
     public void deleteMedicalResourcesByIds_noId_fails() {
         assertThrows(
                 IllegalArgumentException.class,
@@ -1088,7 +1088,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
     public void deleteMedicalResourcesByIds_oneIdNotPresent_succeeds() throws Exception {
         mMedicalResourceHelper.deleteMedicalResourcesByIds(
                 List.of(
@@ -1099,7 +1099,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
     public void deleteMedicalResourcesByIds_oneIdPresent_succeedsDeleting() throws Exception {
         MedicalDataSource dataSource =
                 insertMedicalDataSource(
@@ -1132,7 +1132,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
     public void deleteMedicalResourcesByIds_oneOfTwoSpecified_onlySpecifiedDeleted()
             throws Exception {
         MedicalDataSource dataSource =
@@ -1237,13 +1237,13 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
     public void deleteMedicalResourcesByDataSources_noIds_succeeds() {
         mMedicalResourceHelper.deleteMedicalResourcesByDataSources(List.of());
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
     public void deleteMedicalResourcesByDataSources_singleDataSource_succeeds() {
         // Create two datasources, with one resource each.
         MedicalDataSource dataSource1 =
