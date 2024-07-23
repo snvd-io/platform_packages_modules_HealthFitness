@@ -102,6 +102,9 @@ class CombinedPermissionsFragment : Hilt_CombinedPermissionsFragment() {
             requireArguments().getString(EXTRA_APP_NAME) != null) {
             appName = requireArguments().getString(EXTRA_APP_NAME)!!
         }
+
+        appPermissionViewModel.loadPermissionsForPackage(packageName)
+
         setupHeader()
         setupManagePermissionsPreferenceCategory()
         setupManageAppPreferenceCategory()
