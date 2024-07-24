@@ -69,6 +69,7 @@ public final class ExportImportSettingsStorageTest {
     @Mock Cursor mCursor;
 
     private final PreferenceHelper mFakePreferenceHelper = new FakePreferenceHelper();
+    private final Instant mInstant = Instant.ofEpochMilli(12345678);
 
     @Before
     public void setUp() throws RemoteException {
@@ -101,7 +102,7 @@ public final class ExportImportSettingsStorageTest {
     @Test
     public void testConfigure_uri_removeExportLostFileAccessError() {
         ExportImportSettingsStorage.setLastExportError(
-                HealthConnectManager.DATA_EXPORT_LOST_FILE_ACCESS);
+                HealthConnectManager.DATA_EXPORT_LOST_FILE_ACCESS, mInstant);
         ExportImportSettingsStorage.configure(ScheduledExportSettings.withUri(Uri.parse(TEST_URI)));
 
         assertThat(mFakePreferenceHelper.getPreference(LAST_EXPORT_ERROR_PREFERENCE_KEY))
@@ -111,7 +112,7 @@ public final class ExportImportSettingsStorageTest {
     @Test
     public void testConfigure_uri_removeUnknownError() {
         ExportImportSettingsStorage.setLastExportError(
-                HealthConnectManager.DATA_EXPORT_ERROR_UNKNOWN);
+                HealthConnectManager.DATA_EXPORT_ERROR_UNKNOWN, mInstant);
         ExportImportSettingsStorage.configure(ScheduledExportSettings.withUri(Uri.parse(TEST_URI)));
 
         assertThat(mFakePreferenceHelper.getPreference(LAST_EXPORT_ERROR_PREFERENCE_KEY))
@@ -193,12 +194,16 @@ public final class ExportImportSettingsStorageTest {
     @Test
     public void testSetLastExportError_callsGetScheduledExportStatus_returnsExportError() {
         ExportImportSettingsStorage.setLastExportError(
-                HealthConnectManager.DATA_EXPORT_ERROR_UNKNOWN);
+                HealthConnectManager.DATA_EXPORT_ERROR_UNKNOWN, mInstant);
 
         assertThat(
                         ExportImportSettingsStorage.getScheduledExportStatus(mContext)
                                 .getDataExportError())
                 .isEqualTo(HealthConnectManager.DATA_EXPORT_ERROR_UNKNOWN);
+        assertThat(
+                        ExportImportSettingsStorage.getScheduledExportStatus(mContext)
+                                .getLastFailedExportTime())
+                .isEqualTo(Instant.ofEpochMilli(mInstant.toEpochMilli()));
     }
 
     @Test

@@ -84,7 +84,6 @@ import java.util.TimeZone
 import javax.inject.Inject
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
@@ -851,7 +850,7 @@ class HomeFragmentTest {
 
     @Test
     @EnableFlags(Flags.FLAG_EXPORT_IMPORT)
-    fun whenExportImportFlagIsEnabled_lastSuccessfulDateIsNull_exportFileAccessErrorBannerIsNotShown() {
+    fun whenExportImportFlagIsEnabled_lastFailedExportTimeIsNull_exportFileAccessErrorBannerIsNotShown() {
         whenever(recentAccessViewModel.recentAccessApps).then {
             MutableLiveData<RecentAccessState>(RecentAccessState.WithData(emptyList()))
         }
@@ -865,11 +864,11 @@ class HomeFragmentTest {
             MutableLiveData(
                 ScheduledExportUiStatus.WithData(
                     ScheduledExportUiState(
-                        null,
-                        ScheduledExportUiState.DataExportError.DATA_EXPORT_LOST_FILE_ACCESS,
-                        TEST_EXPORT_FREQUENCY_IN_DAYS)))
+                        dataExportError =
+                            ScheduledExportUiState.DataExportError.DATA_EXPORT_LOST_FILE_ACCESS,
+                        periodInDays = TEST_EXPORT_FREQUENCY_IN_DAYS,
+                        lastFailedExportTime = null)))
         }
-
         launchFragment<HomeFragment>(Bundle()) {
             navHostController.setGraph(R.navigation.nav_graph)
             Navigation.setViewNavController(this.requireView(), navHostController)
@@ -894,9 +893,10 @@ class HomeFragmentTest {
             MutableLiveData(
                 ScheduledExportUiStatus.WithData(
                     ScheduledExportUiState(
-                        NOW,
-                        ScheduledExportUiState.DataExportError.DATA_EXPORT_ERROR_UNKNOWN,
-                        TEST_EXPORT_FREQUENCY_IN_DAYS)))
+                        dataExportError =
+                            ScheduledExportUiState.DataExportError.DATA_EXPORT_ERROR_UNKNOWN,
+                        periodInDays = TEST_EXPORT_FREQUENCY_IN_DAYS,
+                        lastFailedExportTime = NOW)))
         }
         launchFragment<HomeFragment>(Bundle()) {
             navHostController.setGraph(R.navigation.nav_graph)
@@ -907,7 +907,7 @@ class HomeFragmentTest {
         onView(withText("Set up")).check(matches(isDisplayed()))
         onView(
                 withText(
-                    "There was a problem with the export for October 21, 2022. Please set up a new scheduled export and try again."))
+                    "There was a problem with the export for October 20, 2022. Please set up a new scheduled export and try again."))
             .check(matches(isDisplayed()))
     }
 
@@ -927,10 +927,10 @@ class HomeFragmentTest {
             MutableLiveData(
                 ScheduledExportUiStatus.WithData(
                     ScheduledExportUiState(
-                        NOW,
-                        ScheduledExportUiState.DataExportError.DATA_EXPORT_ERROR_NONE,
-                        TEST_EXPORT_FREQUENCY_IN_DAYS,
-                    )))
+                        dataExportError =
+                            ScheduledExportUiState.DataExportError.DATA_EXPORT_ERROR_NONE,
+                        periodInDays = TEST_EXPORT_FREQUENCY_IN_DAYS,
+                        lastFailedExportTime = NOW)))
         }
         launchFragment<HomeFragment>(Bundle()) {
             navHostController.setGraph(R.navigation.nav_graph)
@@ -958,9 +958,10 @@ class HomeFragmentTest {
             MutableLiveData(
                 ScheduledExportUiStatus.WithData(
                     ScheduledExportUiState(
-                        NOW,
-                        ScheduledExportUiState.DataExportError.DATA_EXPORT_LOST_FILE_ACCESS,
-                        TEST_EXPORT_FREQUENCY_IN_DAYS)))
+                        dataExportError =
+                            ScheduledExportUiState.DataExportError.DATA_EXPORT_LOST_FILE_ACCESS,
+                        periodInDays = TEST_EXPORT_FREQUENCY_IN_DAYS,
+                        lastFailedExportTime = NOW)))
         }
         launchFragment<HomeFragment>(Bundle()) {
             navHostController.setGraph(R.navigation.nav_graph)
@@ -971,7 +972,7 @@ class HomeFragmentTest {
         onView(withText("Set up")).check(matches(isDisplayed()))
         onView(
                 withText(
-                    "There was a problem with the export for October 21, 2022. Please set up a new scheduled export and try again."))
+                    "There was a problem with the export for October 20, 2022. Please set up a new scheduled export and try again."))
             .check(matches(isDisplayed()))
         verify(healthConnectLogger).logImpression(HomePageElement.EXPORT_ERROR_BANNER)
         verify(healthConnectLogger).logImpression(HomePageElement.EXPORT_ERROR_BANNER_BUTTON)
@@ -993,9 +994,10 @@ class HomeFragmentTest {
             MutableLiveData(
                 ScheduledExportUiStatus.WithData(
                     ScheduledExportUiState(
-                        NOW,
-                        ScheduledExportUiState.DataExportError.DATA_EXPORT_LOST_FILE_ACCESS,
-                        TEST_EXPORT_FREQUENCY_IN_DAYS)))
+                        dataExportError =
+                            ScheduledExportUiState.DataExportError.DATA_EXPORT_LOST_FILE_ACCESS,
+                        periodInDays = TEST_EXPORT_FREQUENCY_IN_DAYS,
+                        lastFailedExportTime = NOW)))
         }
         launchFragment<HomeFragment>(Bundle()) {
             navHostController.setGraph(R.navigation.nav_graph)
