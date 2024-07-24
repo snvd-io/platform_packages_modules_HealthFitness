@@ -72,7 +72,7 @@ public class HealthConnectInjectorImpl implements HealthConnectInjector {
         private Builder() {}
 
         /** Set fake or custom PackageInfoUtils */
-        public Builder setFakePackageInfoUtils(PackageInfoUtils fakePackageInfoUtils) {
+        public Builder setPackageInfoUtils(PackageInfoUtils fakePackageInfoUtils) {
             Objects.requireNonNull(fakePackageInfoUtils);
             mFakePackageInfoUtils = fakePackageInfoUtils;
             return this;

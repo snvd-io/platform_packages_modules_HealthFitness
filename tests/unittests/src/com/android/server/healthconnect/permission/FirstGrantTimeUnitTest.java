@@ -441,9 +441,7 @@ public class FirstGrantTimeUnitTest {
         HealthConnectInjector healthConnectInjector;
         if (useMockPackageInfoUtils) {
             healthConnectInjector =
-                    mHealthConnectInjectorBuilder
-                            .setFakePackageInfoUtils(mPackageInfoUtils)
-                            .build();
+                    mHealthConnectInjectorBuilder.setPackageInfoUtils(mPackageInfoUtils).build();
         } else {
             healthConnectInjector = mHealthConnectInjectorBuilder.build();
         }
