@@ -38,7 +38,7 @@ public class HealthConnectInjectorTest {
     public void setFakePackageInfoUtils_injectorReturnsFakePackageInfoUtils() {
         HealthConnectInjector healthConnectInjector =
                 HealthConnectInjectorImpl.newBuilderForTest()
-                        .setFakePackageInfoUtils(mPackageInfoUtils)
+                        .setPackageInfoUtils(mPackageInfoUtils)
                         .build();
 
         assertThat(healthConnectInjector.getPackageInfoUtils()).isEqualTo(mPackageInfoUtils);
