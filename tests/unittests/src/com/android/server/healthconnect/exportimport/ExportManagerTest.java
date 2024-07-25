@@ -23,6 +23,13 @@ import static com.android.server.healthconnect.storage.datatypehelpers.Transacti
 
 import static com.google.common.truth.Truth.assertThat;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.health.connect.HealthConnectManager;
@@ -68,7 +75,6 @@ public class ExportManagerTest {
                     TestUtils::isHardwareSupported, "Tests should run on supported hardware only.");
 
     private HealthConnectUserContext mContext;
-
     private TransactionManager mTransactionManager;
     private TransactionTestUtils mTransactionTestUtils;
     private ExportManager mExportManager;
@@ -223,6 +229,13 @@ public class ExportManagerTest {
 
     @Test
     public void updatesLastExportFileName_onSuccessOnly() {
+        Context context = mock(Context.class);
+        ContentResolver contentResolver = mock(ContentResolver.class);
+        Cursor cursor = mock(Cursor.class);
+        when(context.getContentResolver()).thenReturn(contentResolver);
+        when(contentResolver.query(any(), any(), any(), any(), any())).thenReturn(cursor);
+        when(cursor.moveToFirst()).thenReturn(true);
+        when(cursor.getString(anyInt())).thenReturn(REMOTE_EXPORT_ZIP_FILE_NAME);
         mTransactionTestUtils.insertRecords(TEST_PACKAGE_NAME, createStepsRecord(123, 456, 7));
         HealthConnectDatabase originalDatabase =
                 new HealthConnectDatabase(mContext, "healthconnect.db");
@@ -230,10 +243,10 @@ public class ExportManagerTest {
 
         // Running a successful export records a "last successful export".
         assertThat(mExportManager.runExport()).isTrue();
-        String lastExportFileName =
-                ExportImportSettingsStorage.getScheduledExportStatus(mContext)
-                        .getLastExportFileName();
-        assertThat(lastExportFileName).isEqualTo(REMOTE_EXPORT_ZIP_FILE_NAME);
+        assertThat(
+                        ExportImportSettingsStorage.getScheduledExportStatus(context)
+                                .getLastExportFileName())
+                .isEqualTo(REMOTE_EXPORT_ZIP_FILE_NAME);
 
         // Export running at a later time with an error
         ExportImportSettingsStorage.configure(
@@ -241,7 +254,10 @@ public class ExportManagerTest {
         assertThat(mExportManager.runExport()).isFalse();
 
         // Last successful export should hold the previous file name as the last export failed
-        assertThat(lastExportFileName).isEqualTo(REMOTE_EXPORT_ZIP_FILE_NAME);
+        assertThat(
+                        ExportImportSettingsStorage.getScheduledExportStatus(context)
+                                .getLastExportFileName())
+                .isEqualTo(REMOTE_EXPORT_ZIP_FILE_NAME);
     }
 
     private void configureExportUri() {
