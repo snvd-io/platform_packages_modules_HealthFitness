@@ -137,8 +137,7 @@ public class ExportManager {
                 return false;
             }
             Slog.i(TAG, "Export completed.");
-            ExportImportSettingsStorage.setLastSuccessfulExport(mClock.instant());
-            ExportImportSettingsStorage.setLastSuccessfulExportUri(destinationUri);
+            ExportImportSettingsStorage.setLastSuccessfulExport(mClock.instant(), destinationUri);
             return true;
         } finally {
             Slog.i(TAG, "Delete local export files started.");
