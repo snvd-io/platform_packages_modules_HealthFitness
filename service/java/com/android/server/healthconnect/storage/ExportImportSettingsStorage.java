@@ -106,6 +106,21 @@ public final class ExportImportSettingsStorage {
         return Uri.parse(result);
     }
 
+    /** Get the uri of the last successful export. */
+    public static @Nullable Uri getLastSuccessfulExportUri() {
+        String result =
+                PreferenceHelper.getInstance()
+                        .getPreference(LAST_SUCCESSFUL_EXPORT_URI_PREFERENCE_KEY);
+        return result == null ? null : Uri.parse(result);
+    }
+
+    /** Get the time of the last successful export. */
+    public static @Nullable Instant getLastSuccessfulExportTime() {
+        String result =
+                PreferenceHelper.getInstance().getPreference(LAST_SUCCESSFUL_EXPORT_PREFERENCE_KEY);
+        return result == null ? null : Instant.ofEpochMilli(Long.parseLong(result));
+    }
+
     /** Gets scheduled export period for exporting Health Connect data. */
     public static int getScheduledExportPeriodInDays() {
         String result = PreferenceHelper.getInstance().getPreference(EXPORT_PERIOD_PREFERENCE_KEY);
@@ -115,12 +130,15 @@ public final class ExportImportSettingsStorage {
     }
 
     /** Set the last successful export time for the currently configured export. */
-    public static void setLastSuccessfulExport(Instant instant) {
+    public static void setLastSuccessfulExport(Instant instant, Uri uri) {
         PreferenceHelper.getInstance()
                 .insertOrReplacePreference(
                         LAST_SUCCESSFUL_EXPORT_PREFERENCE_KEY,
                         String.valueOf(instant.toEpochMilli()));
         PreferenceHelper.getInstance().removeKey(LAST_EXPORT_ERROR_PREFERENCE_KEY);
+        PreferenceHelper.getInstance()
+                .insertOrReplacePreference(
+                        LAST_SUCCESSFUL_EXPORT_URI_PREFERENCE_KEY, uri.toString());
     }
 
     /** Set errors during the last failed export attempt. */
@@ -210,13 +228,6 @@ public final class ExportImportSettingsStorage {
             Slog.i(TAG, "Failed to get the file name", exception);
         }
         return null;
-    }
-
-    /** Set the uri of the last successful export. */
-    public static void setLastSuccessfulExportUri(Uri uri) {
-        PreferenceHelper.getInstance()
-                .insertOrReplacePreference(
-                        LAST_SUCCESSFUL_EXPORT_URI_PREFERENCE_KEY, uri.toString());
     }
 
     /** Get the app name of the either the last or the next export, depending on the passed uri. */
