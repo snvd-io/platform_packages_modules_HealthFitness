@@ -15,6 +15,7 @@
  */
 package com.android.healthconnect.controller.utils.logging
 
+import android.util.Log
 import com.android.healthconnect.controller.HealthFitnessUiStatsLog.*
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn

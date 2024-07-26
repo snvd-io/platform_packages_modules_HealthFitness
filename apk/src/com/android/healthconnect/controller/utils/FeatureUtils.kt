@@ -2,7 +2,6 @@ package com.android.healthconnect.controller.utils
 
 import android.content.Context
 import android.provider.DeviceConfig
-import android.util.Log
 import com.android.healthfitness.flags.Flags
 import dagger.Module
 import dagger.Provides
@@ -63,7 +62,6 @@ class FeatureUtilsImpl(context: Context) : FeatureUtils, DeviceConfig.OnProperti
 
     override fun isNewInformationArchitectureEnabled(): Boolean {
         synchronized(lock) {
-            Log.i("TEOG_NEW_IA", "isNewInformationArch = $isNewInformationArchitectureEnabled")
             return isNewInformationArchitectureEnabled
         }
     }
