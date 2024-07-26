@@ -67,6 +67,7 @@ import android.health.connect.AggregateRecordsResponse;
 import android.health.connect.CreateMedicalDataSourceRequest;
 import android.health.connect.DeleteMedicalResourcesRequest;
 import android.health.connect.DeleteUsingFiltersRequest;
+import android.health.connect.GetMedicalDataSourcesRequest;
 import android.health.connect.HealthConnectDataState;
 import android.health.connect.HealthConnectException;
 import android.health.connect.HealthConnectManager;
@@ -1957,15 +1958,26 @@ public class HealthConnectManagerTest {
 
     @Test
     @RequiresFlagsEnabled(FLAG_PERSONAL_HEALTH_RECORD)
-    public void testGetMedicalDataSources_byId_throws() {
+    public void testGetMedicalDataSources_byId_throws() throws Exception {
         HealthConnectReceiver<List<MedicalDataSource>> receiver = new HealthConnectReceiver<>();
         List<String> ids = List.of("1");
 
-        assertThrows(
-                UnsupportedOperationException.class,
-                () ->
-                        mManager.getMedicalDataSources(
-                                ids, Executors.newSingleThreadExecutor(), receiver));
+        mManager.getMedicalDataSources(ids, Executors.newSingleThreadExecutor(), receiver);
+
+        assertThat(receiver.assertAndGetException().getErrorCode())
+                .isEqualTo(HealthConnectException.ERROR_UNSUPPORTED_OPERATION);
+    }
+
+    @Test
+    @RequiresFlagsEnabled(FLAG_PERSONAL_HEALTH_RECORD)
+    public void testGetMedicalDataSources_byRequest_throws() throws Exception {
+        HealthConnectReceiver<List<MedicalDataSource>> receiver = new HealthConnectReceiver<>();
+        GetMedicalDataSourcesRequest request = new GetMedicalDataSourcesRequest.Builder().build();
+
+        mManager.getMedicalDataSources(request, Executors.newSingleThreadExecutor(), receiver);
+
+        assertThat(receiver.assertAndGetException().getErrorCode())
+                .isEqualTo(HealthConnectException.ERROR_UNSUPPORTED_OPERATION);
     }
 
     @Test

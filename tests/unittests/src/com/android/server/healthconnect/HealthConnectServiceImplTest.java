@@ -191,6 +191,8 @@ public class HealthConnectServiceImplTest {
                     "runImport",
                     "createMedicalDataSource",
                     "deleteMedicalDataSourceWithData",
+                    "getMedicalDataSourcesByIds",
+                    "getMedicalDataSourcesByRequest",
                     "deleteMedicalResourcesByIds",
                     "deleteMedicalResourcesByRequest",
                     "upsertMedicalResources",
