@@ -49,6 +49,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 /** Fragment for health data categories. */
+@Deprecated("This won't be used once the NEW_INFORMATION_ARCHITECTURE feature is enabled.")
 @AndroidEntryPoint(HealthPreferenceFragment::class)
 class HealthDataCategoriesFragment : Hilt_HealthDataCategoriesFragment() {
 

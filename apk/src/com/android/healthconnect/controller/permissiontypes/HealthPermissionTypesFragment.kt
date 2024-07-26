@@ -54,6 +54,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 /** Fragment for health permission types. */
+@Deprecated("This won't be used once the NEW_INFORMATION_ARCHITECTURE feature is enabled.")
 @AndroidEntryPoint(HealthPreferenceFragment::class)
 open class HealthPermissionTypesFragment : Hilt_HealthPermissionTypesFragment() {
 
