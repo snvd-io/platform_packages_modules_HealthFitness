@@ -13,6 +13,7 @@
  */
 package com.android.healthconnect.controller.shared.recyclerview
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
