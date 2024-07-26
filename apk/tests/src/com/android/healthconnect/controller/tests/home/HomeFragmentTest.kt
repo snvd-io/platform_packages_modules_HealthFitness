@@ -84,7 +84,6 @@ import java.util.TimeZone
 import javax.inject.Inject
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
@@ -154,8 +153,6 @@ class HomeFragmentTest {
                         /** periodInDays= */
                         0)))
         }
-        // Reflects that IsNewAppPriorityEnabled is always true in the configuration.
-        (fakeFeatureUtils as FakeFeatureUtils).setIsNewAppPriorityEnabled(true)
         navHostController = TestNavHostController(context)
 
         // disable animations
@@ -335,21 +332,6 @@ class HomeFragmentTest {
     }
 
     @Test
-    fun manageData_whenNewPriorityAndInformationArchitectureDisabled_doesNotShowManageData() {
-        (fakeFeatureUtils as FakeFeatureUtils).setIsNewAppPriorityEnabled(false)
-        (fakeFeatureUtils as FakeFeatureUtils).setIsNewInformationArchitectureEnabled(false)
-        whenever(recentAccessViewModel.recentAccessApps).then {
-            MutableLiveData<RecentAccessState>(RecentAccessState.WithData(listOf()))
-        }
-        whenever(homeFragmentViewModel.connectedApps).then {
-            MutableLiveData(listOf<ConnectedAppMetadata>())
-        }
-        launchFragment<HomeFragment>(Bundle())
-
-        onView(withText("Manage data")).check(doesNotExist())
-    }
-
-    @Test
     fun homeFragmentLogging_impressionsLogged() {
         val recentApp =
             RecentAccessEntry(
@@ -380,6 +362,7 @@ class HomeFragmentTest {
         verify(healthConnectLogger).logPageImpression()
         verify(healthConnectLogger).logImpression(HomePageElement.APP_PERMISSIONS_BUTTON)
         verify(healthConnectLogger).logImpression(HomePageElement.DATA_AND_ACCESS_BUTTON)
+        verify(healthConnectLogger).logImpression(HomePageElement.MANAGE_DATA_BUTTON)
         verify(healthConnectLogger).logImpression(HomePageElement.SEE_ALL_RECENT_ACCESS_BUTTON)
         verify(healthConnectLogger).logImpression(RecentAccessElement.RECENT_ACCESS_ENTRY_BUTTON)
     }
@@ -461,7 +444,7 @@ class HomeFragmentTest {
     }
 
     @Test
-    fun test_HomeFragment_withNoRecentAccessApps() {
+    fun whenNoRecentAccessApps_showsNoRecentAccessApps() {
         whenever(recentAccessViewModel.recentAccessApps).then {
             MutableLiveData<RecentAccessState>(RecentAccessState.WithData(emptyList()))
         }
@@ -530,62 +513,6 @@ class HomeFragmentTest {
         onView(withText("1 of 2 apps has access")).check(matches(isDisplayed()))
         onView(withText("Data and access")).check(matches(isDisplayed()))
         onView(withText("Manage data")).check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun whenNewAppPriorityFlagOn_showsManageDataButton() {
-        (fakeFeatureUtils as FakeFeatureUtils).setIsNewAppPriorityEnabled(true)
-        whenever(recentAccessViewModel.recentAccessApps).then {
-            MutableLiveData<RecentAccessState>(RecentAccessState.WithData(emptyList()))
-        }
-        whenever(homeFragmentViewModel.connectedApps).then {
-            MutableLiveData(
-                listOf(
-                    ConnectedAppMetadata(TEST_APP, ConnectedAppStatus.ALLOWED),
-                    ConnectedAppMetadata(TEST_APP_2, ConnectedAppStatus.ALLOWED)))
-        }
-        launchFragment<HomeFragment>(Bundle())
-
-        onView(
-                withText(
-                    "Manage the health and fitness data on your device, and control which apps can access it"))
-            .check(matches(isDisplayed()))
-        onView(withText("App permissions")).check(matches(isDisplayed()))
-        onView(withText("2 apps have access")).check(matches(isDisplayed()))
-        onView(withText("Data and access")).check(matches(isDisplayed()))
-        onView(withText("Manage data")).check(matches(isDisplayed()))
-
-        onView(withText("Recent access")).check(matches(isDisplayed()))
-        onView(withText("No apps recently accessed Health\u00A0Connect"))
-            .check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun whenNewInformationArchitectureFlagOn_showsManageDataButton() {
-        (fakeFeatureUtils as FakeFeatureUtils).setIsNewInformationArchitectureEnabled(true)
-        whenever(recentAccessViewModel.recentAccessApps).then {
-            MutableLiveData<RecentAccessState>(RecentAccessState.WithData(emptyList()))
-        }
-        whenever(homeFragmentViewModel.connectedApps).then {
-            MutableLiveData(
-                listOf(
-                    ConnectedAppMetadata(TEST_APP, ConnectedAppStatus.ALLOWED),
-                    ConnectedAppMetadata(TEST_APP_2, ConnectedAppStatus.ALLOWED)))
-        }
-        launchFragment<HomeFragment>(Bundle())
-
-        onView(
-                withText(
-                    "Manage the health and fitness data on your device, and control which apps can access it"))
-            .check(matches(isDisplayed()))
-        onView(withText("App permissions")).check(matches(isDisplayed()))
-        onView(withText("2 apps have access")).check(matches(isDisplayed()))
-        onView(withText("Data and access")).check(matches(isDisplayed()))
-        onView(withText("Manage data")).check(matches(isDisplayed()))
-
-        onView(withText("Recent access")).check(matches(isDisplayed()))
-        onView(withText("No apps recently accessed Health\u00A0Connect"))
-            .check(matches(isDisplayed()))
     }
 
     @Test
@@ -1007,7 +934,6 @@ class HomeFragmentTest {
     }
 
     private fun setupFragmentForNavigation() {
-        (fakeFeatureUtils as FakeFeatureUtils).setIsNewInformationArchitectureEnabled(true)
         val recentApp =
             RecentAccessEntry(
                 metadata = TEST_APP,
