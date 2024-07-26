@@ -62,7 +62,6 @@ import com.android.healthconnect.controller.utils.logging.PageName
 import com.android.healthfitness.flags.Flags.exportImport
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
-import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 /** Home fragment for Health Connect. */
@@ -267,16 +266,14 @@ class HomeFragment : Hilt_HomeFragment() {
         }
         if (scheduledExportUiState.dataExportError !=
             ScheduledExportUiState.DataExportError.DATA_EXPORT_ERROR_NONE) {
-            scheduledExportUiState.lastSuccessfulExportTime?.let {
-                preferenceScreen.addPreference(
-                    getExportFileAccessErrorBanner(it, scheduledExportUiState.periodInDays))
+            scheduledExportUiState.lastFailedExportTime?.let {
+                preferenceScreen.addPreference(getExportFileAccessErrorBanner(it))
             }
         }
     }
 
     private fun getExportFileAccessErrorBanner(
-        lastSuccessfulDate: Instant,
-        periodInDays: Int
+        lastFailedExportTime: Instant,
     ): BannerPreference {
         return BannerPreference(requireContext(), HomePageElement.EXPORT_ERROR_BANNER).also {
             it.setPrimaryButton(
@@ -287,8 +284,7 @@ class HomeFragment : Hilt_HomeFragment() {
             it.summary =
                 getString(
                     R.string.export_file_access_error_banner_summary,
-                    dateFormatter.formatLongDate(
-                        lastSuccessfulDate.plus(periodInDays.toLong(), ChronoUnit.DAYS)))
+                    dateFormatter.formatLongDate(lastFailedExportTime))
             it.icon = AttributeResolver.getNullableDrawable(requireContext(), R.attr.warningIcon)
             it.setPrimaryButtonOnClickListener {
                 findNavController().navigate(R.id.action_homeFragment_to_exportSetupActivity)
