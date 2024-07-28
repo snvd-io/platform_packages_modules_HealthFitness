@@ -52,6 +52,7 @@ import android.util.Pair;
 import androidx.test.InstrumentationRegistry;
 
 import com.android.modules.utils.testing.ExtendedMockitoRule;
+import com.android.server.healthconnect.HealthConnectDeviceConfigManager;
 import com.android.server.healthconnect.HealthConnectUserContext;
 import com.android.server.healthconnect.injector.HealthConnectInjector;
 import com.android.server.healthconnect.injector.HealthConnectInjectorImpl;
@@ -114,6 +115,7 @@ public class FirstGrantTimeUnitTest {
     public void setUp() {
         Context context = InstrumentationRegistry.getContext();
         MockitoAnnotations.initMocks(this);
+        HealthConnectDeviceConfigManager.initializeInstance(context);
         TransactionManager.initializeInstance(new HealthConnectUserContext(context, CURRENT_USER));
         when(MigrationStateManager.getInitialisedInstance()).thenReturn(mMigrationStateManager);
         when(mMigrationStateManager.isMigrationInProgress()).thenReturn(false);
