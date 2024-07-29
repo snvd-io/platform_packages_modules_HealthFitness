@@ -27,7 +27,6 @@ import static android.health.connect.HealthConnectManager.DATA_DOWNLOAD_FAILED;
 import static android.health.connect.HealthConnectManager.DATA_DOWNLOAD_STARTED;
 import static android.health.connect.HealthConnectManager.isHealthPermission;
 import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_IMMUNIZATION;
-import static android.health.connect.datatypes.FhirVersion.parseFhirVersion;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_IMMUNIZATION;
 import static android.health.connect.datatypes.RecordTypeIdentifier.RECORD_TYPE_BASAL_METABOLIC_RATE;
 import static android.health.connect.datatypes.RecordTypeIdentifier.RECORD_TYPE_HEART_RATE;
@@ -2058,9 +2057,7 @@ public class HealthConnectManagerTest {
         HealthConnectReceiver<List<MedicalResource>> dataReceiver = new HealthConnectReceiver<>();
         UpsertMedicalResourceRequest request =
                 new UpsertMedicalResourceRequest.Builder(
-                                dataSource.getId(),
-                                parseFhirVersion(FHIR_VERSION_R4),
-                                FHIR_DATA_IMMUNIZATION)
+                                dataSource.getId(), FHIR_VERSION_R4, FHIR_DATA_IMMUNIZATION)
                         .build();
         mManager.upsertMedicalResources(List.of(request), executor, dataReceiver);
         // Make sure something got inserted.
