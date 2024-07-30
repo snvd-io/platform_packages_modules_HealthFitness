@@ -690,7 +690,8 @@ public class HealthConnectServiceImplTest {
             throws RemoteException {
         setDataManagementPermission(PERMISSION_GRANTED);
         List<MedicalResourceId> ids = List.of(getMedicalResourceId());
-        when(mMedicalResourceHelper.readMedicalResourcesByIds(eq(ids))).thenReturn(List.of());
+        when(mMedicalResourceHelper.readMedicalResourcesByIdsWithoutPermissionChecks(eq(ids)))
+                .thenReturn(List.of());
 
         mHealthConnectService.readMedicalResourcesByIds(
                 mAttributionSource, ids, mReadMedicalResourcesResponseCallback);
@@ -729,7 +730,7 @@ public class HealthConnectServiceImplTest {
         List<MedicalResourceId> ids = List.of(getMedicalResourceId());
         ArgumentCaptor<Set<Integer>> medicalResourceTypesCapture =
                 ArgumentCaptor.forClass(Set.class);
-        when(mMedicalResourceHelper.readMedicalResourcesByIds(
+        when(mMedicalResourceHelper.readMedicalResourcesByIdsWithPermissionChecks(
                         eq(ids),
                         medicalResourceTypesCapture.capture(),
                         anyString(),
@@ -757,7 +758,7 @@ public class HealthConnectServiceImplTest {
         List<MedicalResourceId> ids = List.of(getMedicalResourceId());
         ArgumentCaptor<Set<Integer>> medicalResourceTypesCapture =
                 ArgumentCaptor.forClass(Set.class);
-        when(mMedicalResourceHelper.readMedicalResourcesByIds(
+        when(mMedicalResourceHelper.readMedicalResourcesByIdsWithPermissionChecks(
                         eq(ids),
                         medicalResourceTypesCapture.capture(),
                         anyString(),
@@ -785,7 +786,7 @@ public class HealthConnectServiceImplTest {
         List<MedicalResourceId> ids = List.of(getMedicalResourceId());
         ArgumentCaptor<Set<Integer>> medicalResourceTypesCapture =
                 ArgumentCaptor.forClass(Set.class);
-        when(mMedicalResourceHelper.readMedicalResourcesByIds(
+        when(mMedicalResourceHelper.readMedicalResourcesByIdsWithPermissionChecks(
                         eq(ids),
                         medicalResourceTypesCapture.capture(),
                         anyString(),
@@ -812,7 +813,7 @@ public class HealthConnectServiceImplTest {
         setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(true);
         List<MedicalResourceId> ids = List.of(getMedicalResourceId());
-        when(mMedicalResourceHelper.readMedicalResourcesByIds(
+        when(mMedicalResourceHelper.readMedicalResourcesByIdsWithPermissionChecks(
                         eq(ids), any(), anyString(), anyBoolean(), mBooleanCaptor.capture()))
                 .thenReturn(List.of());
 
@@ -834,7 +835,7 @@ public class HealthConnectServiceImplTest {
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(false);
         List<MedicalResourceId> ids = List.of(getMedicalResourceId());
-        when(mMedicalResourceHelper.readMedicalResourcesByIds(
+        when(mMedicalResourceHelper.readMedicalResourcesByIdsWithPermissionChecks(
                         eq(ids), any(), anyString(), anyBoolean(), mBooleanCaptor.capture()))
                 .thenReturn(List.of());
 
@@ -857,7 +858,7 @@ public class HealthConnectServiceImplTest {
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(true);
         setBackendReadPermission(PERMISSION_DENIED);
         List<MedicalResourceId> ids = List.of(getMedicalResourceId());
-        when(mMedicalResourceHelper.readMedicalResourcesByIds(
+        when(mMedicalResourceHelper.readMedicalResourcesByIdsWithPermissionChecks(
                         eq(ids), any(), anyString(), anyBoolean(), mBooleanCaptor.capture()))
                 .thenReturn(List.of());
 
@@ -880,7 +881,7 @@ public class HealthConnectServiceImplTest {
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(true);
         setBackendReadPermission(PERMISSION_GRANTED);
         List<MedicalResourceId> ids = List.of(getMedicalResourceId());
-        when(mMedicalResourceHelper.readMedicalResourcesByIds(
+        when(mMedicalResourceHelper.readMedicalResourcesByIdsWithPermissionChecks(
                         eq(ids), any(), anyString(), anyBoolean(), mBooleanCaptor.capture()))
                 .thenReturn(List.of());
 
