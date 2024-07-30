@@ -199,6 +199,8 @@ class AppDataViewModelTest {
                 PermissionTypesPerCategory(HealthDataCategory.SLEEP, listOf()),
                 PermissionTypesPerCategory(
                     HealthDataCategory.VITALS, listOf(FitnessPermissionType.HEART_RATE)),
+                // TODO(b/355793284): This Immunization is fake data for now, update once API is
+                // ready.
                 PermissionTypesPerCategory(MEDICAL, listOf(MedicalPermissionType.IMMUNIZATION)))
         assertThat(testObserver.getLastValue())
             .isEqualTo(AppDataViewModel.AppDataState.WithData(expected))

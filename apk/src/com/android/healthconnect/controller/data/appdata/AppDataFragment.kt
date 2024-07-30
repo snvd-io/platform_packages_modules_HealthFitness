@@ -17,7 +17,6 @@ package com.android.healthconnect.controller.data.appdata
 
 import android.content.Intent.EXTRA_PACKAGE_NAME
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
@@ -153,12 +152,13 @@ open class AppDataFragment : Hilt_AppDataFragment() {
     private fun sortAndAddMedicalToLast(
         permissionTypesPerCategoryList: List<PermissionTypesPerCategory>
     ): List<PermissionTypesPerCategory> {
-        val populatedFitnessCategories = permissionTypesPerCategoryList
+        val populatedFitnessCategories =
+            permissionTypesPerCategoryList
                 .filter { it.data.isNotEmpty() && it.category != MEDICAL }
                 .sortedBy { getString(it.category.uppercaseTitle()) }
 
-        val medicalCategory = permissionTypesPerCategoryList
-                .find { it.category == MEDICAL && it.data.isNotEmpty() }
+        val medicalCategory =
+            permissionTypesPerCategoryList.find { it.category == MEDICAL && it.data.isNotEmpty() }
 
         return if (medicalCategory != null) {
             populatedFitnessCategories + medicalCategory

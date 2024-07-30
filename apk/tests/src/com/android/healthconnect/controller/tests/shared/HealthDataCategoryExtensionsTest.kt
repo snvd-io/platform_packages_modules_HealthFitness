@@ -57,7 +57,7 @@ class HealthDataCategoryExtensionsTest {
     }
 
     @Test
-    fun allFitnessPermission_haveParentCategory() {
+    fun allFitnessPermissions_haveParentCategory() {
         val allFitnessPermissions =
             healthPermissionReader.getHealthPermissions().filterNot { perm ->
                 healthPermissionReader.isAdditionalPermission(perm) ||
@@ -74,7 +74,7 @@ class HealthDataCategoryExtensionsTest {
     }
 
     @Test
-    fun allMedicalPermission_haveParentCategory() {
+    fun allMedicalPermissions_haveParentCategory() {
         val allMedicalsPermissions =
             healthPermissionReader.getHealthPermissions().filterNot { perm ->
                 healthPermissionReader.isAdditionalPermission(perm) ||

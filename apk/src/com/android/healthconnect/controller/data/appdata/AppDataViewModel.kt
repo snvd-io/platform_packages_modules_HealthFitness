@@ -27,6 +27,7 @@ import com.android.healthconnect.controller.shared.app.AppMetadata
 import com.android.healthconnect.controller.shared.usecase.UseCaseResults
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 /** View model for the [AppDataFragment] . */
@@ -77,24 +78,21 @@ constructor(
         _appMedicalData.postValue(AppDataState.Loading)
 
         viewModelScope.launch {
-            when (val result = loadAppDataUseCase.loadFitnessAppData(packageName)) {
-                is UseCaseResults.Success -> {
-                    _appFitnessData.postValue(AppDataState.WithData(result.data))
-                }
-                is UseCaseResults.Failed -> {
-                    _appFitnessData.postValue(AppDataState.Error)
-                }
-            }
+            val fitnessData = async { loadAppDataUseCase.loadFitnessAppData(packageName) }
+            val medicalData = async { loadAppDataUseCase.loadMedicalAppData(packageName) }
+
+            handleResult(fitnessData.await(), _appFitnessData)
+            handleResult(medicalData.await(), _appMedicalData)
         }
-        viewModelScope.launch {
-            when (val result = loadAppDataUseCase.loadMedicalAppData(packageName)) {
-                is UseCaseResults.Success -> {
-                    _appMedicalData.postValue(AppDataState.WithData(result.data))
-                }
-                is UseCaseResults.Failed -> {
-                    _appMedicalData.postValue(AppDataState.Error)
-                }
-            }
+    }
+
+    private fun handleResult(
+        result: UseCaseResults<List<PermissionTypesPerCategory>>,
+        liveData: MutableLiveData<AppDataState>
+    ) {
+        when (result) {
+            is UseCaseResults.Success -> liveData.postValue(AppDataState.WithData(result.data))
+            is UseCaseResults.Failed -> liveData.postValue(AppDataState.Error)
         }
     }
 
