@@ -115,7 +115,12 @@ class ExportDestinationFragment : Hilt_ExportDestinationFragment() {
                 }
                 is DocumentProviders.WithData -> {
                     documentProvidersViewBinder.bindDocumentProvidersView(
-                        providers.providers, documentProvidersList, inflater) { root ->
+                        providers.providers,
+                        viewModel.selectedDocumentProvider.value,
+                        viewModel.selectedDocumentProviderRoot.value,
+                        documentProvidersList,
+                        inflater) { provider, root ->
+                            viewModel.updateSelectedDocumentProvider(provider, root)
                             nextButton.setOnClickListener {
                                 logger.logInteraction(
                                     ExportDestinationElement.EXPORT_DESTINATION_NEXT_BUTTON)

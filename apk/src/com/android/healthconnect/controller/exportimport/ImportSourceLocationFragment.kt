@@ -113,7 +113,12 @@ class ImportSourceLocationFragment : Hilt_ImportSourceLocationFragment() {
                 }
                 is DocumentProviders.WithData -> {
                     documentProvidersViewBinder.bindDocumentProvidersView(
-                        providers.providers, documentProvidersList, inflater) { root ->
+                        providers.providers,
+                        viewModel.selectedDocumentProvider.value,
+                        viewModel.selectedDocumentProviderRoot.value,
+                        documentProvidersList,
+                        inflater) { provider, root ->
+                            viewModel.updateSelectedDocumentProvider(provider, root)
                             nextButton.setOnClickListener {
                                 logger.logInteraction(
                                     ImportSourceLocationElement.IMPORT_SOURCE_LOCATION_NEXT_BUTTON)
