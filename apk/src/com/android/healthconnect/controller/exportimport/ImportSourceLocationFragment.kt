@@ -69,6 +69,8 @@ class ImportSourceLocationFragment : Hilt_ImportSourceLocationFragment() {
         val pageHeaderView = view.findViewById<TextView>(R.id.page_header_text)
         val pageHeaderIconView = view.findViewById<ImageView>(R.id.page_header_icon)
         val footerView = view.findViewById<View>(R.id.export_import_footer)
+        val footerIconView = view.findViewById<View>(R.id.export_import_footer_icon)
+        val footerTextView = view.findViewById<TextView>(R.id.export_import_footer_text)
         val playStoreView = view.findViewById<LinkTextView>(R.id.export_import_go_to_play_store)
         val cancelButton = view.findViewById<Button>(R.id.export_import_cancel_button)
         val nextButton = view.findViewById<Button>(R.id.export_import_next_button)
@@ -100,6 +102,8 @@ class ImportSourceLocationFragment : Hilt_ImportSourceLocationFragment() {
             nextButton.setOnClickListener {}
             nextButton.setEnabled(false)
 
+            footerView.setVisibility(GONE)
+
             when (providers) {
                 is DocumentProviders.Loading -> {
                     // Do nothing
@@ -129,6 +133,14 @@ class ImportSourceLocationFragment : Hilt_ImportSourceLocationFragment() {
                         footerView.setVisibility(GONE)
                     } else {
                         footerView.setVisibility(VISIBLE)
+
+                        if (providers.providers.isEmpty()) {
+                            footerIconView.setVisibility(GONE)
+                            footerTextView.setText(R.string.export_import_no_apps_text)
+                        } else {
+                            footerIconView.setVisibility(VISIBLE)
+                            footerTextView.setText(R.string.export_import_install_apps_text)
+                        }
                     }
                 }
             }
