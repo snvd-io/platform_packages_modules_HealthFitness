@@ -592,13 +592,13 @@ class ExportDestinationFragmentTest {
     }
 
     @Test
-    fun exportDestinationFragment_noProvidersAndPlayStoreNotAvailable_showsInstallAppsText() {
+    fun exportDestinationFragment_noProvidersAndPlayStoreNotAvailable_showsNoAppsText() {
         (deviceInfoUtils as FakeDeviceInfoUtils).setPlayStoreAvailability(false)
 
         fakeHealthDataExportManager.setExportImportDocumentProviders(listOf())
         launchFragment<ExportDestinationFragment>(Bundle())
 
-        onView(withText(R.string.export_import_install_apps_text)).check(matches(isDisplayed()))
+        onView(withText(R.string.export_import_no_apps_text)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -613,13 +613,13 @@ class ExportDestinationFragmentTest {
     }
 
     @Test
-    fun exportDestinationFragment_noProvidersAndPlayStoreAvailable_showsInstallAppsText() {
+    fun exportDestinationFragment_noProvidersAndPlayStoreAvailable_showsNoAppsText() {
         (deviceInfoUtils as FakeDeviceInfoUtils).setPlayStoreAvailability(true)
 
         fakeHealthDataExportManager.setExportImportDocumentProviders(listOf())
         launchFragment<ExportDestinationFragment>(Bundle())
 
-        onView(withText(R.string.export_import_install_apps_text)).check(matches(isDisplayed()))
+        onView(withText(R.string.export_import_no_apps_text)).check(matches(isDisplayed()))
     }
 
     @Test

@@ -603,13 +603,13 @@ class ImportSourceLocationFragmentTest {
     }
 
     @Test
-    fun importSourceLocationFragment_noProvidersAndPlayStoreNotAvailable_showsInstallAppsText() {
+    fun importSourceLocationFragment_noProvidersAndPlayStoreNotAvailable_showsNoAppsText() {
         (deviceInfoUtils as FakeDeviceInfoUtils).setPlayStoreAvailability(false)
 
         fakeHealthDataExportManager.setExportImportDocumentProviders(listOf())
         launchFragment<ImportSourceLocationFragment>(Bundle())
 
-        onView(withText(R.string.export_import_install_apps_text)).check(matches(isDisplayed()))
+        onView(withText(R.string.export_import_no_apps_text)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -624,13 +624,13 @@ class ImportSourceLocationFragmentTest {
     }
 
     @Test
-    fun importSourceLocationFragment_noProvidersAndPlayStoreAvailable_showsInstallAppsText() {
+    fun importSourceLocationFragment_noProvidersAndPlayStoreAvailable_showsNoAppsText() {
         (deviceInfoUtils as FakeDeviceInfoUtils).setPlayStoreAvailability(true)
 
         fakeHealthDataExportManager.setExportImportDocumentProviders(listOf())
         launchFragment<ImportSourceLocationFragment>(Bundle())
 
-        onView(withText(R.string.export_import_install_apps_text)).check(matches(isDisplayed()))
+        onView(withText(R.string.export_import_no_apps_text)).check(matches(isDisplayed()))
     }
 
     @Test
