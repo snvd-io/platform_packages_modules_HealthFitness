@@ -2448,6 +2448,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
             @NonNull AttributionSource attributionSource,
             @NonNull ReadMedicalResourcesRequest request,
             @NonNull IReadMedicalResourcesResponseCallback callback) {
+        checkParamsNonNull(attributionSource, request, callback);
         ErrorCallback errorCallback = callback::onError;
         if (!personalHealthRecord()) {
             HealthConnectException unsupportedException =
@@ -2459,8 +2460,6 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                     errorCallback, unsupportedException, unsupportedException.getErrorCode());
             return;
         }
-
-        checkParamsNonNull(attributionSource, request, callback);
 
         final int uid = Binder.getCallingUid();
         final int pid = Binder.getCallingPid();
@@ -2478,21 +2477,31 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                     verifyPackageNameFromUid(uid, attributionSource);
                     throwExceptionIfDataSyncInProgress();
 
-                    boolean enforceSelfRead = false;
+                    ReadMedicalResourcesInternalResponse response;
 
-                    boolean isInForeground = mAppOpsManagerLocal.isUidInForeground(uid);
-
-                    if (!holdsDataManagementPermission) {
+                    if (holdsDataManagementPermission) {
+                        response = mMedicalResourceHelper.readMedicalResourcesByRequest(request);
+                    } else {
+                        boolean isInForeground = mAppOpsManagerLocal.isUidInForeground(uid);
                         logger.setCallerForegroundState(isInForeground);
 
                         tryAcquireApiCallQuota(
                                 uid, QuotaCategory.QUOTA_CATEGORY_READ, isInForeground, logger);
 
-                        // TODO(b/350436655): Implement permission enforcement.
-                        if (!isInForeground) {
-                            // If Background Read feature is disabled or
-                            // READ_HEALTH_DATA_IN_BACKGROUND permission is not granted, then
-                            // enforce self read.
+                        boolean enforceSelfRead = false;
+                        // If both read and write permissions are missing, inside the if condition
+                        // the statement throws SecurityException.
+                        if (mMedicalDataPermissionEnforcer
+                                .enforceMedicalReadAccessAndGetEnforceSelfRead(
+                                        request.getMedicalResourceType(), attributionSource)) {
+                            // If read permission is missing but write permission is granted,
+                            // then enforce self read.
+                            enforceSelfRead = true;
+                        } else if (!isInForeground) {
+                            // This is when read permission is granted but the app is reading from
+                            // the background. Then we enforce self read if Background Read feature
+                            // is disabled or READ_HEALTH_DATA_IN_BACKGROUND permission is not
+                            // granted.
                             enforceSelfRead = isOnlySelfReadInBackgroundAllowed(uid, pid);
                         }
                         if (Constants.DEBUG) {
@@ -2503,12 +2512,12 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                             + ":"
                                             + enforceSelfRead);
                         }
+
+                        response =
+                                mMedicalResourceHelper.readMedicalResourcesByRequest(
+                                        request, callingPackageName, enforceSelfRead);
                     }
 
-                    // TODO(b/353258694): Pass callingPackageName, enforceSelfRead and
-                    // isInForeground to DB.
-                    ReadMedicalResourcesInternalResponse response =
-                            mMedicalResourceHelper.readMedicalResourcesByRequest(request);
                     List<MedicalResource> medicalResources = response.getMedicalResources();
                     logger.setNumberOfRecords(medicalResources.size());
 

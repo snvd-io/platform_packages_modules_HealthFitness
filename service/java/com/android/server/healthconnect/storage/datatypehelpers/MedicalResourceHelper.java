@@ -199,6 +199,20 @@ public final class MedicalResourceHelper {
         return response;
     }
 
+    /**
+     * Reads the {@link MedicalResource}s stored in the HealthConnect database by {@code request}.
+     *
+     * @return a {@link ReadMedicalResourcesInternalResponse}.
+     */
+    @NonNull
+    public ReadMedicalResourcesInternalResponse readMedicalResourcesByRequest(
+            @NonNull ReadMedicalResourcesRequest ignoredRequest,
+            @NonNull String ignoredCallingPackageName,
+            boolean ignoredEnforceSelfRead) {
+        // TODO(b/350436655): Use ignored fields for permission checks in read table request.
+        return new ReadMedicalResourcesInternalResponse(List.of(), null);
+    }
+
     /** Creates {@link ReadTableRequest} for the given {@link MedicalResourceId}s. */
     @NonNull
     @VisibleForTesting
