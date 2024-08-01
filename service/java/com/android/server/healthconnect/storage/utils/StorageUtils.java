@@ -49,7 +49,6 @@ import android.util.Slog;
 
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.server.healthconnect.storage.HealthConnectDatabase;
-import com.android.server.healthconnect.storage.datatypehelpers.HealthDataCategoryPriorityHelper;
 import com.android.server.healthconnect.storage.request.UpsertMedicalResourceInternalRequest;
 
 import java.nio.ByteBuffer;
@@ -388,13 +387,6 @@ public final class StorageUtils {
         int recordCategory =
                 RecordTypeRecordCategoryMapper.getRecordCategoryForRecordType(recordType);
         return recordCategory == ACTIVITY || recordCategory == SLEEP || recordCategory == WELLNESS;
-    }
-
-    /** Returns list of app Ids of contributing apps for the record type in the priority order */
-    public static List<Long> getAppIdPriorityList(int recordType) {
-        return HealthDataCategoryPriorityHelper.getInstance()
-                .getAppIdPriorityOrder(
-                        RecordTypeRecordCategoryMapper.getRecordCategoryForRecordType(recordType));
     }
 
     /** Returns if derivation needs to be done to calculate aggregate */

@@ -567,6 +567,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                             new AggregateTransactionRequest(
                                             attributionSource.getPackageName(),
                                             request,
+                                            mHealthDataCategoryPriorityHelper,
                                             startDateAccess)
                                     .getAggregateDataResponseParcel());
                     logger.setDataTypesFromRecordTypes(recordTypesToTest)
