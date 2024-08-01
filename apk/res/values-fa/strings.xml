@@ -342,12 +342,10 @@
     <string name="scheduled_export" msgid="8737660963687364370">"صادر کردن زمان‌بندی‌شده"</string>
     <string name="import_data" msgid="404502315533233094">"وارد کردن داده"</string>
     <string name="import_data_description" msgid="4040178599441724296">"بازیابی داده از فایل قبلاً صادرشده"</string>
-    <!-- no translation found for import_wrong_file_error_banner_button (1518043363477255045) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_button" msgid="1518043363477255045">"انتخاب فایل"</string>
     <!-- no translation found for import_wrong_file_error_banner_title (1841182157722596266) -->
     <skip />
-    <!-- no translation found for import_wrong_file_error_banner_summary (4857514343099050126) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_summary" msgid="4857514343099050126">"فایلی که انتخاب کردید برای بازیابی سازگار نیست. حتماً فایل برون‌برد صحیح را انتخاب کنید."</string>
     <string name="backup_and_restore_footer_body_text" msgid="4854718727539851909">"صادر کردن به شما امکان می‌دهد داده‌هایتان را ذخیره کنید تا بتوانید آن‌ها را به تلفن جدیدی منتقل کنید"</string>
     <string name="backup_and_restore_footer_link_text" msgid="5862384033902147721">"بیشتر بدانید"</string>
     <string name="automatic_export_on" msgid="6972389773963624315">"روشن"</string>
@@ -371,15 +369,12 @@
     <string name="import_next_button" msgid="5706322508691854289">"بعدی"</string>
     <string name="import_source_location_title" msgid="4444467438013749461">"وارد کردن از"</string>
     <string name="import_invalid_storage" msgid="4873640088459948487">"لطفاً برای وارد کردن داده‌هایتان برنامه ذخیره‌سازی انتخاب کنید"</string>
-    <!-- no translation found for export_import_tap_to_choose_account (5016799636886709580) -->
-    <skip />
+    <string name="export_import_tap_to_choose_account" msgid="5016799636886709580">"برای انتخاب حساب، ضربه بزنید"</string>
     <string name="export_import_choose_account_title" msgid="1047021319012735232">"حسابی انتخاب کنید"</string>
     <string name="export_import_choose_account_cancel_button" msgid="7975616126298263479">"لغو کردن"</string>
     <string name="export_import_choose_account_done_button" msgid="8450305343787469429">"تمام"</string>
-    <!-- no translation found for export_import_install_apps_text (5026922993254770904) -->
-    <skip />
-    <!-- no translation found for export_import_go_to_play_store_text (3210733429377429794) -->
-    <skip />
+    <string name="export_import_install_apps_text" msgid="5026922993254770904">"برای گزینه‌های بیشتر، برنامه‌های فضای ذخیره‌سازی ابری را نصب کنید تا آن‌ها را اینجا ببینید"</string>
+    <string name="export_import_go_to_play_store_text" msgid="3210733429377429794">"رفتن به فروشگاه Play"</string>
     <string name="onboarding_title" msgid="8550656211291180188">"شروع کار با Health Connect"</string>
     <string name="onboarding_description" msgid="4873129122057931161">"‫Health Connect داده‌های سلامتی و تناسب اندام شما را ذخیره می‌کند و روشی ساده برای همگام‌سازی برنامه‌های مختلف تلفن دراختیارتان می‌گذارد"</string>
     <string name="share_data" msgid="3481932156368883946">"هم‌رسانی داده‌ها با برنامه‌ها"</string>
@@ -545,8 +540,8 @@
     <string name="racquetball" msgid="8169482984904052538">"راکت‌بال"</string>
     <string name="rock_climbing" msgid="3123024521372083233">"صخره‌نوردی"</string>
     <string name="roller_hockey" msgid="3524872164646176686">"اسکیت هاکی"</string>
-    <string name="rowing" msgid="615898011726585442">"روئینگ"</string>
-    <string name="rowing_machine" msgid="4075255566862183370">"روئینگ با دستگاه"</string>
+    <string name="rowing" msgid="615898011726585442">"پاروزنی"</string>
+    <string name="rowing_machine" msgid="4075255566862183370">"پاروزنی با دستگاه"</string>
     <string name="rugby" msgid="5146215118571059267">"راگبی"</string>
     <string name="running" msgid="5135754380339217169">"دویدن"</string>
     <string name="running_treadmill" msgid="2083354407217486405">"دویدن روی تردمیل"</string>

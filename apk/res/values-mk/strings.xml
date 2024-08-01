@@ -342,12 +342,10 @@
     <string name="scheduled_export" msgid="8737660963687364370">"Закажано извезување"</string>
     <string name="import_data" msgid="404502315533233094">"Увезете ги податоците"</string>
     <string name="import_data_description" msgid="4040178599441724296">"Вратете ги податоците од претходно извезената датотека"</string>
-    <!-- no translation found for import_wrong_file_error_banner_button (1518043363477255045) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_button" msgid="1518043363477255045">"Изберете датотека"</string>
     <!-- no translation found for import_wrong_file_error_banner_title (1841182157722596266) -->
     <skip />
-    <!-- no translation found for import_wrong_file_error_banner_summary (4857514343099050126) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_summary" msgid="4857514343099050126">"Датотеката што ја избравте не е компатибилна за враќање. Погрижете се да ја изберете точната извезена датотека."</string>
     <string name="backup_and_restore_footer_body_text" msgid="4854718727539851909">"Функцијата за извоз ви овозможува да ги зачувате вашите податоци за да може да ги префрлите на нов телефон"</string>
     <string name="backup_and_restore_footer_link_text" msgid="5862384033902147721">"Дознајте повеќе"</string>
     <string name="automatic_export_on" msgid="6972389773963624315">"Вклучено"</string>
@@ -371,15 +369,12 @@
     <string name="import_next_button" msgid="5706322508691854289">"Следно"</string>
     <string name="import_source_location_title" msgid="4444467438013749461">"Увезете од"</string>
     <string name="import_invalid_storage" msgid="4873640088459948487">"Изберете апликација за складирање за да ги увезете вашите податоци"</string>
-    <!-- no translation found for export_import_tap_to_choose_account (5016799636886709580) -->
-    <skip />
+    <string name="export_import_tap_to_choose_account" msgid="5016799636886709580">"Допрете за да изберете сметка"</string>
     <string name="export_import_choose_account_title" msgid="1047021319012735232">"Изберете сметка"</string>
     <string name="export_import_choose_account_cancel_button" msgid="7975616126298263479">"Откажи"</string>
     <string name="export_import_choose_account_done_button" msgid="8450305343787469429">"Готово"</string>
-    <!-- no translation found for export_import_install_apps_text (5026922993254770904) -->
-    <skip />
-    <!-- no translation found for export_import_go_to_play_store_text (3210733429377429794) -->
-    <skip />
+    <string name="export_import_install_apps_text" msgid="5026922993254770904">"За повеќе опции, инсталирајте апликации за простор во облак за да ги гледате тука"</string>
+    <string name="export_import_go_to_play_store_text" msgid="3210733429377429794">"Одете во Play Store"</string>
     <string name="onboarding_title" msgid="8550656211291180188">"Започнете со Health Connect"</string>
     <string name="onboarding_description" msgid="4873129122057931161">"Health Connect ги складира податоците за вашето здравје и фитнес, давајќи ви едноставен начин да ги синхронизирате различните апликации на вашиот телефон"</string>
     <string name="share_data" msgid="3481932156368883946">"Споделувајте податоци со вашите апликации"</string>

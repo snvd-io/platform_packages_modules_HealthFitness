@@ -342,12 +342,10 @@
     <string name="scheduled_export" msgid="8737660963687364370">"एक्सपोर्ट के लिए तय किया गया शेड्यूल"</string>
     <string name="import_data" msgid="404502315533233094">"डेटा को इंपोर्ट करें"</string>
     <string name="import_data_description" msgid="4040178599441724296">"एक्सपोर्ट की गई पिछली फ़ाइल का डेटा वापस पाएं"</string>
-    <!-- no translation found for import_wrong_file_error_banner_button (1518043363477255045) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_button" msgid="1518043363477255045">"फ़ाइल चुनें"</string>
     <!-- no translation found for import_wrong_file_error_banner_title (1841182157722596266) -->
     <skip />
-    <!-- no translation found for import_wrong_file_error_banner_summary (4857514343099050126) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_summary" msgid="4857514343099050126">"आपने जो फ़ाइल चुनी है उसे वापस नहीं लाया जा सकता. पक्का करें कि आपने एक्सपोर्ट की गई सही फ़ाइल चुनी हो."</string>
     <string name="backup_and_restore_footer_body_text" msgid="4854718727539851909">"एक्सपोर्ट करने की सुविधा से डेटा को सेव किया जा सकता है, ताकि आप उसे नए फ़ोन में ट्रांसफ़र कर सकें"</string>
     <string name="backup_and_restore_footer_link_text" msgid="5862384033902147721">"ज़्यादा जानें"</string>
     <string name="automatic_export_on" msgid="6972389773963624315">"चालू है"</string>
@@ -371,15 +369,12 @@
     <string name="import_next_button" msgid="5706322508691854289">"आगे बढ़ें"</string>
     <string name="import_source_location_title" msgid="4444467438013749461">"इससे इंपोर्ट करें"</string>
     <string name="import_invalid_storage" msgid="4873640088459948487">"अपना डेटा इंपोर्ट करने के लिए कृपया कोई स्टोरेज ऐप्लिकेशन चुनें"</string>
-    <!-- no translation found for export_import_tap_to_choose_account (5016799636886709580) -->
-    <skip />
+    <string name="export_import_tap_to_choose_account" msgid="5016799636886709580">"कोई खाता चुनने के लिए टैप करें"</string>
     <string name="export_import_choose_account_title" msgid="1047021319012735232">"कोई खाता चुनें"</string>
     <string name="export_import_choose_account_cancel_button" msgid="7975616126298263479">"रद्द करें"</string>
     <string name="export_import_choose_account_done_button" msgid="8450305343787469429">"हो गया"</string>
-    <!-- no translation found for export_import_install_apps_text (5026922993254770904) -->
-    <skip />
-    <!-- no translation found for export_import_go_to_play_store_text (3210733429377429794) -->
-    <skip />
+    <string name="export_import_install_apps_text" msgid="5026922993254770904">"ज़्यादा विकल्पों के लिए, क्लाउड स्टोरेज की सुविधा वाले ऐप्लिकेशन डाउनलोड करें. इससे ये ऐप्लिकेशन यहां दिखेंगे"</string>
+    <string name="export_import_go_to_play_store_text" msgid="3210733429377429794">"Play Store पर जाएं"</string>
     <string name="onboarding_title" msgid="8550656211291180188">"Health Connect का इस्तेमाल शुरू करें"</string>
     <string name="onboarding_description" msgid="4873129122057931161">"Health Connect में, सेहत और फ़िटनेस से जुड़ा आपका डेटा सेव किया जाता है. इससे, अपने फ़ोन में अलग-अलग ऐप्लिकेशन को आसानी से सिंक करने में मदद मिलती है"</string>
     <string name="share_data" msgid="3481932156368883946">"ऐप्लिकेशन के साथ डेटा शेयर करें"</string>
