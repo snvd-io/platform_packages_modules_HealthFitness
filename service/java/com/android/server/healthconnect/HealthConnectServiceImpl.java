@@ -168,6 +168,7 @@ import com.android.server.healthconnect.permission.DataPermissionEnforcer;
 import com.android.server.healthconnect.permission.FirstGrantTimeManager;
 import com.android.server.healthconnect.permission.HealthConnectPermissionHelper;
 import com.android.server.healthconnect.permission.MedicalDataPermissionEnforcer;
+import com.android.server.healthconnect.phr.ReadMedicalResourcesInternalResponse;
 import com.android.server.healthconnect.storage.AutoDeleteService;
 import com.android.server.healthconnect.storage.ExportImportSettingsStorage;
 import com.android.server.healthconnect.storage.TransactionManager;
@@ -2494,7 +2495,6 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                             // enforce self read.
                             enforceSelfRead = isOnlySelfReadInBackgroundAllowed(uid, pid);
                         }
-
                         if (Constants.DEBUG) {
                             Slog.d(
                                     TAG,
@@ -2507,13 +2507,15 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
 
                     // TODO(b/353258694): Pass callingPackageName, enforceSelfRead and
                     // isInForeground to DB.
-                    List<MedicalResource> medicalResources =
+                    ReadMedicalResourcesInternalResponse response =
                             mMedicalResourceHelper.readMedicalResourcesByRequest(request);
+                    List<MedicalResource> medicalResources = response.getMedicalResources();
                     logger.setNumberOfRecords(medicalResources.size());
 
                     // TODO(b/343921816): Creates access log.
-                    // TODO(b/351817943): Use page token returned by the storage.
-                    callback.onResult(new ReadMedicalResourcesResponse(medicalResources, null));
+                    callback.onResult(
+                            new ReadMedicalResourcesResponse(
+                                    medicalResources, response.getPageToken()));
                     logger.setHealthDataServiceApiStatusSuccess();
                 },
                 logger,
