@@ -342,12 +342,10 @@
     <string name="scheduled_export" msgid="8737660963687364370">"已排定的导出任务"</string>
     <string name="import_data" msgid="404502315533233094">"导入数据"</string>
     <string name="import_data_description" msgid="4040178599441724296">"利用之前导出的文件恢复数据"</string>
-    <!-- no translation found for import_wrong_file_error_banner_button (1518043363477255045) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_button" msgid="1518043363477255045">"选择文件"</string>
     <!-- no translation found for import_wrong_file_error_banner_title (1841182157722596266) -->
     <skip />
-    <!-- no translation found for import_wrong_file_error_banner_summary (4857514343099050126) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_summary" msgid="4857514343099050126">"您选择的文件无法进行恢复。请确保选择正确的导出文件。"</string>
     <string name="backup_and_restore_footer_body_text" msgid="4854718727539851909">"您可以使用导出功能保存数据，以便将数据传输到新手机"</string>
     <string name="backup_and_restore_footer_link_text" msgid="5862384033902147721">"了解详情"</string>
     <string name="automatic_export_on" msgid="6972389773963624315">"已启用"</string>
@@ -371,15 +369,12 @@
     <string name="import_next_button" msgid="5706322508691854289">"继续"</string>
     <string name="import_source_location_title" msgid="4444467438013749461">"导入来源"</string>
     <string name="import_invalid_storage" msgid="4873640088459948487">"请选择要导入的数据所在的存储空间应用"</string>
-    <!-- no translation found for export_import_tap_to_choose_account (5016799636886709580) -->
-    <skip />
+    <string name="export_import_tap_to_choose_account" msgid="5016799636886709580">"请点按选择一个账号"</string>
     <string name="export_import_choose_account_title" msgid="1047021319012735232">"选择账号"</string>
     <string name="export_import_choose_account_cancel_button" msgid="7975616126298263479">"取消"</string>
     <string name="export_import_choose_account_done_button" msgid="8450305343787469429">"完成"</string>
-    <!-- no translation found for export_import_install_apps_text (5026922993254770904) -->
-    <skip />
-    <!-- no translation found for export_import_go_to_play_store_text (3210733429377429794) -->
-    <skip />
+    <string name="export_import_install_apps_text" msgid="5026922993254770904">"如需更多选项，请安装云端存储空间应用，然后这里就会显示相关选项"</string>
+    <string name="export_import_go_to_play_store_text" msgid="3210733429377429794">"转到 Play 商店"</string>
     <string name="onboarding_title" msgid="8550656211291180188">"开始使用健康数据共享"</string>
     <string name="onboarding_description" msgid="4873129122057931161">"健康数据共享会存储您的健康与健身数据，让您可以轻松同步手机上的不同应用"</string>
     <string name="share_data" msgid="3481932156368883946">"与应用分享数据"</string>

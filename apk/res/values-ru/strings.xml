@@ -342,12 +342,10 @@
     <string name="scheduled_export" msgid="8737660963687364370">"Экспорт по расписанию"</string>
     <string name="import_data" msgid="404502315533233094">"Импорт данных"</string>
     <string name="import_data_description" msgid="4040178599441724296">"Восстановить данные из ранее экспортированного файла"</string>
-    <!-- no translation found for import_wrong_file_error_banner_button (1518043363477255045) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_button" msgid="1518043363477255045">"Выбрать файл"</string>
     <!-- no translation found for import_wrong_file_error_banner_title (1841182157722596266) -->
     <skip />
-    <!-- no translation found for import_wrong_file_error_banner_summary (4857514343099050126) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_summary" msgid="4857514343099050126">"Выбран файл, который невозможно восстановить. Выберите подходящий экспортированный файл."</string>
     <string name="backup_and_restore_footer_body_text" msgid="4854718727539851909">"Используя функцию экспорта, вы можете сохранить данные, чтобы перенести их на другой телефон."</string>
     <string name="backup_and_restore_footer_link_text" msgid="5862384033902147721">"Подробнее…"</string>
     <string name="automatic_export_on" msgid="6972389773963624315">"Включен"</string>
@@ -371,15 +369,12 @@
     <string name="import_next_button" msgid="5706322508691854289">"Далее"</string>
     <string name="import_source_location_title" msgid="4444467438013749461">"Откуда импортировать:"</string>
     <string name="import_invalid_storage" msgid="4873640088459948487">"Выберите приложение для хранения файлов, чтобы импортировать данные."</string>
-    <!-- no translation found for export_import_tap_to_choose_account (5016799636886709580) -->
-    <skip />
+    <string name="export_import_tap_to_choose_account" msgid="5016799636886709580">"Нажмите, чтобы выбрать аккаунт"</string>
     <string name="export_import_choose_account_title" msgid="1047021319012735232">"Выберите аккаунт"</string>
     <string name="export_import_choose_account_cancel_button" msgid="7975616126298263479">"Отмена"</string>
     <string name="export_import_choose_account_done_button" msgid="8450305343787469429">"Готово"</string>
-    <!-- no translation found for export_import_install_apps_text (5026922993254770904) -->
-    <skip />
-    <!-- no translation found for export_import_go_to_play_store_text (3210733429377429794) -->
-    <skip />
+    <string name="export_import_install_apps_text" msgid="5026922993254770904">"Если вам нужны ещё варианты, установите приложения для облачного хранения, и они появятся здесь."</string>
+    <string name="export_import_go_to_play_store_text" msgid="3210733429377429794">"Перейти в Google Play"</string>
     <string name="onboarding_title" msgid="8550656211291180188">"Начало работы с сервисом \"Здоровье и спорт\""</string>
     <string name="onboarding_description" msgid="4873129122057931161">"Сервис \"Здоровье и спорт\" хранит ваши данные о здоровье и физической активности, позволяя без труда синхронизировать их с другими приложениями на телефоне."</string>
     <string name="share_data" msgid="3481932156368883946">"Делитесь данными с приложениями"</string>

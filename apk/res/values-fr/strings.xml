@@ -342,12 +342,10 @@
     <string name="scheduled_export" msgid="8737660963687364370">"Exportation programmée"</string>
     <string name="import_data" msgid="404502315533233094">"Importer les données"</string>
     <string name="import_data_description" msgid="4040178599441724296">"Restaurez les données d\'un fichier précédemment exporté"</string>
-    <!-- no translation found for import_wrong_file_error_banner_button (1518043363477255045) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_button" msgid="1518043363477255045">"Sélectionner un fichier"</string>
     <!-- no translation found for import_wrong_file_error_banner_title (1841182157722596266) -->
     <skip />
-    <!-- no translation found for import_wrong_file_error_banner_summary (4857514343099050126) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_summary" msgid="4857514343099050126">"Le fichier que vous avez sélectionné n\'est pas compatible avec la restauration. Assurez-vous de sélectionner le bon fichier exporté."</string>
     <string name="backup_and_restore_footer_body_text" msgid="4854718727539851909">"L\'exportation vous permet d\'enregistrer vos données afin que vous puissiez les transférer sur un nouveau téléphone"</string>
     <string name="backup_and_restore_footer_link_text" msgid="5862384033902147721">"En savoir plus"</string>
     <string name="automatic_export_on" msgid="6972389773963624315">"Activé"</string>
@@ -371,15 +369,12 @@
     <string name="import_next_button" msgid="5706322508691854289">"Suivant"</string>
     <string name="import_source_location_title" msgid="4444467438013749461">"Importer depuis"</string>
     <string name="import_invalid_storage" msgid="4873640088459948487">"Choisissez une application de stockage pour importer vos données"</string>
-    <!-- no translation found for export_import_tap_to_choose_account (5016799636886709580) -->
-    <skip />
+    <string name="export_import_tap_to_choose_account" msgid="5016799636886709580">"Appuyez pour sélectionner un compte"</string>
     <string name="export_import_choose_account_title" msgid="1047021319012735232">"Sélectionner un compte"</string>
     <string name="export_import_choose_account_cancel_button" msgid="7975616126298263479">"Annuler"</string>
     <string name="export_import_choose_account_done_button" msgid="8450305343787469429">"OK"</string>
-    <!-- no translation found for export_import_install_apps_text (5026922993254770904) -->
-    <skip />
-    <!-- no translation found for export_import_go_to_play_store_text (3210733429377429794) -->
-    <skip />
+    <string name="export_import_install_apps_text" msgid="5026922993254770904">"Pour plus d\'options, installez des applis de stockage cloud pour les voir ici"</string>
+    <string name="export_import_go_to_play_store_text" msgid="3210733429377429794">"Accéder au Play Store"</string>
     <string name="onboarding_title" msgid="8550656211291180188">"Premiers pas avec Santé Connect"</string>
     <string name="onboarding_description" msgid="4873129122057931161">"Santé Connect stocke vos données de santé et de remise en forme, et vous permet de synchroniser facilement les différentes applis de votre téléphone"</string>
     <string name="share_data" msgid="3481932156368883946">"Partager des données avec vos applis"</string>

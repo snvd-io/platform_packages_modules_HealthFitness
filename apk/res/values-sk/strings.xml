@@ -342,12 +342,10 @@
     <string name="scheduled_export" msgid="8737660963687364370">"Naplánovaný export"</string>
     <string name="import_data" msgid="404502315533233094">"Importovať údaje"</string>
     <string name="import_data_description" msgid="4040178599441724296">"Obnovte údaje zo súboru exportovaného v minulosti"</string>
-    <!-- no translation found for import_wrong_file_error_banner_button (1518043363477255045) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_button" msgid="1518043363477255045">"Vybrať súbor"</string>
     <!-- no translation found for import_wrong_file_error_banner_title (1841182157722596266) -->
     <skip />
-    <!-- no translation found for import_wrong_file_error_banner_summary (4857514343099050126) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_summary" msgid="4857514343099050126">"Súbor, ktorý ste vybrali, nie je kompatibilný a nedá sa obnoviť. Vyberte správny exportovaný súbor."</string>
     <string name="backup_and_restore_footer_body_text" msgid="4854718727539851909">"Export vám umožňuje uložiť si údaje, aby ste ich mohli preniesť do nového telefónu"</string>
     <string name="backup_and_restore_footer_link_text" msgid="5862384033902147721">"Ďalšie informácie"</string>
     <string name="automatic_export_on" msgid="6972389773963624315">"Zapnuté"</string>
@@ -371,15 +369,12 @@
     <string name="import_next_button" msgid="5706322508691854289">"Ďalej"</string>
     <string name="import_source_location_title" msgid="4444467438013749461">"Import z umiestnenia"</string>
     <string name="import_invalid_storage" msgid="4873640088459948487">"Vyberte aplikáciu s priestorom, z ktorej sa majú importovať údaje"</string>
-    <!-- no translation found for export_import_tap_to_choose_account (5016799636886709580) -->
-    <skip />
+    <string name="export_import_tap_to_choose_account" msgid="5016799636886709580">"Klepnutím vyberte účet"</string>
     <string name="export_import_choose_account_title" msgid="1047021319012735232">"Vyberte účet"</string>
     <string name="export_import_choose_account_cancel_button" msgid="7975616126298263479">"Zrušiť"</string>
     <string name="export_import_choose_account_done_button" msgid="8450305343787469429">"Hotovo"</string>
-    <!-- no translation found for export_import_install_apps_text (5026922993254770904) -->
-    <skip />
-    <!-- no translation found for export_import_go_to_play_store_text (3210733429377429794) -->
-    <skip />
+    <string name="export_import_install_apps_text" msgid="5026922993254770904">"Ak chcete získať ďalšie možnosti, nainštalujte si aplikácie cloudového priestoru, aby sa tu zobrazovali"</string>
+    <string name="export_import_go_to_play_store_text" msgid="3210733429377429794">"Prejsť do Obchodu Play"</string>
     <string name="onboarding_title" msgid="8550656211291180188">"Začíname s Dátami o zdraví"</string>
     <string name="onboarding_description" msgid="4873129122057931161">"Dáta o zdraví uchovávajú vaše údaje o zdraví a kondícii a umožňujú vám jednoducho synchronizovať rôzne aplikácie v telefóne"</string>
     <string name="share_data" msgid="3481932156368883946">"Zdieľanie údajov s aplikáciami"</string>

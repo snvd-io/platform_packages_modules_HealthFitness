@@ -342,12 +342,10 @@
     <string name="scheduled_export" msgid="8737660963687364370">"Zakazani izvoz"</string>
     <string name="import_data" msgid="404502315533233094">"Uvoz podataka"</string>
     <string name="import_data_description" msgid="4040178599441724296">"Vratite podatke iz prethodno izvezene datoteke"</string>
-    <!-- no translation found for import_wrong_file_error_banner_button (1518043363477255045) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_button" msgid="1518043363477255045">"Odaberite datoteku"</string>
     <!-- no translation found for import_wrong_file_error_banner_title (1841182157722596266) -->
     <skip />
-    <!-- no translation found for import_wrong_file_error_banner_summary (4857514343099050126) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_summary" msgid="4857514343099050126">"Datoteka koju ste odabrali nije kompatibilna za vraćanje. Provjerite jeste li odabrali ispravnu izvezenu datoteku."</string>
     <string name="backup_and_restore_footer_body_text" msgid="4854718727539851909">"Izvoz vam omogućuje spremanje podataka da biste ih mogli prenijeti na novi telefon"</string>
     <string name="backup_and_restore_footer_link_text" msgid="5862384033902147721">"Saznajte više"</string>
     <string name="automatic_export_on" msgid="6972389773963624315">"Uključeno"</string>
@@ -371,15 +369,12 @@
     <string name="import_next_button" msgid="5706322508691854289">"Dalje"</string>
     <string name="import_source_location_title" msgid="4444467438013749461">"Uvoz iz:"</string>
     <string name="import_invalid_storage" msgid="4873640088459948487">"Odaberite aplikaciju za pohranu da biste uvezli podatke"</string>
-    <!-- no translation found for export_import_tap_to_choose_account (5016799636886709580) -->
-    <skip />
+    <string name="export_import_tap_to_choose_account" msgid="5016799636886709580">"Dodirnite da biste odabrali račun"</string>
     <string name="export_import_choose_account_title" msgid="1047021319012735232">"Odabir računa"</string>
     <string name="export_import_choose_account_cancel_button" msgid="7975616126298263479">"Odustani"</string>
     <string name="export_import_choose_account_done_button" msgid="8450305343787469429">"Gotovo"</string>
-    <!-- no translation found for export_import_install_apps_text (5026922993254770904) -->
-    <skip />
-    <!-- no translation found for export_import_go_to_play_store_text (3210733429377429794) -->
-    <skip />
+    <string name="export_import_install_apps_text" msgid="5026922993254770904">"Za više opcija instalirajte aplikacije za pohranu u oblaku da biste ih vidjeli ovdje"</string>
+    <string name="export_import_go_to_play_store_text" msgid="3210733429377429794">"Otvori Trgovinu Play"</string>
     <string name="onboarding_title" msgid="8550656211291180188">"Početak upotrebe Health Connecta"</string>
     <string name="onboarding_description" msgid="4873129122057931161">"Health Connect sprema podatke o vašem zdravlju i fitnessu te vam pruža jednostavan način za sinkronizaciju različitih aplikacija na telefonu"</string>
     <string name="share_data" msgid="3481932156368883946">"Dijelite podatke s aplikacijama"</string>
