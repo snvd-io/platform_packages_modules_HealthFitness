@@ -263,10 +263,12 @@ public final class MedicalResourceHelper {
      */
     // TODO(b/354872929): Add cts tests for read by request.
     @NonNull
-    public ReadMedicalResourcesInternalResponse readMedicalResourcesByRequest(
-            @NonNull ReadMedicalResourcesRequest request) {
+    public ReadMedicalResourcesInternalResponse
+            readMedicalResourcesByRequestWithoutPermissionChecks(
+                    @NonNull ReadMedicalResourcesRequest request) {
         ReadMedicalResourcesInternalResponse response;
-        ReadTableRequest readTableRequest = getReadTableRequestUsingRequest(request);
+        ReadTableRequest readTableRequest =
+                getReadTableRequestUsingRequestFilterOnMedicalResourceTypes(request);
         try (Cursor cursor = mTransactionManager.read(readTableRequest)) {
             response = getMedicalResources(cursor, request);
         }
@@ -274,17 +276,40 @@ public final class MedicalResourceHelper {
     }
 
     /**
-     * Reads the {@link MedicalResource}s stored in the HealthConnect database by {@code request}.
+     * Reads the {@link MedicalResource}s stored in the HealthConnect database by {@code request}
+     * filtering based on {@code callingPackageName}'s permissions.
      *
      * @return a {@link ReadMedicalResourcesInternalResponse}.
      */
+    // TODO(b/354872929): Add cts tests for read by request.
     @NonNull
-    public ReadMedicalResourcesInternalResponse readMedicalResourcesByRequest(
-            @NonNull ReadMedicalResourcesRequest ignoredRequest,
-            @NonNull String ignoredCallingPackageName,
-            boolean ignoredEnforceSelfRead) {
-        // TODO(b/350436655): Use ignored fields for permission checks in read table request.
-        return new ReadMedicalResourcesInternalResponse(List.of(), null);
+    public ReadMedicalResourcesInternalResponse readMedicalResourcesByRequestWithPermissionChecks(
+            @NonNull ReadMedicalResourcesRequest request,
+            @NonNull String callingPackageName,
+            boolean enforceSelfRead) {
+        ReadMedicalResourcesInternalResponse response;
+        ReadTableRequest readTableRequest =
+                getReadTableRequestUsingRequestBasedOnPermissionFilters(
+                        request, callingPackageName, enforceSelfRead);
+        try (Cursor cursor = mTransactionManager.read(readTableRequest)) {
+            response = getMedicalResources(cursor, request);
+        }
+        return response;
+    }
+
+    @NonNull
+    private static ReadTableRequest getReadTableRequestUsingRequestBasedOnPermissionFilters(
+            @NonNull ReadMedicalResourcesRequest request,
+            @NonNull String callingPackageName,
+            boolean enforceSelfRead) {
+        // If this is true, app can only read its own data of the given medicalResourceType
+        // set in the request.
+        if (enforceSelfRead) {
+            return getReadTableRequestUsingRequestFilterOnMedicalResourceTypesAndAppId(
+                    request, callingPackageName);
+        }
+        // Otherwise, app can read all data of the given medicalResourceType.
+        return getReadTableRequestUsingRequestFilterOnMedicalResourceTypes(request);
     }
 
     /** Creates {@link ReadTableRequest} for the given {@link MedicalResourceId}s. */
@@ -359,17 +384,38 @@ public final class MedicalResourceHelper {
     /** Creates {@link ReadTableRequest} for the given {@link ReadMedicalResourcesRequest}. */
     @NonNull
     @VisibleForTesting
-    static ReadTableRequest getReadTableRequestUsingRequest(
+    static ReadTableRequest getReadTableRequestUsingRequestFilterOnMedicalResourceTypes(
+            @NonNull ReadMedicalResourcesRequest request) {
+        return getReadTableRequestUsingRequest(request)
+                .setJoinClause(
+                        getJoinWithIndicesAndDataSourceTablesFilterOnMedicalResourceTypes(
+                                Set.of(request.getMedicalResourceType())));
+    }
+
+    /**
+     * Creates {@link ReadTableRequest} for the given {@link ReadMedicalResourcesRequest} and {@code
+     * callingPackageName}.
+     */
+    @NonNull
+    private static ReadTableRequest
+            getReadTableRequestUsingRequestFilterOnMedicalResourceTypesAndAppId(
+                    @NonNull ReadMedicalResourcesRequest request,
+                    @NonNull String callingPackageName) {
+        return getReadTableRequestUsingRequest(request)
+                .setJoinClause(
+                        getJoinWithIndicesAndDataSourceTablesFilterOnMedicalResourceTypesAndAppId(
+                                Set.of(request.getMedicalResourceType()), callingPackageName));
+    }
+
+    @NonNull
+    private static ReadTableRequest getReadTableRequestUsingRequest(
             @NonNull ReadMedicalResourcesRequest request) {
         // The limit is set to pageSize + 1, so that we know if there are more resources
         // than the pageSize for creating the pageToken.
         return new ReadTableRequest(getMainTableName())
                 .setWhereClause(getReadByRequestWhereClause(request))
                 .setOrderBy(getOrderByClause())
-                .setLimit(request.getPageSize() + 1)
-                .setJoinClause(
-                        getJoinWithIndicesAndDataSourceTablesFilterOnMedicalResourceTypes(
-                                Set.of(request.getMedicalResourceType())));
+                .setLimit(request.getPageSize() + 1);
     }
 
     /**
