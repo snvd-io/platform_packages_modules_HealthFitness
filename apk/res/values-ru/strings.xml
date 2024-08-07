@@ -267,14 +267,10 @@
     <string name="immunization_uppercase_label" msgid="1467176749064014020">"Вакцинация"</string>
     <string name="immunization_lowercase_label" msgid="6464922369026887687">"вакцинация"</string>
     <string name="immunization_content_description" msgid="2910674919337229803">"Просмотр данных о вакцинации"</string>
-    <!-- no translation found for mindfulness_uppercase_label (7678646522566275472) -->
-    <skip />
-    <!-- no translation found for mindfulness_lowercase_label (5184488636180881614) -->
-    <skip />
-    <!-- no translation found for mindfulness_read_content_description (739187536826062524) -->
-    <skip />
-    <!-- no translation found for mindfulness_write_content_description (7925112426563398421) -->
-    <skip />
+    <string name="mindfulness_uppercase_label" msgid="7678646522566275472">"Самоосознанность"</string>
+    <string name="mindfulness_lowercase_label" msgid="5184488636180881614">"самоосознанность"</string>
+    <string name="mindfulness_read_content_description" msgid="739187536826062524">"Считывать данные о повышении самоосознанности"</string>
+    <string name="mindfulness_write_content_description" msgid="7925112426563398421">"Записывать данные о повышении самоосознанности"</string>
     <string name="read_permission_category" msgid="6002099618259628632">"<xliff:g id="APP_NAME">%1$s</xliff:g>: разрешение на чтение"</string>
     <string name="write_permission_category" msgid="1529702804865008111">"<xliff:g id="APP_NAME">%1$s</xliff:g>: разрешение на запись"</string>
     <string name="request_permissions_cancel" msgid="1787483997235365393">"Отмена"</string>
@@ -346,12 +342,10 @@
     <string name="scheduled_export" msgid="8737660963687364370">"Экспорт по расписанию"</string>
     <string name="import_data" msgid="404502315533233094">"Импорт данных"</string>
     <string name="import_data_description" msgid="4040178599441724296">"Восстановить данные из ранее экспортированного файла"</string>
-    <!-- no translation found for import_wrong_file_error_banner_button (1518043363477255045) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_button" msgid="1518043363477255045">"Выбрать файл"</string>
     <!-- no translation found for import_wrong_file_error_banner_title (1841182157722596266) -->
     <skip />
-    <!-- no translation found for import_wrong_file_error_banner_summary (4857514343099050126) -->
-    <skip />
+    <string name="import_wrong_file_error_banner_summary" msgid="4857514343099050126">"Выбран файл, который невозможно восстановить. Выберите подходящий экспортированный файл."</string>
     <string name="backup_and_restore_footer_body_text" msgid="4854718727539851909">"Используя функцию экспорта, вы можете сохранить данные, чтобы перенести их на другой телефон."</string>
     <string name="backup_and_restore_footer_link_text" msgid="5862384033902147721">"Подробнее…"</string>
     <string name="automatic_export_on" msgid="6972389773963624315">"Включен"</string>
@@ -375,15 +369,12 @@
     <string name="import_next_button" msgid="5706322508691854289">"Далее"</string>
     <string name="import_source_location_title" msgid="4444467438013749461">"Откуда импортировать:"</string>
     <string name="import_invalid_storage" msgid="4873640088459948487">"Выберите приложение для хранения файлов, чтобы импортировать данные."</string>
-    <!-- no translation found for export_import_tap_to_choose_account (5016799636886709580) -->
-    <skip />
+    <string name="export_import_tap_to_choose_account" msgid="5016799636886709580">"Нажмите, чтобы выбрать аккаунт"</string>
     <string name="export_import_choose_account_title" msgid="1047021319012735232">"Выберите аккаунт"</string>
     <string name="export_import_choose_account_cancel_button" msgid="7975616126298263479">"Отмена"</string>
     <string name="export_import_choose_account_done_button" msgid="8450305343787469429">"Готово"</string>
-    <!-- no translation found for export_import_install_apps_text (5026922993254770904) -->
-    <skip />
-    <!-- no translation found for export_import_go_to_play_store_text (3210733429377429794) -->
-    <skip />
+    <string name="export_import_install_apps_text" msgid="5026922993254770904">"Если вам нужны ещё варианты, установите приложения для облачного хранения, и они появятся здесь."</string>
+    <string name="export_import_go_to_play_store_text" msgid="3210733429377429794">"Перейти в Google Play"</string>
     <string name="onboarding_title" msgid="8550656211291180188">"Начало работы с сервисом \"Здоровье и спорт\""</string>
     <string name="onboarding_description" msgid="4873129122057931161">"Сервис \"Здоровье и спорт\" хранит ваши данные о здоровье и физической активности, позволяя без труда синхронизировать их с другими приложениями на телефоне."</string>
     <string name="share_data" msgid="3481932156368883946">"Делитесь данными с приложениями"</string>
@@ -798,7 +789,7 @@
     <string name="temperature_unit_celsius_label" msgid="4698347100553808449">"Градусы Цельсия"</string>
     <string name="temperature_unit_fahrenheit_label" msgid="6590261955872562854">"Градусы Фаренгейта"</string>
     <string name="temperature_unit_kelvin_label" msgid="3786210768294615821">"Градусы Кельвина"</string>
-    <string name="help_and_feedback" msgid="4772169905005369871">"Справка и обратная связь"</string>
+    <string name="help_and_feedback" msgid="4772169905005369871">"Справка и отзывы"</string>
     <string name="cant_see_all_your_apps_description" msgid="7344859063463536472">"Если вы не видите установленное приложение, возможно, оно пока несовместимо с сервисом \"Здоровье и спорт\"."</string>
     <string name="things_to_try" msgid="8200374691546152703">"Что можно попробовать"</string>
     <string name="check_for_updates" msgid="3841090978657783101">"Проверить наличие обновлений"</string>
@@ -812,13 +803,13 @@
     <string name="auto_delete_title" msgid="8761742828224207826">"Автоматическое удаление"</string>
     <string name="auto_delete_header" msgid="4258649705159293715">"Укажите период, по истечении которого данные будут автоматически удаляться из приложения \"Здоровье и спорт\""</string>
     <string name="auto_delete_learn_more" msgid="7416469042791307994">"Подробнее об автоматическом удалении…"</string>
-    <string name="auto_delete_section" msgid="7732381000331475082">"Автоматически удалять данные через:"</string>
+    <string name="auto_delete_section" msgid="7732381000331475082">"Автоматически удалять данные"</string>
     <string name="range_after_x_months" msgid="3340127072680117121">"{count,plural, =1{Через # месяц}one{Через # месяц}few{Через # месяца}many{Через # месяцев}other{Через # месяца}}"</string>
     <string name="range_never" msgid="4429478261788361233">"Никогда"</string>
     <string name="range_off" msgid="8178520557618184215">"Выключено"</string>
-    <string name="auto_delete_rationale" msgid="5255442126521464878">"Задайте настройки, и приложение \"Здоровье и спорт\" удалит данные в соответствии с внесенными изменениями."</string>
+    <string name="auto_delete_rationale" msgid="5255442126521464878">"При изменении периода хранения существующие данные будут удалены в соответствии с новыми настройками."</string>
     <string name="confirming_question_x_months" msgid="8204363800605282103">"{count,plural, =1{Автоматически удалять данные через # месяц?}one{Автоматически удалять данные через # месяц?}few{Автоматически удалять данные через # месяца?}many{Автоматически удалять данные через # месяцев?}other{Автоматически удалять данные через # месяца?}}"</string>
-    <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Данные из приложения \"Здоровье и спорт\" будут автоматически удаляться через # месяц. После внесения изменений все сведения, хранящиеся более # месяца, будут удалены.}one{Данные из приложения \"Здоровье и спорт\" будут автоматически удаляться через # месяц. После внесения изменений все сведения, хранящиеся более # месяца, будут удалены.}few{Данные из приложения \"Здоровье и спорт\" будут автоматически удаляться через # месяца. После внесения изменений все сведения, хранящиеся более # месяцев, будут удалены.}many{Данные из приложения \"Здоровье и спорт\" будут автоматически удаляться через # месяцев. После внесения изменений все сведения, хранящиеся более # месяцев, будут удалены.}other{Данные из приложения \"Здоровье и спорт\" будут автоматически удаляться через # месяца. После внесения изменений все сведения, хранящиеся более # месяца, будут удалены.}}"</string>
+    <string name="confirming_message_x_months" msgid="4798474593741471977">"{count,plural, =1{Данные из приложения \"Здоровье и спорт\" будут автоматически удаляться через # месяц. После изменения настроек все данные, хранящиеся более # месяца, будут удалены.}one{Данные из приложения \"Здоровье и спорт\" будут автоматически удаляться через # месяц. После изменения настроек все данные, хранящиеся более # месяца, будут удалены.}few{Данные из приложения \"Здоровье и спорт\" будут автоматически удаляться через # месяца. После изменения настроек все данные, хранящиеся более # месяцев, будут удалены.}many{Данные из приложения \"Здоровье и спорт\" будут автоматически удаляться через # месяцев. После изменения настроек все данные, хранящиеся более # месяцев, будут удалены.}other{Данные из приложения \"Здоровье и спорт\" будут автоматически удаляться через # месяца. После изменения настроек все данные, хранящиеся более # месяца, будут удалены.}}"</string>
     <string name="set_auto_delete_button" msgid="268450418318199197">"Настроить автоматическое удаление"</string>
     <string name="deletion_started_title" msgid="1177766097121885025">"Существующие данные будут удалены"</string>
     <string name="deletion_started_x_months" msgid="6567199107249615612">"{count,plural, =1{Приложение \"Здоровье и спорт\" удалит все данные, хранящиеся более # месяца. Изменения вступят в силу в связанных приложениях в течение одного дня.}one{Приложение \"Здоровье и спорт\" удалит все данные, хранящиеся более # месяца. Изменения вступят в силу в связанных приложениях в течение одного дня.}few{Приложение \"Здоровье и спорт\" удалит все данные, хранящиеся более # месяцев. Изменения вступят в силу в связанных приложениях в течение одного дня.}many{Приложение \"Здоровье и спорт\" удалит все данные, хранящиеся более # месяцев. Изменения вступят в силу в связанных приложениях в течение одного дня.}other{Приложение \"Здоровье и спорт\" удалит все данные, хранящиеся более # месяца. Изменения вступят в силу в связанных приложениях в течение одного дня.}}"</string>
