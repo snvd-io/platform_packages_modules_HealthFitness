@@ -3011,13 +3011,6 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
         return mContext.checkPermission(permission, pid, uid) == PERMISSION_GRANTED;
     }
 
-    private void enforceBinderUidIsSameAsAttributionSourceUid(
-            int binderUid, int attributionSourceUid) {
-        if (binderUid != attributionSourceUid) {
-            throw new SecurityException("Binder uid must be equal to attribution source uid.");
-        }
-    }
-
     private void logRecordTypeSpecificUpsertMetrics(
             @NonNull List<RecordInternal<?>> recordInternals, @NonNull String packageName) {
         checkParamsNonNull(recordInternals, packageName);
