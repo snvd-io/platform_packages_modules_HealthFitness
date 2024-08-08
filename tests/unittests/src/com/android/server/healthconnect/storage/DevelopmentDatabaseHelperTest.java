@@ -17,6 +17,7 @@
 package com.android.server.healthconnect.storage;
 
 import static com.android.healthfitness.flags.Flags.FLAG_DEVELOPMENT_DATABASE;
+import static com.android.server.healthconnect.storage.DatabaseTestUtils.createEmptyDatabase;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -32,7 +33,6 @@ import android.platform.test.annotations.DisableFlags;
 import android.platform.test.annotations.EnableFlags;
 import android.platform.test.flag.junit.SetFlagsRule;
 
-import androidx.annotation.NonNull;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -71,18 +71,13 @@ public class DevelopmentDatabaseHelperTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         mDatabasePath = getMockDatabasePath();
-        if (mDatabasePath.exists()) {
-            Preconditions.checkState(mDatabasePath.delete());
-        }
-        when(mContext.getDatabasePath(anyString())).thenReturn(getMockDatabasePath());
+        DatabaseTestUtils.clearDatabase(mDatabasePath);
+        when(mContext.getDatabasePath(anyString())).thenReturn(mDatabasePath);
     }
 
     @After
     public void clearDatabase() {
-        File databasePath = getMockDatabasePath();
-        if (databasePath.exists()) {
-            Preconditions.checkState(databasePath.delete());
-        }
+        DatabaseTestUtils.clearDatabase(getMockDatabasePath());
     }
 
     private static File getMockDatabasePath() {
@@ -214,10 +209,6 @@ public class DevelopmentDatabaseHelperTest {
             usePhrDataSourceTable(db);
             usePhrAccessLogsColumns(db);
         }
-    }
-
-    private @NonNull SQLiteDatabase createEmptyDatabase() {
-        return SQLiteDatabase.openOrCreateDatabase(mDatabasePath, /* cursorFactory= */ null);
     }
 
     /**
