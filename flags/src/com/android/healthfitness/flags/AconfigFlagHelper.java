@@ -33,8 +33,12 @@ import java.util.TreeMap;
 public final class AconfigFlagHelper {
     private static final String TAG = "HC" + AconfigFlagHelper.class.getSimpleName();
 
+    // For testing purposes, this field needs to be made public instead of package-private so the
+    // unit tests can access it. This is due to tests don't run in the same classloader as the
+    // framework. See
+    // https://groups.google.com/a/google.com/g/android-chatty-eng/c/TymmRzs3UcY/m/_JeFcynRBwAJ.
     @VisibleForTesting(visibility = PRIVATE)
-    static final TreeMap<Integer, Boolean> DB_VERSION_TO_DB_FLAG_MAP = new TreeMap<>();
+    public static final TreeMap<Integer, Boolean> DB_VERSION_TO_DB_FLAG_MAP = new TreeMap<>();
 
     /**
      * Returns the DB version based on DB flag values, this DB version is used to initialize {@link
