@@ -287,4 +287,29 @@ public class PhrDataFactory {
         }
         return medicalResources;
     }
+
+    /**
+     * Creates a number of allergy resources based on the given {@code numOfResources} and {@code
+     * dataSourceId}.
+     */
+    public static List<MedicalResource> createAllergyMedicalResources(
+            int numOfResources, String dataSourceId) {
+        FhirVersion fhirVersion = parseFhirVersion(R4_VERSION_STRING);
+        List<MedicalResource> medicalResources = new ArrayList<>();
+        for (int i = 0; i < numOfResources; i++) {
+            FhirResource fhirResource =
+                    new FhirResource.Builder(
+                                    FHIR_RESOURCE_TYPE_UNKNOWN, "id/" + i, FHIR_DATA_ALLERGY)
+                            .build();
+            MedicalResource medicalResource =
+                    new MedicalResource.Builder(
+                                    MEDICAL_RESOURCE_TYPE_UNKNOWN,
+                                    dataSourceId,
+                                    fhirVersion,
+                                    fhirResource)
+                            .build();
+            medicalResources.add(medicalResource);
+        }
+        return medicalResources;
+    }
 }

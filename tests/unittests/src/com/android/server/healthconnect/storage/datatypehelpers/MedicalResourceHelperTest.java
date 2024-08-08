@@ -104,10 +104,13 @@ import org.junit.Test;
 import org.mockito.quality.Strictness;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MedicalResourceHelperTest {
 
@@ -258,7 +261,8 @@ public class MedicalResourceHelperTest {
         ReadMedicalResourcesRequest request =
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
         ReadTableRequest readRequest =
-                MedicalResourceHelper.getReadTableRequestUsingRequest(request);
+                MedicalResourceHelper.getReadTableRequestUsingRequestFilterOnMedicalResourceTypes(
+                        request);
 
         // TODO(b/352546342): Explore improving the query building logic, so the query below
         // is simpler to read, for context: http://shortn/_2YCniY49K6
@@ -305,7 +309,8 @@ public class MedicalResourceHelperTest {
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
 
         ReadMedicalResourcesInternalResponse result =
-                mMedicalResourceHelper.readMedicalResourcesByRequest(readImmunizationRequest);
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithoutPermissionChecks(
+                        readImmunizationRequest);
 
         assertThat(result.getMedicalResources()).isEmpty();
         assertThat(result.getPageToken()).isEqualTo(null);
@@ -329,7 +334,8 @@ public class MedicalResourceHelperTest {
         ReadMedicalResourcesRequest readUnknownRequest =
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_UNKNOWN).build();
         ReadMedicalResourcesInternalResponse result =
-                mMedicalResourceHelper.readMedicalResourcesByRequest(readUnknownRequest);
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithoutPermissionChecks(
+                        readUnknownRequest);
 
         assertThat(upsertedResources)
                 .containsExactly(
@@ -389,9 +395,11 @@ public class MedicalResourceHelperTest {
         ReadMedicalResourcesRequest readImmunizationRequest =
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
         ReadMedicalResourcesInternalResponse unknownResourcesResult =
-                mMedicalResourceHelper.readMedicalResourcesByRequest(readUnknownRequest);
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithoutPermissionChecks(
+                        readUnknownRequest);
         ReadMedicalResourcesInternalResponse immunizationResult =
-                mMedicalResourceHelper.readMedicalResourcesByRequest(readImmunizationRequest);
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithoutPermissionChecks(
+                        readImmunizationRequest);
 
         assertThat(upsertedResources).containsExactly(immunization, differentImmunization, allergy);
         assertThat(unknownResourcesResult.getMedicalResources()).containsExactly(allergy);
@@ -449,9 +457,11 @@ public class MedicalResourceHelperTest {
         ReadMedicalResourcesRequest readImmunizationRequest =
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
         ReadMedicalResourcesInternalResponse unknownResourcesResult =
-                mMedicalResourceHelper.readMedicalResourcesByRequest(readUnknownRequest);
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithoutPermissionChecks(
+                        readUnknownRequest);
         ReadMedicalResourcesInternalResponse immunizationResult =
-                mMedicalResourceHelper.readMedicalResourcesByRequest(readImmunizationRequest);
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithoutPermissionChecks(
+                        readImmunizationRequest);
 
         assertThat(upsertedResources).containsExactly(immunization, differentImmunization, allergy);
         assertThat(unknownResourcesResult.getMedicalResources()).containsExactly(allergy);
@@ -924,6 +934,122 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE})
+    public void readByRequest_isNotEnforceSelfRead_immunizationFilter_canReadAllImmunizations() {
+        String dataSource1 = insertMedicalDataSource("ds", DATA_SOURCE_PACKAGE_NAME).getId();
+        String dataSource2 =
+                insertMedicalDataSource("ds", DIFFERENT_DATA_SOURCE_PACKAGE_NAME).getId();
+        List<MedicalResource> immunizationsDataSource1 =
+                upsertResources(
+                        PhrDataFactory::createImmunizationMedicalResources,
+                        /* numOfResources= */ 4,
+                        dataSource1);
+        List<MedicalResource> immunizationsDataSource2 =
+                upsertResources(
+                        PhrDataFactory::createImmunizationMedicalResources,
+                        /* numOfResources= */ 2,
+                        dataSource2);
+        List<MedicalResource> allergyDatasource1 =
+                upsertResources(
+                        PhrDataFactory::createAllergyMedicalResources,
+                        /* numOfResources= */ 2,
+                        dataSource1);
+        List<MedicalResource> resources =
+                joinLists(immunizationsDataSource1, immunizationsDataSource2, allergyDatasource1);
+
+        ReadMedicalResourcesRequest readRequest =
+                new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
+                        .setPageSize(2)
+                        .build();
+        ReadMedicalResourcesInternalResponse result =
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithPermissionChecks(
+                        readRequest, DATA_SOURCE_PACKAGE_NAME, /* enforceSelfRead= */ false);
+        String pageToken = result.getPageToken();
+        assertThat(result.getMedicalResources())
+                .containsExactlyElementsIn(List.of(resources.get(0), resources.get(1)));
+        assertThat(pageToken)
+                .isEqualTo(PhrPageTokenWrapper.of(readRequest, /* lastRowId= */ 2).encode());
+
+        ReadMedicalResourcesRequest readRequest1 =
+                new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
+                        .setPageSize(2)
+                        .setPageToken(pageToken)
+                        .build();
+        ReadMedicalResourcesInternalResponse result1 =
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithPermissionChecks(
+                        readRequest1, DATA_SOURCE_PACKAGE_NAME, /* enforceSelfRead= */ false);
+        String pageToken1 = result1.getPageToken();
+        assertThat(result1.getMedicalResources())
+                .containsExactlyElementsIn(List.of(resources.get(2), resources.get(3)));
+        assertThat(pageToken1)
+                .isEqualTo(PhrPageTokenWrapper.of(readRequest1, /* lastRowId= */ 4).encode());
+
+        ReadMedicalResourcesRequest readRequest2 =
+                new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
+                        .setPageSize(2)
+                        .setPageToken(pageToken1)
+                        .build();
+        ReadMedicalResourcesInternalResponse result2 =
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithPermissionChecks(
+                        readRequest2, DATA_SOURCE_PACKAGE_NAME, /* enforceSelfRead= */ false);
+        String pageToken2 = result2.getPageToken();
+        assertThat(result2.getMedicalResources())
+                .containsExactlyElementsIn(List.of(resources.get(4), resources.get(5)));
+        assertThat(pageToken2).isEqualTo(null);
+    }
+
+    @Test
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE})
+    public void readByRequest_enforceSelfRead_immunizationFilter_canReadOnlySelfImmunization() {
+        String dataSource1 = insertMedicalDataSource("ds", DATA_SOURCE_PACKAGE_NAME).getId();
+        String dataSource2 =
+                insertMedicalDataSource("ds", DIFFERENT_DATA_SOURCE_PACKAGE_NAME).getId();
+        List<MedicalResource> immunizationsDataSource1 =
+                upsertResources(
+                        PhrDataFactory::createImmunizationMedicalResources,
+                        /* numOfResources= */ 4,
+                        dataSource1);
+        List<MedicalResource> immunizationsDataSource2 =
+                upsertResources(
+                        PhrDataFactory::createImmunizationMedicalResources,
+                        /* numOfResources= */ 2,
+                        dataSource2);
+        List<MedicalResource> allergyDatasource1 =
+                upsertResources(
+                        PhrDataFactory::createAllergyMedicalResources,
+                        /* numOfResources= */ 2,
+                        dataSource1);
+        List<MedicalResource> resources =
+                joinLists(immunizationsDataSource1, immunizationsDataSource2, allergyDatasource1);
+
+        ReadMedicalResourcesRequest readRequest =
+                new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
+                        .setPageSize(2)
+                        .build();
+        ReadMedicalResourcesInternalResponse result =
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithPermissionChecks(
+                        readRequest, DATA_SOURCE_PACKAGE_NAME, /* enforceSelfRead= */ true);
+        String pageToken = result.getPageToken();
+        assertThat(result.getMedicalResources())
+                .containsExactlyElementsIn(List.of(resources.get(0), resources.get(1)));
+        assertThat(pageToken)
+                .isEqualTo(PhrPageTokenWrapper.of(readRequest, /* lastRowId= */ 2).encode());
+
+        ReadMedicalResourcesRequest readRequest1 =
+                new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
+                        .setPageSize(2)
+                        .setPageToken(pageToken)
+                        .build();
+        ReadMedicalResourcesInternalResponse result1 =
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithPermissionChecks(
+                        readRequest1, DATA_SOURCE_PACKAGE_NAME, /* enforceSelfRead= */ true);
+        String pageToken1 = result1.getPageToken();
+        assertThat(result1.getMedicalResources())
+                .containsExactlyElementsIn(List.of(resources.get(2), resources.get(3)));
+        assertThat(pageToken1).isEqualTo(null);
+    }
+
+    @Test
     @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
     public void insertMultipleMedicalResourcesWithSameDataSource_readMultipleResources()
             throws JSONException {
@@ -1200,7 +1326,8 @@ public class MedicalResourceHelperTest {
                         .setPageSize(2)
                         .build();
         ReadMedicalResourcesInternalResponse result =
-                mMedicalResourceHelper.readMedicalResourcesByRequest(readRequest);
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithoutPermissionChecks(
+                        readRequest);
         String pageToken = result.getPageToken();
         assertThat(result.getMedicalResources())
                 .containsExactlyElementsIn(List.of(resources.get(0), resources.get(1)));
@@ -1213,7 +1340,8 @@ public class MedicalResourceHelperTest {
                         .setPageToken(pageToken)
                         .build();
         ReadMedicalResourcesInternalResponse result1 =
-                mMedicalResourceHelper.readMedicalResourcesByRequest(readRequest1);
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithoutPermissionChecks(
+                        readRequest1);
         String pageToken1 = result1.getPageToken();
         assertThat(result1.getMedicalResources())
                 .containsExactlyElementsIn(List.of(resources.get(2), resources.get(3)));
@@ -1226,7 +1354,8 @@ public class MedicalResourceHelperTest {
                         .setPageToken(pageToken1)
                         .build();
         ReadMedicalResourcesInternalResponse result2 =
-                mMedicalResourceHelper.readMedicalResourcesByRequest(readRequest2);
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithoutPermissionChecks(
+                        readRequest2);
         String pageToken2 = result2.getPageToken();
         assertThat(result2.getMedicalResources())
                 .containsExactlyElementsIn(List.of(resources.get(4), resources.get(5)));
@@ -1249,7 +1378,8 @@ public class MedicalResourceHelperTest {
                         .setPageSize(10)
                         .build();
         ReadMedicalResourcesInternalResponse result =
-                mMedicalResourceHelper.readMedicalResourcesByRequest(readRequest);
+                mMedicalResourceHelper.readMedicalResourcesByRequestWithoutPermissionChecks(
+                        readRequest);
 
         assertThat(upsertedMedicalResources).containsExactlyElementsIn(resources);
         assertThat(result.getMedicalResources()).containsExactlyElementsIn(resources);
@@ -1262,7 +1392,7 @@ public class MedicalResourceHelperTest {
         assertThrows(
                 IllegalArgumentException.class,
                 () ->
-                        mMedicalResourceHelper.readMedicalResourcesByRequest(
+                        mMedicalResourceHelper.readMedicalResourcesByRequestWithoutPermissionChecks(
                                 new ReadMedicalResourcesRequest.Builder(
                                                 MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
                                         .setPageToken(INVALID_PAGE_TOKEN)
@@ -1510,8 +1640,21 @@ public class MedicalResourceHelperTest {
                 .get(0);
     }
 
+    private List<MedicalResource> upsertResources(
+            MedicalResourcesCreator creator, int numOfResources, String dataSourceId) {
+        List<MedicalResource> medicalResources = creator.create(numOfResources, dataSourceId);
+        return mMedicalResourceHelper.upsertMedicalResources(
+                medicalResources.stream()
+                        .map(MedicalResourceHelperTest::makeUpsertRequest)
+                        .toList());
+    }
+
     private interface MedicalResourceCreator {
         MedicalResource create(String dataSourceId);
+    }
+
+    private interface MedicalResourcesCreator {
+        List<MedicalResource> create(int num, String dataSourceId);
     }
 
     /** Returns a request to upsert the given {@link MedicalResource}. */
@@ -1567,7 +1710,7 @@ public class MedicalResourceHelperTest {
             FhirResource fhirResource = medicalResource.getFhirResource();
             UpsertMedicalResourceInternalRequest request =
                     new UpsertMedicalResourceInternalRequest()
-                            .setMedicalResourceType(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
+                            .setMedicalResourceType(medicalResource.getType())
                             .setFhirResourceId(fhirResource.getId())
                             .setFhirResourceType(fhirResource.getType())
                             .setFhirVersion(medicalResource.getFhirVersion())
@@ -1576,5 +1719,9 @@ public class MedicalResourceHelperTest {
             requests.add(request);
         }
         return requests;
+    }
+
+    private static <T> List<T> joinLists(List<T>... lists) {
+        return Stream.of(lists).flatMap(Collection::stream).collect(Collectors.toList());
     }
 }

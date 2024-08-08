@@ -914,7 +914,8 @@ public class HealthConnectServiceImplTest {
         setDataManagementPermission(PERMISSION_GRANTED);
         ReadMedicalResourcesRequest request =
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
-        when(mMedicalResourceHelper.readMedicalResourcesByRequest(eq(request)))
+        when(mMedicalResourceHelper.readMedicalResourcesByRequestWithoutPermissionChecks(
+                        eq(request)))
                 .thenReturn(new ReadMedicalResourcesInternalResponse(List.of(), null));
 
         mHealthConnectService.readMedicalResourcesByRequest(
@@ -954,7 +955,7 @@ public class HealthConnectServiceImplTest {
         setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
         ReadMedicalResourcesRequest request =
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
-        when(mMedicalResourceHelper.readMedicalResourcesByRequest(
+        when(mMedicalResourceHelper.readMedicalResourcesByRequestWithPermissionChecks(
                         eq(request), anyString(), mBooleanCaptor.capture()))
                 .thenReturn(new ReadMedicalResourcesInternalResponse(List.of(), null));
 
@@ -976,7 +977,7 @@ public class HealthConnectServiceImplTest {
         setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
         ReadMedicalResourcesRequest request =
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
-        when(mMedicalResourceHelper.readMedicalResourcesByRequest(
+        when(mMedicalResourceHelper.readMedicalResourcesByRequestWithPermissionChecks(
                         eq(request), anyString(), mBooleanCaptor.capture()))
                 .thenReturn(new ReadMedicalResourcesInternalResponse(List.of(), null));
 
@@ -999,7 +1000,7 @@ public class HealthConnectServiceImplTest {
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(true);
         ReadMedicalResourcesRequest request =
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
-        when(mMedicalResourceHelper.readMedicalResourcesByRequest(
+        when(mMedicalResourceHelper.readMedicalResourcesByRequestWithPermissionChecks(
                         eq(request), anyString(), mBooleanCaptor.capture()))
                 .thenReturn(new ReadMedicalResourcesInternalResponse(List.of(), null));
 
@@ -1024,7 +1025,7 @@ public class HealthConnectServiceImplTest {
         setBackendReadPermission(PERMISSION_DENIED);
         ReadMedicalResourcesRequest request =
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
-        when(mMedicalResourceHelper.readMedicalResourcesByRequest(
+        when(mMedicalResourceHelper.readMedicalResourcesByRequestWithPermissionChecks(
                         eq(request), anyString(), mBooleanCaptor.capture()))
                 .thenReturn(new ReadMedicalResourcesInternalResponse(List.of(), null));
 
@@ -1049,7 +1050,7 @@ public class HealthConnectServiceImplTest {
         setBackendReadPermission(PERMISSION_DENIED);
         ReadMedicalResourcesRequest request =
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
-        when(mMedicalResourceHelper.readMedicalResourcesByRequest(
+        when(mMedicalResourceHelper.readMedicalResourcesByRequestWithPermissionChecks(
                         eq(request), anyString(), mBooleanCaptor.capture()))
                 .thenReturn(new ReadMedicalResourcesInternalResponse(List.of(), null));
 
@@ -1074,7 +1075,7 @@ public class HealthConnectServiceImplTest {
         setBackendReadPermission(PERMISSION_GRANTED);
         ReadMedicalResourcesRequest request =
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
-        when(mMedicalResourceHelper.readMedicalResourcesByRequest(
+        when(mMedicalResourceHelper.readMedicalResourcesByRequestWithPermissionChecks(
                         eq(request), anyString(), mBooleanCaptor.capture()))
                 .thenReturn(new ReadMedicalResourcesInternalResponse(List.of(), null));
 

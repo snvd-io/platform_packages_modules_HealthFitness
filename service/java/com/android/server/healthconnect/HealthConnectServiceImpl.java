@@ -2482,7 +2482,10 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                     ReadMedicalResourcesInternalResponse response;
 
                     if (holdsDataManagementPermission) {
-                        response = mMedicalResourceHelper.readMedicalResourcesByRequest(request);
+                        response =
+                                mMedicalResourceHelper
+                                        .readMedicalResourcesByRequestWithoutPermissionChecks(
+                                                request);
                     } else {
                         boolean isInForeground = mAppOpsManagerLocal.isUidInForeground(uid);
                         logger.setCallerForegroundState(isInForeground);
@@ -2516,8 +2519,9 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         }
 
                         response =
-                                mMedicalResourceHelper.readMedicalResourcesByRequest(
-                                        request, callingPackageName, enforceSelfRead);
+                                mMedicalResourceHelper
+                                        .readMedicalResourcesByRequestWithPermissionChecks(
+                                                request, callingPackageName, enforceSelfRead);
                     }
 
                     List<MedicalResource> medicalResources = response.getMedicalResources();
