@@ -2381,8 +2381,9 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
 
                     if (holdsDataManagementPermission) {
                         medicalResources =
-                                mMedicalResourceHelper.readMedicalResourcesByIds(
-                                        medicalResourceIds);
+                                mMedicalResourceHelper
+                                        .readMedicalResourcesByIdsWithoutPermissionChecks(
+                                                medicalResourceIds);
                     } else {
                         boolean isInForeground = mAppOpsManagerLocal.isUidInForeground(uid);
                         logger.setCallerForegroundState(isInForeground);
@@ -2420,13 +2421,15 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
 
                         // Pass related fields to DB to filter results.
                         medicalResources =
-                                mMedicalResourceHelper.readMedicalResourcesByIds(
-                                        medicalResourceIds,
-                                        getPopulatedMedicalResourceTypesWithReadPermissions(
-                                                grantedMedicalPermissions),
-                                        callingPackageName,
-                                        grantedMedicalPermissions.contains(WRITE_MEDICAL_DATA),
-                                        isCalledFromBgWithoutBgRead);
+                                mMedicalResourceHelper
+                                        .readMedicalResourcesByIdsWithPermissionChecks(
+                                                medicalResourceIds,
+                                                getPopulatedMedicalResourceTypesWithReadPermissions(
+                                                        grantedMedicalPermissions),
+                                                callingPackageName,
+                                                grantedMedicalPermissions.contains(
+                                                        WRITE_MEDICAL_DATA),
+                                                isCalledFromBgWithoutBgRead);
                     }
 
                     logger.setNumberOfRecords(medicalResources.size());

@@ -20,6 +20,7 @@ import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_I
 import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_UNKNOWN;
 import static android.health.connect.datatypes.FhirVersion.parseFhirVersion;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_IMMUNIZATION;
+import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_UNKNOWN;
 
 import android.health.connect.CreateMedicalDataSourceRequest;
 import android.health.connect.MedicalResourceId;
@@ -202,6 +203,32 @@ public class PhrDataFactory {
      */
     public static MedicalResource getMedicalResource() {
         return getMedicalResourceBuilder().build();
+    }
+
+    /**
+     * Creates and returns a {@link MedicalResource} of type {@link
+     * MedicalResource#MEDICAL_RESOURCE_TYPE_IMMUNIZATION} with the given {@code dataSource}.
+     */
+    public static MedicalResource createImmunizationMedicalResource(String dataSource) {
+        return new MedicalResource.Builder(
+                        MEDICAL_RESOURCE_TYPE_IMMUNIZATION,
+                        dataSource,
+                        FHIR_VERSION_R4,
+                        getFhirResource())
+                .build();
+    }
+
+    /**
+     * Creates and returns a {@link MedicalResource} of type {@link
+     * MedicalResource#MEDICAL_RESOURCE_TYPE_UNKNOWN} with the given {@code dataSource}.
+     */
+    public static MedicalResource createAllergyMedicalResource(String dataSource) {
+        return new MedicalResource.Builder(
+                        MEDICAL_RESOURCE_TYPE_UNKNOWN,
+                        dataSource,
+                        FHIR_VERSION_R4,
+                        getFhirResourceAllergy())
+                .build();
     }
 
     /** Creates and returns a {@link UpsertMedicalResourceRequest} with default arguments. */
