@@ -159,16 +159,31 @@ final class DatabaseUpgradeHelper {
         PlannedExerciseSessionRecordHelper recordHelper =
                 getRecordHelper(RECORD_TYPE_PLANNED_EXERCISE_SESSION);
         HealthConnectDatabase.createTable(db, recordHelper.getCreateTableRequest());
-        db.execSQL(
+        executeSqlStatements(
+                db,
                 recordHelper
                         .getAlterTableRequestForPlannedExerciseFeature()
-                        .getAlterTableAddColumnsCommand());
+                        .getAlterTableAddColumnsCommands());
         ExerciseSessionRecordHelper exerciseRecordHelper =
                 getRecordHelper(RECORD_TYPE_EXERCISE_SESSION);
-        db.execSQL(
+        executeSqlStatements(
+                db,
                 exerciseRecordHelper
                         .getAlterTableRequestForPlannedExerciseFeature()
-                        .getAlterTableAddColumnsCommand());
+                        .getAlterTableAddColumnsCommands());
+    }
+
+    /** Executes a list of SQL statements one after another, in a transaction. */
+    public static void executeSqlStatements(SQLiteDatabase db, List<String> statements) {
+        db.beginTransaction();
+        try {
+            for (String statement : statements) {
+                db.execSQL(statement);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
     }
 
     private static boolean doesTableAlreadyExist(SQLiteDatabase db, String tableName) {
