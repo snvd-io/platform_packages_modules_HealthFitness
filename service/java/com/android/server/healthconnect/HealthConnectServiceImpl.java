@@ -2413,7 +2413,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         medicalResourcesToUpsert.add(upsertMedicalResourceInternalRequest);
                     }
                     List<MedicalResource> medicalResources =
-                            mMedicalResourceHelper.upsertMedicalResources(medicalResourcesToUpsert);
+                            mMedicalResourceHelper.upsertMedicalResources(
+                                    callingPackageName, medicalResourcesToUpsert);
                     logger.setNumberOfRecords(medicalResources.size());
 
                     tryAndReturnResult(callback, medicalResources, logger);
@@ -2612,7 +2613,6 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                     List<MedicalResource> medicalResources = response.getMedicalResources();
                     logger.setNumberOfRecords(medicalResources.size());
 
-                    // TODO(b/343921816): Creates access log.
                     callback.onResult(
                             new ReadMedicalResourcesResponse(
                                     medicalResources, response.getPageToken()));
