@@ -18,6 +18,7 @@ package com.android.server.healthconnect.storage.datatypehelpers;
 
 import static android.health.connect.Constants.DEFAULT_LONG;
 import static android.health.connect.Constants.MAXIMUM_ALLOWED_CURSOR_COUNT;
+import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_DELETE;
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_READ;
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_UPSERT;
 import static android.health.connect.datatypes.FhirVersion.parseFhirVersion;
@@ -426,6 +427,25 @@ public final class MedicalResourceHelper {
         // the whereClause when joining with the indices table.
         return getReadTableRequestByIdsFilterOnAppIdAndMedicalResourceTypes(
                 medicalResourceIds, /* medicalResourceTypes= */ Set.of(), callingPackageName);
+    }
+
+    /**
+     * Creates {@link ReadTableRequest} that reads the distinct {@link
+     * MedicalResourceIndicesHelper#getMedicalResourceTypeColumnName()} when joining with
+     * medical_resource_indices table and medical_data_source table, filtering on the given {@link
+     * MedicalResourceId}s and {@code callingPackageName}.
+     */
+    @NonNull
+    private static ReadTableRequest getReadTableRequestToGetDistinctResourceTypes(
+            @NonNull List<MedicalResourceId> medicalResourceIds,
+            @NonNull String callingPackageName) {
+        return getReadTableRequestByIds(medicalResourceIds)
+                .setJoinClause(
+                        getJoinWithIndicesAndDataSourceTablesFilterOnMedicalResourceTypesAndAppId(
+                                /* medicalResourceTypes= */ Set.of(), callingPackageName))
+                .setDistinctClause(true)
+                .setColumnNames(
+                        List.of(MedicalResourceIndicesHelper.getMedicalResourceTypeColumnName()));
     }
 
     /**
@@ -853,22 +873,70 @@ public final class MedicalResourceHelper {
      * MedicalResourceId}s into the HealthConnect database.
      *
      * @param medicalResourceIds list of {@link MedicalResourceId} to delete
-     * @param appInfoIdRestriction if null, allow deletion from any package. Otherwise only allow
-     *     deletions of resources whose owning datasource belongs to the given appInfoId.
      */
-    public void deleteMedicalResourcesByIds(
-            @NonNull List<MedicalResourceId> medicalResourceIds,
-            @Nullable Long appInfoIdRestriction)
+    public void deleteMedicalResourcesByIdsWithoutPermissionChecks(
+            @NonNull List<MedicalResourceId> medicalResourceIds) {
+        mTransactionManager.delete(getDeleteRequest(medicalResourceIds));
+    }
+
+    /**
+     * Deletes a list of {@link MedicalResource}s created based on the given list of {@link
+     * MedicalResourceId}s into the HealthConnect database.
+     *
+     * @param medicalResourceIds list of {@link MedicalResourceId} to delete
+     * @param callingPackageName Only allows deletions of resources whose owning datasource belongs
+     *     to the given appInfoId.
+     * @throws IllegalArgumentException if no appId exists for the given {@code packageName} in the
+     *     {@link AppInfoHelper#TABLE_NAME}.
+     */
+    public void deleteMedicalResourcesByIdsWithPermissionChecks(
+            @NonNull List<MedicalResourceId> medicalResourceIds, @NonNull String callingPackageName)
             throws SQLiteException {
-        DeleteTableRequest deleteTableRequest;
-        if (appInfoIdRestriction == null) {
-            deleteTableRequest = getDeleteRequest(medicalResourceIds);
-        } else {
-            deleteTableRequest =
-                    getDeleteRequestWithAppInfoRestriction(
-                            medicalResourceIds, appInfoIdRestriction);
+
+        long appId = AppInfoHelper.getInstance().getAppInfoId(callingPackageName);
+        if (appId == Constants.DEFAULT_LONG) {
+            throw new IllegalArgumentException(
+                    "Deletion not permitted as app has inserted no data.");
         }
-        mTransactionManager.delete(deleteTableRequest);
+
+        mTransactionManager.runAsTransaction(
+                db -> {
+                    // Getting the distinct resource types that will be deleted, to add
+                    // access logs.
+                    Set<Integer> resourcesTypes =
+                            readMedicalResourcesTypesForMedicalResourceIds(
+                                    db, medicalResourceIds, callingPackageName);
+
+                    mTransactionManager.delete(
+                            db, getDeleteRequestWithAppInfoRestriction(medicalResourceIds, appId));
+
+                    if (!resourcesTypes.isEmpty()) {
+                        AccessLogsHelper.addAccessLog(
+                                db,
+                                callingPackageName,
+                                resourcesTypes,
+                                OPERATION_TYPE_DELETE,
+                                /* accessedMedicalDataSource= */ false);
+                    }
+                });
+    }
+
+    @NonNull
+    private Set<Integer> readMedicalResourcesTypesForMedicalResourceIds(
+            @NonNull SQLiteDatabase db,
+            @NonNull List<MedicalResourceId> medicalResourceIds,
+            @NonNull String packageName) {
+        ReadTableRequest request =
+                getReadTableRequestToGetDistinctResourceTypes(medicalResourceIds, packageName);
+        Set<Integer> resourceTypes = new HashSet<>();
+        try (Cursor cursor = mTransactionManager.read(db, request)) {
+            if (cursor.moveToFirst()) {
+                do {
+                    resourceTypes.add(getCursorInt(cursor, getMedicalResourceTypeColumnName()));
+                } while (cursor.moveToNext());
+            }
+        }
+        return resourceTypes;
     }
 
     /**
@@ -890,12 +958,13 @@ public final class MedicalResourceHelper {
 
     @NonNull
     private DeleteTableRequest getDeleteRequestWithAppInfoRestriction(
-            @NonNull List<MedicalResourceId> medicalResourceIds, long appInfoRestriction) {
+            @NonNull List<MedicalResourceId> medicalResourceIds, long appId) {
         if (medicalResourceIds.isEmpty()) {
             throw new IllegalArgumentException("Cannot delete without filters");
         }
+
         ReadTableRequest innerRead =
-                MedicalDataSourceHelper.getReadTableRequest(List.of(), appInfoRestriction)
+                MedicalDataSourceHelper.getReadTableRequest(List.of(), appId)
                         .setColumnNames(List.of(PRIMARY_COLUMN_NAME));
         List<String> hexUuids = medicalResourceIdsToHexUuids(medicalResourceIds);
 

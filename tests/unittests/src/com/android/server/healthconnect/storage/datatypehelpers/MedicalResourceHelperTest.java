@@ -17,6 +17,7 @@
 package com.android.server.healthconnect.storage.datatypehelpers;
 
 import static android.health.connect.Constants.DEFAULT_PAGE_SIZE;
+import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_DELETE;
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_READ;
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_UPSERT;
 import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_IMMUNIZATION;
@@ -1869,24 +1870,154 @@ public class MedicalResourceHelperTest {
 
     @Test
     @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    public void deleteMedicalResourcesByIds_withPackageName_noDataDeleted_noDeleteAccessLogs() {
+        mMedicalResourceHelper.deleteMedicalResourcesByIdsWithPermissionChecks(
+                List.of(getMedicalResourceId()), DATA_SOURCE_PACKAGE_NAME);
+
+        assertThat(AccessLogsHelper.queryAccessLogs()).isEmpty();
+    }
+
+    @Test
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    public void deleteMedicalResourcesByIdsWithoutPermissionChecks_noDeleteAccessLogs() {
+        MedicalDataSource dataSource1 = insertMedicalDataSource("ds", DATA_SOURCE_PACKAGE_NAME);
+        MedicalResource resource1 =
+                upsertResource(PhrDataFactory::createImmunizationMedicalResource, dataSource1);
+        mMedicalResourceHelper.deleteMedicalResourcesByIdsWithoutPermissionChecks(
+                List.of(resource1.getId()));
+
+        List<AccessLog> accessLogs = AccessLogsHelper.queryAccessLogs();
+        AccessLog accessLog1 = accessLogs.get(0);
+
+        assertThat(accessLogs).hasSize(1);
+
+        assertThat(accessLog1.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
+        assertThat(accessLog1.getMedicalResourceTypes())
+                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
+        assertThat(accessLog1.getRecordTypes()).isEmpty();
+        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
+        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
+        assertThat(accessLog1.getAccessTime()).isNotNull();
+    }
+
+    @Test
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    public void deleteByIdsWithPermissionChecks_resourcesWithDifferentPackages_correctAccessLogs() {
+        MedicalDataSource dataSource1 = insertMedicalDataSource("ds", DATA_SOURCE_PACKAGE_NAME);
+        MedicalDataSource dataSource2 =
+                insertMedicalDataSource("ds", DIFFERENT_DATA_SOURCE_PACKAGE_NAME);
+        MedicalResource immunizationPackage1 =
+                upsertResource(PhrDataFactory::createImmunizationMedicalResource, dataSource1);
+        MedicalResource unknownResourcePackage2 =
+                upsertResource(PhrDataFactory::createAllergyMedicalResource, dataSource2);
+        mMedicalResourceHelper.deleteMedicalResourcesByIdsWithPermissionChecks(
+                List.of(immunizationPackage1.getId(), unknownResourcePackage2.getId()),
+                /* packageName= */ DATA_SOURCE_PACKAGE_NAME);
+
+        // In this test, we have inserted two different resource types from different packages.
+        // When the calling app, calls the delete API, we expect access log to be created only
+        // for the deleted resource type. In this case it would be: immunizationPackage1
+        List<AccessLog> accessLogs = sortByAccessTime(AccessLogsHelper.queryAccessLogs());
+        AccessLog accessLog1 = accessLogs.get(0);
+        AccessLog accessLog2 = accessLogs.get(1);
+        AccessLog accessLog3 = accessLogs.get(2);
+
+        assertThat(accessLogs).hasSize(3);
+
+        assertThat(accessLog1.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
+        assertThat(accessLog1.getMedicalResourceTypes())
+                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
+        assertThat(accessLog1.getRecordTypes()).isEmpty();
+        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
+        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
+        assertThat(accessLog1.getAccessTime()).isNotNull();
+
+        assertThat(accessLog2.getPackageName()).isEqualTo(DIFFERENT_DATA_SOURCE_PACKAGE_NAME);
+        assertThat(accessLog2.getMedicalResourceTypes())
+                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_UNKNOWN));
+        assertThat(accessLog2.getRecordTypes()).isEmpty();
+        assertThat(accessLog2.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
+        assertThat(accessLog2.isMedicalDataSourceAccessed()).isFalse();
+        assertThat(accessLog2.getAccessTime()).isNotNull();
+
+        assertThat(accessLog3.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
+        assertThat(accessLog3.getMedicalResourceTypes())
+                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
+        assertThat(accessLog3.getRecordTypes()).isEmpty();
+        assertThat(accessLog3.getOperationType()).isEqualTo(OPERATION_TYPE_DELETE);
+        assertThat(accessLog3.isMedicalDataSourceAccessed()).isFalse();
+        assertThat(accessLog3.getAccessTime()).isNotNull();
+    }
+
+    @Test
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    public void deleteByIds_withPackageName_resourcesWithSamePackages_correctAccessLogs() {
+        MedicalDataSource dataSource1 = insertMedicalDataSource("ds", DATA_SOURCE_PACKAGE_NAME);
+        MedicalDataSource dataSource2 = insertMedicalDataSource("ds", DATA_SOURCE_PACKAGE_NAME);
+        MedicalResource immunizationPackage1 =
+                upsertResource(PhrDataFactory::createImmunizationMedicalResource, dataSource1);
+        MedicalResource unknownResourcePackage1 =
+                upsertResource(PhrDataFactory::createAllergyMedicalResource, dataSource2);
+        mMedicalResourceHelper.deleteMedicalResourcesByIdsWithPermissionChecks(
+                List.of(immunizationPackage1.getId(), unknownResourcePackage1.getId()),
+                /* packageName= */ DATA_SOURCE_PACKAGE_NAME);
+
+        // In this test, we have inserted two different resource types from the same package.
+        // When the calling app, calls the delete API, we expect access log to be created
+        // for the deleted resource types. In this case it would be: immunizationPackage1,
+        // unknownResourcePackage1
+        List<AccessLog> accessLogs = sortByAccessTime(AccessLogsHelper.queryAccessLogs());
+        AccessLog accessLog1 = accessLogs.get(0);
+        AccessLog accessLog2 = accessLogs.get(1);
+        AccessLog accessLog3 = accessLogs.get(2);
+
+        assertThat(accessLogs).hasSize(3);
+
+        assertThat(accessLog1.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
+        assertThat(accessLog1.getMedicalResourceTypes())
+                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
+        assertThat(accessLog1.getRecordTypes()).isEmpty();
+        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
+        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
+        assertThat(accessLog1.getAccessTime()).isNotNull();
+
+        assertThat(accessLog2.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
+        assertThat(accessLog2.getMedicalResourceTypes())
+                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_UNKNOWN));
+        assertThat(accessLog2.getRecordTypes()).isEmpty();
+        assertThat(accessLog2.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
+        assertThat(accessLog2.isMedicalDataSourceAccessed()).isFalse();
+        assertThat(accessLog2.getAccessTime()).isNotNull();
+
+        assertThat(accessLog3.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
+        assertThat(accessLog3.getMedicalResourceTypes())
+                .isEqualTo(
+                        Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION, MEDICAL_RESOURCE_TYPE_UNKNOWN));
+        assertThat(accessLog3.getRecordTypes()).isEmpty();
+        assertThat(accessLog3.getOperationType()).isEqualTo(OPERATION_TYPE_DELETE);
+        assertThat(accessLog3.isMedicalDataSourceAccessed()).isFalse();
+        assertThat(accessLog3.getAccessTime()).isNotNull();
+    }
+
+    @Test
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
     public void deleteMedicalResourcesByIds_noId_fails() {
         assertThrows(
                 IllegalArgumentException.class,
                 () ->
-                        mMedicalResourceHelper.deleteMedicalResourcesByIds(
-                                List.of(), /* appInfoIdRestriction= */ null));
+                        mMedicalResourceHelper.deleteMedicalResourcesByIdsWithoutPermissionChecks(
+                                List.of()));
     }
 
     @Test
     @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
     public void deleteMedicalResourcesByIds_oneIdNotPresent_succeeds() {
-        mMedicalResourceHelper.deleteMedicalResourcesByIds(
+        mMedicalResourceHelper.deleteMedicalResourcesByIdsWithoutPermissionChecks(
                 List.of(
                         new MedicalResourceId(
                                 DATA_SOURCE_ID,
                                 FHIR_RESOURCE_TYPE_IMMUNIZATION,
-                                FHIR_RESOURCE_ID_IMMUNIZATION)),
-                /* appInfoIdRestriction= */ null);
+                                FHIR_RESOURCE_ID_IMMUNIZATION)));
     }
 
     @Test
@@ -1897,8 +2028,8 @@ public class MedicalResourceHelperTest {
                 upsertResource(
                         PhrDataFactory::createImmunizationMedicalResource, dataSource.getId());
 
-        mMedicalResourceHelper.deleteMedicalResourcesByIds(
-                List.of(medicalResource1.getId()), /* appInfoIdRestriction= */ null);
+        mMedicalResourceHelper.deleteMedicalResourcesByIdsWithoutPermissionChecks(
+                List.of(medicalResource1.getId()));
 
         List<MedicalResource> result =
                 mMedicalResourceHelper.readMedicalResourcesByIdsWithoutPermissionChecks(
@@ -1919,8 +2050,8 @@ public class MedicalResourceHelperTest {
         MedicalResource medicalResource2 =
                 upsertResource(PhrDataFactory::createAllergyMedicalResource, dataSource.getId());
 
-        mMedicalResourceHelper.deleteMedicalResourcesByIds(
-                List.of(medicalResource1.getId()), /* appInfoIdRestriction= */ null);
+        mMedicalResourceHelper.deleteMedicalResourcesByIdsWithoutPermissionChecks(
+                List.of(medicalResource1.getId()));
         List<Integer> indicesResult = readEntriesInMedicalResourceIndicesTable();
 
         List<MedicalResource> result =
@@ -1940,9 +2071,8 @@ public class MedicalResourceHelperTest {
         MedicalResource medicalResource2 =
                 upsertResource(PhrDataFactory::createAllergyMedicalResource, dataSource.getId());
 
-        long appInfoRestriction = mAppInfoHelper.getAppInfoId(DIFFERENT_DATA_SOURCE_PACKAGE_NAME);
-        mMedicalResourceHelper.deleteMedicalResourcesByIds(
-                List.of(medicalResource1.getId()), appInfoRestriction);
+        mMedicalResourceHelper.deleteMedicalResourcesByIdsWithPermissionChecks(
+                List.of(medicalResource1.getId()), DIFFERENT_DATA_SOURCE_PACKAGE_NAME);
 
         List<MedicalResource> result =
                 mMedicalResourceHelper.readMedicalResourcesByIdsWithoutPermissionChecks(
@@ -1959,10 +2089,9 @@ public class MedicalResourceHelperTest {
                         PhrDataFactory::createImmunizationMedicalResource, dataSource.getId());
         MedicalResource medicalResource2 =
                 upsertResource(PhrDataFactory::createAllergyMedicalResource, dataSource.getId());
-        long appInfoRestriction = mAppInfoHelper.getAppInfoId(DATA_SOURCE_PACKAGE_NAME);
 
-        mMedicalResourceHelper.deleteMedicalResourcesByIds(
-                List.of(medicalResource1.getId()), appInfoRestriction);
+        mMedicalResourceHelper.deleteMedicalResourcesByIdsWithPermissionChecks(
+                List.of(medicalResource1.getId()), DATA_SOURCE_PACKAGE_NAME);
 
         List<MedicalResource> result =
                 mMedicalResourceHelper.readMedicalResourcesByIdsWithoutPermissionChecks(
@@ -1987,9 +2116,8 @@ public class MedicalResourceHelperTest {
         MedicalResource expectedResource2Source2 =
                 upsertResource(PhrDataFactory::createAllergyMedicalResource, dataSource2.getId());
 
-        mMedicalResourceHelper.deleteMedicalResourcesByIds(
-                List.of(expectedResource1Source1.getId(), expectedResource2Source2.getId()),
-                /* appInfoIdRestriction= */ null);
+        mMedicalResourceHelper.deleteMedicalResourcesByIdsWithoutPermissionChecks(
+                List.of(expectedResource1Source1.getId(), expectedResource2Source2.getId()));
 
         List<MedicalResource> result =
                 mMedicalResourceHelper.readMedicalResourcesByIdsWithoutPermissionChecks(
@@ -2116,6 +2244,15 @@ public class MedicalResourceHelperTest {
                 new CreateMedicalDataSourceRequest.Builder(uri, displayName).build();
         return mMedicalDataSourceHelper.createMedicalDataSource(
                 mContext, createMedicalDataSourceRequest, packageName);
+    }
+
+    private MedicalResource upsertResource(
+            MedicalResourceCreator creator, MedicalDataSource dataSource) {
+        MedicalResource medicalResource = creator.create(dataSource.getId());
+        return mMedicalResourceHelper
+                .upsertMedicalResources(
+                        dataSource.getPackageName(), List.of(makeUpsertRequest(medicalResource)))
+                .get(0);
     }
 
     private MedicalResource upsertResource(MedicalResourceCreator creator, String dataSourceId) {

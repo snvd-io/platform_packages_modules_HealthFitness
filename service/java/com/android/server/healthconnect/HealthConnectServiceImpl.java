@@ -2726,26 +2726,18 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                     enforceIsForegroundUser(userHandle);
                     verifyPackageNameFromUid(uid, attributionSource);
                     throwExceptionIfDataSyncInProgress();
-                    Long appInfoRestriction;
                     if (holdsDataManagementPermission) {
-                        appInfoRestriction = null;
+                        mMedicalResourceHelper.deleteMedicalResourcesByIdsWithoutPermissionChecks(
+                                medicalResourceIds);
                     } else {
                         boolean isInForeground = mAppOpsManagerLocal.isUidInForeground(uid);
                         tryAcquireApiCallQuota(
                                 uid, QuotaCategory.QUOTA_CATEGORY_WRITE, isInForeground, logger);
                         mMedicalDataPermissionEnforcer.enforceWriteMedicalDataPermission(
                                 attributionSource);
-
-                        appInfoRestriction =
-                                mAppInfoHelper.getAppInfoId(attributionSource.getPackageName());
-                        if (appInfoRestriction == Constants.DEFAULT_LONG) {
-                            throw new IllegalArgumentException(
-                                    "Deletion not permitted as app has inserted no data.");
-                        }
+                        mMedicalResourceHelper.deleteMedicalResourcesByIdsWithPermissionChecks(
+                                medicalResourceIds, callingPackageName);
                     }
-
-                    mMedicalResourceHelper.deleteMedicalResourcesByIds(
-                            medicalResourceIds, appInfoRestriction);
                     tryAndReturnResult(callback, logger);
                 },
                 logger,
