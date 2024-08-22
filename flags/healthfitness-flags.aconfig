@@ -130,3 +130,14 @@ flag {
     is_fixed_read_only: true
     is_exported: true
 }
+
+flag {
+   name: "clear_caches_after_switching_user"
+   namespace: "health_fitness_aconfig"
+   description: "Enables clearing database caches after switching users."
+   bug: "355426144"
+   is_fixed_read_only: true
+   metadata {
+       purpose: PURPOSE_BUGFIX
+   }
+}
