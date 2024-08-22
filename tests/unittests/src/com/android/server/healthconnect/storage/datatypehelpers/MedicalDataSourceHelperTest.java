@@ -673,7 +673,9 @@ public class MedicalDataSourceHelperTest {
                         .setData(medicalResource.getFhirResource().getData())
                         .setDataSourceId(dataSource.getId());
         MedicalResource resource =
-                resourceHelper.upsertMedicalResources(List.of(upsertRequest)).get(0);
+                resourceHelper
+                        .upsertMedicalResources(DATA_SOURCE_PACKAGE_NAME, List.of(upsertRequest))
+                        .get(0);
 
         mMedicalDataSourceHelper.deleteMedicalDataSource(
                 dataSource.getId(), /* appInfoIdRestriction= */ null);
