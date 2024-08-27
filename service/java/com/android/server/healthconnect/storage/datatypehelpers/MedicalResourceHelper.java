@@ -44,6 +44,7 @@ import static com.android.server.healthconnect.storage.utils.StorageUtils.getCur
 import static com.android.server.healthconnect.storage.utils.StorageUtils.getCursorLong;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.getCursorString;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.getCursorUUID;
+import static com.android.server.healthconnect.storage.utils.StorageUtils.getListOfHexStrings;
 import static com.android.server.healthconnect.storage.utils.WhereClauses.LogicalOperator.AND;
 
 import android.annotation.NonNull;
@@ -570,8 +571,8 @@ public final class MedicalResourceHelper {
     @NonNull
     private static SqlJoin getJoinWithIndicesAndDataSourceTablesFilterOnMedicalResourceTypes(
             @NonNull Set<Integer> medicalResourceTypes) {
-        return getJoinWithMedicalResourceIndicesFilterOnMedicalResourceTypes(
-                medicalResourceTypes, joinWithMedicalDataSourceTable());
+        return getJoinWithIndicesTableFilterOnMedicalResourceTypes(medicalResourceTypes)
+                .attachJoin(joinWithMedicalDataSourceTable());
     }
 
     /**
@@ -583,8 +584,8 @@ public final class MedicalResourceHelper {
     private static SqlJoin
             getJoinWithIndicesAndDataSourceTablesFilterOnMedicalResourceTypesAndAppId(
                     @NonNull Set<Integer> medicalResourceTypes, @NonNull String packageName) {
-        return getJoinWithMedicalResourceIndicesFilterOnMedicalResourceTypes(
-                medicalResourceTypes, joinWithMedicalDataSourceTableFilterOnAppId(packageName));
+        return getJoinWithIndicesTableFilterOnMedicalResourceTypes(medicalResourceTypes)
+                .attachJoin(joinWithMedicalDataSourceTableFilterOnAppId(packageName));
     }
 
     /**
@@ -598,9 +599,8 @@ public final class MedicalResourceHelper {
             getJoinWithIndicesAndDataSourceTablesFilterOnMedicalResourceTypesAndSourceIds(
                     @NonNull Set<Integer> medicalResourceTypes,
                     @NonNull List<UUID> dataSourceUuids) {
-        return getJoinWithMedicalResourceIndicesFilterOnMedicalResourceTypes(
-                medicalResourceTypes,
-                joinWithMedicalDataSourceTableFilterOnDataSourceIds(dataSourceUuids));
+        return getJoinWithIndicesTableFilterOnMedicalResourceTypes(medicalResourceTypes)
+                .attachJoin(joinWithMedicalDataSourceTableFilterOnDataSourceIds(dataSourceUuids));
     }
 
     /**
@@ -614,10 +614,10 @@ public final class MedicalResourceHelper {
             @NonNull Set<Integer> medicalResourceTypes,
             @NonNull List<UUID> dataSourceUuids,
             @NonNull String packageName) {
-        return getJoinWithMedicalResourceIndicesFilterOnMedicalResourceTypes(
-                medicalResourceTypes,
-                joinWithMedicalDataSourceTableFilterOnDataSourceIdsAndAppId(
-                        dataSourceUuids, packageName));
+        return getJoinWithIndicesTableFilterOnMedicalResourceTypes(medicalResourceTypes)
+                .attachJoin(
+                        joinWithMedicalDataSourceTableFilterOnDataSourceIdsAndAppId(
+                                dataSourceUuids, packageName));
     }
 
     /**
@@ -626,15 +626,14 @@ public final class MedicalResourceHelper {
      * extraJoin} attached to it.
      */
     @NonNull
-    private static SqlJoin getJoinWithMedicalResourceIndicesFilterOnMedicalResourceTypes(
-            @NonNull Set<Integer> medicalResourceTypes, @NonNull SqlJoin extraJoin) {
-        SqlJoin join = joinWithMedicalResourceIndicesTable();
-        join.setSecondTableWhereClause(getMedicalResourceTypeWhereClause(medicalResourceTypes));
-        return join.attachJoin(extraJoin);
+    static SqlJoin getJoinWithIndicesTableFilterOnMedicalResourceTypes(
+            @NonNull Set<Integer> medicalResourceTypes) {
+        return joinWithMedicalResourceIndicesTable()
+                .setSecondTableWhereClause(getMedicalResourceTypeWhereClause(medicalResourceTypes));
     }
 
     @NonNull
-    private static SqlJoin getJoinWithMedicalDataSourceFilterOnDataSourceIdsAndAppId(
+    static SqlJoin getJoinWithMedicalDataSourceFilterOnDataSourceIdsAndAppId(
             @NonNull List<UUID> dataSourceIds, long appId, @NonNull SqlJoin extraJoin) {
         return joinWithMedicalDataSourceTable()
                 .setSecondTableWhereClause(
@@ -643,7 +642,15 @@ public final class MedicalResourceHelper {
     }
 
     @NonNull
-    private static SqlJoin joinWithMedicalResourceIndicesTable() {
+    static SqlJoin getJoinWithMedicalDataSourceFilterOnDataSourceIds(
+            @NonNull List<UUID> dataSourceIds, @NonNull SqlJoin extraJoin) {
+        return joinWithMedicalDataSourceTable()
+                .setSecondTableWhereClause(getDataSourceIdsWhereClause(dataSourceIds))
+                .attachJoin(extraJoin);
+    }
+
+    @NonNull
+    static SqlJoin joinWithMedicalResourceIndicesTable() {
         return new SqlJoin(
                         MEDICAL_RESOURCE_TABLE_NAME,
                         getTableName(),
@@ -706,6 +713,13 @@ public final class MedicalResourceHelper {
         whereClauses.addWhereInClauseWithoutQuotes(
                 getDataSourceUuidColumnName(), StorageUtils.getListOfHexStrings(dataSourceIds));
         return whereClauses;
+    }
+
+    @NonNull
+    private static WhereClauses getDataSourceIdsWhereClause(@NonNull List<UUID> dataSourceIds) {
+        return new WhereClauses(AND)
+                .addWhereInClauseWithoutQuotes(
+                        getDataSourceUuidColumnName(), getListOfHexStrings(dataSourceIds));
     }
 
     @NonNull

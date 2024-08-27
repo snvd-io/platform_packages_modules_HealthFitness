@@ -1994,7 +1994,11 @@ public class HealthConnectManagerTest {
         HealthConnectReceiver<List<MedicalDataSource>> receiver = new HealthConnectReceiver<>();
         List<String> ids = List.of("foo");
 
-        mManager.getMedicalDataSources(ids, Executors.newSingleThreadExecutor(), receiver);
+        SystemUtil.runWithShellPermissionIdentity(
+                () ->
+                        mManager.getMedicalDataSources(
+                                ids, Executors.newSingleThreadExecutor(), receiver),
+                MANAGE_HEALTH_DATA);
 
         assertThat(receiver.getResponse()).isEmpty();
     }
@@ -2123,16 +2127,21 @@ public class HealthConnectManagerTest {
 
         assertThat(callback.assertAndGetException().getErrorCode())
                 .isEqualTo(HealthConnectException.ERROR_INVALID_ARGUMENT);
-        // Check for existence of data
+
+        // Check for existence of the medicalResource and the dataSource.
         HealthConnectReceiver<List<MedicalResource>> readResourceReceiver =
                 new HealthConnectReceiver<>();
-        mManager.readMedicalResources(List.of(resource.getId()), executor, readResourceReceiver);
-        assertThat(readResourceReceiver.getResponse()).isEmpty();
-        // Check for existence of datasource
         HealthConnectReceiver<List<MedicalDataSource>> getDataSourceReceiver =
                 new HealthConnectReceiver<>();
-        mManager.getMedicalDataSources(
-                List.of(dataSource.getId()), executor, getDataSourceReceiver);
+        SystemUtil.runWithShellPermissionIdentity(
+                () -> {
+                    mManager.readMedicalResources(
+                            List.of(resource.getId()), executor, readResourceReceiver);
+                    mManager.getMedicalDataSources(
+                            List.of(dataSource.getId()), executor, getDataSourceReceiver);
+                },
+                MANAGE_HEALTH_DATA);
+        assertThat(readResourceReceiver.getResponse()).containsExactly(resource);
         assertThat(getDataSourceReceiver.getResponse()).containsExactly(dataSource);
     }
 
