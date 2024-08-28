@@ -526,6 +526,15 @@
     <string name="import_notification_choose_file_intent_button" description="Button text on notification restarts the file selection stage of the import process. [CHAR_LIMIT=40]">Choose file</string>
     <string name="import_notification_free_up_space_intent_button" description="Button text on notification that lets the user open their cloud storage provider to delete/move files to create space. [CHAR_LIMIT=40]">Free up space</string>
 
+    <string name="export_notification_error_generic_error_title" description="Title text of notification displayed when export fails due to an unknown error. [CHAR_LIMIT=40]">Health&#160;Connect couldn\'t export data</string>
+    <string name="export_notification_error_more_space_needed_title" description="Title text of notification displayed when export fails due to needing additional space. [CHAR_LIMIT=NONE]">More space needed</string>
+
+    <string name="export_notification_error_generic_error_body_text" description="Body text of notification displayed when export fails due to an unknown error. [CHAR_LIMIT=NONE]">There was a problem with the export for <xliff:g example="May 21" id="date">%1$s</xliff:g>. Please set up a new scheduled export and try again.</string>
+    <string name="export_notification_error_more_space_needed_body_text" description="Body text of notification displayed when the export fails due to needing additional space. [CHAR_LIMIT=NONE]">Health&#160;Connect needs <xliff:g example="500MB" id="space_needed">%1$s</xliff:g> of storage space on your phone to continue the scheduled export.</string>
+
+    <string name="export_notification_set_up_intent_button" description="Button text on notification that restarts the export setup flow. [CHAR_LIMIT=40]">Set up</string>
+    <string name="export_notification_free_up_space_intent_button" description="Button text on notification that lets the user open their cloud provider to delete/move files to create space. [CHAR_LIMIT=40]">Free up space</string>
+
     <string name="export_back_button" descrption="Text on a button that navigates back to the previous screen of the data saving setup flow. [CHAR_LIMIT=40]">Back</string>
     <string name="export_next_button" descrption="Text on a button that navigates to the next screen of the data saving setup flow. [CHAR_LIMIT=40]">Next</string>
     <string name="export_cancel_button" descrption="Text on a button that cancels the data export setup flow. [CHAR_LIMIT=40]">Cancel</string>
