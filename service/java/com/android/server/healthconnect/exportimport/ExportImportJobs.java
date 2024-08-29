@@ -17,6 +17,7 @@
 package com.android.server.healthconnect.exportimport;
 
 import static com.android.healthfitness.flags.Flags.exportImport;
+import static com.android.healthfitness.flags.Flags.exportImportFastFollow;
 
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -41,13 +42,18 @@ public class ExportImportJobs {
     private static final String TAG = "HealthConnectExportJobs";
     private static final int MIN_JOB_ID = ExportImportJobs.class.hashCode();
 
-    @VisibleForTesting static final String IS_FIRST_EXPORT = "is_first_export";
+    @VisibleForTesting static final String SHOULD_SCHEDULE_EARLY = "should_schedule_early";
     @VisibleForTesting static final String NAMESPACE = "HEALTH_CONNECT_IMPORT_EXPORT_JOBS";
 
     public static final String PERIODIC_EXPORT_JOB_NAME = "periodic_export_job";
 
     /** Schedule the periodic export job. */
     public static void schedulePeriodicExportJob(Context context, int userId) {
+        schedulePeriodicExportJob(context, userId, /* isRescheduled= */ true);
+    }
+
+    @VisibleForTesting
+    static void schedulePeriodicExportJob(Context context, int userId, boolean isRescheduled) {
         int periodInDays = ExportImportSettingsStorage.getScheduledExportPeriodInDays();
         if (periodInDays <= 0) {
             return;
@@ -65,14 +71,15 @@ public class ExportImportJobs {
         }
         if (ExportImportSettingsStorage.getLastSuccessfulExportTime() == null
                 || !ExportImportSettingsStorage.getUri()
-                        .equals(ExportImportSettingsStorage.getLastSuccessfulExportUri())) {
+                        .equals(ExportImportSettingsStorage.getLastSuccessfulExportUri())
+                || (isRescheduled && exportImportFastFollow())) {
 
             // Shorten the period for the first export to any new URI.
             // This will be changed back once the first export to any new location is done.
             periodInMillis = Duration.ofHours(1).toMillis();
             flexInMillis = periodInMillis;
 
-            extras.putBoolean(IS_FIRST_EXPORT, true);
+            extras.putBoolean(SHOULD_SCHEDULE_EARLY, true);
         }
         Slog.i(
                 TAG,
@@ -114,9 +121,9 @@ public class ExportImportJobs {
             return true;
         }
         boolean exportSuccess = exportManager.runExport();
-        boolean firstExport = extras.getBoolean(IS_FIRST_EXPORT, false);
-        if (exportSuccess && firstExport) {
-            schedulePeriodicExportJob(context, userId);
+        boolean shouldScheduleEarly = extras.getBoolean(SHOULD_SCHEDULE_EARLY, false);
+        if (exportSuccess && shouldScheduleEarly) {
+            schedulePeriodicExportJob(context, userId, /* isRescheduled= */ false);
         }
         return exportSuccess;
 
