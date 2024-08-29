@@ -725,9 +725,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         callback.onResult(
                                 new ReadRecordsResponseParcel(
                                         new RecordsParcel(records), pageToken));
-                        if (requiresLogging) {
-                            logRecordTypeSpecificReadMetrics(records, callingPackageName);
-                        }
+                        logRecordTypeSpecificReadMetrics(records, callingPackageName);
                         logger.setDataTypesFromRecordInternals(records)
                                 .setHealthDataServiceApiStatusSuccess();
                     } catch (TypeNotPresentException exception) {
