@@ -167,6 +167,7 @@ import com.android.server.healthconnect.permission.FirstGrantTimeManager;
 import com.android.server.healthconnect.permission.HealthConnectPermissionHelper;
 import com.android.server.healthconnect.permission.MedicalDataPermissionEnforcer;
 import com.android.server.healthconnect.phr.ReadMedicalResourcesInternalResponse;
+import com.android.server.healthconnect.phr.validations.MedicalResourceValidator;
 import com.android.server.healthconnect.storage.AutoDeleteService;
 import com.android.server.healthconnect.storage.ExportImportSettingsStorage;
 import com.android.server.healthconnect.storage.TransactionManager;
@@ -2456,17 +2457,17 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                     mMedicalDataPermissionEnforcer.enforceWriteMedicalDataPermission(
                             attributionSource);
 
-                    List<UpsertMedicalResourceInternalRequest> medicalResourcesToUpsert =
+                    List<UpsertMedicalResourceInternalRequest> validatedMedicalResourcesToUpsert =
                             new ArrayList<>();
                     for (UpsertMedicalResourceRequest upsertMedicalResourceRequest : requests) {
-                        UpsertMedicalResourceInternalRequest upsertMedicalResourceInternalRequest =
-                                UpsertMedicalResourceInternalRequest.fromUpsertRequest(
-                                        upsertMedicalResourceRequest);
-                        medicalResourcesToUpsert.add(upsertMedicalResourceInternalRequest);
+                        MedicalResourceValidator validator =
+                                new MedicalResourceValidator(upsertMedicalResourceRequest);
+                        validatedMedicalResourcesToUpsert.add(
+                                validator.validateAndCreateInternalRequest());
                     }
                     List<MedicalResource> medicalResources =
                             mMedicalResourceHelper.upsertMedicalResources(
-                                    callingPackageName, medicalResourcesToUpsert);
+                                    callingPackageName, validatedMedicalResourcesToUpsert);
                     logger.setNumberOfRecords(medicalResources.size());
 
                     tryAndReturnResult(callback, medicalResources, logger);
