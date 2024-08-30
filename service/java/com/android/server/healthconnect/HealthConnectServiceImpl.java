@@ -516,10 +516,10 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                     throwExceptionIfDataSyncInProgress();
                     List<Integer> recordTypesToTest = new ArrayList<>();
                     for (int aggregateId : request.getAggregateIds()) {
-                        recordTypesToTest.addAll(
+                        recordTypesToTest.add(
                                 mAggregationTypeIdMapper
                                         .getAggregationTypeFor(aggregateId)
-                                        .getApplicableRecordTypeIds());
+                                        .getApplicableRecordTypeId());
                     }
 
                     long startDateAccess = request.getStartTime();
