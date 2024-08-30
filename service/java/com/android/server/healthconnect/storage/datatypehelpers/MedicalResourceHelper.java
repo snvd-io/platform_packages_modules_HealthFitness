@@ -84,6 +84,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Helper class for MedicalResource table.
@@ -190,18 +191,63 @@ public final class MedicalResourceHelper {
             boolean hasWritePermission,
             boolean isCalledFromBgWithoutBgRead)
             throws SQLiteException {
-        List<MedicalResource> medicalResources;
-        ReadTableRequest readTableRequest =
-                getReadTableRequestBasedOnPermissionFilters(
-                        medicalResourceIds,
-                        grantedReadMedicalResourceTypes,
-                        callingPackageName,
-                        hasWritePermission,
-                        isCalledFromBgWithoutBgRead);
-        try (Cursor cursor = mTransactionManager.read(readTableRequest)) {
-            medicalResources = getMedicalResources(cursor);
-        }
-        return medicalResources;
+
+        return mTransactionManager.runAsTransaction(
+                db -> {
+                    List<MedicalResource> medicalResources;
+                    ReadTableRequest readTableRequest =
+                            getReadTableRequestBasedOnPermissionFilters(
+                                    medicalResourceIds,
+                                    grantedReadMedicalResourceTypes,
+                                    callingPackageName,
+                                    hasWritePermission,
+                                    isCalledFromBgWithoutBgRead);
+                    try (Cursor cursor = mTransactionManager.read(db, readTableRequest)) {
+                        medicalResources = getMedicalResources(cursor);
+                    }
+                    // If the app is called from background but without background read permission,
+                    // the most the app can do, is to read their own data. Same when the
+                    // grantedReadMedicalResourceTypes is empty. And we don't need to add access
+                    // logs when an app intends to access their own data.
+                    // If medicalResources is empty, it means that we haven't read any resources
+                    // out, so no need to add access logs either.
+                    if (!isCalledFromBgWithoutBgRead
+                            && !grantedReadMedicalResourceTypes.isEmpty()
+                            && !medicalResources.isEmpty()) {
+                        // We do this to get resourceTypes that are read due to the calling app
+                        // having a read permission for it. If the resources returned, were read
+                        // due to selfRead only, no access logs should be created.
+                        // However if the resources read were written by the app itself, but the
+                        // app also had read permissions for those resources, we don't record
+                        // this as selfRead and access log is added.
+                        Set<Integer> resourceTypes =
+                                getIntersectionOfResourceTypesReadAndGrantedReadPermissions(
+                                        getResourceTypesRead(medicalResources),
+                                        grantedReadMedicalResourceTypes);
+                        if (!resourceTypes.isEmpty()) {
+                            AccessLogsHelper.addAccessLog(
+                                    db,
+                                    callingPackageName,
+                                    resourceTypes,
+                                    OPERATION_TYPE_READ,
+                                    /* accessedMedicalDataSource= */ false);
+                        }
+                    }
+                    return medicalResources;
+                });
+    }
+
+    @NonNull
+    private static Set<Integer> getIntersectionOfResourceTypesReadAndGrantedReadPermissions(
+            Set<Integer> resourceTypesRead, Set<Integer> grantedReadPerms) {
+        Set<Integer> intersection = new HashSet<>(resourceTypesRead);
+        intersection.retainAll(grantedReadPerms);
+        return intersection;
+    }
+
+    @NonNull
+    private static Set<Integer> getResourceTypesRead(@NonNull List<MedicalResource> resources) {
+        return resources.stream().map(MedicalResource::getType).collect(Collectors.toSet());
     }
 
     @NonNull
