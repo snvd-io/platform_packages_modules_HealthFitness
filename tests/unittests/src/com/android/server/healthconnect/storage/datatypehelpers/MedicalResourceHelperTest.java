@@ -83,6 +83,7 @@ import android.health.connect.datatypes.FhirVersion;
 import android.health.connect.datatypes.MedicalDataSource;
 import android.health.connect.datatypes.MedicalResource;
 import android.healthconnect.cts.utils.PhrDataFactory;
+import android.net.Uri;
 import android.os.Environment;
 import android.platform.test.annotations.EnableFlags;
 import android.platform.test.flag.junit.SetFlagsRule;
@@ -1776,7 +1777,7 @@ public class MedicalResourceHelperTest {
      * the given name.
      */
     private MedicalDataSource insertMedicalDataSource(String name, String packageName) {
-        String uri = String.format("%s/%s", DATA_SOURCE_FHIR_BASE_URI, name);
+        Uri uri = Uri.parse(String.format("%s/%s", DATA_SOURCE_FHIR_BASE_URI.toString(), name));
         String displayName = String.format("%s %s", DATA_SOURCE_DISPLAY_NAME, name);
 
         CreateMedicalDataSourceRequest createMedicalDataSourceRequest =
