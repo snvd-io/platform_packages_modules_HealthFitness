@@ -27,7 +27,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.health.connect.datatypes.AggregationType;
 import android.health.connect.datatypes.RecordTypeIdentifier;
-import android.health.connect.internal.datatypes.RecordInternal;
 import android.health.connect.internal.datatypes.SleepSessionRecordInternal;
 import android.util.Pair;
 
@@ -138,10 +137,5 @@ public final class SleepSessionRecordHelper
     @Override
     SqlJoin getJoinForReadRequest() {
         return SleepStageRecordHelper.getJoinReadRequest(getMainTableName());
-    }
-
-    @Override
-    public void checkRecordOperationsAreEnabled(RecordInternal<?> recordInternal) {
-        super.checkRecordOperationsAreEnabled(recordInternal);
     }
 }
