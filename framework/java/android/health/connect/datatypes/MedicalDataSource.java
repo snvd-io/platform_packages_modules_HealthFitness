@@ -24,7 +24,6 @@ import static java.util.Objects.requireNonNull;
 import android.annotation.FlaggedApi;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
-import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -36,7 +35,7 @@ import android.os.Parcelable;
 public final class MedicalDataSource implements Parcelable {
     @NonNull private final String mId;
     @NonNull private final String mPackageName;
-    @NonNull private final Uri mFhirBaseUri;
+    @NonNull private final String mFhirBaseUri;
     @NonNull private final String mDisplayName;
 
     @NonNull
@@ -66,7 +65,7 @@ public final class MedicalDataSource implements Parcelable {
     private MedicalDataSource(
             @NonNull String id,
             @NonNull String packageName,
-            @NonNull Uri fhirBaseUri,
+            @NonNull String fhirBaseUri,
             @NonNull String displayName) {
         requireNonNull(id);
         requireNonNull(packageName);
@@ -83,7 +82,7 @@ public final class MedicalDataSource implements Parcelable {
         requireNonNull(in);
         mId = requireNonNull(in.readString());
         mPackageName = requireNonNull(in.readString());
-        mFhirBaseUri = requireNonNull(in.readParcelable(Uri.class.getClassLoader(), Uri.class));
+        mFhirBaseUri = requireNonNull(in.readString());
         mDisplayName = requireNonNull(in.readString());
     }
 
@@ -107,7 +106,7 @@ public final class MedicalDataSource implements Parcelable {
 
     /** Returns the FHIR base URI, where data written for this data source came from. */
     @NonNull
-    public Uri getFhirBaseUri() {
+    public String getFhirBaseUri() {
         return mFhirBaseUri;
     }
 
@@ -120,7 +119,7 @@ public final class MedicalDataSource implements Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(mId);
         dest.writeString(mPackageName);
-        dest.writeParcelable(mFhirBaseUri, 0);
+        dest.writeString(mFhirBaseUri);
         dest.writeString(mDisplayName);
     }
 
@@ -158,7 +157,7 @@ public final class MedicalDataSource implements Parcelable {
     public static final class Builder {
         @NonNull private String mId;
         @NonNull private String mPackageName;
-        @NonNull private Uri mFhirBaseUri;
+        @NonNull private String mFhirBaseUri;
         @NonNull private String mDisplayName;
 
         /**
@@ -172,7 +171,7 @@ public final class MedicalDataSource implements Parcelable {
         public Builder(
                 @NonNull String id,
                 @NonNull String packageName,
-                @NonNull Uri fhirBaseUri,
+                @NonNull String fhirBaseUri,
                 @NonNull String displayName) {
             requireNonNull(id);
             requireNonNull(packageName);
@@ -225,7 +224,7 @@ public final class MedicalDataSource implements Parcelable {
 
         /** Sets the fhir base URI of this data source. */
         @NonNull
-        public Builder setFhirBaseUri(@NonNull Uri fhirBaseUri) {
+        public Builder setFhirBaseUri(@NonNull String fhirBaseUri) {
             requireNonNull(fhirBaseUri);
             mFhirBaseUri = fhirBaseUri;
             return this;

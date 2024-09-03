@@ -39,7 +39,6 @@ import android.database.sqlite.SQLiteException;
 import android.health.connect.Constants;
 import android.health.connect.CreateMedicalDataSourceRequest;
 import android.health.connect.datatypes.MedicalDataSource;
-import android.net.Uri;
 import android.util.Pair;
 
 import com.android.internal.annotations.VisibleForTesting;
@@ -228,8 +227,7 @@ public class MedicalDataSourceHelper {
                         /* id= */ getCursorUUID(cursor, DATA_SOURCE_UUID_COLUMN_NAME).toString(),
                         /* packageName= */ getCursorString(
                                 cursor, AppInfoHelper.PACKAGE_COLUMN_NAME),
-                        /* fhirBaseUri= */ Uri.parse(
-                                getCursorString(cursor, FHIR_BASE_URI_COLUMN_NAME)),
+                        /* fhirBaseUri= */ getCursorString(cursor, FHIR_BASE_URI_COLUMN_NAME),
                         /* displayName= */ getCursorString(cursor, DISPLAY_NAME_COLUMN_NAME))
                 .build();
     }
@@ -481,8 +479,7 @@ public class MedicalDataSourceHelper {
         contentValues.put(
                 DISPLAY_NAME_COLUMN_NAME, createMedicalDataSourceRequest.getDisplayName());
         contentValues.put(
-                FHIR_BASE_URI_COLUMN_NAME,
-                createMedicalDataSourceRequest.getFhirBaseUri().toString());
+                FHIR_BASE_URI_COLUMN_NAME, createMedicalDataSourceRequest.getFhirBaseUri());
         contentValues.put(APP_INFO_ID_COLUMN_NAME, appInfoId);
         return contentValues;
     }

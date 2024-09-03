@@ -24,7 +24,6 @@ import android.health.connect.UpsertMedicalResourceRequest
 import android.health.connect.datatypes.FhirVersion
 import android.health.connect.datatypes.MedicalDataSource
 import android.health.connect.datatypes.MedicalResource
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -95,8 +94,7 @@ class PhrOptionsFragment : Fragment(R.layout.fragment_phr_options) {
 
         view.requireViewById<Button>(R.id.phr_create_data_source_button).setOnClickListener {
             executeAndShowMessage {
-                createMedicalDataSource(view, Uri.parse("example.fhir.com/R4/123"),
-                    "Hospital X")
+                createMedicalDataSource(view, "example.fhir.com/R4/123", "Hospital X")
             }
         }
 
@@ -171,7 +169,7 @@ class PhrOptionsFragment : Fragment(R.layout.fragment_phr_options) {
         return resources
     }
 
-    private suspend fun createMedicalDataSource(view: View, fhirBaseUri: Uri, displayName: String): String {
+    private suspend fun createMedicalDataSource(view: View, fhirBaseUri: String, displayName: String): String {
         val dataSource =
             suspendCancellableCoroutine<MedicalDataSource> { continuation ->
                 healthConnectManager.createMedicalDataSource(

@@ -24,14 +24,13 @@ import static java.util.Objects.requireNonNull;
 import android.annotation.FlaggedApi;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
-import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /** Represents a create request for {@link HealthConnectManager#createMedicalDataSource}. */
 @FlaggedApi(FLAG_PERSONAL_HEALTH_RECORD)
 public final class CreateMedicalDataSourceRequest implements Parcelable {
-    @NonNull private final Uri mFhirBaseUri;
+    @NonNull private final String mFhirBaseUri;
     @NonNull private final String mDisplayName;
     private long mDataSize;
 
@@ -51,7 +50,8 @@ public final class CreateMedicalDataSourceRequest implements Parcelable {
                 }
             };
 
-    private CreateMedicalDataSourceRequest(@NonNull Uri fhirBaseUri, @NonNull String displayName) {
+    private CreateMedicalDataSourceRequest(
+            @NonNull String fhirBaseUri, @NonNull String displayName) {
         requireNonNull(fhirBaseUri);
         requireNonNull(displayName);
 
@@ -63,13 +63,13 @@ public final class CreateMedicalDataSourceRequest implements Parcelable {
         requireNonNull(in);
         mDataSize = in.dataSize();
 
-        mFhirBaseUri = requireNonNull(in.readParcelable(Uri.class.getClassLoader(), Uri.class));
+        mFhirBaseUri = requireNonNull(in.readString());
         mDisplayName = requireNonNull(in.readString());
     }
 
     /** Returns the fhir base uri. */
     @NonNull
-    public Uri getFhirBaseUri() {
+    public String getFhirBaseUri() {
         return mFhirBaseUri;
     }
 
@@ -95,7 +95,7 @@ public final class CreateMedicalDataSourceRequest implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeParcelable(mFhirBaseUri, 0);
+        dest.writeString(mFhirBaseUri);
         dest.writeString(mDisplayName);
     }
 
@@ -127,7 +127,7 @@ public final class CreateMedicalDataSourceRequest implements Parcelable {
 
     /** Builder class for {@link CreateMedicalDataSourceRequest} */
     public static final class Builder {
-        @NonNull private Uri mFhirBaseUri;
+        @NonNull private String mFhirBaseUri;
         @NonNull private String mDisplayName;
 
         /**
@@ -135,7 +135,7 @@ public final class CreateMedicalDataSourceRequest implements Parcelable {
          *     server this should be the base URL.
          * @param displayName The display name that describes the data source.
          */
-        public Builder(@NonNull Uri fhirBaseUri, @NonNull String displayName) {
+        public Builder(@NonNull String fhirBaseUri, @NonNull String displayName) {
             requireNonNull(fhirBaseUri);
             requireNonNull(displayName);
 
@@ -159,7 +159,7 @@ public final class CreateMedicalDataSourceRequest implements Parcelable {
          * Sets the fhir base URI. For data coming from a FHIR server this should be the base URL.
          */
         @NonNull
-        public Builder setFhirBaseUri(@NonNull Uri fhirBaseUri) {
+        public Builder setFhirBaseUri(@NonNull String fhirBaseUri) {
             requireNonNull(fhirBaseUri);
             mFhirBaseUri = fhirBaseUri;
             return this;
