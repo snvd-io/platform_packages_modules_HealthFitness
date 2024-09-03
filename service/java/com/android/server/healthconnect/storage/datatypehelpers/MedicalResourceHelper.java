@@ -718,7 +718,8 @@ public final class MedicalResourceHelper {
                         .map(UpsertMedicalResourceInternalRequest::getDataSourceId)
                         .toList();
         Map<String, Long> dataSourceUuidToRowId =
-                mMedicalDataSourceHelper.getUuidToRowIdMap(db, dataSourceUuids);
+                mMedicalDataSourceHelper.getUuidToRowIdMap(
+                        db, StorageUtils.toUuids(dataSourceUuids));
 
         List<UpsertTableRequest> requests =
                 createUpsertTableRequests(
@@ -1016,7 +1017,7 @@ public final class MedicalResourceHelper {
         }
         mTransactionManager.delete(
                 getDeleteRequestFilteringByDataSourcesAndAppId(
-                        medicalDataSourceIds, /* appId= */ null));
+                        StorageUtils.toUuids(medicalDataSourceIds), /* appId= */ null));
     }
 
     /**
@@ -1034,8 +1035,9 @@ public final class MedicalResourceHelper {
     public void deleteMedicalResourcesByDataSourcesWithPermissionChecks(
             @NonNull List<String> medicalDataSourceIds, @NonNull String callingPackageName)
             throws SQLiteException {
+        List<UUID> dataSourceUuids = StorageUtils.toUuids(medicalDataSourceIds);
 
-        if (medicalDataSourceIds.isEmpty()) {
+        if (dataSourceUuids.isEmpty()) {
             return;
         }
 
@@ -1056,8 +1058,7 @@ public final class MedicalResourceHelper {
 
                     mTransactionManager.delete(
                             db,
-                            getDeleteRequestFilteringByDataSourcesAndAppId(
-                                    medicalDataSourceIds, appId));
+                            getDeleteRequestFilteringByDataSourcesAndAppId(dataSourceUuids, appId));
 
                     if (!resourceTypes.isEmpty()) {
                         AccessLogsHelper.addAccessLog(
@@ -1072,7 +1073,7 @@ public final class MedicalResourceHelper {
 
     @NonNull
     private DeleteTableRequest getDeleteRequestFilteringByDataSourcesAndAppId(
-            @NonNull List<String> medicalDataSourceIds, @Nullable Long appId) {
+            @NonNull List<UUID> medicalDataSourceIds, @Nullable Long appId) {
         /*
            This is doing the following SQL code:
 
