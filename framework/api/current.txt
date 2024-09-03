@@ -1265,8 +1265,6 @@ package android.health.connect.datatypes {
   public static final class MindfulnessSessionRecord.Builder {
     ctor public MindfulnessSessionRecord.Builder(@NonNull android.health.connect.datatypes.Metadata, @NonNull java.time.Instant, @NonNull java.time.Instant, int);
     method @NonNull public android.health.connect.datatypes.MindfulnessSessionRecord build();
-    method @NonNull public android.health.connect.datatypes.MindfulnessSessionRecord.Builder clearEndZoneOffset();
-    method @NonNull public android.health.connect.datatypes.MindfulnessSessionRecord.Builder clearStartZoneOffset();
     method @NonNull public android.health.connect.datatypes.MindfulnessSessionRecord.Builder setEndZoneOffset(@NonNull java.time.ZoneOffset);
     method @NonNull public android.health.connect.datatypes.MindfulnessSessionRecord.Builder setNotes(@Nullable CharSequence);
     method @NonNull public android.health.connect.datatypes.MindfulnessSessionRecord.Builder setStartZoneOffset(@NonNull java.time.ZoneOffset);
