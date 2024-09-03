@@ -30,7 +30,6 @@ import static android.healthconnect.cts.utils.PhrDataFactory.getMedicalDataSourc
 import static com.google.common.truth.Truth.assertThat;
 
 import android.health.connect.datatypes.MedicalDataSource;
-import android.net.Uri;
 import android.os.Parcel;
 import android.platform.test.annotations.RequiresFlagsEnabled;
 import android.platform.test.flag.junit.CheckFlagsRule;
@@ -69,7 +68,7 @@ public class MedicalDataSourceTest {
     @Test
     public void testMedicalDataSourceBuilder_setAllFields() {
         MedicalDataSource dataSource =
-                new MedicalDataSource.Builder("", "", Uri.EMPTY, "")
+                new MedicalDataSource.Builder("", "", "", "")
                         .setId(DATA_SOURCE_ID)
                         .setPackageName(DATA_SOURCE_PACKAGE_NAME)
                         .setFhirBaseUri(DATA_SOURCE_FHIR_BASE_URI)
