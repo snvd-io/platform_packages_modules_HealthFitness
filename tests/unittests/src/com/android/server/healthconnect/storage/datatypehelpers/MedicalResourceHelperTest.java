@@ -20,7 +20,6 @@ import static android.health.connect.Constants.DEFAULT_PAGE_SIZE;
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_DELETE;
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_READ;
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_UPSERT;
-import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_ALLERGY_INTOLERANCE;
 import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_IMMUNIZATION;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_IMMUNIZATION;
@@ -58,8 +57,6 @@ import static com.android.server.healthconnect.storage.datatypehelpers.MedicalRe
 import static com.android.server.healthconnect.storage.datatypehelpers.MedicalResourceIndicesHelper.getParentColumnReference;
 import static com.android.server.healthconnect.storage.datatypehelpers.MedicalResourceIndicesHelper.getTableName;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.LAST_MODIFIED_TIME_COLUMN_NAME;
-import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.UUID_COLUMN_NAME;
-import static com.android.server.healthconnect.storage.utils.StorageUtils.BLOB_UNIQUE_NON_NULL;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.INTEGER;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.INTEGER_NOT_NULL;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.PRIMARY_AUTOINCREMENT;
@@ -96,13 +93,9 @@ import com.android.server.healthconnect.phr.ReadMedicalResourcesInternalResponse
 import com.android.server.healthconnect.storage.PhrTestUtils;
 import com.android.server.healthconnect.storage.TransactionManager;
 import com.android.server.healthconnect.storage.request.CreateTableRequest;
-import com.android.server.healthconnect.storage.request.DeleteTableRequest;
 import com.android.server.healthconnect.storage.request.ReadTableRequest;
 import com.android.server.healthconnect.storage.request.UpsertMedicalResourceInternalRequest;
-import com.android.server.healthconnect.storage.request.UpsertTableRequest;
 import com.android.server.healthconnect.storage.utils.StorageUtils;
-
-import com.google.common.collect.ImmutableList;
 
 import org.json.JSONException;
 import org.junit.Before;
@@ -175,7 +168,6 @@ public class MedicalResourceHelperTest {
                         Pair.create(FHIR_DATA_COLUMN_NAME, TEXT_NOT_NULL),
                         Pair.create(FHIR_VERSION_COLUMN_NAME, TEXT_NOT_NULL),
                         Pair.create(DATA_SOURCE_ID_COLUMN_NAME, INTEGER_NOT_NULL),
-                        Pair.create(UUID_COLUMN_NAME, BLOB_UNIQUE_NON_NULL),
                         Pair.create(LAST_MODIFIED_TIME_COLUMN_NAME, INTEGER));
         List<Pair<String, String>> columnInfoMedicalResourceIndices =
                 List.of(
@@ -201,8 +193,7 @@ public class MedicalResourceHelperTest {
     }
 
     @Test
-    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
-    public void getUpsertTableRequest_correctResult() {
+    public void getUpsertContentValues_correctResult() {
         FhirResource fhirResource = getFhirResource();
         UpsertMedicalResourceInternalRequest upsertMedicalResourceInternalRequest =
                 makeUpsertRequest(
@@ -210,68 +201,17 @@ public class MedicalResourceHelperTest {
                         MEDICAL_RESOURCE_TYPE_IMMUNIZATION,
                         FHIR_VERSION_R4,
                         DATA_SOURCE_ID);
-        UUID uuid =
-                generateMedicalResourceUUID(
-                        fhirResource.getId(), fhirResource.getType(), DATA_SOURCE_ID);
 
-        UpsertTableRequest upsertRequest =
-                MedicalResourceHelper.getUpsertTableRequest(
-                        uuid, DATA_SOURCE_ROW_ID, upsertMedicalResourceInternalRequest);
-        ContentValues contentValues = upsertRequest.getContentValues();
-        UpsertTableRequest childUpsertRequestExpected =
-                MedicalResourceIndicesHelper.getChildTableUpsertRequests(
-                        MEDICAL_RESOURCE_TYPE_IMMUNIZATION);
-        UpsertTableRequest childUpsertRequestResult = upsertRequest.getChildTableRequests().get(0);
+        ContentValues contentValues =
+                MedicalResourceHelper.getContentValues(
+                        DATA_SOURCE_ROW_ID, upsertMedicalResourceInternalRequest);
 
-        assertThat(upsertRequest.getTable()).isEqualTo(MEDICAL_RESOURCE_TABLE_NAME);
-        assertThat(upsertRequest.getUniqueColumnsCount()).isEqualTo(1);
-        assertThat(contentValues.size()).isEqualTo(6);
+        assertThat(contentValues.size()).isEqualTo(5);
         assertThat(contentValues.get(FHIR_RESOURCE_TYPE_COLUMN_NAME))
                 .isEqualTo(fhirResource.getType());
         assertThat(contentValues.get(DATA_SOURCE_ID_COLUMN_NAME)).isEqualTo(DATA_SOURCE_ROW_ID);
         assertThat(contentValues.get(FHIR_VERSION_COLUMN_NAME)).isEqualTo(R4_VERSION_STRING);
         assertThat(contentValues.get(FHIR_DATA_COLUMN_NAME)).isEqualTo(fhirResource.getData());
-        assertThat(contentValues.get(UUID_COLUMN_NAME))
-                .isEqualTo(StorageUtils.convertUUIDToBytes(uuid));
-        assertThat(childUpsertRequestResult.getTable())
-                .isEqualTo(childUpsertRequestExpected.getTable());
-        assertThat(childUpsertRequestResult.getContentValues())
-                .isEqualTo(childUpsertRequestExpected.getContentValues());
-        assertThat(childUpsertRequestResult.getUniqueColumnsCount())
-                .isEqualTo(childUpsertRequestExpected.getUniqueColumnsCount());
-    }
-
-    @Test
-    public void getReadTableRequest_usingMedicalResourceId_correctQuery() {
-        MedicalResourceId medicalResourceId1 =
-                new MedicalResourceId(
-                        DATA_SOURCE_ID, FHIR_RESOURCE_TYPE_IMMUNIZATION, "resourceId1");
-        MedicalResourceId medicalResourceId2 =
-                new MedicalResourceId(
-                        DIFFERENT_DATA_SOURCE_ID,
-                        FHIR_RESOURCE_TYPE_ALLERGY_INTOLERANCE,
-                        "resourceId2");
-        List<MedicalResourceId> medicalResourceIds =
-                List.of(medicalResourceId1, medicalResourceId2);
-        String hex1 = makeMedicalResourceHexString(medicalResourceId1);
-        String hex2 = makeMedicalResourceHexString(medicalResourceId2);
-        List<String> hexValues = List.of(hex1, hex2);
-
-        ReadTableRequest readRequest =
-                MedicalResourceHelper.getReadTableRequestByIdsJoinWithIndicesAndDataSourceTables(
-                        medicalResourceIds);
-
-        assertThat(readRequest.getTableName()).isEqualTo(MEDICAL_RESOURCE_TABLE_NAME);
-        assertThat(readRequest.getReadCommand())
-                .isEqualTo(
-                        "SELECT * FROM ( SELECT * FROM medical_resource_table WHERE uuid IN ("
-                                + String.join(", ", hexValues)
-                                + ") ) AS inner_query_result  INNER JOIN"
-                                + " medical_resource_indices_table ON"
-                                + " inner_query_result.medical_resource_row_id ="
-                                + " medical_resource_indices_table.medical_resource_id  INNER JOIN"
-                                + " medical_data_source_table ON inner_query_result.data_source_id"
-                                + " = medical_data_source_table.medical_data_source_row_id");
     }
 
     @Test
@@ -2353,62 +2293,6 @@ public class MedicalResourceHelperTest {
                                 expectedResource2Source1.getId(),
                                 expectedResource2Source2.getId()));
         assertThat(result).containsExactly(expectedResource1Source2, expectedResource2Source1);
-    }
-
-    @Test
-    public void getDeleteRequest_noIds_exceptions() {
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> MedicalResourceHelper.getDeleteRequest(Collections.emptyList()));
-    }
-
-    @Test
-    public void getDeleteRequest_oneId_success() {
-        MedicalResourceId medicalResourceId =
-                new MedicalResourceId(DATA_SOURCE_ID, FHIR_RESOURCE_TYPE_IMMUNIZATION, "anId");
-        DeleteTableRequest request =
-                MedicalResourceHelper.getDeleteRequest(ImmutableList.of(medicalResourceId));
-        String hex = makeMedicalResourceHexString(medicalResourceId);
-
-        assertThat(request.getDeleteCommand())
-                .isEqualTo("DELETE FROM medical_resource_table WHERE uuid IN (" + hex + ")");
-    }
-
-    @Test
-    public void getDeleteRequest_multipleId_success() {
-        MedicalResourceId medicalResourceId1 =
-                new MedicalResourceId(
-                        DATA_SOURCE_ID, FHIR_RESOURCE_TYPE_IMMUNIZATION, "Immunization1");
-        MedicalResourceId medicalResourceId2 =
-                new MedicalResourceId(
-                        DIFFERENT_DATA_SOURCE_ID,
-                        FHIR_RESOURCE_TYPE_ALLERGY_INTOLERANCE,
-                        "Allergy1");
-        MedicalResourceId medicalResourceId3 =
-                new MedicalResourceId(
-                        DIFFERENT_DATA_SOURCE_ID,
-                        FHIR_RESOURCE_TYPE_ALLERGY_INTOLERANCE,
-                        "Allergy2");
-        String uuidHex1 = makeMedicalResourceHexString(medicalResourceId1);
-        String uuidHex2 = makeMedicalResourceHexString(medicalResourceId2);
-        String uuidHex3 = makeMedicalResourceHexString(medicalResourceId3);
-
-        DeleteTableRequest request =
-                MedicalResourceHelper.getDeleteRequest(
-                        ImmutableList.of(
-                                medicalResourceId1, medicalResourceId2, medicalResourceId3));
-
-        assertThat(request.getIds()).isEqualTo(ImmutableList.of(uuidHex1, uuidHex2, uuidHex3));
-        assertThat(request.getIdColumnName()).isEqualTo("uuid");
-        assertThat(request.getDeleteCommand())
-                .isEqualTo(
-                        "DELETE FROM medical_resource_table WHERE uuid IN ("
-                                + uuidHex1
-                                + ", "
-                                + uuidHex2
-                                + ", "
-                                + uuidHex3
-                                + ")");
     }
 
     @Test
