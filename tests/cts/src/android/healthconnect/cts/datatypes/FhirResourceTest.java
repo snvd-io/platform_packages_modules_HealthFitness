@@ -24,8 +24,11 @@ import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_RESOURCE_ID_AL
 import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_RESOURCE_ID_IMMUNIZATION;
 import static android.healthconnect.cts.utils.PhrDataFactory.getFhirResource;
 import static android.healthconnect.cts.utils.PhrDataFactory.getFhirResourceBuilder;
+import static android.healthconnect.cts.utils.TestUtils.setFieldValueUsingReflection;
 
 import static com.google.common.truth.Truth.assertThat;
+
+import static org.junit.Assert.assertThrows;
 
 import android.health.connect.datatypes.FhirResource;
 import android.os.Parcel;
@@ -150,5 +153,20 @@ public class FhirResourceTest {
 
         assertThat(restored).isEqualTo(original);
         parcel.recycle();
+    }
+
+    @Test
+    public void testRestoreInvalidFhirResourceTypeFromParcel_expectException()
+            throws NoSuchFieldException, IllegalAccessException {
+        FhirResource original = getFhirResource();
+        setFieldValueUsingReflection(original, "mType", -1);
+
+        Parcel parcel = Parcel.obtain();
+        original.writeToParcel(parcel, 0);
+        parcel.setDataPosition(0);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> FhirResource.CREATOR.createFromParcel(parcel));
     }
 }

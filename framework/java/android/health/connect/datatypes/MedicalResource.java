@@ -98,6 +98,7 @@ public final class MedicalResource implements Parcelable {
     private MedicalResource(@NonNull Parcel in) {
         requireNonNull(in);
         mType = in.readInt();
+        validateMedicalResourceType(mType);
         mDataSourceId = requireNonNull(in.readString());
         mFhirVersion =
                 requireNonNull(

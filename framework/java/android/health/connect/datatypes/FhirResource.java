@@ -82,6 +82,7 @@ public final class FhirResource implements Parcelable {
     private FhirResource(@NonNull Parcel in) {
         requireNonNull(in);
         mType = in.readInt();
+        validateFhirResourceType(mType);
         mId = requireNonNull(in.readString());
         mData = requireNonNull(in.readString());
     }
