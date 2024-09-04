@@ -16,11 +16,11 @@
 
 package android.healthconnect.cts.utils;
 
+import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_ALLERGY_INTOLERANCE;
 import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_IMMUNIZATION;
-import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_UNKNOWN;
 import static android.health.connect.datatypes.FhirVersion.parseFhirVersion;
+import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_IMMUNIZATION;
-import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_UNKNOWN;
 
 import android.health.connect.CreateMedicalDataSourceRequest;
 import android.health.connect.GetMedicalDataSourcesRequest;
@@ -200,7 +200,7 @@ public class PhrDataFactory {
      */
     public static FhirResource getUpdatedAllergyFhirResource() throws JSONException {
         return new FhirResource.Builder(
-                        FHIR_RESOURCE_TYPE_UNKNOWN,
+                        FHIR_RESOURCE_TYPE_ALLERGY_INTOLERANCE,
                         FHIR_RESOURCE_ID_ALLERGY,
                         addCompletedStatus(FHIR_DATA_ALLERGY))
                 .build();
@@ -218,15 +218,12 @@ public class PhrDataFactory {
                 .build();
     }
 
-    /**
-     * Creates and returns a {@link FhirResource} with Allergy data.
-     *
-     * <p>{@code FHIR_RESOURCE_TYPE_UNKNOWN} is used here before we create a FHIR resource type for
-     * Allergy.
-     */
+    /** Creates and returns a {@link FhirResource} with Allergy data. */
     public static FhirResource getFhirResourceAllergy() {
         return new FhirResource.Builder(
-                        FHIR_RESOURCE_TYPE_UNKNOWN, FHIR_RESOURCE_ID_ALLERGY, FHIR_DATA_ALLERGY)
+                        FHIR_RESOURCE_TYPE_ALLERGY_INTOLERANCE,
+                        FHIR_RESOURCE_ID_ALLERGY,
+                        FHIR_DATA_ALLERGY)
                 .build();
     }
 
@@ -282,11 +279,11 @@ public class PhrDataFactory {
 
     /**
      * Creates and returns a {@link MedicalResource} of type {@link
-     * MedicalResource#MEDICAL_RESOURCE_TYPE_UNKNOWN} with the given {@code dataSource}.
+     * MedicalResource#MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE} with the given {@code dataSource}.
      */
     public static MedicalResource createAllergyMedicalResource(String dataSource) {
         return new MedicalResource.Builder(
-                        MEDICAL_RESOURCE_TYPE_UNKNOWN,
+                        MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE,
                         dataSource,
                         FHIR_VERSION_R4,
                         getFhirResourceAllergy())
@@ -367,11 +364,13 @@ public class PhrDataFactory {
         for (int i = 0; i < numOfResources; i++) {
             FhirResource fhirResource =
                     new FhirResource.Builder(
-                                    FHIR_RESOURCE_TYPE_UNKNOWN, "id/" + i, FHIR_DATA_ALLERGY)
+                                    FHIR_RESOURCE_TYPE_ALLERGY_INTOLERANCE,
+                                    "id/" + i,
+                                    FHIR_DATA_ALLERGY)
                             .build();
             MedicalResource medicalResource =
                     new MedicalResource.Builder(
-                                    MEDICAL_RESOURCE_TYPE_UNKNOWN,
+                                    MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE,
                                     dataSourceId,
                                     fhirVersion,
                                     fhirResource)

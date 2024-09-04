@@ -26,6 +26,7 @@ import static android.health.connect.HealthPermissions.MANAGE_HEALTH_DATA_PERMIS
 import static android.health.connect.HealthPermissions.READ_HEALTH_DATA_IN_BACKGROUND;
 import static android.health.connect.HealthPermissions.READ_MEDICAL_DATA_IMMUNIZATION;
 import static android.health.connect.HealthPermissions.WRITE_MEDICAL_DATA;
+import static android.health.connect.HealthPermissions.getAllMedicalPermissions;
 import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_IMMUNIZATION;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_IMMUNIZATION;
 import static android.health.connect.ratelimiter.RateLimiter.QuotaCategory.QUOTA_CATEGORY_WRITE;
@@ -42,6 +43,7 @@ import static android.healthconnect.cts.utils.PhrDataFactory.getGetMedicalDataSo
 import static android.healthconnect.cts.utils.PhrDataFactory.getMedicalDataSource;
 import static android.healthconnect.cts.utils.PhrDataFactory.getMedicalResourceId;
 
+import static com.android.healthfitness.flags.AconfigFlagHelper.isPersonalHealthRecordEnabled;
 import static com.android.healthfitness.flags.Flags.FLAG_PERSONAL_HEALTH_RECORD;
 import static com.android.server.healthconnect.backuprestore.BackupRestore.DATA_DOWNLOAD_STATE_KEY;
 import static com.android.server.healthconnect.backuprestore.BackupRestore.DATA_RESTORE_STATE_KEY;
@@ -308,6 +310,7 @@ public class HealthConnectServiceImplTest {
                 .thenReturn(mAppOpsManagerLocal);
         when(mServiceContext.getSystemService(PermissionManager.class))
                 .thenReturn(mPermissionManager);
+        setUpAllMedicalPermissionChecksHardDenied();
 
         mHealthConnectService =
                 new HealthConnectServiceImpl(
@@ -658,9 +661,6 @@ public class HealthConnectServiceImplTest {
     @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
     public void testGetMedicalDataSources_byIds_noReadWritePermissions_throws() throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_HARD_DENIED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
 
         mHealthConnectService.getMedicalDataSourcesByIds(
                 mAttributionSource, List.of(DATA_SOURCE_ID), mMedicalDataSourcesResponseCallback);
@@ -677,9 +677,7 @@ public class HealthConnectServiceImplTest {
             throws RemoteException {
         setUpPhrMocksWithIrrelevantResponses();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_HARD_DENIED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         List<String> ids = List.of(DATA_SOURCE_ID);
 
         mHealthConnectService.getMedicalDataSourcesByIds(
@@ -702,9 +700,8 @@ public class HealthConnectServiceImplTest {
             throws Exception {
         setUpPhrMocksWithIrrelevantResponses();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         List<String> ids = List.of(DATA_SOURCE_ID);
 
         mHealthConnectService.getMedicalDataSourcesByIds(
@@ -727,9 +724,7 @@ public class HealthConnectServiceImplTest {
     public void testGetMedicalDataSources_byIds_onlyReadPermissions_callsHelper() throws Exception {
         setUpPhrMocksWithIrrelevantResponses();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
         List<String> ids = List.of(DATA_SOURCE_ID);
 
         mHealthConnectService.getMedicalDataSourcesByIds(
@@ -752,9 +747,8 @@ public class HealthConnectServiceImplTest {
     public void testGetMedicalDataSources_byIds_fromForeground_callsHelper() throws Exception {
         setUpPhrMocksWithIrrelevantResponses();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(true);
         List<String> ids = List.of(DATA_SOURCE_ID);
 
@@ -777,9 +771,8 @@ public class HealthConnectServiceImplTest {
     public void testGetMedicalDataSources_byIds_fromBgNoBgRead_callsHelper() throws Exception {
         setUpPhrMocksWithIrrelevantResponses();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(false);
         List<String> ids = List.of(DATA_SOURCE_ID);
@@ -803,9 +796,8 @@ public class HealthConnectServiceImplTest {
     public void testGetMedicalDataSources_byIds_fromBgNoBgReadPerm_callsHelper() throws Exception {
         setUpPhrMocksWithIrrelevantResponses();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(true);
         setBackendReadPermission(PERMISSION_DENIED);
@@ -831,9 +823,8 @@ public class HealthConnectServiceImplTest {
             throws Exception {
         setUpPhrMocksWithIrrelevantResponses();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(true);
         setBackendReadPermission(PERMISSION_GRANTED);
@@ -891,9 +882,6 @@ public class HealthConnectServiceImplTest {
     public void testGetMedicalDataSources_byRequest_noReadWritePermissions_throws()
             throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_HARD_DENIED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
 
         mHealthConnectService.getMedicalDataSourcesByRequest(
                 mAttributionSource,
@@ -912,9 +900,7 @@ public class HealthConnectServiceImplTest {
             throws RemoteException {
         setUpPhrMocksWithIrrelevantResponses();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_HARD_DENIED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         Set<String> packageNames = Set.of("com.foo", "com.bar");
 
         mHealthConnectService.getMedicalDataSourcesByRequest(
@@ -939,9 +925,8 @@ public class HealthConnectServiceImplTest {
             throws Exception {
         setUpPhrMocksWithIrrelevantResponses();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         Set<String> packageNames = Set.of("com.foo", "com.bar");
 
         mHealthConnectService.getMedicalDataSourcesByRequest(
@@ -967,9 +952,7 @@ public class HealthConnectServiceImplTest {
             throws Exception {
         setUpPhrMocksWithIrrelevantResponses();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
         Set<String> packageNames = Set.of("com.foo", "com.bar");
 
         mHealthConnectService.getMedicalDataSourcesByRequest(
@@ -994,9 +977,8 @@ public class HealthConnectServiceImplTest {
     public void testGetMedicalDataSources_byRequest_fromForeground_callsHelper() throws Exception {
         setUpPhrMocksWithIrrelevantResponses();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(true);
         Set<String> packageNames = Set.of("com.foo", "com.bar");
 
@@ -1021,9 +1003,8 @@ public class HealthConnectServiceImplTest {
     public void testGetMedicalDataSources_byRequest_fromBgNoBgRead_callsHelper() throws Exception {
         setUpPhrMocksWithIrrelevantResponses();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(false);
         Set<String> packageNames = Set.of("com.foo", "com.bar");
@@ -1050,9 +1031,8 @@ public class HealthConnectServiceImplTest {
             throws Exception {
         setUpPhrMocksWithIrrelevantResponses();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(true);
         setBackendReadPermission(PERMISSION_DENIED);
@@ -1080,9 +1060,8 @@ public class HealthConnectServiceImplTest {
             throws Exception {
         setUpPhrMocksWithIrrelevantResponses();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(true);
         setBackendReadPermission(PERMISSION_GRANTED);
@@ -1168,9 +1147,6 @@ public class HealthConnectServiceImplTest {
     @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
     public void testReadMedicalResources_byIds_noReadWritePermissions_throws() throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_HARD_DENIED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
 
         mHealthConnectService.readMedicalResourcesByIds(
                 mAttributionSource,
@@ -1188,9 +1164,7 @@ public class HealthConnectServiceImplTest {
     public void testReadMedicalResources_byIds_onlyWritePermission_callsHelper()
             throws RemoteException {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_HARD_DENIED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         setUpPhrMocksWithIrrelevantResponses();
         List<MedicalResourceId> ids = List.of(getMedicalResourceId());
 
@@ -1213,9 +1187,8 @@ public class HealthConnectServiceImplTest {
     public void testReadMedicalResources_byIds_bothReadWritePermissions_callsHelper()
             throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         setUpPhrMocksWithIrrelevantResponses();
         List<MedicalResourceId> ids = List.of(getMedicalResourceId());
 
@@ -1238,9 +1211,7 @@ public class HealthConnectServiceImplTest {
     @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
     public void testReadMedicalResources_byIds_onlyReadPermissions_callsHelper() throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
         setUpPhrMocksWithIrrelevantResponses();
         List<MedicalResourceId> ids = List.of(getMedicalResourceId());
 
@@ -1263,9 +1234,8 @@ public class HealthConnectServiceImplTest {
     @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
     public void testReadMedicalResources_byIds_fromForeground_callsHelper() throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         setUpPhrMocksWithIrrelevantResponses();
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(true);
         List<MedicalResourceId> ids = List.of(getMedicalResourceId());
@@ -1288,9 +1258,8 @@ public class HealthConnectServiceImplTest {
     @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
     public void testReadMedicalResources_byIds_fromBgNoBgRead_callsHelper() throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         setUpPhrMocksWithIrrelevantResponses();
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(false);
@@ -1314,9 +1283,8 @@ public class HealthConnectServiceImplTest {
     @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
     public void testReadMedicalResources_byIds_fromBgNoBgReadPerm_callsHelper() throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         setUpPhrMocksWithIrrelevantResponses();
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(true);
@@ -1341,9 +1309,8 @@ public class HealthConnectServiceImplTest {
     @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
     public void testReadMedicalResources_byIds_fromBgWithBgReadPerm_callsHelper() throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         setUpPhrMocksWithIrrelevantResponses();
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(true);
@@ -1401,9 +1368,6 @@ public class HealthConnectServiceImplTest {
     public void testReadMedicalResources_byRequest_noReadWritePermissions_throws()
             throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_HARD_DENIED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
 
         mHealthConnectService.readMedicalResourcesByRequest(
                 mAttributionSource,
@@ -1421,9 +1385,7 @@ public class HealthConnectServiceImplTest {
     public void testReadMedicalResources_byRequest_onlyWritePermission_selfReads()
             throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_HARD_DENIED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         setUpPhrMocksWithIrrelevantResponses();
         ReadMedicalResourcesRequest request =
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
@@ -1443,9 +1405,8 @@ public class HealthConnectServiceImplTest {
     public void testReadMedicalResources_byRequest_bothReadWritePermissions_selfReads()
             throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         setUpPhrMocksWithIrrelevantResponses();
         ReadMedicalResourcesRequest request =
                 new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
@@ -1465,9 +1426,7 @@ public class HealthConnectServiceImplTest {
     public void testReadMedicalResources_byRequest_onlyReadPermission_foreground_noSelfReads()
             throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
         setUpPhrMocksWithIrrelevantResponses();
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(true);
         ReadMedicalResourcesRequest request =
@@ -1488,9 +1447,7 @@ public class HealthConnectServiceImplTest {
     public void testReadMedicalResources_byRequest_onlyReadPermission_bgNoReadFeature_selfReads()
             throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
         setUpPhrMocksWithIrrelevantResponses();
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(false);
@@ -1513,9 +1470,7 @@ public class HealthConnectServiceImplTest {
     public void testReadMedicalResources_byRequest_onlyReadPermission_bgNoReadPerm_selfReads()
             throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
         setUpPhrMocksWithIrrelevantResponses();
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(true);
@@ -1538,9 +1493,7 @@ public class HealthConnectServiceImplTest {
     public void testReadMedicalResources_byRequest_onlyReadPermission_withBgRead_noSelfReads()
             throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(
-                READ_MEDICAL_DATA_IMMUNIZATION, PermissionManager.PERMISSION_GRANTED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
+        setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
         setUpPhrMocksWithIrrelevantResponses();
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(true);
@@ -1582,8 +1535,6 @@ public class HealthConnectServiceImplTest {
     @Test
     @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
     public void testUpsertMedicalResources_noWriteMedicalDataPermission_throws() throws Exception {
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
-
         IMedicalResourcesResponseCallback callback = mock(IMedicalResourcesResponseCallback.class);
 
         mHealthConnectService.upsertMedicalResources(
@@ -1622,7 +1573,7 @@ public class HealthConnectServiceImplTest {
             throws RemoteException {
         setUpCreateMedicalDataSourceDefaultMocks();
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         when(mMedicalDataSourceHelper.createMedicalDataSource(any(), any(), any()))
                 .thenThrow(SQLiteException.class);
 
@@ -1641,7 +1592,6 @@ public class HealthConnectServiceImplTest {
     public void testCreateMedicalDataSource_noWriteMedicalDataPermission_throws()
             throws RemoteException {
         setUpCreateMedicalDataSourceDefaultMocks();
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
 
         mHealthConnectService.createMedicalDataSource(
                 mAttributionSource,
@@ -1675,7 +1625,6 @@ public class HealthConnectServiceImplTest {
     @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
     public void testDeleteMedicalDataSourceWithData_noPermission_fails() throws RemoteException {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PERMISSION_DENIED);
         IEmptyResponseCallback callback = mock(IEmptyResponseCallback.class);
         String id = UUID.randomUUID().toString();
         MedicalDataSource datasource =
@@ -1701,7 +1650,7 @@ public class HealthConnectServiceImplTest {
     @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
     public void testDeleteMedicalDataSourceWithData_wrongPackage_fails() throws RemoteException {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PERMISSION_GRANTED);
+        setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         IEmptyResponseCallback callback = mock(IEmptyResponseCallback.class);
         String id = UUID.randomUUID().toString();
         MedicalDataSource datasource =
@@ -1802,7 +1751,6 @@ public class HealthConnectServiceImplTest {
     @EnableFlags(FLAG_PERSONAL_HEALTH_RECORD)
     public void testDeleteMedicalResources_noWriteMedicalDataPermission_throws() throws Exception {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
         IEmptyResponseCallback callback = mock(IEmptyResponseCallback.class);
 
         mHealthConnectService.deleteMedicalResourcesByIds(
@@ -1859,7 +1807,6 @@ public class HealthConnectServiceImplTest {
     public void testDeleteMedicalResourcesByRequest_noPermission_securityError()
             throws RemoteException {
         setDataManagementPermission(PERMISSION_DENIED);
-        setDataReadWritePermission(WRITE_MEDICAL_DATA, PermissionManager.PERMISSION_HARD_DENIED);
         IEmptyResponseCallback callback = mock(IEmptyResponseCallback.class);
         DeleteMedicalResourcesRequest request =
                 new DeleteMedicalResourcesRequest.Builder().addDataSourceId("foo").build();
@@ -1989,13 +1936,33 @@ public class HealthConnectServiceImplTest {
                 .thenReturn(result);
     }
 
-    private void setDataReadWritePermission(String permission, int result) {
+    /**
+     * Sets permission check result for all medical permissions to be {@link
+     * PermissionManager#PERMISSION_HARD_DENIED}. This is called in the {@link
+     * HealthConnectServiceImplTest#setUp()}. Then each test can enable the permissions the test
+     * needs.
+     */
+    private void setUpAllMedicalPermissionChecksHardDenied() {
+        if (!isPersonalHealthRecordEnabled()) {
+            return;
+        }
+        for (String permission : getAllMedicalPermissions()) {
+            // Some methods use ForPreflight while others use ForDataDelivery. Set both here.
+            when(mPermissionManager.checkPermissionForPreflight(permission, mAttributionSource))
+                    .thenReturn(PermissionManager.PERMISSION_HARD_DENIED);
+            when(mPermissionManager.checkPermissionForDataDelivery(
+                            permission, mAttributionSource, null))
+                    .thenReturn(PermissionManager.PERMISSION_HARD_DENIED);
+        }
+    }
+
+    private void setDataReadWritePermissionGranted(String permission) {
         // Some methods use ForPreflight while others use ForDataDelivery. Set both here.
         when(mPermissionManager.checkPermissionForPreflight(permission, mAttributionSource))
-                .thenReturn(result);
+                .thenReturn(PermissionManager.PERMISSION_GRANTED);
         when(mPermissionManager.checkPermissionForDataDelivery(
                         permission, mAttributionSource, null))
-                .thenReturn(result);
+                .thenReturn(PermissionManager.PERMISSION_GRANTED);
     }
 
     private void setUpPassingPermissionCheckFor(String permission) {
