@@ -1323,10 +1323,18 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         enforceIsForegroundUser(userHandle);
                         mContext.enforcePermission(MANAGE_HEALTH_DATA_PERMISSION, pid, uid, null);
                         throwExceptionIfDataSyncInProgress();
-                        List<AppInfo> applicationInfos =
-                                mAppInfoHelper.getApplicationInfosWithRecordTypes();
-
-                        callback.onResult(new ApplicationInfoResponseParcel(applicationInfos));
+                        // Get AppInfo IDs which has PHR data.
+                        Set<Long> appIdsWithPhrData = Set.of();
+                        if (isPersonalHealthRecordEnabled()) {
+                            appIdsWithPhrData =
+                                    mMedicalDataSourceHelper.getAllContributorAppInfoIds();
+                        }
+                        // Get all AppInfos which has either Fitness data or PHR data.
+                        List<AppInfo> applicationInfosWithData =
+                                mAppInfoHelper.getApplicationInfosWithRecordTypesOrInIdsList(
+                                        appIdsWithPhrData);
+                        callback.onResult(
+                                new ApplicationInfoResponseParcel(applicationInfosWithData));
                     } catch (SQLiteException sqLiteException) {
                         Slog.e(TAG, "SqlException: ", sqLiteException);
                         tryAndThrowException(
