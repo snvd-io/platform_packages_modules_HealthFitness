@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2022 The Android Open Source Project
+ * Copyright (C) 2024 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -14,11 +14,8 @@
 package com.android.healthconnect.controller.shared.recyclerview
 
 import android.view.View
-import android.view.ViewGroup
 
-/** Creates and populates views with data. */
-interface ViewBinder<T, V : View> {
-
-    /** Create a new view, and attach it to the parent viewgroup */
-    fun newView(parent: ViewGroup): V
+interface DeletionViewBinder<T, V : View> : ViewBinder<T, V> {
+    /** Populate a view with data. */
+    fun bind(view: View, data: T, index: Int, isDeletionState: Boolean = false, isChecked: Boolean = false)
 }
