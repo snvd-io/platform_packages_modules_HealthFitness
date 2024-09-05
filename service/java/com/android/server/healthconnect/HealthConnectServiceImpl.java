@@ -1056,6 +1056,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                             callback,
                             logger,
                             recordTypeIdsToDelete,
+                            /* shouldRecordDeleteAccessLogs= */ !holdsDataManagementPermission,
                             uid,
                             pid);
                 },
@@ -1109,6 +1110,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                             callback,
                             logger,
                             recordTypeIdsToDelete,
+                            /* shouldRecordDeleteAccessLogs= */ !holdsDataManagementPermission,
                             uid,
                             pid);
                 },
@@ -1124,17 +1126,19 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
             @NonNull IEmptyResponseCallback callback,
             @NonNull HealthConnectServiceLogger.Builder logger,
             List<Integer> recordTypeIdsToDelete,
+            boolean shouldRecordDeleteAccessLogs,
             int uid,
             int pid) {
         if (request.usesIdFilters() && request.usesNonIdFilters()) {
             throw new IllegalArgumentException(
                     "Requests with both id and non-id filters are not" + " supported");
         }
+        DeleteTransactionRequest deleteTransactionRequest =
+                new DeleteTransactionRequest(attributionSource.getPackageName(), request)
+                        .setHasManageHealthDataPermission(hasDataManagementPermission(uid, pid));
         int numberOfRecordsDeleted =
                 mTransactionManager.deleteAll(
-                        new DeleteTransactionRequest(attributionSource.getPackageName(), request)
-                                .setHasManageHealthDataPermission(
-                                        hasDataManagementPermission(uid, pid)));
+                        deleteTransactionRequest, shouldRecordDeleteAccessLogs);
         tryAndReturnResult(callback, logger);
         HealthConnectThreadScheduler.scheduleInternalTask(
                 () -> postDeleteTasks(recordTypeIdsToDelete));
