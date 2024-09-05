@@ -56,6 +56,7 @@ package android.health.connect {
   @FlaggedApi("com.android.healthfitness.flags.personal_health_record") public final class DeleteMedicalResourcesRequest implements android.os.Parcelable {
     method public int describeContents();
     method @NonNull public java.util.Set<java.lang.String> getDataSourceIds();
+    method @NonNull public java.util.Set<java.lang.Integer> getMedicalResourceTypes();
     method public void writeToParcel(@NonNull android.os.Parcel, int);
     field @NonNull public static final android.os.Parcelable.Creator<android.health.connect.DeleteMedicalResourcesRequest> CREATOR;
   }
@@ -64,7 +65,10 @@ package android.health.connect {
     ctor public DeleteMedicalResourcesRequest.Builder();
     ctor public DeleteMedicalResourcesRequest.Builder(@NonNull android.health.connect.DeleteMedicalResourcesRequest.Builder);
     method @NonNull public android.health.connect.DeleteMedicalResourcesRequest.Builder addDataSourceId(@NonNull String);
+    method @NonNull public android.health.connect.DeleteMedicalResourcesRequest.Builder addMedicalResourceType(int);
     method @NonNull public android.health.connect.DeleteMedicalResourcesRequest build();
+    method @NonNull public android.health.connect.DeleteMedicalResourcesRequest.Builder clearDataSourceIds();
+    method @NonNull public android.health.connect.DeleteMedicalResourcesRequest.Builder clearMedicalResourceTypes();
   }
 
   @FlaggedApi("com.android.healthfitness.flags.personal_health_record") public final class GetMedicalDataSourcesRequest implements android.os.Parcelable {
