@@ -867,9 +867,6 @@ public abstract class RecordHelper<T extends RecordInternal<?>> {
         return columnInfo;
     }
 
-    /** Checks that operation with current record type are supported. */
-    public void checkRecordOperationsAreEnabled(RecordInternal<?> recordInternal) {}
-
     /** Returns permissions required to read extra record data. */
     public List<String> getExtraReadPermissions() {
         return Collections.emptyList();
