@@ -27,6 +27,7 @@ android_test_helper_app {
     ],
     sdk_version: "test_current",
     min_sdk_version: "34",
+    target_sdk_version: "34",
     srcs: [
         "HealthConnectTestHelper/src/**/*.java",
         "HealthConnectTestHelper/src/**/*.kt",
@@ -40,6 +41,7 @@ android_test_helper_app {
     static_libs: ["cts-healthconnect-lib", "cts-healthconnect-test-helper"],
     sdk_version: "test_current",
     min_sdk_version: "34",
+    target_sdk_version: "34",
 }
 
 android_test_helper_app {
@@ -48,6 +50,7 @@ android_test_helper_app {
     static_libs: ["cts-healthconnect-lib", "cts-healthconnect-test-helper"],
     sdk_version: "test_current",
     min_sdk_version: "34",
+    target_sdk_version: "34",
 }
 
 android_test_helper_app {
@@ -56,6 +59,7 @@ android_test_helper_app {
     static_libs: ["cts-healthconnect-lib", "cts-healthconnect-test-helper"],
     sdk_version: "test_current",
     min_sdk_version: "34",
+    target_sdk_version: "34",
 }
 
 android_test_helper_app {
@@ -64,6 +68,7 @@ android_test_helper_app {
     static_libs: ["cts-healthconnect-lib", "cts-healthconnect-test-helper"],
     sdk_version: "test_current",
     min_sdk_version: "34",
+    target_sdk_version: "34",
 }
 
 android_test_helper_app {
@@ -72,10 +77,12 @@ android_test_helper_app {
     static_libs: ["cts-healthconnect-lib", "cts-healthconnect-test-helper"],
     sdk_version: "test_current",
     min_sdk_version: "34",
+    target_sdk_version: "34",
 }
 
 android_test {
     name: "CtsHealthConnectHostSideDeviceTestCases",
+    team: "trendy_team_android_health",
     manifest: "device/AndroidManifest.xml",
     test_config: "device/AndroidTest.xml",
     defaults: ["cts_defaults"],
@@ -120,6 +127,7 @@ android_test {
 
 java_test_host {
     name: "CtsHealthConnectHostTestCases",
+    team: "trendy_team_android_health",
     defaults: ["cts_defaults"],
     srcs: [
         "host/**/*.java",
