@@ -1011,22 +1011,26 @@ public class MigrationStateManagerTest {
         ExtendedMockito.verify(
                 () ->
                         MigrationStateChangeJob.scheduleMigrationCompletionJob(
-                                eq(mContext), anyInt()));
+                                eq(mHealthConnectDeviceConfigManager), eq(mContext), anyInt()));
     }
 
     private void verifyScheduleMigrationPauseJob() {
         ExtendedMockito.verify(
-                () -> MigrationStateChangeJob.scheduleMigrationPauseJob(eq(mContext), anyInt()));
+                () ->
+                        MigrationStateChangeJob.scheduleMigrationPauseJob(
+                                eq(mHealthConnectDeviceConfigManager), eq(mContext), anyInt()));
     }
 
     private void verifyNoJobScheduled() {
         ExtendedMockito.verify(
-                () -> MigrationStateChangeJob.scheduleMigrationPauseJob(eq(mContext), anyInt()),
+                () ->
+                        MigrationStateChangeJob.scheduleMigrationPauseJob(
+                                eq(mHealthConnectDeviceConfigManager), eq(mContext), anyInt()),
                 never());
         ExtendedMockito.verify(
                 () ->
                         MigrationStateChangeJob.scheduleMigrationCompletionJob(
-                                eq(mContext), anyInt()),
+                                eq(mHealthConnectDeviceConfigManager), eq(mContext), anyInt()),
                 never());
     }
 

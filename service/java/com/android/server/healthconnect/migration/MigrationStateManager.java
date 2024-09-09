@@ -255,13 +255,15 @@ public final class MigrationStateManager {
             case MIGRATION_STATE_MODULE_UPGRADE_REQUIRED:
                 MigrationStateChangeJob.cancelAllJobs(context);
                 updateMigrationStatePreference(context, state, timeoutReached);
-                MigrationStateChangeJob.scheduleMigrationCompletionJob(context, mUserId);
+                MigrationStateChangeJob.scheduleMigrationCompletionJob(
+                        mHealthConnectDeviceConfigManager, context, mUserId);
                 return;
             case MIGRATION_STATE_IN_PROGRESS:
                 MigrationStateChangeJob.cancelAllJobs(context);
                 updateMigrationStatePreference(
                         context, MIGRATION_STATE_IN_PROGRESS, timeoutReached);
-                MigrationStateChangeJob.scheduleMigrationPauseJob(context, mUserId);
+                MigrationStateChangeJob.scheduleMigrationPauseJob(
+                        mHealthConnectDeviceConfigManager, context, mUserId);
                 updateMigrationStartsCount();
                 return;
             case MIGRATION_STATE_ALLOWED:
@@ -273,7 +275,8 @@ public final class MigrationStateManager {
                 }
                 MigrationStateChangeJob.cancelAllJobs(context);
                 updateMigrationStatePreference(context, MIGRATION_STATE_ALLOWED, timeoutReached);
-                MigrationStateChangeJob.scheduleMigrationCompletionJob(context, mUserId);
+                MigrationStateChangeJob.scheduleMigrationCompletionJob(
+                        mHealthConnectDeviceConfigManager, context, mUserId);
                 return;
             case MIGRATION_STATE_COMPLETE:
                 updateMigrationStatePreference(context, MIGRATION_STATE_COMPLETE, timeoutReached);
@@ -582,7 +585,8 @@ public final class MigrationStateManager {
             case MIGRATION_STATE_ALLOWED:
                 if (!MigrationStateChangeJob.existsAStateChangeJob(
                         context, MIGRATION_COMPLETE_JOB_NAME)) {
-                    MigrationStateChangeJob.scheduleMigrationCompletionJob(context, mUserId);
+                    MigrationStateChangeJob.scheduleMigrationCompletionJob(
+                            mHealthConnectDeviceConfigManager, context, mUserId);
                 }
                 return;
             case MIGRATION_STATE_MODULE_UPGRADE_REQUIRED:
@@ -592,7 +596,8 @@ public final class MigrationStateManager {
             case MIGRATION_STATE_IN_PROGRESS:
                 if (!MigrationStateChangeJob.existsAStateChangeJob(
                         context, MIGRATION_PAUSE_JOB_NAME)) {
-                    MigrationStateChangeJob.scheduleMigrationPauseJob(context, mUserId);
+                    MigrationStateChangeJob.scheduleMigrationPauseJob(
+                            mHealthConnectDeviceConfigManager, context, mUserId);
                 }
                 return;
 
@@ -616,7 +621,8 @@ public final class MigrationStateManager {
             return;
         }
         if (!MigrationStateChangeJob.existsAStateChangeJob(context, MIGRATION_COMPLETE_JOB_NAME)) {
-            MigrationStateChangeJob.scheduleMigrationCompletionJob(context, mUserId);
+            MigrationStateChangeJob.scheduleMigrationCompletionJob(
+                    mHealthConnectDeviceConfigManager, context, mUserId);
         }
     }
 

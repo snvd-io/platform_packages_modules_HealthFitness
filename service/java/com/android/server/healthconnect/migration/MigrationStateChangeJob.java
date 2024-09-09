@@ -52,9 +52,9 @@ import java.util.Objects;
 public final class MigrationStateChangeJob {
     static final int MIN_JOB_ID = MigrationStateChangeJob.class.hashCode();
 
-    public static void scheduleMigrationCompletionJob(Context context, int userId) {
-        HealthConnectDeviceConfigManager deviceConfigManager =
-                HealthConnectDeviceConfigManager.getInitialisedInstance();
+    /** Schedules a job to complete migration. */
+    public static void scheduleMigrationCompletionJob(
+            HealthConnectDeviceConfigManager deviceConfigManager, Context context, int userId) {
         if (!deviceConfigManager.isCompleteStateChangeJobEnabled()) {
             return;
         }
@@ -74,9 +74,9 @@ public final class MigrationStateChangeJob {
                 builder.build());
     }
 
-    public static void scheduleMigrationPauseJob(Context context, int userId) {
-        HealthConnectDeviceConfigManager deviceConfigManager =
-                HealthConnectDeviceConfigManager.getInitialisedInstance();
+    /** Schedules a job to pause migration. */
+    public static void scheduleMigrationPauseJob(
+            HealthConnectDeviceConfigManager deviceConfigManager, Context context, int userId) {
         if (!deviceConfigManager.isPauseStateChangeJobEnabled()) {
             return;
         }
@@ -97,9 +97,9 @@ public final class MigrationStateChangeJob {
 
     /** Execute migration completion job */
     public static void executeMigrationCompletionJob(
-            Context context, PreferenceHelper preferenceHelper) {
-        HealthConnectDeviceConfigManager deviceConfigManager =
-                HealthConnectDeviceConfigManager.getInitialisedInstance();
+            Context context,
+            PreferenceHelper preferenceHelper,
+            HealthConnectDeviceConfigManager deviceConfigManager) {
         if (!deviceConfigManager.isCompleteStateChangeJobEnabled()) {
             return;
         }
@@ -153,9 +153,9 @@ public final class MigrationStateChangeJob {
 
     /** Execute migration pausing job. */
     public static void executeMigrationPauseJob(
-            Context context, PreferenceHelper preferenceHelper) {
-        HealthConnectDeviceConfigManager deviceConfigManager =
-                HealthConnectDeviceConfigManager.getInitialisedInstance();
+            Context context,
+            PreferenceHelper preferenceHelper,
+            HealthConnectDeviceConfigManager deviceConfigManager) {
         if (!deviceConfigManager.isPauseStateChangeJobEnabled()) {
             return;
         }

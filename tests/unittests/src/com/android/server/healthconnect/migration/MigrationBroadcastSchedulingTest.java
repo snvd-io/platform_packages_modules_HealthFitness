@@ -109,7 +109,10 @@ public class MigrationBroadcastSchedulingTest {
         ExtendedMockito.doReturn(mMigrationStateManager)
                 .when(MigrationStateManager::getInitialisedInstance);
 
-        mMigrationBroadcastScheduler = Mockito.spy(new MigrationBroadcastScheduler(0));
+        mMigrationBroadcastScheduler =
+                Mockito.spy(
+                        new MigrationBroadcastScheduler(
+                                0, mHealthConnectDeviceConfigManager, mMigrationStateManager));
     }
 
     @Test
