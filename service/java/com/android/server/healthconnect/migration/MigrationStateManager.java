@@ -96,11 +96,13 @@ public final class MigrationStateManager {
     private int mUserId;
 
     @SuppressWarnings("NullAway.Init") // TODO(b/317029272): fix this suppression
-    private MigrationStateManager(@UserIdInt int userId) {
+    private MigrationStateManager(
+            @UserIdInt int userId,
+            HealthConnectDeviceConfigManager healthConnectDeviceConfigManager,
+            PreferenceHelper preferenceHelper) {
         mUserId = userId;
-        mHealthConnectDeviceConfigManager =
-                HealthConnectDeviceConfigManager.getInitialisedInstance();
-        mPreferenceHelper = PreferenceHelper.getInstance();
+        mHealthConnectDeviceConfigManager = healthConnectDeviceConfigManager;
+        mPreferenceHelper = preferenceHelper;
     }
 
     /**
@@ -108,10 +110,15 @@ public final class MigrationStateManager {
      * instance.
      */
     @NonNull
-    public static MigrationStateManager initializeInstance(@UserIdInt int userId) {
+    public static MigrationStateManager initializeInstance(
+            @UserIdInt int userId,
+            HealthConnectDeviceConfigManager healthConnectDeviceConfigManager,
+            PreferenceHelper preferenceHelper) {
         synchronized (sInstanceLock) {
             if (Objects.isNull(sMigrationStateManager)) {
-                sMigrationStateManager = new MigrationStateManager(userId);
+                sMigrationStateManager =
+                        new MigrationStateManager(
+                                userId, healthConnectDeviceConfigManager, preferenceHelper);
             }
 
             return sMigrationStateManager;
@@ -613,7 +620,8 @@ public final class MigrationStateManager {
         }
     }
 
-    @SuppressWarnings("NullAway") // TODO(b/317029272): fix this suppression
+    @SuppressWarnings("NullAway")
+    // TODO(b/317029272): fix this suppression
     String getAllowedStateTimeout() {
         String allowedStateStartTime =
                 mPreferenceHelper.getPreference(ALLOWED_STATE_START_TIME_KEY);
