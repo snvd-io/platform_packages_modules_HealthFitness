@@ -2157,9 +2157,9 @@ public class MedicalResourceHelperTest {
     @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
     public void deleteByIds_withPackageName_resourcesWithSamePackages_correctAccessLogs() {
         MedicalDataSource dataSource1 =
-                mUtil.insertMedicalDataSource("ds", DATA_SOURCE_PACKAGE_NAME);
+                mUtil.insertMedicalDataSource("ds1", DATA_SOURCE_PACKAGE_NAME);
         MedicalDataSource dataSource2 =
-                mUtil.insertMedicalDataSource("ds", DATA_SOURCE_PACKAGE_NAME);
+                mUtil.insertMedicalDataSource("ds2", DATA_SOURCE_PACKAGE_NAME);
         MedicalResource immunizationPackage1 =
                 mUtil.upsertResource(
                         PhrDataFactory::createImmunizationMedicalResource, dataSource1);
