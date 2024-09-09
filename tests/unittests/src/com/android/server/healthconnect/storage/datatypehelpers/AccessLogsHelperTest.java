@@ -78,7 +78,7 @@ public class AccessLogsHelperTest {
     public void setup() {
         mTransactionTestUtils =
                 new TransactionTestUtils(
-                        /* context= */ null,
+                        mHealthConnectDatabaseTestRule.getUserContext(),
                         mHealthConnectDatabaseTestRule.getTransactionManager());
         mTransactionManager = mHealthConnectDatabaseTestRule.getTransactionManager();
     }

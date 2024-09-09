@@ -132,7 +132,9 @@ public class MedicalDataSourceHelperTest {
                 new MedicalDataSourceHelper(mTransactionManager, mAppInfoHelper, mFakeTimeSource);
         // We set the context to null, because we only use insertApp in this set of tests and
         // we don't need context for that.
-        mTransactionTestUtils = new TransactionTestUtils(/* context= */ null, mTransactionManager);
+        mTransactionTestUtils =
+                new TransactionTestUtils(
+                        mHealthConnectDatabaseTestRule.getUserContext(), mTransactionManager);
         mUtil =
                 new PhrTestUtils(
                         mContext,

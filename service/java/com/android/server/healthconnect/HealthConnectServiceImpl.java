@@ -309,6 +309,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
         mCurrentForegroundUser = context.getUser();
         mPermissionManager = mContext.getSystemService(PermissionManager.class);
         mMigrationStateManager = migrationStateManager;
+        mDeviceInfoHelper = DeviceInfoHelper.getInstance();
+        mHealthDataCategoryPriorityHelper = HealthDataCategoryPriorityHelper.getInstance();
         mDataPermissionEnforcer =
                 new DataPermissionEnforcer(mPermissionManager, mContext, deviceConfigManager);
         mMedicalDataPermissionEnforcer = new MedicalDataPermissionEnforcer(mPermissionManager);
@@ -319,23 +321,27 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         mMigrationStateManager,
                         mPreferenceHelper,
                         mTransactionManager,
-                        mContext);
+                        mContext,
+                        mDeviceInfoHelper,
+                        mHealthDataCategoryPriorityHelper);
         mMigrationUiStateManager = migrationUiStateManager;
         mExportImportSettingsStorage = exportImportSettingsStorage;
         mImportManager =
                 Flags.exportImport()
                         ? new ImportManager(
-                                mContext, mExportImportSettingsStorage, mTransactionManager)
+                                mContext,
+                                mExportImportSettingsStorage,
+                                mTransactionManager,
+                                mDeviceInfoHelper,
+                                mHealthDataCategoryPriorityHelper)
                         : null;
         mExportManager = exportManager;
         migrationCleaner.attachTo(migrationStateManager);
         mMigrationUiStateManager.attachTo(migrationStateManager);
-        mHealthDataCategoryPriorityHelper = HealthDataCategoryPriorityHelper.getInstance();
         mAppInfoHelper = AppInfoHelper.getInstance();
         mPriorityMigrationHelper = PriorityMigrationHelper.getInstance();
         mRecordMapper = RecordMapper.getInstance();
         mAggregationTypeIdMapper = AggregationTypeIdMapper.getInstance();
-        mDeviceInfoHelper = DeviceInfoHelper.getInstance();
         mMedicalResourceHelper = medicalResourceHelper;
         mMedicalDataSourceHelper = medicalDataSourceHelper;
     }
@@ -478,6 +484,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                             new UpsertTransactionRequest(
                                     attributionSource.getPackageName(),
                                     recordInternals,
+                                    mDeviceInfoHelper,
                                     mContext,
                                     /* isInsertRequest */ true,
                                     mDataPermissionEnforcer.collectExtraWritePermissionStateMapping(
@@ -712,7 +719,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                         startDateAccessEpochMilli,
                                         enforceSelfRead,
                                         grantedExtraReadPermissions,
-                                        isInForeground);
+                                        isInForeground,
+                                        mDeviceInfoHelper);
                         // throw an exception if read requested is not for a single record type
                         // i.e. size of read table request is not equal to 1.
                         if (readTransactionRequest.getReadRequests().size() != 1) {
@@ -843,6 +851,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                             new UpsertTransactionRequest(
                                     attributionSource.getPackageName(),
                                     recordInternals,
+                                    mDeviceInfoHelper,
                                     mContext,
                                     /* isInsertRequest */ false,
                                     mDataPermissionEnforcer.collectExtraWritePermissionStateMapping(
@@ -986,7 +995,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                             recordTypeToInsertedUuids,
                                             startDateAccessEpochMilli,
                                             grantedExtraReadPermissions,
-                                            isInForeground));
+                                            isInForeground,
+                                            mDeviceInfoHelper));
 
                     List<DeletedLog> deletedLogs =
                             ChangeLogsHelper.getDeletedLogs(changeLogsResponse.getChangeLogsMap());
