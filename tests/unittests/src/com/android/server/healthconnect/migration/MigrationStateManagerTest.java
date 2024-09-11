@@ -148,10 +148,7 @@ public class MigrationStateManagerTest {
                 .thenReturn(MAX_START_MIGRATION_CALLS_MOCK_VALUE);
         MigrationStateManager.resetInitializedInstanceForTest();
         mMigrationStateManager =
-                MigrationStateManager.initializeInstance(
-                        DEFAULT_USER_HANDLE.getIdentifier(),
-                        mHealthConnectDeviceConfigManager,
-                        mPreferenceHelper);
+                MigrationStateManager.initializeInstance(DEFAULT_USER_HANDLE.getIdentifier());
         mMigrationStateManager.addStateChangedListener(mMockListener::onMigrationStateChanged);
     }
 

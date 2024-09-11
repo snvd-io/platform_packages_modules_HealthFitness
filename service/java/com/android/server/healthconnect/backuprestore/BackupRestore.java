@@ -197,16 +197,14 @@ public final class BackupRestore {
     public BackupRestore(
             FirstGrantTimeManager firstGrantTimeManager,
             MigrationStateManager migrationStateManager,
-            PreferenceHelper preferenceHelper,
-            TransactionManager transactionManager,
-            Context context) {
+            @NonNull Context context) {
         mFirstGrantTimeManager = firstGrantTimeManager;
         mMigrationStateManager = migrationStateManager;
         mContext = context;
         mCurrentForegroundUser = mContext.getUser();
         mDatabaseMerger = new DatabaseMerger(context);
-        mPreferenceHelper = preferenceHelper;
-        mTransactionManager = transactionManager;
+        mPreferenceHelper = PreferenceHelper.getInstance();
+        mTransactionManager = TransactionManager.getInitialisedInstance();
     }
 
     public void setupForUser(UserHandle currentForegroundUser) {

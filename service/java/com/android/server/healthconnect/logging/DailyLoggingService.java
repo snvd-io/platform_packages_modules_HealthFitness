@@ -16,11 +16,10 @@
 
 package com.android.server.healthconnect.logging;
 
+import android.annotation.NonNull;
 import android.content.Context;
 import android.os.UserHandle;
 import android.util.Slog;
-
-import com.android.server.healthconnect.storage.datatypehelpers.PreferenceHelper;
 
 import java.util.Objects;
 
@@ -35,16 +34,15 @@ public class DailyLoggingService {
             "HealthConnectDailyLoggingService";
 
     /** Log daily metrics. */
-    public static void logDailyMetrics(
-            Context context, UserHandle userHandle, PreferenceHelper preferenceHelper) {
+    public static void logDailyMetrics(@NonNull Context context, @NonNull UserHandle userHandle) {
         Objects.requireNonNull(context);
         Objects.requireNonNull(userHandle);
 
         logDatabaseStats(context);
-        logUsageStats(context, userHandle, preferenceHelper);
+        logUsageStats(context, userHandle);
     }
 
-    private static void logDatabaseStats(Context context) {
+    private static void logDatabaseStats(@NonNull Context context) {
         try {
             DatabaseStatsLogger.log(context);
         } catch (Exception exception) {
@@ -52,10 +50,9 @@ public class DailyLoggingService {
         }
     }
 
-    private static void logUsageStats(
-            Context context, UserHandle userHandle, PreferenceHelper preferenceHelper) {
+    private static void logUsageStats(@NonNull Context context, @NonNull UserHandle userHandle) {
         try {
-            UsageStatsLogger.log(context, userHandle, preferenceHelper);
+            UsageStatsLogger.log(context, userHandle);
         } catch (Exception exception) {
             Slog.e(HEALTH_CONNECT_DAILY_LOGGING_SERVICE, "Failed to log usage stats", exception);
         }

@@ -96,8 +96,7 @@ public final class MigrationStateChangeJob {
     }
 
     /** Execute migration completion job */
-    public static void executeMigrationCompletionJob(
-            Context context, PreferenceHelper preferenceHelper) {
+    public static void executeMigrationCompletionJob(@NonNull Context context) {
         HealthConnectDeviceConfigManager deviceConfigManager =
                 HealthConnectDeviceConfigManager.getInitialisedInstance();
         if (!deviceConfigManager.isCompleteStateChangeJobEnabled()) {
@@ -107,6 +106,7 @@ public final class MigrationStateChangeJob {
                 == MIGRATION_STATE_COMPLETE) {
             return;
         }
+        PreferenceHelper preferenceHelper = PreferenceHelper.getInstance();
 
         String currentStateStartTime = preferenceHelper.getPreference(CURRENT_STATE_START_TIME_KEY);
 
@@ -152,8 +152,7 @@ public final class MigrationStateChangeJob {
     }
 
     /** Execute migration pausing job. */
-    public static void executeMigrationPauseJob(
-            Context context, PreferenceHelper preferenceHelper) {
+    public static void executeMigrationPauseJob(@NonNull Context context) {
         HealthConnectDeviceConfigManager deviceConfigManager =
                 HealthConnectDeviceConfigManager.getInitialisedInstance();
         if (!deviceConfigManager.isPauseStateChangeJobEnabled()) {
@@ -163,6 +162,7 @@ public final class MigrationStateChangeJob {
                 != MIGRATION_STATE_IN_PROGRESS) {
             return;
         }
+        PreferenceHelper preferenceHelper = PreferenceHelper.getInstance();
         String currentStateStartTime = preferenceHelper.getPreference(CURRENT_STATE_START_TIME_KEY);
         // This is a fallback but should never happen.
         if (Objects.isNull(currentStateStartTime)) {
