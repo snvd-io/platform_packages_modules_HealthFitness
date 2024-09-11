@@ -2053,6 +2053,7 @@ public class HealthConnectManagerTest {
                 List.of(dataSource.getId()), Executors.newSingleThreadExecutor(), receiver);
 
         assertThat(receiver.getResponse()).containsExactly(dataSource);
+        assertThat(dataSource.getLastDataUpdateTime()).isNull();
     }
 
     @Test
@@ -2081,6 +2082,7 @@ public class HealthConnectManagerTest {
         mManager.getMedicalDataSources(request, Executors.newSingleThreadExecutor(), receiver);
 
         assertThat(receiver.getResponse()).containsExactly(dataSource);
+        assertThat(dataSource.getLastDataUpdateTime()).isNull();
     }
 
     @Test
