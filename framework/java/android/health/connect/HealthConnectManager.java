@@ -2198,7 +2198,8 @@ public class HealthConnectManager {
     }
 
     /**
-     * Reads {@link MedicalResource}s based on given filters in {@link ReadMedicalResourcesRequest}.
+     * Reads {@link MedicalResource}s based on {@link ReadMedicalResourcesInitialRequest} or {@link
+     * ReadMedicalResourcesPageRequest}.
      *
      * <p>Number of resources returned by this API will depend based on below factors:
      *
@@ -2220,12 +2221,14 @@ public class HealthConnectManager {
      *       resources and the API will throw Security Exception.
      * </ul>
      *
-     * @param request The read request.
+     * @param request The read request {@link ReadMedicalResourcesInitialRequest} or {@link
+     *     ReadMedicalResourcesPageRequest}.
      * @param executor Executor on which to invoke the callback.
      * @param callback Callback to receive result of performing this operation.
-     * @throws IllegalArgumentException if request page size set is less than 1 or more than 5000 in
-     *     {@link ReadMedicalResourcesRequest}, or if the request contains invalid {@link
-     *     MedicalDataSource} IDs to read from.
+     * @throws IllegalArgumentException if request page size set is less than 1 or more than 5000;
+     *     or if contains not supported medical resource type or invalid {@link MedicalDataSource}
+     *     IDs when using {@link ReadMedicalResourcesInitialRequest}; or page token is {@code null}
+     *     when using {@link ReadMedicalResourcesPageRequest}.
      */
     @FlaggedApi(FLAG_PERSONAL_HEALTH_RECORD)
     public void readMedicalResources(
@@ -2241,7 +2244,7 @@ public class HealthConnectManager {
         try {
             mService.readMedicalResourcesByRequest(
                     mContext.getAttributionSource(),
-                    request,
+                    request.toParcel(),
                     new IReadMedicalResourcesResponseCallback.Stub() {
                         @Override
                         public void onResult(ReadMedicalResourcesResponse response) {
