@@ -31,7 +31,6 @@ import com.android.healthconnect.controller.categories.HealthDataCategoriesFragm
 import com.android.healthconnect.controller.data.appdata.AppDataFragment.Companion.PERMISSION_TYPE_NAME_KEY
 import com.android.healthconnect.controller.data.appdata.PermissionTypesPerCategory
 import com.android.healthconnect.controller.data.entries.EntriesViewModel
-import com.android.healthconnect.controller.permissions.data.FitnessPermissionStrings
 import com.android.healthconnect.controller.permissions.data.FitnessPermissionType
 import com.android.healthconnect.controller.permissions.data.HealthPermissionType
 import com.android.healthconnect.controller.selectabledeletion.DeletionConstants.START_DELETION_KEY
@@ -39,7 +38,6 @@ import com.android.healthconnect.controller.selectabledeletion.DeletionFragment
 import com.android.healthconnect.controller.selectabledeletion.DeletionPermissionTypesPreference
 import com.android.healthconnect.controller.selectabledeletion.DeletionViewModel
 import com.android.healthconnect.controller.selectabledeletion.SelectAllCheckboxPreference
-import com.android.healthconnect.controller.shared.HealthDataCategoryExtensions.icon
 import com.android.healthconnect.controller.shared.HealthDataCategoryExtensions.uppercaseTitle
 import com.android.healthconnect.controller.shared.HealthDataCategoryInt
 import com.android.healthconnect.controller.shared.children
@@ -248,7 +246,6 @@ open class AllDataFragment : Hilt_AllDataFragment() {
 
         populatedCategories.forEach { permissionTypesPerCategory ->
             val category = permissionTypesPerCategory.category
-            val categoryIcon = category.icon(requireContext())
 
             val preferenceCategory =
                 if (showMedicalData) {
@@ -263,16 +260,20 @@ open class AllDataFragment : Hilt_AllDataFragment() {
             permissionTypesPerCategory.data
                 .sortedBy { getString(it.upperCaseLabel()) }
                 .forEach { permissionType ->
+                    val icon = permissionType.icon(requireContext())
                     preferenceCategory.addPreference(
-                        getPermissionTypePreference(permissionType, categoryIcon))
+                        getPermissionTypePreference(permissionType, icon)
+                    )
                 }
         }
     }
 
     private fun onDeletionMethod(preference: DeletionPermissionTypesPreference): () -> Unit {
         return {
-            if (preference.getHealthPermissionType() !in
-                viewModel.setOfPermissionTypesToBeDeleted.value.orEmpty()) {
+            if (
+                preference.getHealthPermissionType() !in
+                    viewModel.setOfPermissionTypesToBeDeleted.value.orEmpty()
+            ) {
                 viewModel.addToDeleteSet(preference.getHealthPermissionType())
             } else {
                 viewModel.removeFromDeleteSet(preference.getHealthPermissionType())
@@ -369,7 +370,6 @@ open class AllDataFragment : Hilt_AllDataFragment() {
 
                 preference.icon = categoryIcon
                 preference.setTitle(permissionType.upperCaseLabel())
-
                 preference.setHealthPermissionType(permissionType)
 
                 preference.setOnPreferenceClickListener(onDeletionMethod(preference)) {

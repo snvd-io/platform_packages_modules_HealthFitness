@@ -25,7 +25,6 @@ import androidx.preference.PreferenceCategory
 import com.android.healthconnect.controller.R
 import com.android.healthconnect.controller.shared.Constants
 import com.android.healthconnect.controller.shared.HealthDataCategoryExtensions.MEDICAL
-import com.android.healthconnect.controller.shared.HealthDataCategoryExtensions.icon
 import com.android.healthconnect.controller.shared.HealthDataCategoryExtensions.uppercaseTitle
 import com.android.healthconnect.controller.shared.preference.HealthPreference
 import com.android.healthconnect.controller.shared.preference.HealthPreferenceFragment
@@ -59,12 +58,16 @@ open class AppDataFragment : Hilt_AppDataFragment() {
         super.onCreatePreferences(savedInstanceState, rootKey)
         setPreferencesFromResource(R.xml.app_data_screen, rootKey)
 
-        if (requireArguments().containsKey(EXTRA_PACKAGE_NAME) &&
-            requireArguments().getString(EXTRA_PACKAGE_NAME) != null) {
+        if (
+            requireArguments().containsKey(EXTRA_PACKAGE_NAME) &&
+                requireArguments().getString(EXTRA_PACKAGE_NAME) != null
+        ) {
             packageName = requireArguments().getString(EXTRA_PACKAGE_NAME)!!
         }
-        if (requireArguments().containsKey(Constants.EXTRA_APP_NAME) &&
-            requireArguments().getString(Constants.EXTRA_APP_NAME) != null) {
+        if (
+            requireArguments().containsKey(Constants.EXTRA_APP_NAME) &&
+                requireArguments().getString(Constants.EXTRA_APP_NAME) != null
+        ) {
             appName = requireArguments().getString(Constants.EXTRA_APP_NAME)!!
         }
     }
@@ -103,33 +106,32 @@ open class AppDataFragment : Hilt_AppDataFragment() {
     private fun updatePreferenceScreen(
         permissionTypesPerCategoryList: List<PermissionTypesPerCategory>
     ) {
+        val context = requireContext()
         preferenceScreen?.removeAll()
         preferenceScreen.addPreference(header)
 
         val populatedCategories = sortAndAddMedicalToLast(permissionTypesPerCategoryList)
         if (populatedCategories.isEmpty()) {
-            preferenceScreen.addPreference(NoDataPreference(requireContext()))
+            preferenceScreen.addPreference(NoDataPreference(context))
             preferenceScreen.addPreference(
-                FooterPreference(requireContext()).also { it.setTitle(R.string.no_data_footer) })
+                FooterPreference(context).also { it.setTitle(R.string.no_data_footer) }
+            )
             return
         }
 
         populatedCategories.forEach { permissionTypesPerCategory ->
             val category = permissionTypesPerCategory.category
-            val categoryIcon = category.icon(requireContext())
 
             val preferenceCategory =
-                PreferenceCategory(requireContext()).also { it.setTitle(category.uppercaseTitle()) }
+                PreferenceCategory(context).also { it.setTitle(category.uppercaseTitle()) }
             preferenceScreen.addPreference(preferenceCategory)
 
             permissionTypesPerCategory.data
                 .sortedBy { getString(it.upperCaseLabel()) }
                 .forEach { permissionType ->
                     preferenceCategory.addPreference(
-                        HealthPreference(requireContext()).also {
-                            it.icon = categoryIcon
-                            // TODO(b/342156345): Map different medical icons for each
-                            // permissionType
+                        HealthPreference(context).also {
+                            it.icon = permissionType.icon(context)
                             it.setTitle(permissionType.upperCaseLabel())
                             it.setOnPreferenceClickListener {
                                 // TODO(b/281811925): Add in upcoming cl.
@@ -140,10 +142,13 @@ open class AppDataFragment : Hilt_AppDataFragment() {
                                         bundleOf(
                                             EXTRA_PACKAGE_NAME to packageName,
                                             Constants.EXTRA_APP_NAME to appName,
-                                            PERMISSION_TYPE_NAME_KEY to permissionType.name))
+                                            PERMISSION_TYPE_NAME_KEY to permissionType.name,
+                                        ),
+                                    )
                                 true
                             }
-                        })
+                        }
+                    )
                 }
         }
     }

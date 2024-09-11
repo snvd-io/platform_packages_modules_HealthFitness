@@ -61,15 +61,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
-import org.mockito.kotlin.atLeast
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.reset
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
-import org.junit.Ignore
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
@@ -265,8 +263,7 @@ class AllEntriesFragmentTest {
         Mockito.`when`(viewModel.entries).thenReturn(MutableLiveData(With(FORMATTED_STEPS_LIST)))
 
         val scenario =
-                launchFragment<AllEntriesFragment>(
-                        bundleOf(PERMISSION_TYPE_NAME_KEY to STEPS.name))
+            launchFragment<AllEntriesFragment>(bundleOf(PERMISSION_TYPE_NAME_KEY to STEPS.name))
         scenario.onActivity { activity ->
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             val fragment = activity.supportFragmentManager.findFragmentByTag("")
@@ -278,13 +275,12 @@ class AllEntriesFragmentTest {
 
     @Ignore("b/363994647")
     @Test
-    fun allEntries_triggerDeletion_checkboxesRemainOnOrientationChange() = runTest{
+    fun allEntries_triggerDeletion_checkboxesRemainOnOrientationChange() = runTest {
         Mockito.`when`(viewModel.entries).thenReturn(MutableLiveData(With(FORMATTED_STEPS_LIST)))
         Mockito.`when`(viewModel.screenState).thenReturn(MutableLiveData(EntriesViewModel.EntriesDeletionScreenState.DELETE))
 
         val scenario =
-                launchFragment<AllEntriesFragment>(
-                        bundleOf(PERMISSION_TYPE_NAME_KEY to STEPS.name))
+            launchFragment<AllEntriesFragment>(bundleOf(PERMISSION_TYPE_NAME_KEY to STEPS.name))
         scenario.onActivity { activity ->
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             val fragment = activity.supportFragmentManager.findFragmentByTag("")
@@ -311,14 +307,12 @@ class AllEntriesFragmentTest {
         Mockito.`when`(viewModel.entries).thenReturn(MutableLiveData(With(FORMATTED_STEPS_LIST)))
 
         val scenario =
-                launchFragment<AllEntriesFragment>(
-                        bundleOf(PERMISSION_TYPE_NAME_KEY to STEPS.name))
+            launchFragment<AllEntriesFragment>(bundleOf(PERMISSION_TYPE_NAME_KEY to STEPS.name))
         scenario.onActivity { activity ->
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             val fragment = activity.supportFragmentManager.findFragmentByTag("")
             (fragment as AllEntriesFragment).triggerDeletionState(EntriesViewModel.EntriesDeletionScreenState.DELETE)
         }
-
 
         onView(withText("12 steps")).perform(click())
         onIdle()
