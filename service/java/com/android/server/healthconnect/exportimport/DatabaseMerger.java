@@ -95,6 +95,7 @@ public final class DatabaseMerger {
                     List.of(RECORD_TYPE_PLANNED_EXERCISE_SESSION, RECORD_TYPE_EXERCISE_SESSION));
 
     public DatabaseMerger(
+            AppInfoHelper appInfoHelper,
             Context context,
             DeviceInfoHelper deviceInfoHelper,
             HealthDataCategoryPriorityHelper healthDataCategoryPriorityHelper,
@@ -102,7 +103,7 @@ public final class DatabaseMerger {
         requireNonNull(context);
         mContext = context;
         mTransactionManager = transactionManager;
-        mAppInfoHelper = AppInfoHelper.getInstance();
+        mAppInfoHelper = appInfoHelper;
         mRecordMapper = RecordMapper.getInstance();
         mHealthDataCategoryPriorityHelper = healthDataCategoryPriorityHelper;
         mDeviceInfoHelper = deviceInfoHelper;
@@ -297,7 +298,8 @@ public final class DatabaseMerger {
                         null /* packageFilters */,
                         DEFAULT_LONG /* startTime */,
                         DEFAULT_LONG /* endTime */,
-                        false /* useLocalTimeFilter */);
+                        false /* useLocalTimeFilter */,
+                        mAppInfoHelper);
 
         stagedDatabase.getWritableDatabase().execSQL(deleteTableRequest.getDeleteCommand());
     }
@@ -322,6 +324,7 @@ public final class DatabaseMerger {
         @SuppressWarnings("NullAway") // TODO(b/317029272): fix this suppression
         ReadTransactionRequest readTransactionRequest =
                 new ReadTransactionRequest(
+                        mAppInfoHelper,
                         null,
                         readRecordsRequest.toReadRecordsRequestParcel(),
                         // Avoid time based filtering.

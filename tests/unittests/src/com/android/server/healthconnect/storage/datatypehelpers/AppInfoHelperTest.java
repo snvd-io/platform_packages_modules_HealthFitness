@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package healthconnect.storage.datatypehelpers;
+package com.android.server.healthconnect.storage.datatypehelpers;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -36,9 +36,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.android.modules.utils.testing.ExtendedMockitoRule;
 import com.android.server.healthconnect.HealthConnectUserContext;
 import com.android.server.healthconnect.storage.TransactionManager;
-import com.android.server.healthconnect.storage.datatypehelpers.AppInfoHelper;
-import com.android.server.healthconnect.storage.datatypehelpers.HealthConnectDatabaseTestRule;
-import com.android.server.healthconnect.storage.datatypehelpers.TransactionTestUtils;
 
 import org.junit.After;
 import org.junit.Before;
@@ -46,6 +43,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.quality.Strictness;
 
 @RunWith(AndroidJUnit4.class)
 public class AppInfoHelperTest {
@@ -53,20 +51,23 @@ public class AppInfoHelperTest {
     private static final String TEST_PACKAGE_NAME = "test.package.name";
     private static final String TEST_APP_NAME = "testAppName";
 
+    @Rule(order = 1)
+    public final ExtendedMockitoRule mExtendedMockitoRule =
+            new ExtendedMockitoRule.Builder(this)
+                    .mockStatic(Environment.class)
+                    .setStrictness(Strictness.LENIENT)
+                    .build();
+
+    @Rule(order = 2)
+    public final HealthConnectDatabaseTestRule mHealthConnectDatabaseTestRule =
+            new HealthConnectDatabaseTestRule();
+
     @Mock private Context mContext;
     @Mock private Drawable mDrawable;
     @Mock private PackageManager mPackageManager;
 
     private AppInfoHelper mAppInfoHelper;
     private TransactionTestUtils mTransactionTestUtils;
-
-    @Rule(order = 1)
-    public final ExtendedMockitoRule mExtendedMockitoRule =
-            new ExtendedMockitoRule.Builder(this).mockStatic(Environment.class).build();
-
-    @Rule(order = 2)
-    public final HealthConnectDatabaseTestRule mHealthConnectDatabaseTestRule =
-            new HealthConnectDatabaseTestRule();
 
     @Before
     public void setup() throws PackageManager.NameNotFoundException {
@@ -76,10 +77,13 @@ public class AppInfoHelperTest {
                 mHealthConnectDatabaseTestRule.getTransactionManager();
         mTransactionTestUtils =
                 new TransactionTestUtils(healthConnectUserContext, transactionManager);
-        mAppInfoHelper = AppInfoHelper.getInstance();
         when(mContext.getPackageManager()).thenReturn(mPackageManager);
         when(mDrawable.getIntrinsicHeight()).thenReturn(200);
         when(mDrawable.getIntrinsicWidth()).thenReturn(200);
+
+        AppInfoHelper.clearInstanceForTest();
+        mAppInfoHelper =
+                AppInfoHelper.getInstance(mHealthConnectDatabaseTestRule.getTransactionManager());
     }
 
     @After

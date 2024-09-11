@@ -140,6 +140,7 @@ public class ImportManagerTest {
 
         mImportManager =
                 new ImportManager(
+                        healthConnectInjector.getAppInfoHelper(),
                         mContext,
                         mNotificationSender,
                         mExportImportSettingsStorage,

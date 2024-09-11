@@ -51,6 +51,7 @@ import androidx.annotation.VisibleForTesting;
 
 import com.android.healthfitness.flags.Flags;
 import com.android.server.healthconnect.HealthConnectUserContext;
+import com.android.server.healthconnect.storage.datatypehelpers.AppInfoHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.ChangeLogsHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.RecordHelper;
 import com.android.server.healthconnect.storage.request.AggregateTableRequest;
@@ -119,7 +120,8 @@ public final class TransactionManager {
      * @return List of uids of the inserted {@link RecordInternal}, in the same order as they
      *     presented to {@code request}.
      */
-    public List<String> insertAll(UpsertTransactionRequest request) throws SQLiteException {
+    public List<String> insertAll(AppInfoHelper appInfoHelper, UpsertTransactionRequest request)
+            throws SQLiteException {
         if (Constants.DEBUG) {
             Slog.d(TAG, "Inserting " + request.getUpsertRequests().size() + " requests.");
         }
@@ -137,7 +139,11 @@ public final class TransactionManager {
                                 upsertRequest.getRecordInternal().getRecordType(),
                                 upsertRequest.getRecordInternal().getAppInfoId(),
                                 upsertRequest.getRecordInternal().getUuid());
-                        addChangelogsForOtherModifiedRecords(upsertRequest, modificationChangelogs);
+                        addChangelogsForOtherModifiedRecords(
+                                appInfoHelper.getAppInfoId(
+                                        upsertRequest.getRecordInternal().getPackageName()),
+                                upsertRequest,
+                                modificationChangelogs);
                         insertOrReplaceRecord(db, upsertRequest);
                     }
 
@@ -572,7 +578,7 @@ public final class TransactionManager {
      *
      * @param request an update request.
      */
-    public void updateAll(UpsertTransactionRequest request) {
+    public void updateAll(AppInfoHelper appInfoHelper, UpsertTransactionRequest request) {
         long currentTime = Instant.now().toEpochMilli();
         ChangeLogsHelper.ChangeLogs updateChangelogs =
                 new ChangeLogsHelper.ChangeLogs(OPERATION_TYPE_UPSERT, currentTime);
@@ -587,7 +593,11 @@ public final class TransactionManager {
                                 upsertRequest.getRecordInternal().getUuid());
                         // Add changelogs for affected records, e.g. a training plan being deleted
                         // will create changelogs for affected exercise sessions.
-                        addChangelogsForOtherModifiedRecords(upsertRequest, modificationChangelogs);
+                        addChangelogsForOtherModifiedRecords(
+                                appInfoHelper.getAppInfoId(
+                                        upsertRequest.getRecordInternal().getPackageName()),
+                                upsertRequest,
+                                modificationChangelogs);
                         updateRecord(db, upsertRequest);
                     }
 
@@ -947,14 +957,18 @@ public final class TransactionManager {
     }
 
     private void addChangelogsForOtherModifiedRecords(
-            UpsertTableRequest upsertRequest, ChangeLogsHelper.ChangeLogs modificationChangelogs) {
+            long callingPackageAppInfoId,
+            UpsertTableRequest upsertRequest,
+            ChangeLogsHelper.ChangeLogs modificationChangelogs) {
         // Carries out read requests provided by the record helper and uses the results to add
         // changelogs to the transaction.
         final RecordHelper<?> recordHelper =
                 RecordHelperProvider.getRecordHelper(upsertRequest.getRecordType());
         for (ReadTableRequest additionalChangelogUuidRequest :
                 recordHelper.getReadRequestsForRecordsModifiedByUpsertion(
-                        upsertRequest.getRecordInternal().getUuid(), upsertRequest)) {
+                        upsertRequest.getRecordInternal().getUuid(),
+                        upsertRequest,
+                        callingPackageAppInfoId)) {
             Cursor cursorAdditionalUuids = read(additionalChangelogUuidRequest);
             while (cursorAdditionalUuids.moveToNext()) {
                 modificationChangelogs.addUUID(

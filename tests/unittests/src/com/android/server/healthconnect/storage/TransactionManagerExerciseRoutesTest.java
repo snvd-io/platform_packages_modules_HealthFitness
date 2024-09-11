@@ -39,6 +39,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.android.modules.utils.testing.ExtendedMockitoRule;
 import com.android.server.healthconnect.HealthConnectDeviceConfigManager;
 import com.android.server.healthconnect.HealthConnectUserContext;
+import com.android.server.healthconnect.storage.datatypehelpers.AppInfoHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.DeviceInfoHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.HealthConnectDatabaseTestRule;
 import com.android.server.healthconnect.storage.datatypehelpers.TransactionTestUtils;
@@ -82,6 +83,7 @@ public class TransactionManagerExerciseRoutesTest {
     private TransactionTestUtils mTransactionTestUtils;
     private TransactionManager mTransactionManager;
     private DeviceInfoHelper mDeviceInfoHelper;
+    private AppInfoHelper mAppInfoHelper;
 
     @Before
     public void setup() {
@@ -97,7 +99,9 @@ public class TransactionManagerExerciseRoutesTest {
         HealthConnectDeviceConfigManager.initializeInstance(context);
 
         DeviceInfoHelper.resetInstanceForTest();
+        AppInfoHelper.clearInstanceForTest();
         mDeviceInfoHelper = DeviceInfoHelper.getInstance(mTransactionManager);
+        mAppInfoHelper = AppInfoHelper.getInstance(mTransactionManager);
     }
 
     @Test
@@ -114,6 +118,7 @@ public class TransactionManagerExerciseRoutesTest {
         List<UUID> allUuids = Stream.of(fooUuid, barUuid, ownUuid).map(UUID::fromString).toList();
         ReadTransactionRequest request =
                 new ReadTransactionRequest(
+                        mAppInfoHelper,
                         TEST_PACKAGE_NAME,
                         ImmutableMap.of(
                                 RecordTypeIdentifier.RECORD_TYPE_EXERCISE_SESSION, allUuids),
@@ -148,6 +153,7 @@ public class TransactionManagerExerciseRoutesTest {
                         mTransactionTestUtils.insertRecords(TEST_PACKAGE_NAME, session).get(0));
         ReadTransactionRequest request =
                 new ReadTransactionRequest(
+                        mAppInfoHelper,
                         UNKNOWN_PACKAGE_NAME,
                         ImmutableMap.of(
                                 RecordTypeIdentifier.RECORD_TYPE_EXERCISE_SESSION, List.of(uuid)),
@@ -175,6 +181,7 @@ public class TransactionManagerExerciseRoutesTest {
                         mTransactionTestUtils.insertRecords(TEST_PACKAGE_NAME, session).get(0));
         ReadTransactionRequest request =
                 new ReadTransactionRequest(
+                        mAppInfoHelper,
                         null,
                         ImmutableMap.of(
                                 RecordTypeIdentifier.RECORD_TYPE_EXERCISE_SESSION, List.of(uuid)),
@@ -202,6 +209,7 @@ public class TransactionManagerExerciseRoutesTest {
                         mTransactionTestUtils.insertRecords(TEST_PACKAGE_NAME, session).get(0));
         ReadTransactionRequest request =
                 new ReadTransactionRequest(
+                        mAppInfoHelper,
                         UNKNOWN_PACKAGE_NAME,
                         ImmutableMap.of(
                                 RecordTypeIdentifier.RECORD_TYPE_EXERCISE_SESSION, List.of(uuid)),
@@ -233,6 +241,7 @@ public class TransactionManagerExerciseRoutesTest {
         String ownUuid = mTransactionTestUtils.insertRecords(TEST_PACKAGE_NAME, ownSession).get(0);
         ReadTransactionRequest request =
                 new ReadTransactionRequest(
+                        mAppInfoHelper,
                         TEST_PACKAGE_NAME,
                         new ReadRecordsRequestUsingFilters.Builder<>(ExerciseSessionRecord.class)
                                 .setTimeRangeFilter(
@@ -273,6 +282,7 @@ public class TransactionManagerExerciseRoutesTest {
         mTransactionTestUtils.insertRecords(TEST_PACKAGE_NAME, session);
         ReadTransactionRequest request =
                 new ReadTransactionRequest(
+                        mAppInfoHelper,
                         UNKNOWN_PACKAGE_NAME,
                         new ReadRecordsRequestUsingFilters.Builder<>(ExerciseSessionRecord.class)
                                 .setTimeRangeFilter(
@@ -305,6 +315,7 @@ public class TransactionManagerExerciseRoutesTest {
         mTransactionTestUtils.insertRecords(TEST_PACKAGE_NAME, session);
         ReadTransactionRequest request =
                 new ReadTransactionRequest(
+                        mAppInfoHelper,
                         null,
                         new ReadRecordsRequestUsingFilters.Builder<>(ExerciseSessionRecord.class)
                                 .setTimeRangeFilter(
@@ -337,6 +348,7 @@ public class TransactionManagerExerciseRoutesTest {
         mTransactionTestUtils.insertRecords(TEST_PACKAGE_NAME, session);
         ReadTransactionRequest request =
                 new ReadTransactionRequest(
+                        mAppInfoHelper,
                         UNKNOWN_PACKAGE_NAME,
                         new ReadRecordsRequestUsingFilters.Builder<>(ExerciseSessionRecord.class)
                                 .setTimeRangeFilter(

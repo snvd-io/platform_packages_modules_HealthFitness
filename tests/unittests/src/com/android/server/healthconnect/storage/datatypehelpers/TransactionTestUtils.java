@@ -43,6 +43,7 @@ import android.health.connect.internal.datatypes.ExerciseSessionRecordInternal;
 import android.health.connect.internal.datatypes.RecordInternal;
 import android.health.connect.internal.datatypes.StepsRecordInternal;
 
+import com.android.server.healthconnect.injector.HealthConnectInjector;
 import com.android.server.healthconnect.injector.HealthConnectInjectorImpl;
 import com.android.server.healthconnect.storage.TransactionManager;
 import com.android.server.healthconnect.storage.request.ReadTableRequest;
@@ -96,11 +97,13 @@ public final class TransactionTestUtils {
 
     /** Inserts records attributed to the given package. */
     public List<String> insertRecords(String packageName, List<RecordInternal<?>> records) {
+        HealthConnectInjector healthConnectInjector = mHealthConnectInjectorBuilder.build();
         return mTransactionManager.insertAll(
+                healthConnectInjector.getAppInfoHelper(),
                 new UpsertTransactionRequest(
                         packageName,
                         records,
-                        mHealthConnectInjectorBuilder.build().getDeviceInfoHelper(),
+                        healthConnectInjector.getDeviceInfoHelper(),
                         mContext,
                         /* isInsertRequest= */ true,
                         /* extraPermsStateMap= */ Collections.emptyMap()));
@@ -127,6 +130,7 @@ public final class TransactionTestUtils {
             Map<Integer, List<UUID>> recordTypeToUuids,
             boolean isReadingSelfData) {
         return new ReadTransactionRequest(
+                AppInfoHelper.getInstance(),
                 packageName,
                 recordTypeToUuids,
                 /* startDateAccessMillis= */ 0,
@@ -152,6 +156,7 @@ public final class TransactionTestUtils {
     public static ReadTransactionRequest getReadTransactionRequest(
             String packageName, ReadRecordsRequestParcel request) {
         return new ReadTransactionRequest(
+                AppInfoHelper.getInstance(),
                 packageName,
                 request,
                 /* startDateAccessMillis= */ 0,

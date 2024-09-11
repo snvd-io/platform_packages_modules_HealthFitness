@@ -117,10 +117,11 @@ public class HealthConnectManagerService extends SystemService {
         FirstGrantTimeManager firstGrantTimeManager;
         HealthConnectPermissionHelper permissionHelper;
         MigrationCleaner migrationCleaner;
-        AppInfoHelper appInfoHelper = AppInfoHelper.getInstance();
+        AppInfoHelper appInfoHelper;
 
         if (Flags.dependencyInjection()) {
             Objects.requireNonNull(mHealthConnectInjector);
+            appInfoHelper = mHealthConnectInjector.getAppInfoHelper();
             firstGrantTimeManager =
                     new FirstGrantTimeManager(
                             context,
@@ -152,6 +153,7 @@ public class HealthConnectManagerService extends SystemService {
             mExportImportSettingsStorage = mHealthConnectInjector.getExportImportSettingsStorage();
             mExportManager = mHealthConnectInjector.getExportManager();
         } else {
+            appInfoHelper = AppInfoHelper.getInstance();
             firstGrantTimeManager =
                     new FirstGrantTimeManager(
                             context,
@@ -167,7 +169,7 @@ public class HealthConnectManagerService extends SystemService {
                             HealthConnectManager.getHealthPermissions(context),
                             permissionIntentTracker,
                             firstGrantTimeManager,
-                            AppInfoHelper.getInstance());
+                            appInfoHelper);
             mPermissionPackageChangesOrchestrator =
                     new PermissionPackageChangesOrchestrator(
                             permissionIntentTracker,

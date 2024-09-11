@@ -116,8 +116,8 @@ public final class AppInfoHelper extends DatabaseHelper {
     private final RecordMapper mRecordMapper;
 
     @SuppressWarnings("NullAway.Init") // TODO(b/317029272): fix this suppression
-    private AppInfoHelper() {
-        mTransactionManager = TransactionManager.getInitialisedInstance();
+    private AppInfoHelper(TransactionManager transactionManager) {
+        mTransactionManager = transactionManager;
         mRecordMapper = RecordMapper.getInstance();
     }
 
@@ -778,9 +778,14 @@ public final class AppInfoHelper extends DatabaseHelper {
         return columnInfo;
     }
 
-    public static synchronized AppInfoHelper getInstance() {
+    public static AppInfoHelper getInstance() {
+        return getInstance(TransactionManager.getInitialisedInstance());
+    }
+
+    /** Returns an instance of AppInfoHelper by passing in the dependency. */
+    public static synchronized AppInfoHelper getInstance(TransactionManager transactionManager) {
         if (sAppInfoHelper == null) {
-            sAppInfoHelper = new AppInfoHelper();
+            sAppInfoHelper = new AppInfoHelper(transactionManager);
         }
 
         return sAppInfoHelper;

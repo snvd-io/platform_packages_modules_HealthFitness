@@ -59,6 +59,7 @@ import android.util.Pair;
 import com.android.healthfitness.flags.Flags;
 import com.android.modules.utils.testing.ExtendedMockitoRule;
 import com.android.server.healthconnect.HealthConnectUserContext;
+import com.android.server.healthconnect.storage.datatypehelpers.AppInfoHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.HealthConnectDatabaseTestRule;
 import com.android.server.healthconnect.storage.datatypehelpers.HealthDataCategoryPriorityHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.RecordHelper;
@@ -109,6 +110,7 @@ public class TransactionManagerTest {
 
     private TransactionTestUtils mTransactionTestUtils;
     private TransactionManager mTransactionManager;
+    private AppInfoHelper mAppInfoHelper;
 
     @Before
     public void setup() {
@@ -116,6 +118,9 @@ public class TransactionManagerTest {
         mTransactionManager = mHealthConnectDatabaseTestRule.getTransactionManager();
         mTransactionTestUtils = new TransactionTestUtils(context, mTransactionManager);
         mTransactionTestUtils.insertApp(TEST_PACKAGE_NAME);
+
+        AppInfoHelper.clearInstanceForTest();
+        mAppInfoHelper = AppInfoHelper.getInstance(mTransactionManager);
     }
 
     @Test
@@ -181,7 +186,7 @@ public class TransactionManagerTest {
                 getReadTransactionRequest(request.toReadRecordsRequestParcel());
         mTransactionManager.readRecordsByIds(readTransactionRequest);
 
-        List<AccessLog> result = queryAccessLogs();
+        List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         assertThat(result).isEmpty();
     }
 
@@ -246,7 +251,7 @@ public class TransactionManagerTest {
                 getReadTransactionRequest(request.toReadRecordsRequestParcel());
         mTransactionManager.readRecordsAndPageToken(readTransactionRequest);
 
-        List<AccessLog> result = queryAccessLogs();
+        List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         assertThat(result).hasSize(1);
         AccessLog log = result.get(0);
         assertThat(log.getPackageName()).isEqualTo(TEST_PACKAGE_NAME);
@@ -266,7 +271,7 @@ public class TransactionManagerTest {
                 getReadTransactionRequest(request.toReadRecordsRequestParcel());
         mTransactionManager.readRecordsAndPageToken(readTransactionRequest);
 
-        List<AccessLog> result = queryAccessLogs();
+        List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         assertThat(result).isEmpty();
     }
 
@@ -298,9 +303,8 @@ public class TransactionManagerTest {
                         new RecordIdFiltersParcel(ids), TEST_PACKAGE_NAME);
         assertThat(parcel.usesIdFilters()).isTrue();
         mTransactionManager.deleteAll(
-                new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel),
+                new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel, mAppInfoHelper),
                 /* shouldRecordDeleteAccessLogs= */ false);
-
         List<UUID> uuidList = mTransactionTestUtils.getAllDeletedUuids();
         assertThat(uuidList).hasSize(1);
         assertThat(uuidList.get(0).toString()).isEqualTo(uuids.get(0));
@@ -322,9 +326,8 @@ public class TransactionManagerTest {
         DeleteUsingFiltersRequestParcel parcel = new DeleteUsingFiltersRequestParcel(deleteRequest);
         assertThat(parcel.usesIdFilters()).isFalse();
         mTransactionManager.deleteAll(
-                new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel),
+                new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel, mAppInfoHelper),
                 /* shouldRecordDeleteAccessLogs= */ false);
-
         List<UUID> uuidList = mTransactionTestUtils.getAllDeletedUuids();
         assertThat(uuidList).hasSize(1);
         assertThat(uuidList.get(0).toString()).isEqualTo(uuids.get(0));
@@ -347,7 +350,7 @@ public class TransactionManagerTest {
                         .build();
         DeleteUsingFiltersRequestParcel parcel = new DeleteUsingFiltersRequestParcel(deleteRequest);
         mTransactionManager.deleteAll(
-                new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel),
+                new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel, mAppInfoHelper),
                 /* shouldRecordDeleteAccessLogs= */ false);
 
         List<UUID> uuidList = mTransactionTestUtils.getAllDeletedUuids();
@@ -368,10 +371,10 @@ public class TransactionManagerTest {
                         .build();
         DeleteUsingFiltersRequestParcel parcel = new DeleteUsingFiltersRequestParcel(deleteRequest);
         mTransactionManager.deleteAll(
-                new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel),
+                new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel, mAppInfoHelper),
                 /* shouldRecordDeleteAccessLogs= */ true);
 
-        List<AccessLog> result = queryAccessLogs();
+        List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         assertThat(result).hasSize(1);
         AccessLog log = result.get(0);
         assertThat(log.getPackageName()).isEqualTo(TEST_PACKAGE_NAME);
@@ -393,10 +396,10 @@ public class TransactionManagerTest {
                         .build();
         DeleteUsingFiltersRequestParcel parcel = new DeleteUsingFiltersRequestParcel(deleteRequest);
         mTransactionManager.deleteAll(
-                new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel),
+                new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel, mAppInfoHelper),
                 /* shouldRecordDeleteAccessLogs= */ false);
 
-        List<AccessLog> result = queryAccessLogs();
+        List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         assertThat(result).isEmpty();
     }
 
@@ -413,6 +416,7 @@ public class TransactionManagerTest {
                         TEST_PACKAGE_NAME,
                         /* packageFilters= */ List.of(),
                         HealthDataCategoryPriorityHelper.getInstance(),
+                        mAppInfoHelper,
                         /* startTime= */ 123,
                         /* endTime= */ 456,
                         /* startDateAccess= */ 0,
@@ -431,7 +435,7 @@ public class TransactionManagerTest {
         mTransactionManager.populateWithAggregation(
                 request, TEST_PACKAGE_NAME, Set.of(RECORD_TYPE_HEART_RATE));
 
-        List<AccessLog> result = queryAccessLogs();
+        List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         AccessLog log = result.get(0);
         assertThat(log.getPackageName()).isEqualTo(TEST_PACKAGE_NAME);
         assertThat(log.getRecordTypes()).containsExactly(HeartRateRecord.class);

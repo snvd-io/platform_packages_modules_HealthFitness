@@ -24,6 +24,7 @@ import android.annotation.Nullable;
 import android.health.connect.PageTokenWrapper;
 import android.health.connect.aidl.ReadRecordsRequestParcel;
 
+import com.android.server.healthconnect.storage.datatypehelpers.AppInfoHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.DeviceInfoHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.RecordHelper;
 import com.android.server.healthconnect.storage.utils.RecordHelperProvider;
@@ -56,6 +57,7 @@ public class ReadTransactionRequest {
     private final boolean mIsReadingSelfData;
 
     public ReadTransactionRequest(
+            AppInfoHelper appInfoHelper,
             String callingPackageName,
             ReadRecordsRequestParcel request,
             long startDateAccessMillis,
@@ -75,7 +77,8 @@ public class ReadTransactionRequest {
                                 enforceSelfRead,
                                 startDateAccessMillis,
                                 grantedExtraReadPermissions,
-                                isInForeground));
+                                isInForeground,
+                                appInfoHelper));
         if (request.getRecordIdFiltersParcel() == null) { // read by filter
             mPageToken = PageTokenWrapper.from(request.getPageToken(), request.isAscending());
             mPageSize = request.getPageSize();
@@ -92,6 +95,7 @@ public class ReadTransactionRequest {
 
     // read for changelogs
     public ReadTransactionRequest(
+            AppInfoHelper appInfoHelper,
             String packageName,
             Map<Integer, List<UUID>> recordTypeToUuids,
             long startDateAccessMillis,
@@ -112,7 +116,8 @@ public class ReadTransactionRequest {
                                                 uuids,
                                                 startDateAccessMillis,
                                                 grantedExtraReadPermissions,
-                                                isInForeground)));
+                                                isInForeground,
+                                                appInfoHelper)));
         mPageSize = DEFAULT_INT;
         mPageToken = null;
         mDeviceInfoHelper = deviceInfoHelper;

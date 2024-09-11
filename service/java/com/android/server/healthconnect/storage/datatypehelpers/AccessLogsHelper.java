@@ -90,11 +90,10 @@ public final class AccessLogsHelper extends DatabaseHelper {
     /**
      * @return AccessLog list
      */
-    public static List<AccessLog> queryAccessLogs() {
+    public static List<AccessLog> queryAccessLogs(AppInfoHelper appInfoHelper) {
         final ReadTableRequest readTableRequest = new ReadTableRequest(TABLE_NAME);
 
         List<AccessLog> accessLogsList = new ArrayList<>();
-        final AppInfoHelper appInfoHelper = AppInfoHelper.getInstance();
         final TransactionManager transactionManager = TransactionManager.getInitialisedInstance();
         try (Cursor cursor = transactionManager.read(readTableRequest)) {
             while (cursor.moveToNext()) {
