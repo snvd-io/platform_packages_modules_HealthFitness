@@ -75,8 +75,7 @@ public class HealthConnectManagerService extends SystemService {
     private final ExportManager mExportManager;
     private final PreferenceHelper mPreferenceHelper;
 
-    @Nullable
-    private HealthConnectInjector mHealthConnectInjector;
+    @Nullable private HealthConnectInjector mHealthConnectInjector;
 
     public HealthConnectManagerService(Context context) {
         super(context);
@@ -329,7 +328,7 @@ public class HealthConnectManagerService extends SystemService {
         HealthConnectThreadScheduler.scheduleInternalTask(
                 () -> {
                     try {
-                        ExportImportJobs.schedulePeriodicExportJob(
+                        ExportImportJobs.schedulePeriodicJobIfNotScheduled(
                                 mCurrentForegroundUser.getIdentifier(),
                                 mContext,
                                 mExportImportSettingsStorage,
