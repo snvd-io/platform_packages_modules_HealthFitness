@@ -127,6 +127,7 @@ public class HealthConnectManagerServiceTest {
         when(mContext.createContextAsUser(any(), anyInt())).thenReturn(mContext);
         when(mMockTargetUser.getUserHandle()).thenReturn(UserHandle.CURRENT);
         when(mContext.getApplicationContext()).thenReturn(mContext);
+        when(PreferenceHelper.getInstance(any())).thenReturn(mPreferenceHelper);
         when(PreferenceHelper.getInstance()).thenReturn(mPreferenceHelper);
         when(HealthDataCategoryPriorityHelper.getInstance())
                 .thenReturn(mHealthDataCategoryPriorityHelper);
