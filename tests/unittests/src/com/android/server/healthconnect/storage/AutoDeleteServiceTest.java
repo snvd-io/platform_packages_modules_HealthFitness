@@ -131,15 +131,14 @@ public class AutoDeleteServiceTest {
         mHealthConnectInjector =
                 HealthConnectInjectorImpl.newBuilderForTest(mContext)
                         .setHealthDataCategoryPriorityHelper(mHealthDataCategoryPriorityHelper)
-                        .setPreferenceHelper(mPreferenceHelper)
                         .setExportManager(mExportManager)
                         .build();
     }
 
     @Test
     public void testSetRecordRetentionPeriodInDays() {
-        AutoDeleteService.setRecordRetentionPeriodInDays(
-                30, mHealthConnectInjector.getPreferenceHelper());
+        when(PreferenceHelper.getInstance()).thenReturn(mPreferenceHelper);
+        AutoDeleteService.setRecordRetentionPeriodInDays(30);
 
         verify(mPreferenceHelper)
                 .insertOrReplacePreference(
@@ -149,14 +148,13 @@ public class AutoDeleteServiceTest {
 
     @Test
     public void testStartAutoDelete_getPreferenceReturnNull() {
+        when(PreferenceHelper.getInstance()).thenReturn(mPreferenceHelper);
         when(TransactionManager.getInitialisedInstance()).thenReturn(mTransactionManager);
         when(AppInfoHelper.getInstance()).thenReturn(mAppInfoHelper);
         when(mPreferenceHelper.getPreference(AUTO_DELETE_DURATION_RECORDS_KEY)).thenReturn(null);
 
         AutoDeleteService.startAutoDelete(
-                mContext,
-                mHealthConnectInjector.getHealthDataCategoryPriorityHelper(),
-                mHealthConnectInjector.getPreferenceHelper());
+                mContext, mHealthConnectInjector.getHealthDataCategoryPriorityHelper());
 
         ExtendedMockito.verify(RecordHelperProvider::getRecordHelpers, never());
         verify(mTransactionManager, Mockito.times(2))
@@ -172,6 +170,7 @@ public class AutoDeleteServiceTest {
 
     @Test
     public void testStartAutoDelete_getPreferenceReturnNonNull() {
+        when(PreferenceHelper.getInstance()).thenReturn(mPreferenceHelper);
         when(TransactionManager.getInitialisedInstance()).thenReturn(mTransactionManager);
         when(AppInfoHelper.getInstance()).thenReturn(mAppInfoHelper);
 
@@ -180,9 +179,7 @@ public class AutoDeleteServiceTest {
         when(RecordHelperProvider.getRecordHelpers()).thenReturn(getRecordHelpers());
 
         AutoDeleteService.startAutoDelete(
-                mContext,
-                mHealthConnectInjector.getHealthDataCategoryPriorityHelper(),
-                mHealthConnectInjector.getPreferenceHelper());
+                mContext, mHealthConnectInjector.getHealthDataCategoryPriorityHelper());
 
         verify(mTransactionManager, Mockito.times(2))
                 .deleteWithoutChangeLogs(

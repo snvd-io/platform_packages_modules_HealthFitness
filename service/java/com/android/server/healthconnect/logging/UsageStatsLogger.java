@@ -16,11 +16,10 @@
 
 package com.android.server.healthconnect.logging;
 
+import android.annotation.NonNull;
 import android.content.Context;
 import android.health.HealthFitnessStatsLog;
 import android.os.UserHandle;
-
-import com.android.server.healthconnect.storage.datatypehelpers.PreferenceHelper;
 
 import java.util.Objects;
 
@@ -32,12 +31,11 @@ import java.util.Objects;
 final class UsageStatsLogger {
 
     /** Write Health Connect usage stats to statsd. */
-    static void log(Context context, UserHandle userHandle, PreferenceHelper preferenceHelper) {
+    static void log(@NonNull Context context, @NonNull UserHandle userHandle) {
         Objects.requireNonNull(userHandle);
         Objects.requireNonNull(context);
 
-        UsageStatsCollector usageStatsCollector =
-                new UsageStatsCollector(context, userHandle, preferenceHelper);
+        UsageStatsCollector usageStatsCollector = new UsageStatsCollector(context, userHandle);
         usageStatsCollector.upsertLastAccessLogTimeStamp();
         int numberOfConnectedApps = usageStatsCollector.getPackagesHoldingHealthPermissions();
         int numberOfAvailableApps =

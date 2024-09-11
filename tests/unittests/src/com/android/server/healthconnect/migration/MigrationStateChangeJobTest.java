@@ -123,6 +123,7 @@ public class MigrationStateChangeJobTest {
     @Before
     public void setUp() {
         when(MigrationStateManager.getInitialisedInstance()).thenReturn(mMigrationStateManager);
+        when(PreferenceHelper.getInstance()).thenReturn(mPreferenceHelper);
         when(mJobScheduler.forNamespace(MIGRATION_STATE_CHANGE_NAMESPACE))
                 .thenReturn(mJobScheduler);
         when(mContext.getSystemService(JobScheduler.class)).thenReturn(mJobScheduler);
@@ -162,7 +163,7 @@ public class MigrationStateChangeJobTest {
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_IN_PROGRESS);
         when(mPreferenceHelper.getPreference(eq(CURRENT_STATE_START_TIME_KEY)))
                 .thenReturn(Instant.now().minusMillis(mockElapsedTime).toString());
-        MigrationStateChangeJob.executeMigrationPauseJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationPauseJob(mContext);
         verifyNoStateChange();
     }
 
@@ -176,7 +177,7 @@ public class MigrationStateChangeJobTest {
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_IN_PROGRESS);
         when(mPreferenceHelper.getPreference(eq(CURRENT_STATE_START_TIME_KEY)))
                 .thenReturn(Instant.now().minusMillis(mockElapsedTime).toString());
-        MigrationStateChangeJob.executeMigrationPauseJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationPauseJob(mContext);
         verifyStateChange(MIGRATION_STATE_ALLOWED, true);
     }
 
@@ -184,7 +185,7 @@ public class MigrationStateChangeJobTest {
     @Test
     public void testExecutePauseJob_inAllowedState() {
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_ALLOWED);
-        MigrationStateChangeJob.executeMigrationPauseJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationPauseJob(mContext);
         verifyZeroInteractions(mPreferenceHelper);
         verifyNoStateChange();
     }
@@ -193,7 +194,7 @@ public class MigrationStateChangeJobTest {
     @Test
     public void testExecutePauseJob_inCompleteState() {
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_COMPLETE);
-        MigrationStateChangeJob.executeMigrationPauseJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationPauseJob(mContext);
         verifyZeroInteractions(mPreferenceHelper);
         verifyNoStateChange();
     }
@@ -205,7 +206,7 @@ public class MigrationStateChangeJobTest {
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_IDLE);
         when(mPreferenceHelper.getPreference(eq(CURRENT_STATE_START_TIME_KEY)))
                 .thenReturn(Instant.now().minusMillis(mockElapsedTime).toString());
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyNoStateChange();
     }
 
@@ -217,7 +218,7 @@ public class MigrationStateChangeJobTest {
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_IDLE);
         when(mPreferenceHelper.getPreference(eq(CURRENT_STATE_START_TIME_KEY)))
                 .thenReturn(Instant.now().minusMillis(mockElapsedTime).toString());
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyStateChange(MIGRATION_STATE_COMPLETE, true);
     }
 
@@ -226,7 +227,7 @@ public class MigrationStateChangeJobTest {
     public void testExecuteCompleteJob_fromAllowedState_timeNotExpired() {
         setStartTime_notExpired_nonIdleState();
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_ALLOWED);
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyNoStateChange();
     }
 
@@ -235,7 +236,7 @@ public class MigrationStateChangeJobTest {
     public void testExecuteCompleteJob_fromAllowedState() {
         setStartTime_expired_nonIdleState();
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_ALLOWED);
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyStateChange(MIGRATION_STATE_COMPLETE, true);
     }
 
@@ -245,7 +246,7 @@ public class MigrationStateChangeJobTest {
         setStartTime_notExpired_nonIdleState();
         when(mMigrationStateManager.getMigrationState())
                 .thenReturn(MIGRATION_STATE_APP_UPGRADE_REQUIRED);
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyNoStateChange();
     }
 
@@ -255,7 +256,7 @@ public class MigrationStateChangeJobTest {
         setStartTime_expired_nonIdleState();
         when(mMigrationStateManager.getMigrationState())
                 .thenReturn(MIGRATION_STATE_APP_UPGRADE_REQUIRED);
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyStateChange(MIGRATION_STATE_COMPLETE, true);
     }
 
@@ -265,7 +266,7 @@ public class MigrationStateChangeJobTest {
         setStartTime_notExpired_nonIdleState();
         when(mMigrationStateManager.getMigrationState())
                 .thenReturn(MIGRATION_STATE_MODULE_UPGRADE_REQUIRED);
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyNoStateChange();
     }
 
@@ -275,7 +276,7 @@ public class MigrationStateChangeJobTest {
         setStartTime_expired_nonIdleState();
         when(mMigrationStateManager.getMigrationState())
                 .thenReturn(MIGRATION_STATE_MODULE_UPGRADE_REQUIRED);
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyStateChange(MIGRATION_STATE_COMPLETE, true);
     }
 
@@ -283,7 +284,7 @@ public class MigrationStateChangeJobTest {
     @Test
     public void testExecuteCompleteJob_alreadyComplete() {
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_COMPLETE);
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyZeroInteractions(mPreferenceHelper);
         verifyNoStateChange();
     }
@@ -294,7 +295,7 @@ public class MigrationStateChangeJobTest {
         setStartTime_notExpired_nonIdleState();
         setStartTimeAfterAllowedStateTimeout();
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_ALLOWED);
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyStateChange(MIGRATION_STATE_COMPLETE, true);
     }
 
@@ -304,7 +305,7 @@ public class MigrationStateChangeJobTest {
         setStartTime_notExpired_nonIdleState();
         setStartTimeBeforeAllowedStateTimeout();
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_ALLOWED);
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyNoStateChange();
     }
 
@@ -314,7 +315,7 @@ public class MigrationStateChangeJobTest {
         setStartTime_notExpired_nonIdleState();
         setStartTimeAfterAllowedStateTimeout();
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_IN_PROGRESS);
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyStateChange(MIGRATION_STATE_COMPLETE, true);
     }
 
@@ -324,7 +325,7 @@ public class MigrationStateChangeJobTest {
         setStartTime_notExpired_nonIdleState();
         setStartTimeBeforeAllowedStateTimeout();
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_IN_PROGRESS);
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyNoStateChange();
     }
 
@@ -335,7 +336,7 @@ public class MigrationStateChangeJobTest {
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_ALLOWED);
         when(mHealthConnectDeviceConfigManager.isCompleteStateChangeJobEnabled())
                 .thenReturn(ENABLE_STATE_CHANGE_JOB_FALSE_MOCK_VALUE_FALSE);
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyNoStateChange();
     }
 
@@ -344,7 +345,7 @@ public class MigrationStateChangeJobTest {
     public void testExecuteCompleteJob_stateChangeJobsEnabled() {
         setStartTime_expired_nonIdleState();
         when(mMigrationStateManager.getMigrationState()).thenReturn(MIGRATION_STATE_ALLOWED);
-        MigrationStateChangeJob.executeMigrationCompletionJob(mContext, mPreferenceHelper);
+        MigrationStateChangeJob.executeMigrationCompletionJob(mContext);
         verifyStateChange(MIGRATION_STATE_COMPLETE, true);
     }
 
