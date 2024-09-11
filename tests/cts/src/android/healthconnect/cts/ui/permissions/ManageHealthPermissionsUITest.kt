@@ -26,12 +26,21 @@ import android.healthconnect.cts.lib.UiTestUtils.grantPermissionViaPackageManage
 import android.healthconnect.cts.lib.UiTestUtils.waitDisplayed
 import android.healthconnect.cts.ui.HealthConnectBaseTest
 import androidx.test.uiautomator.By
+import com.android.compatibility.common.util.DisableAnimationRule
+import com.android.compatibility.common.util.FreezeRotationRule
 import com.google.common.truth.Truth
 import org.junit.After
 import org.junit.Ignore
+import org.junit.Rule
 import org.junit.Test
 
 class ManageHealthPermissionsUITest : HealthConnectBaseTest() {
+
+    @get:Rule
+    val disableAnimationRule = DisableAnimationRule()
+
+    @get:Rule
+    val freezeRotationRule = FreezeRotationRule()
 
     @Test
     fun showsListOfHealthConnectApps() {
@@ -55,10 +64,7 @@ class ManageHealthPermissionsUITest : HealthConnectBaseTest() {
     @Ignore("TODO(b/265789268):Fix flaky \"Remove access for all apps\" not found")
     fun revokeAllPermissions_revokeAllConnectedAppsPermission() {
         grantPermissionViaPackageManager(
-            context,
-            TEST_APP_PACKAGE_NAME,
-            HealthPermissions.READ_HEIGHT,
-        )
+            context, TEST_APP_PACKAGE_NAME, HealthPermissions.READ_HEIGHT)
 
         context.launchMainActivity {
             navigateToManagePermissions()
@@ -85,20 +91,11 @@ class ManageHealthPermissionsUITest : HealthConnectBaseTest() {
     @After
     fun tearDown() {
         grantPermissionViaPackageManager(
-            context,
-            TEST_APP_PACKAGE_NAME,
-            HealthPermissions.READ_HEIGHT,
-        )
+            context, TEST_APP_PACKAGE_NAME, HealthPermissions.READ_HEIGHT)
         grantPermissionViaPackageManager(
-            context,
-            TEST_APP_PACKAGE_NAME,
-            HealthPermissions.WRITE_HEIGHT,
-        )
+            context, TEST_APP_PACKAGE_NAME, HealthPermissions.WRITE_HEIGHT)
         grantPermissionViaPackageManager(
-            context,
-            TEST_APP_PACKAGE_NAME,
-            HealthPermissions.WRITE_BODY_FAT,
-        )
+            context, TEST_APP_PACKAGE_NAME, HealthPermissions.WRITE_BODY_FAT)
     }
 
     private fun navigateToManagePermissions() {
