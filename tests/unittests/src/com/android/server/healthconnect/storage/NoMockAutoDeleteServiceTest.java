@@ -32,6 +32,7 @@ import com.android.server.healthconnect.injector.HealthConnectInjector;
 import com.android.server.healthconnect.injector.HealthConnectInjectorImpl;
 import com.android.server.healthconnect.storage.datatypehelpers.DatabaseHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.HealthConnectDatabaseTestRule;
+import com.android.server.healthconnect.storage.datatypehelpers.PreferenceHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.RecordHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.StepsRecordHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.TransactionTestUtils;
@@ -65,6 +66,8 @@ public class NoMockAutoDeleteServiceTest {
 
     @Before
     public void setup() throws Exception {
+        PreferenceHelper.clearInstanceForTest();
+
         HealthConnectUserContext context = testRule.getUserContext();
         mTransactionManager = testRule.getTransactionManager();
         DatabaseHelper.clearAllData(mTransactionManager);
