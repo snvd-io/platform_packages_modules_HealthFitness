@@ -20,6 +20,7 @@ import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_A
 import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_CONDITION;
 import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_IMMUNIZATION;
 import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_OBSERVATION;
+import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_PROCEDURE;
 import static android.health.connect.datatypes.FhirResource.FHIR_RESOURCE_TYPE_UNKNOWN;
 import static android.health.connect.datatypes.FhirResource.FhirResourceType;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE;
@@ -27,6 +28,7 @@ import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_LABORATORY_RESULTS;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_PREGNANCY;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_PROBLEMS;
+import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_PROCEDURES;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_SOCIAL_HISTORY;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_VITAL_SIGNS;
 import static android.health.connect.datatypes.MedicalResource.MedicalResourceType;
@@ -225,6 +227,9 @@ public class MedicalResourceValidator {
         }
         if (fhirResourceType == FHIR_RESOURCE_TYPE_CONDITION) {
             return MEDICAL_RESOURCE_TYPE_PROBLEMS;
+        }
+        if (fhirResourceType == FHIR_RESOURCE_TYPE_PROCEDURE) {
+            return MEDICAL_RESOURCE_TYPE_PROCEDURES;
         }
         if (fhirResourceType == FHIR_RESOURCE_TYPE_OBSERVATION) {
             Integer classification = classifyObservation(json);
