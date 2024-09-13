@@ -48,6 +48,7 @@ import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_DATA_IMMUNIZAT
 import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_RESOURCE_ID_IMMUNIZATION;
 import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_VERSION_R4;
 import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_VERSION_UNSUPPORTED;
+import static android.healthconnect.cts.utils.PhrDataFactory.MAX_ALLOWED_MEDICAL_DATA_SOURCES;
 import static android.healthconnect.cts.utils.PhrDataFactory.getCreateMedicalDataSourceRequest;
 import static android.healthconnect.cts.utils.PhrDataFactory.getMedicalResourceId;
 import static android.healthconnect.cts.utils.PhrDataFactory.getUpsertMedicalResourceRequest;
@@ -1977,6 +1978,39 @@ public class HealthConnectManagerTest {
 
         assertThat(receiver.assertAndGetException().getErrorCode())
                 .isEqualTo(HealthConnectException.ERROR_SECURITY);
+    }
+
+    @Test
+    @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_DEVELOPMENT_DATABASE})
+    public void testCreateMedicalDataSource_maxNumberOfSources_succeeds()
+            throws InterruptedException {
+        for (int i = 0; i < MAX_ALLOWED_MEDICAL_DATA_SOURCES - 1; i++) {
+            String suffix = String.valueOf(i);
+            createDataSource(getCreateMedicalDataSourceRequest(suffix));
+        }
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        HealthConnectReceiver<MedicalDataSource> receiver = new HealthConnectReceiver<>();
+        mManager.createMedicalDataSource(getCreateMedicalDataSourceRequest(), executor, receiver);
+
+        receiver.verifyNoExceptionOrThrow();
+    }
+
+    @Test
+    @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD, FLAG_DEVELOPMENT_DATABASE})
+    public void testCreateMedicalDataSource_moreThanAllowedMax_throws()
+            throws InterruptedException {
+        for (int i = 0; i < MAX_ALLOWED_MEDICAL_DATA_SOURCES; i++) {
+            String suffix = String.valueOf(i);
+            createDataSource(getCreateMedicalDataSourceRequest(suffix));
+        }
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        HealthConnectReceiver<MedicalDataSource> receiver = new HealthConnectReceiver<>();
+        mManager.createMedicalDataSource(getCreateMedicalDataSourceRequest(), executor, receiver);
+
+        assertThat(receiver.assertAndGetException().getErrorCode())
+                .isEqualTo(HealthConnectException.ERROR_INVALID_ARGUMENT);
     }
 
     @Test

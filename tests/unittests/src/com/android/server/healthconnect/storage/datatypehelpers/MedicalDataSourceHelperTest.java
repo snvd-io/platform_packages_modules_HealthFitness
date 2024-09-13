@@ -28,6 +28,7 @@ import static android.healthconnect.cts.utils.PhrDataFactory.DIFFERENT_DATA_SOUR
 import static com.android.server.healthconnect.storage.datatypehelpers.MedicalDataSourceHelper.DATA_SOURCE_UUID_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.datatypehelpers.MedicalDataSourceHelper.DISPLAY_NAME_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.datatypehelpers.MedicalDataSourceHelper.FHIR_BASE_URI_COLUMN_NAME;
+import static com.android.server.healthconnect.storage.datatypehelpers.MedicalDataSourceHelper.MAX_ALLOWED_MEDICAL_DATA_SOURCES;
 import static com.android.server.healthconnect.storage.datatypehelpers.MedicalDataSourceHelper.MEDICAL_DATA_SOURCE_TABLE_NAME;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.PRIMARY_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.BLOB_UNIQUE_NON_NULL;
@@ -505,6 +506,29 @@ public class MedicalDataSourceHelperTest {
                         toUuids(List.of(dataSource1.getId(), dataSource2.getId())));
 
         assertThat(result).containsExactly(dataSource1, dataSource2);
+    }
+
+    @Test
+    @EnableFlags(Flags.FLAG_DEVELOPMENT_DATABASE)
+    public void createMultipleMedicalDataSources_maxLimitExceeded_throws()
+            throws NameNotFoundException {
+        setUpMocksForAppInfo(DATA_SOURCE_PACKAGE_NAME);
+        for (int i = 0; i < MAX_ALLOWED_MEDICAL_DATA_SOURCES; i++) {
+            String suffix = String.valueOf(i);
+            createDataSource(
+                    Uri.withAppendedPath(DATA_SOURCE_FHIR_BASE_URI, "/" + suffix),
+                    DATA_SOURCE_DISPLAY_NAME + " " + suffix,
+                    DATA_SOURCE_PACKAGE_NAME);
+        }
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> {
+                    createDataSource(
+                            DATA_SOURCE_FHIR_BASE_URI,
+                            DATA_SOURCE_DISPLAY_NAME,
+                            DATA_SOURCE_PACKAGE_NAME);
+                });
     }
 
     @Test

@@ -70,6 +70,9 @@ import java.util.UUID;
  * @hide
  */
 public class MedicalDataSourceHelper {
+    // The number of {@link MedicalDataSource}s that an app is allowed to create
+    @VisibleForTesting static final int MAX_ALLOWED_MEDICAL_DATA_SOURCES = 20;
+
     @VisibleForTesting
     static final String MEDICAL_DATA_SOURCE_TABLE_NAME = "medical_data_source_table";
 
@@ -268,20 +271,45 @@ public class MedicalDataSourceHelper {
         return mTransactionManager.runAsTransaction(
                 (TransactionManager.TransactionRunnableWithReturn<
                                 MedicalDataSource, RuntimeException>)
-                        db -> createMedicalDataSourceAndAppInfo(db, context, request, packageName));
+                        db ->
+                                createMedicalDataSourceAndAppInfoAndCheckLimits(
+                                        db, context, request, packageName));
     }
 
-    private MedicalDataSource createMedicalDataSourceAndAppInfo(
+    private MedicalDataSource createMedicalDataSourceAndAppInfoAndCheckLimits(
             @NonNull SQLiteDatabase db,
             @NonNull Context context,
             @NonNull CreateMedicalDataSourceRequest request,
             @NonNull String packageName) {
         long appInfoId = mAppInfoHelper.getOrInsertAppInfoId(db, packageName, context);
+
+        if (getMedicalDataSourcesCount(appInfoId) >= MAX_ALLOWED_MEDICAL_DATA_SOURCES) {
+            throw new IllegalArgumentException(
+                    "The maximum number of data sources has been reached.");
+        }
+
         UUID dataSourceUuid = UUID.randomUUID();
         UpsertTableRequest upsertTableRequest =
                 getUpsertTableRequest(dataSourceUuid, request, appInfoId);
         mTransactionManager.insert(db, upsertTableRequest);
         return buildMedicalDataSource(dataSourceUuid, request, packageName);
+    }
+
+    private int getMedicalDataSourcesCount(long appInfoId) {
+        ReadTableRequest readTableRequest =
+                new ReadTableRequest(getMainTableName())
+                        .setColumnNames(List.of("COUNT(*)"))
+                        .setJoinClause(getJoinClauseWithAppInfoTable());
+        readTableRequest.setWhereClause(
+                new WhereClauses(AND)
+                        .addWhereInLongsClause(APP_INFO_ID_COLUMN_NAME, List.of(appInfoId)));
+        try (Cursor cursor = mTransactionManager.read(readTableRequest)) {
+            if (cursor.moveToFirst()) {
+                return cursor.getInt(0);
+            } else {
+                throw new IllegalStateException("Could not get data sources count");
+            }
+        }
     }
 
     /**
