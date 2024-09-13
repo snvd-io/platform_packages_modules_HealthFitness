@@ -140,7 +140,10 @@ public class MedicalDataSourceHelperTest {
                         mContext,
                         mTransactionManager,
                         new MedicalResourceHelper(
-                                mTransactionManager, mMedicalDataSourceHelper, mFakeTimeSource),
+                                mTransactionManager,
+                                mAppInfoHelper,
+                                mMedicalDataSourceHelper,
+                                mFakeTimeSource),
                         mMedicalDataSourceHelper);
         when(mContext.getPackageManager()).thenReturn(mPackageManager);
     }
@@ -1145,6 +1148,7 @@ public class MedicalDataSourceHelperTest {
         MedicalResourceHelper resourceHelper =
                 new MedicalResourceHelper(
                         mTransactionManager,
+                        mAppInfoHelper,
                         mMedicalDataSourceHelper,
                         new FakeTimeSource(INSTANT_NOW));
         MedicalResource medicalResource =

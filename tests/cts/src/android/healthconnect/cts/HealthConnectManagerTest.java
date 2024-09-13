@@ -2189,6 +2189,55 @@ public class HealthConnectManagerTest {
     // TODO(b/343923754): Add more upsert/readMedicalResources tests once deleteAll can be called.
     @Test
     @RequiresFlagsEnabled(FLAG_PERSONAL_HEALTH_RECORD)
+    public void testUpsertMedicalResources_forOwnDataSource_succeeds() throws InterruptedException {
+        MedicalDataSource dataSource = createDataSource(getCreateMedicalDataSourceRequest());
+        HealthConnectReceiver<List<MedicalResource>> receiver = new HealthConnectReceiver<>();
+        UpsertMedicalResourceRequest upsertRequest =
+                new UpsertMedicalResourceRequest.Builder(
+                                dataSource.getId(), FHIR_VERSION_R4, FHIR_DATA_IMMUNIZATION)
+                        .build();
+
+        mManager.upsertMedicalResources(
+                List.of(upsertRequest), Executors.newSingleThreadExecutor(), receiver);
+
+        receiver.verifyNoExceptionOrThrow();
+    }
+
+    @Test
+    @RequiresFlagsEnabled(FLAG_PERSONAL_HEALTH_RECORD)
+    public void testUpsertMedicalResources_dataSourceOwnedByOtherApp_throws() throws Exception {
+        // Create data source with different package name
+        MedicalDataSource dataSource =
+                APP_WRITE_PERMS_ONLY.createMedicalDataSource(getCreateMedicalDataSourceRequest());
+        HealthConnectReceiver<List<MedicalResource>> receiver = new HealthConnectReceiver<>();
+        UpsertMedicalResourceRequest upsertRequest =
+                new UpsertMedicalResourceRequest.Builder(
+                                dataSource.getId(), FHIR_VERSION_R4, FHIR_DATA_IMMUNIZATION)
+                        .build();
+
+        mManager.upsertMedicalResources(
+                List.of(upsertRequest), Executors.newSingleThreadExecutor(), receiver);
+
+        assertThat(receiver.assertAndGetException().getErrorCode())
+                .isEqualTo(HealthConnectException.ERROR_INVALID_ARGUMENT);
+    }
+
+    @Test
+    @RequiresFlagsEnabled(FLAG_PERSONAL_HEALTH_RECORD)
+    public void testUpsertMedicalResources_dataSourceDoesNotExist_throws()
+            throws InterruptedException {
+        HealthConnectReceiver<List<MedicalResource>> receiver = new HealthConnectReceiver<>();
+        UpsertMedicalResourceRequest upsertRequest = getUpsertMedicalResourceRequest();
+
+        mManager.upsertMedicalResources(
+                List.of(upsertRequest), Executors.newSingleThreadExecutor(), receiver);
+
+        assertThat(receiver.assertAndGetException().getErrorCode())
+                .isEqualTo(HealthConnectException.ERROR_INVALID_ARGUMENT);
+    }
+
+    @Test
+    @RequiresFlagsEnabled(FLAG_PERSONAL_HEALTH_RECORD)
     public void testUpsertMedicalResources_emptyList_returnsEmptyList()
             throws InterruptedException {
         HealthConnectReceiver<List<MedicalResource>> receiver = new HealthConnectReceiver<>();

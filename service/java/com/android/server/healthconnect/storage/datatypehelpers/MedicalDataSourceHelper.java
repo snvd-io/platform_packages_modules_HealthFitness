@@ -655,14 +655,19 @@ public class MedicalDataSourceHelper {
     }
 
     /**
-     * Creates a UUID string to row ID map for all {@link MedicalDataSource}s stored in {@code
-     * MEDICAL_DATA_SOURCE_TABLE}.
+     * Creates a UUID string to row ID map for {@link MedicalDataSource}s stored in {@code
+     * MEDICAL_DATA_SOURCE_TABLE} that were created by the app matching the {@code
+     * appInfoIdRestriction}.
      */
     @NonNull
     public Map<String, Long> getUuidToRowIdMap(
-            @NonNull SQLiteDatabase db, @NonNull List<UUID> dataSourceUuids) {
+            @NonNull SQLiteDatabase db,
+            long appInfoIdRestriction,
+            @NonNull List<UUID> dataSourceUuids) {
         Map<String, Long> uuidToRowId = new HashMap<>();
-        try (Cursor cursor = mTransactionManager.read(db, getReadTableRequest(dataSourceUuids))) {
+        try (Cursor cursor =
+                mTransactionManager.read(
+                        db, getReadTableRequest(dataSourceUuids, appInfoIdRestriction))) {
             if (cursor.moveToFirst()) {
                 do {
                     long rowId = getCursorLong(cursor, MEDICAL_DATA_SOURCE_PRIMARY_COLUMN_NAME);
