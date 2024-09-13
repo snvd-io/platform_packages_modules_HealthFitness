@@ -32,7 +32,6 @@ import static com.android.server.healthconnect.storage.datatypehelpers.MedicalRe
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.LAST_MODIFIED_TIME_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.utils.SqlJoin.SQL_JOIN_INNER;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.DELIMITER;
-import static com.android.server.healthconnect.storage.utils.StorageUtils.INTEGER;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.INTEGER_NOT_NULL;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.PRIMARY_AUTOINCREMENT;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.TEXT_NOT_NULL;
@@ -80,7 +79,9 @@ import com.android.server.healthconnect.storage.utils.OrderByClause;
 import com.android.server.healthconnect.storage.utils.SqlJoin;
 import com.android.server.healthconnect.storage.utils.StorageUtils;
 import com.android.server.healthconnect.storage.utils.WhereClauses;
+import com.android.server.healthconnect.utils.TimeSource;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -218,12 +219,15 @@ public final class MedicalResourceHelper {
 
     private final TransactionManager mTransactionManager;
     private final MedicalDataSourceHelper mMedicalDataSourceHelper;
+    private final TimeSource mTimeSource;
 
     public MedicalResourceHelper(
             @NonNull TransactionManager transactionManager,
-            @NonNull MedicalDataSourceHelper medicalDataSourceHelper) {
+            @NonNull MedicalDataSourceHelper medicalDataSourceHelper,
+            @NonNull TimeSource timeSource) {
         mTransactionManager = transactionManager;
         mMedicalDataSourceHelper = medicalDataSourceHelper;
+        mTimeSource = timeSource;
     }
 
     @NonNull
@@ -245,7 +249,7 @@ public final class MedicalResourceHelper {
                 Pair.create(FHIR_DATA_COLUMN_NAME, TEXT_NOT_NULL),
                 Pair.create(FHIR_VERSION_COLUMN_NAME, TEXT_NOT_NULL),
                 Pair.create(DATA_SOURCE_ID_COLUMN_NAME, INTEGER_NOT_NULL),
-                Pair.create(LAST_MODIFIED_TIME_COLUMN_NAME, INTEGER));
+                Pair.create(LAST_MODIFIED_TIME_COLUMN_NAME, INTEGER_NOT_NULL));
     }
 
     // TODO(b/352010531): Remove the use of setChildTableRequests and upsert child table directly
@@ -953,7 +957,8 @@ public final class MedicalResourceHelper {
                 throw new IllegalArgumentException(
                         "Invalid data source id: " + upsertRequest.getDataSourceId());
             }
-            ContentValues contentValues = getContentValues(dataSourceRowId, upsertRequest);
+            ContentValues contentValues =
+                    getContentValues(dataSourceRowId, upsertRequest, mTimeSource.getInstantNow());
             long rowId =
                     db.insertWithOnConflict(
                             MEDICAL_RESOURCE_TABLE_NAME,
@@ -992,7 +997,8 @@ public final class MedicalResourceHelper {
     @VisibleForTesting
     static ContentValues getContentValues(
             long dataSourceRowId,
-            @NonNull UpsertMedicalResourceInternalRequest upsertMedicalResourceInternalRequest) {
+            @NonNull UpsertMedicalResourceInternalRequest upsertMedicalResourceInternalRequest,
+            @NonNull Instant instant) {
         ContentValues resourceContentValues = new ContentValues();
         resourceContentValues.put(DATA_SOURCE_ID_COLUMN_NAME, dataSourceRowId);
         resourceContentValues.put(
@@ -1005,6 +1011,7 @@ public final class MedicalResourceHelper {
         resourceContentValues.put(
                 FHIR_RESOURCE_ID_COLUMN_NAME,
                 upsertMedicalResourceInternalRequest.getFhirResourceId());
+        resourceContentValues.put(LAST_MODIFIED_TIME_COLUMN_NAME, instant.toEpochMilli());
         return resourceContentValues;
     }
 

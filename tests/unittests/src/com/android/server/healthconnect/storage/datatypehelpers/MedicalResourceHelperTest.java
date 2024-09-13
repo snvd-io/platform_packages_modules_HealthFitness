@@ -57,7 +57,6 @@ import static com.android.server.healthconnect.storage.datatypehelpers.MedicalRe
 import static com.android.server.healthconnect.storage.datatypehelpers.MedicalResourceIndicesHelper.getParentColumnReference;
 import static com.android.server.healthconnect.storage.datatypehelpers.MedicalResourceIndicesHelper.getTableName;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.LAST_MODIFIED_TIME_COLUMN_NAME;
-import static com.android.server.healthconnect.storage.utils.StorageUtils.INTEGER;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.INTEGER_NOT_NULL;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.PRIMARY_AUTOINCREMENT;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.TEXT_NOT_NULL;
@@ -103,6 +102,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.quality.Strictness;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -134,6 +134,7 @@ public class MedicalResourceHelperTest {
 
     private static final long DATA_SOURCE_ROW_ID = 1234;
     private static final String INVALID_PAGE_TOKEN = "aw==";
+    private static final Instant INSTANT_NOW = Instant.now();
 
     private MedicalResourceHelper mMedicalResourceHelper;
     private MedicalDataSourceHelper mMedicalDataSourceHelper;
@@ -142,6 +143,7 @@ public class MedicalResourceHelperTest {
     private AppInfoHelper mAppInfoHelper;
     private HealthConnectUserContext mContext;
     private PhrTestUtils mUtil;
+    private FakeTimeSource mFakeTimeSource;
 
     @Before
     public void setup() {
@@ -151,11 +153,19 @@ public class MedicalResourceHelperTest {
         mTransactionTestUtils.insertApp(DATA_SOURCE_PACKAGE_NAME);
         mTransactionTestUtils.insertApp(DIFFERENT_DATA_SOURCE_PACKAGE_NAME);
         mAppInfoHelper = AppInfoHelper.getInstance();
-
-        mMedicalDataSourceHelper = new MedicalDataSourceHelper(mTransactionManager, mAppInfoHelper);
+        mFakeTimeSource = new FakeTimeSource(INSTANT_NOW);
+        mMedicalDataSourceHelper =
+                new MedicalDataSourceHelper(mTransactionManager, mAppInfoHelper, mFakeTimeSource);
         mMedicalResourceHelper =
-                new MedicalResourceHelper(mTransactionManager, mMedicalDataSourceHelper);
-        mUtil = new PhrTestUtils(mContext, mMedicalResourceHelper, mMedicalDataSourceHelper);
+                new MedicalResourceHelper(
+                        mTransactionManager, mMedicalDataSourceHelper, mFakeTimeSource);
+
+        mUtil =
+                new PhrTestUtils(
+                        mContext,
+                        mTransactionManager,
+                        mMedicalResourceHelper,
+                        mMedicalDataSourceHelper);
     }
 
     @Test
@@ -168,7 +178,7 @@ public class MedicalResourceHelperTest {
                         Pair.create(FHIR_DATA_COLUMN_NAME, TEXT_NOT_NULL),
                         Pair.create(FHIR_VERSION_COLUMN_NAME, TEXT_NOT_NULL),
                         Pair.create(DATA_SOURCE_ID_COLUMN_NAME, INTEGER_NOT_NULL),
-                        Pair.create(LAST_MODIFIED_TIME_COLUMN_NAME, INTEGER));
+                        Pair.create(LAST_MODIFIED_TIME_COLUMN_NAME, INTEGER_NOT_NULL));
         List<Pair<String, String>> columnInfoMedicalResourceIndices =
                 List.of(
                         Pair.create(getParentColumnReference(), INTEGER_NOT_NULL),
@@ -204,14 +214,16 @@ public class MedicalResourceHelperTest {
 
         ContentValues contentValues =
                 MedicalResourceHelper.getContentValues(
-                        DATA_SOURCE_ROW_ID, upsertMedicalResourceInternalRequest);
+                        DATA_SOURCE_ROW_ID, upsertMedicalResourceInternalRequest, INSTANT_NOW);
 
-        assertThat(contentValues.size()).isEqualTo(5);
+        assertThat(contentValues.size()).isEqualTo(6);
         assertThat(contentValues.get(FHIR_RESOURCE_TYPE_COLUMN_NAME))
                 .isEqualTo(fhirResource.getType());
         assertThat(contentValues.get(DATA_SOURCE_ID_COLUMN_NAME)).isEqualTo(DATA_SOURCE_ROW_ID);
         assertThat(contentValues.get(FHIR_VERSION_COLUMN_NAME)).isEqualTo(R4_VERSION_STRING);
         assertThat(contentValues.get(FHIR_DATA_COLUMN_NAME)).isEqualTo(fhirResource.getData());
+        assertThat(contentValues.get(LAST_MODIFIED_TIME_COLUMN_NAME))
+                .isEqualTo(INSTANT_NOW.toEpochMilli());
     }
 
     @Test
@@ -240,6 +252,47 @@ public class MedicalResourceHelperTest {
                                 + "  INNER JOIN medical_resource_indices_table ON"
                                 + " inner_query_result.medical_resource_row_id ="
                                 + " medical_resource_indices_table.medical_resource_id");
+    }
+
+    @Test
+    @EnableFlags({Flags.FLAG_PERSONAL_HEALTH_RECORD, Flags.FLAG_DEVELOPMENT_DATABASE})
+    public void insertAndUpdateResource_lastModifiedTimeIsUpdated() throws JSONException {
+        MedicalDataSource dataSource =
+                mUtil.insertMedicalDataSource("ds", DATA_SOURCE_PACKAGE_NAME);
+        UpsertMedicalResourceInternalRequest upsertRequest =
+                makeUpsertRequest(
+                        getFhirResource(),
+                        MEDICAL_RESOURCE_TYPE_IMMUNIZATION,
+                        FHIR_VERSION_R4,
+                        dataSource.getId());
+        // The same MedicalResource with FHIR JSON updated.
+        UpsertMedicalResourceInternalRequest updateRequest =
+                makeUpsertRequest(
+                        new MedicalResource.Builder(
+                                        MEDICAL_RESOURCE_TYPE_IMMUNIZATION,
+                                        dataSource.getId(),
+                                        FHIR_VERSION_R4,
+                                        getFhirResourceBuilder()
+                                                .setData(
+                                                        addCompletedStatus(
+                                                                getFhirResource().getData()))
+                                                .build())
+                                .build());
+
+        mMedicalResourceHelper.upsertMedicalResources(
+                DATA_SOURCE_PACKAGE_NAME, List.of(upsertRequest));
+        long lastModifiedTimeOriginal =
+                mUtil.readLastModifiedTimestamp(MEDICAL_RESOURCE_TABLE_NAME);
+        assertThat(lastModifiedTimeOriginal).isEqualTo(INSTANT_NOW.toEpochMilli());
+
+        Instant upadatedInstant = Instant.now();
+        mFakeTimeSource.setInstant(upadatedInstant);
+
+        mMedicalResourceHelper.upsertMedicalResources(
+                DATA_SOURCE_PACKAGE_NAME, List.of(updateRequest));
+        long lastModifiedTimeUpdated = mUtil.readLastModifiedTimestamp(MEDICAL_RESOURCE_TABLE_NAME);
+
+        assertThat(lastModifiedTimeUpdated).isEqualTo(upadatedInstant.toEpochMilli());
     }
 
     @Test
