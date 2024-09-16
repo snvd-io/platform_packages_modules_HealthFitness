@@ -40,6 +40,7 @@ import android.annotation.Nullable;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.health.connect.Constants;
@@ -50,6 +51,7 @@ import android.util.Pair;
 
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.server.healthconnect.storage.TransactionManager;
+import com.android.server.healthconnect.storage.request.CreateIndexRequest;
 import com.android.server.healthconnect.storage.request.CreateTableRequest;
 import com.android.server.healthconnect.storage.request.DeleteTableRequest;
 import com.android.server.healthconnect.storage.request.ReadTableRequest;
@@ -145,6 +147,16 @@ public class MedicalDataSourceHelper {
     /** Creates the medical_data_source table. */
     public static void onInitialUpgrade(@NonNull SQLiteDatabase db) {
         createTable(db, getCreateTableRequest());
+        // There's no significant difference between a unique constraint and unique index.
+        // The latter would allow us to drop or recreate it later.
+        // The combination of (display_name, app_info_id) should be unique.
+        db.execSQL(
+                new CreateIndexRequest(
+                                MEDICAL_DATA_SOURCE_TABLE_NAME,
+                                MEDICAL_DATA_SOURCE_TABLE_NAME + "_display_name_idx",
+                                /* isUnique= */ true,
+                                List.of(DISPLAY_NAME_COLUMN_NAME, APP_INFO_ID_COLUMN_NAME))
+                        .getCommand());
     }
 
     /**
@@ -277,16 +289,24 @@ public class MedicalDataSourceHelper {
             @NonNull CreateMedicalDataSourceRequest request,
             @NonNull String packageName) {
         // TODO(b/344781394): Add support for access logs.
-        return mTransactionManager.runAsTransaction(
-                (TransactionManager.TransactionRunnableWithReturn<
-                                MedicalDataSource, RuntimeException>)
-                        db ->
-                                createMedicalDataSourceAndAppInfoAndCheckLimits(
-                                        db,
-                                        context,
-                                        request,
-                                        packageName,
-                                        mTimeSource.getInstantNow()));
+        try {
+            return mTransactionManager.runAsTransaction(
+                    (TransactionManager.TransactionRunnableWithReturn<
+                                    MedicalDataSource, RuntimeException>)
+                            db ->
+                                    createMedicalDataSourceAndAppInfoAndCheckLimits(
+                                            db,
+                                            context,
+                                            request,
+                                            packageName,
+                                            mTimeSource.getInstantNow()));
+        } catch (SQLiteConstraintException e) {
+            String exceptionMessage = e.getMessage();
+            if (exceptionMessage != null && exceptionMessage.contains(DISPLAY_NAME_COLUMN_NAME)) {
+                throw new IllegalArgumentException("display name should be unique per calling app");
+            }
+            throw e;
+        }
     }
 
     private MedicalDataSource createMedicalDataSourceAndAppInfoAndCheckLimits(

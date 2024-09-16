@@ -449,6 +449,29 @@ public class MedicalDataSourceHelperTest {
 
     @Test
     @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    public void createMedicalDataSources_sameDisplayNamesFromSamePackage_throws() {
+        mTransactionTestUtils.insertApp(DATA_SOURCE_PACKAGE_NAME);
+        mMedicalDataSourceHelper.createMedicalDataSource(
+                mContext,
+                new CreateMedicalDataSourceRequest.Builder(
+                                DATA_SOURCE_FHIR_BASE_URI, DATA_SOURCE_DISPLAY_NAME)
+                        .build(),
+                DATA_SOURCE_PACKAGE_NAME);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () ->
+                        mMedicalDataSourceHelper.createMedicalDataSource(
+                                mContext,
+                                new CreateMedicalDataSourceRequest.Builder(
+                                                DIFFERENT_DATA_SOURCE_BASE_URI,
+                                                DATA_SOURCE_DISPLAY_NAME)
+                                        .build(),
+                                DATA_SOURCE_PACKAGE_NAME));
+    }
+
+    @Test
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
     public void createMedicalDataSource_lastModifiedTimeIsPopulated() {
         mTransactionTestUtils.insertApp(DATA_SOURCE_PACKAGE_NAME);
         createDataSource(
