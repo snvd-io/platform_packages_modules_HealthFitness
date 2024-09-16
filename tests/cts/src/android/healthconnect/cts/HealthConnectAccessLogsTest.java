@@ -17,7 +17,9 @@
 package android.healthconnect.cts;
 
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_DELETE;
+import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_READ;
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_UPSERT;
+import static android.health.connect.datatypes.StepsRecord.STEPS_COUNT_TOTAL;
 import static android.healthconnect.cts.utils.DataFactory.getBasalMetabolicRateRecord;
 import static android.healthconnect.cts.utils.DataFactory.getDistanceRecord;
 import static android.healthconnect.cts.utils.DataFactory.getHeartRateRecord;
@@ -25,6 +27,7 @@ import static android.healthconnect.cts.utils.DataFactory.getStepsRecord;
 import static android.healthconnect.cts.utils.DataFactory.getTestRecords;
 import static android.healthconnect.cts.utils.DataFactory.getUpdatedStepsRecord;
 import static android.healthconnect.cts.utils.TestUtils.deleteRecordsByIdFilter;
+import static android.healthconnect.cts.utils.TestUtils.getAggregateResponse;
 import static android.healthconnect.cts.utils.TestUtils.insertRecords;
 import static android.healthconnect.cts.utils.TestUtils.queryAccessLogs;
 import static android.healthconnect.cts.utils.TestUtils.verifyDeleteRecords;
@@ -37,6 +40,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.time.Instant.EPOCH;
 
 import android.content.Context;
+import android.health.connect.AggregateRecordsRequest;
 import android.health.connect.DeleteUsingFiltersRequest;
 import android.health.connect.HealthConnectManager;
 import android.health.connect.ReadRecordsRequestUsingFilters;
@@ -115,8 +119,7 @@ public class HealthConnectAccessLogsTest {
         assertThat(newAccessLogsResponse.size() - oldAccessLogsResponse.size()).isEqualTo(2);
         AccessLog accessLog = newAccessLogsResponse.get(newAccessLogsResponse.size() - 1);
         assertThat(accessLog.getRecordTypes()).contains(StepsRecord.class);
-        assertThat(accessLog.getOperationType())
-                .isEqualTo(AccessLog.OperationType.OPERATION_TYPE_READ);
+        assertThat(accessLog.getOperationType()).isEqualTo(OPERATION_TYPE_READ);
         assertThat(accessLog.getPackageName()).isEqualTo(SELF_PACKAGE_NAME);
         assertThat(accessLog.getAccessTime()).isNotNull();
     }
@@ -249,6 +252,35 @@ public class HealthConnectAccessLogsTest {
         assertThat(accessLog.getRecordTypes()).contains(ExerciseSessionRecord.class);
         assertThat(accessLog.getPackageName()).isEqualTo(SELF_PACKAGE_NAME);
         assertThat(accessLog.getAccessTime()).isNotNull();
+    }
+
+    @Test
+    @RequiresFlagsEnabled({FLAG_ADD_MISSING_ACCESS_LOGS})
+    public void testAccessLogs_aggregate_expectReadLogs() throws Exception {
+        insertRecords(getStepsRecord());
+
+        AggregateRecordsRequest<Long> request =
+                new AggregateRecordsRequest.Builder<Long>(
+                                new TimeInstantRangeFilter.Builder()
+                                        .setStartTime(EPOCH)
+                                        .setEndTime(Instant.now())
+                                        .build())
+                        .addAggregationType(STEPS_COUNT_TOTAL)
+                        .build();
+
+        List<AccessLog> insertAccessLogs = queryAccessLogs();
+        assertThat(insertAccessLogs).hasSize((1));
+        assertThat(insertAccessLogs.get(0).getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
+
+        getAggregateResponse(request);
+
+        List<AccessLog> insertAndAggregateAccessLogs = queryAccessLogs();
+        assertThat(insertAndAggregateAccessLogs).hasSize((2));
+
+        AccessLog readAccessLog = insertAndAggregateAccessLogs.get(1);
+        assertThat(readAccessLog.getPackageName()).isEqualTo(SELF_PACKAGE_NAME);
+        assertThat(readAccessLog.getRecordTypes()).containsExactly(StepsRecord.class);
+        assertThat(readAccessLog.getOperationType()).isEqualTo(OPERATION_TYPE_READ);
     }
 
     @Test

@@ -21,6 +21,8 @@ import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_UPSERT;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_IMMUNIZATION;
 import static android.health.connect.datatypes.MedicalResource.MEDICAL_RESOURCE_TYPE_UNKNOWN;
+import static android.health.connect.datatypes.RecordTypeIdentifier.RECORD_TYPE_DISTANCE;
+import static android.health.connect.datatypes.RecordTypeIdentifier.RECORD_TYPE_SKIN_TEMPERATURE;
 import static android.health.connect.datatypes.RecordTypeIdentifier.RECORD_TYPE_STEPS;
 import static android.health.connect.datatypes.RecordTypeIdentifier.RECORD_TYPE_STEPS_CADENCE;
 import static android.healthconnect.cts.utils.PhrDataFactory.DATA_SOURCE_PACKAGE_NAME;
@@ -32,6 +34,7 @@ import static com.android.server.healthconnect.storage.datatypehelpers.AccessLog
 import static com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper.getAlterTableRequestForPhrAccessLogs;
 import static com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper.queryAccessLogs;
 import static com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper.recordDeleteAccessLog;
+import static com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper.recordReadAccessLog;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.INTEGER;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.TEXT_NULL;
 
@@ -39,6 +42,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.health.connect.HealthConnectManager;
 import android.health.connect.accesslog.AccessLog;
+import android.health.connect.datatypes.DistanceRecord;
+import android.health.connect.datatypes.SkinTemperatureRecord;
 import android.health.connect.datatypes.StepsCadenceRecord;
 import android.health.connect.datatypes.StepsRecord;
 import android.os.Environment;
@@ -258,5 +263,22 @@ public class AccessLogsHelperTest {
         assertThat(log.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
         assertThat(log.getRecordTypes()).containsExactly(StepsCadenceRecord.class);
         assertThat(log.getOperationType()).isEqualTo(OPERATION_TYPE_DELETE);
+    }
+
+    @Test
+    public void recordReadAccessLog_success() {
+        Set<Integer> recordTypeIds = Set.of(RECORD_TYPE_DISTANCE, RECORD_TYPE_SKIN_TEMPERATURE);
+        mTransactionManager.runAsTransaction(
+                db -> {
+                    recordReadAccessLog(db, DATA_SOURCE_PACKAGE_NAME, recordTypeIds);
+                });
+
+        List<AccessLog> result = queryAccessLogs();
+        assertThat(result).hasSize(1);
+        AccessLog log = result.get(0);
+        assertThat(log.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
+        assertThat(log.getRecordTypes())
+                .containsExactly(DistanceRecord.class, SkinTemperatureRecord.class);
+        assertThat(log.getOperationType()).isEqualTo(OPERATION_TYPE_READ);
     }
 }

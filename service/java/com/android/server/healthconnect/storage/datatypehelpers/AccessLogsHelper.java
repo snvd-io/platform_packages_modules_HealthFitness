@@ -17,6 +17,7 @@
 package com.android.server.healthconnect.storage.datatypehelpers;
 
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_DELETE;
+import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_READ;
 
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.PRIMARY_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.BOOLEAN_FALSE_VALUE;
@@ -214,6 +215,14 @@ public final class AccessLogsHelper extends DatabaseHelper {
         ContentValues contentValues =
                 populateCommonColumns(packageName, recordTypeList, operationType);
         return new UpsertTableRequest(TABLE_NAME, contentValues);
+    }
+
+    /** Adds an entry of read type into the {@link AccessLogsHelper#TABLE_NAME} */
+    public static void recordReadAccessLog(
+            @NonNull SQLiteDatabase db,
+            @NonNull String packageName,
+            @NonNull Set<Integer> recordTypeIds) {
+        recordAccessLog(db, packageName, recordTypeIds, OPERATION_TYPE_READ);
     }
 
     /** Adds an entry of delete type into the {@link AccessLogsHelper#TABLE_NAME} */
