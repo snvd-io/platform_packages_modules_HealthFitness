@@ -56,8 +56,8 @@ import com.android.healthconnect.controller.shared.recyclerview.RecyclerViewAdap
 import com.android.healthconnect.controller.utils.logging.HealthConnectLogger
 import com.android.healthconnect.controller.utils.logging.ToolbarElement
 import com.android.healthconnect.controller.utils.setTitle
-import com.android.healthconnect.controller.utils.setupSharedMenu
 import com.android.healthconnect.controller.utils.setupMenu
+import com.android.healthconnect.controller.utils.setupSharedMenu
 import com.android.settingslib.widget.AppHeaderPreference
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
@@ -76,7 +76,7 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
 
     private lateinit var permissionType: HealthPermissionType
     private val entriesViewModel: EntriesViewModel by activityViewModels()
-    private val deletionViewModel : DeletionViewModel by activityViewModels()
+    private val deletionViewModel: DeletionViewModel by activityViewModels()
     private lateinit var header: AppHeaderPreference
     private lateinit var dateNavigationView: DateNavigationView
     private lateinit var entriesRecyclerView: RecyclerView
@@ -86,8 +86,14 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
     private lateinit var adapter: RecyclerViewAdapter
 
     private val onDeleteEntryListener by lazy {
-        object: OnDeleteEntryListener{
-            override fun onDeleteEntry(id: String, dataType: DataType, index: Int, startTime: Instant?, endTime: Instant?) {
+        object : OnDeleteEntryListener {
+            override fun onDeleteEntry(
+                id: String,
+                dataType: DataType,
+                index: Int,
+                startTime: Instant?,
+                endTime: Instant?,
+            ) {
                 val entriesToDelete = entriesViewModel.setOfEntriesToBeDeleted.value.orEmpty()
 
                 if (id in entriesToDelete) {
@@ -129,17 +135,30 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
         }
     }
     private val aggregationViewBinder by lazy { AggregationViewBinder() }
-    private val entryViewBinder by lazy { EntryItemViewBinder(onDeleteEntryListener = onDeleteEntryListener) }
-    private val medicalEntryViewBinder by lazy { MedicalEntryItemViewBinder(onClickMedicalEntryListener = onClickMedicalEntryListener) }
+    private val entryViewBinder by lazy {
+        EntryItemViewBinder(onDeleteEntryListener = onDeleteEntryListener)
+    }
+    private val medicalEntryViewBinder by lazy {
+        MedicalEntryItemViewBinder(onClickMedicalEntryListener = onClickMedicalEntryListener)
+    }
     private val sectionTitleViewBinder by lazy { SectionTitleViewBinder() }
     private val sleepSessionViewBinder by lazy {
-        SleepSessionItemViewBinder(onItemClickedListener = onClickEntryListener, onDeleteEntryListener = onDeleteEntryListener)
+        SleepSessionItemViewBinder(
+            onItemClickedListener = onClickEntryListener,
+            onDeleteEntryListener = onDeleteEntryListener,
+        )
     }
     private val exerciseSessionItemViewBinder by lazy {
-        ExerciseSessionItemViewBinder(onItemClickedListener = onClickEntryListener, onDeleteEntryListener = onDeleteEntryListener)
+        ExerciseSessionItemViewBinder(
+            onItemClickedListener = onClickEntryListener,
+            onDeleteEntryListener = onDeleteEntryListener,
+        )
     }
     private val seriesDataItemViewBinder by lazy {
-        SeriesDataItemViewBinder(onItemClickedListener = onClickEntryListener, onDeleteEntryListener = onDeleteEntryListener)
+        SeriesDataItemViewBinder(
+            onItemClickedListener = onClickEntryListener,
+            onDeleteEntryListener = onDeleteEntryListener,
+        )
     }
 
     // Not in deletion state
@@ -218,7 +237,9 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
                     aggregationViewBinder,
                 )
                 .setViewBinder(
-                    FormattedEntry.EntryDateSectionHeader::class.java, sectionTitleViewBinder)
+                    FormattedEntry.EntryDateSectionHeader::class.java,
+                    sectionTitleViewBinder,
+                )
                 .setViewModel(entriesViewModel)
                 .build()
         entriesRecyclerView =
@@ -227,7 +248,7 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
                 it.layoutManager = LinearLayoutManager(context, VERTICAL, false)
             }
 
-        if(childFragmentManager.findFragmentByTag(DELETION_TAG) == null){
+        if (childFragmentManager.findFragmentByTag(DELETION_TAG) == null) {
             childFragmentManager.commitNow { add(DeletionFragment(), DELETION_TAG) }
         }
         return view
@@ -247,12 +268,14 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
             }
         )
 
-        deletionViewModel.entriesReloadNeeded.observe(viewLifecycleOwner) { isReloadNeeded
-            ->
+        deletionViewModel.entriesReloadNeeded.observe(viewLifecycleOwner) { isReloadNeeded ->
             if (isReloadNeeded) {
                 entriesViewModel.setScreenState(VIEW)
                 entriesViewModel.loadEntries(
-                        permissionType, dateNavigationView.getDate(), dateNavigationView.getPeriod())
+                    permissionType,
+                    dateNavigationView.getDate(),
+                    dateNavigationView.getPeriod(),
+                )
                 deletionViewModel.resetEntriesReloadNeeded()
             }
         }
@@ -297,7 +320,11 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
 
         if (entriesViewModel.setOfEntriesToBeDeleted.value.orEmpty().isEmpty()) {
             setupMenu(
-                    R.menu.all_data_delete_menu, viewLifecycleOwner, logger, onEmptyDeleteSetSetup)
+                R.menu.all_data_delete_menu,
+                viewLifecycleOwner,
+                logger,
+                onEmptyDeleteSetSetup,
+            )
             return
         }
 
@@ -316,8 +343,13 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
 
     }
 
-    private fun deleteData(){
-        entriesViewModel.getDataType()?.let { deletionViewModel.setEntriesDeleteSet(entriesViewModel.setOfEntriesToBeDeleted.value.orEmpty(), it) }
+    private fun deleteData() {
+        entriesViewModel.getDataType()?.let {
+            deletionViewModel.setEntriesDeleteSet(
+                entriesViewModel.setOfEntriesToBeDeleted.value.orEmpty(),
+                it,
+            )
+        }
         childFragmentManager.setFragmentResult(DeletionConstants.START_DELETION_KEY, bundleOf())
     }
 
