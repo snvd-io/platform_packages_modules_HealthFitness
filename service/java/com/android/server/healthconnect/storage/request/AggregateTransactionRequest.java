@@ -16,7 +16,6 @@
 
 package com.android.server.healthconnect.storage.request;
 
-import android.annotation.NonNull;
 import android.health.connect.AggregateRecordsResponse;
 import android.health.connect.AggregateResult;
 import android.health.connect.TimeRangeFilter;
@@ -94,7 +93,6 @@ public final class AggregateTransactionRequest {
         }
     }
 
-    @NonNull
     public String getPackageName() {
         return mPackageName;
     }

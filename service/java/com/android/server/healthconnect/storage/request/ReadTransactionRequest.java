@@ -18,7 +18,6 @@ package com.android.server.healthconnect.storage.request;
 
 import static android.health.connect.Constants.DEFAULT_INT;
 
-import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.health.connect.PageTokenWrapper;
 import android.health.connect.aidl.ReadRecordsRequestParcel;
@@ -104,7 +103,6 @@ public class ReadTransactionRequest {
         mDeviceInfoHelper = deviceInfoHelper;
     }
 
-    @NonNull
     public List<ReadTableRequest> getReadRequests() {
         return mReadTableRequests;
     }
