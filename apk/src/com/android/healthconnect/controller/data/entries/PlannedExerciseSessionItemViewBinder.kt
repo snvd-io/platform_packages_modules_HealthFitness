@@ -1,10 +1,12 @@
-/*
- * Copyright (C) 2023 The Android Open Source Project
+/**
+ * Copyright (C) 2024 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
  *
+ * ```
  *      http://www.apache.org/licenses/LICENSE-2.0
+ * ```
  *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
@@ -18,63 +20,56 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
 import com.android.healthconnect.controller.R
-import com.android.healthconnect.controller.data.entries.FormattedEntry.SeriesDataEntry
 import com.android.healthconnect.controller.shared.recyclerview.DeletionViewBinder
 import com.android.healthconnect.controller.utils.logging.DataEntriesElement
 import com.android.healthconnect.controller.utils.logging.HealthConnectLogger
 import com.android.healthconnect.controller.utils.logging.HealthConnectLoggerEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 
-/** ViewBinder for [SeriesDataEntry]. */
-class SeriesDataItemViewBinder(
+/** ViewBinder for PlannedExerciseSessionEntry. */
+class PlannedExerciseSessionItemViewBinder(
     private val onItemClickedListener: OnClickEntryListener?,
     private val onDeleteEntryListener: OnDeleteEntryListener? = null,
-) : DeletionViewBinder<SeriesDataEntry, View> {
-
+) : DeletionViewBinder<FormattedEntry.PlannedExerciseSessionEntry, View> {
     private lateinit var logger: HealthConnectLogger
 
     override fun newView(parent: ViewGroup): View {
         val context = parent.context.applicationContext
         val hiltEntryPoint =
-            EntryPointAccessors.fromApplication(
-                context.applicationContext,
-                HealthConnectLoggerEntryPoint::class.java,
-            )
+            EntryPointAccessors.fromApplication(context, HealthConnectLoggerEntryPoint::class.java)
         logger = hiltEntryPoint.logger()
         return LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_series_data_entry_new_ia, parent, false)
+            .inflate(R.layout.item_data_entry_new_ia, parent, false)
     }
 
     override fun bind(
         view: View,
-        data: SeriesDataEntry,
+        data: FormattedEntry.PlannedExerciseSessionEntry,
         index: Int,
         isDeletionState: Boolean,
         isChecked: Boolean,
     ) {
-        val container = view.findViewById<RelativeLayout>(R.id.item_data_entry_container)
-        val divider = view.findViewById<LinearLayout>(R.id.item_data_entry_divider)
+        // TODO(b/332538555) Add implementation for telemetry
+        val container = view.findViewById<LinearLayout>(R.id.item_data_entry_container)
         val header = view.findViewById<TextView>(R.id.item_data_entry_header)
         val title = view.findViewById<TextView>(R.id.item_data_entry_title)
         val checkBox = view.findViewById<CheckBox>(R.id.item_checkbox_button)
+        logger.logImpression(DataEntriesElement.PLANNED_EXERCISE_SESSION_ENTRY_BUTTON)
 
-        logger.logImpression(DataEntriesElement.DATA_ENTRY_VIEW)
-        logger.logImpression(DataEntriesElement.DATA_ENTRY_DELETE_BUTTON)
         title.text = data.title
         title.contentDescription = data.titleA11y
         header.text = data.header
         header.contentDescription = data.headerA11y
-        divider.isVisible = false
+
         container.setOnClickListener {
             if (isDeletionState) {
                 onDeleteEntryListener?.onDeleteEntry(data.uuid, data.dataType, index)
                 checkBox.toggle()
             } else {
-                logger.logInteraction(DataEntriesElement.DATA_ENTRY_VIEW)
+                logger.logInteraction(DataEntriesElement.PLANNED_EXERCISE_SESSION_ENTRY_BUTTON)
                 onItemClickedListener?.onItemClicked(data.uuid, index)
             }
         }
