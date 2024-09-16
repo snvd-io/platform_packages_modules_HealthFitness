@@ -41,7 +41,7 @@ import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_RESOURCE_ID_IM
 import static android.healthconnect.cts.utils.PhrDataFactory.FHIR_VERSION_R4;
 import static android.healthconnect.cts.utils.PhrDataFactory.getCreateMedicalDataSourceRequest;
 import static android.healthconnect.cts.utils.PhrDataFactory.getGetMedicalDataSourceRequest;
-import static android.healthconnect.cts.utils.PhrDataFactory.getMedicalDataSource;
+import static android.healthconnect.cts.utils.PhrDataFactory.getMedicalDataSourceRequiredFieldsOnly;
 import static android.healthconnect.cts.utils.PhrDataFactory.getMedicalResourceId;
 
 import static com.android.healthfitness.flags.AconfigFlagHelper.isPersonalHealthRecordEnabled;
@@ -1966,7 +1966,7 @@ public class HealthConnectServiceImplTest {
         ExtendedMockito.doNothing().when(() -> RateLimiter.checkMaxChunkMemoryUsage(anyLong()));
         when(mMedicalDataSourceHelper.createMedicalDataSource(
                         eq(mServiceContext), eq(getCreateMedicalDataSourceRequest()), any()))
-                .thenReturn(getMedicalDataSource());
+                .thenReturn(getMedicalDataSourceRequiredFieldsOnly());
     }
 
     private void setUpPhrMocksWithIrrelevantResponses() {

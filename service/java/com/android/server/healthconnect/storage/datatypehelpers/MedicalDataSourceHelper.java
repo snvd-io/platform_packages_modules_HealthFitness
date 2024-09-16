@@ -271,6 +271,8 @@ public class MedicalDataSourceHelper {
                         /* fhirBaseUri= */ Uri.parse(
                                 getCursorString(cursor, FHIR_BASE_URI_COLUMN_NAME)),
                         /* displayName= */ getCursorString(cursor, DISPLAY_NAME_COLUMN_NAME))
+                // TODO(b/365756516) Populate this value from DB
+                .setLastDataUpdateTime(null)
                 .build();
     }
 
