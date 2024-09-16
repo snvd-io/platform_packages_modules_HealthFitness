@@ -23,6 +23,7 @@ import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION
 
 import static com.android.internal.util.Preconditions.checkArgument;
 import static com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper.recordDeleteAccessLog;
+import static com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper.recordReadAccessLog;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.APP_INFO_ID_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.PRIMARY_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.UUID_COLUMN_NAME;
@@ -316,14 +317,19 @@ public final class TransactionManager {
      *
      * @param aggregateTableRequest an aggregate request.
      */
-    @NonNull
-    public void populateWithAggregation(AggregateTableRequest aggregateTableRequest) {
+    public void populateWithAggregation(
+            AggregateTableRequest aggregateTableRequest,
+            String packageName,
+            Set<Integer> recordTypeIds) {
         final SQLiteDatabase db = getReadableDb();
         try (Cursor cursor = db.rawQuery(aggregateTableRequest.getAggregationCommand(), null);
                 Cursor metaDataCursor =
                         db.rawQuery(
                                 aggregateTableRequest.getCommandToFetchAggregateMetadata(), null)) {
             aggregateTableRequest.onResultsFetched(cursor, metaDataCursor);
+        }
+        if (Flags.addMissingAccessLogs()) {
+            recordReadAccessLog(getWritableDb(), packageName, recordTypeIds);
         }
     }
 
