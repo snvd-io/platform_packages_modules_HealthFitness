@@ -340,7 +340,8 @@ public final class TransactionManager {
             RecordHelper<?> helper = readTableRequest.getRecordHelper();
             requireNonNull(helper);
             try (Cursor cursor = read(readTableRequest)) {
-                List<RecordInternal<?>> internalRecords = helper.getInternalRecords(cursor);
+                List<RecordInternal<?>> internalRecords =
+                        helper.getInternalRecords(cursor, request.getDeviceInfoHelper());
                 populateInternalRecordsWithExtraData(internalRecords, readTableRequest);
                 recordInternals.addAll(internalRecords);
             }
@@ -378,6 +379,7 @@ public final class TransactionManager {
         try (Cursor cursor = read(readTableRequest)) {
             Pair<List<RecordInternal<?>>, PageTokenWrapper> readResult =
                     helper.getNextInternalRecordsPageAndToken(
+                            request.getDeviceInfoHelper(),
                             cursor,
                             request.getPageSize().orElse(DEFAULT_PAGE_SIZE),
                             // pageToken is never null for read by filter requests

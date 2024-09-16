@@ -80,7 +80,8 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.android.dx.mockito.inline.extended.ExtendedMockito;
 import com.android.modules.utils.testing.ExtendedMockitoRule;
 import com.android.server.healthconnect.FakePreferenceHelper;
-import com.android.server.healthconnect.HealthConnectDeviceConfigManager;
+import com.android.server.healthconnect.injector.HealthConnectInjector;
+import com.android.server.healthconnect.injector.HealthConnectInjectorImpl;
 import com.android.server.healthconnect.migration.MigrationStateManager;
 import com.android.server.healthconnect.permission.FirstGrantTimeManager;
 import com.android.server.healthconnect.permission.GrantTimeXmlHelper;
@@ -129,7 +130,7 @@ public class BackupRestoreTest {
     @Mock private TransactionManager mTransactionManager;
     @Mock private AppInfoHelper mAppInfoHelper;
     @Mock private FirstGrantTimeManager mFirstGrantTimeManager;
-    @Mock private MigrationStateManager mMigrationStateManager;
+    @Mock private MigrationStateManager mMockMigrationStateManager;
     @Mock private Context mContext;
     @Mock private JobScheduler mJobScheduler;
     @Captor ArgumentCaptor<JobInfo> mJobInfoArgumentCaptor;
@@ -148,22 +149,28 @@ public class BackupRestoreTest {
         mMockStagedDataDirectory = mContext.getDir("mock_staged_data", Context.MODE_PRIVATE);
         when(Environment.getDataDirectory()).thenReturn(mMockDataDirectory);
 
-        when(PreferenceHelper.getInstance()).thenReturn(mFakePreferenceHelper);
-        when(TransactionManager.getInitialisedInstance()).thenReturn(mTransactionManager);
         when(AppInfoHelper.getInstance()).thenReturn(mAppInfoHelper);
         when(mJobScheduler.forNamespace(BACKUP_RESTORE_JOBS_NAMESPACE)).thenReturn(mJobScheduler);
         when(mServiceContext.getUser()).thenReturn(mUserHandle);
         when(mServiceContext.getSystemService(JobScheduler.class)).thenReturn(mJobScheduler);
         when(mServiceContext.getPackageName()).thenReturn("packageName");
 
-        HealthConnectDeviceConfigManager.initializeInstance(mContext);
+        HealthConnectInjector healthConnectInjector =
+                HealthConnectInjectorImpl.newBuilderForTest(mContext)
+                        .setPreferenceHelper(mFakePreferenceHelper)
+                        .setMigrationStateManager(mMockMigrationStateManager)
+                        .setTransactionManager(mTransactionManager)
+                        .build();
+
         mBackupRestore =
                 new BackupRestore(
                         mFirstGrantTimeManager,
-                        mMigrationStateManager,
-                        mFakePreferenceHelper,
-                        mTransactionManager,
-                        mServiceContext);
+                        healthConnectInjector.getMigrationStateManager(),
+                        healthConnectInjector.getPreferenceHelper(),
+                        healthConnectInjector.getTransactionManager(),
+                        mServiceContext,
+                        healthConnectInjector.getDeviceInfoHelper(),
+                        healthConnectInjector.getHealthDataCategoryPriorityHelper());
     }
 
     @After
@@ -573,7 +580,7 @@ public class BackupRestoreTest {
         mFakePreferenceHelper.insertOrReplacePreference(
                 DATA_RESTORE_STATE_KEY, String.valueOf(INTERNAL_RESTORE_STATE_STAGING_DONE));
 
-        when(mMigrationStateManager.isMigrationInProgress()).thenReturn(true);
+        when(mMockMigrationStateManager.isMigrationInProgress()).thenReturn(true);
 
         mBackupRestore.scheduleAllJobs();
         ExtendedMockito.verify(
@@ -594,7 +601,7 @@ public class BackupRestoreTest {
                 DATA_RESTORE_STATE_KEY,
                 String.valueOf(INTERNAL_RESTORE_STATE_MERGING_DONE_OLD_CODE));
 
-        when(mMigrationStateManager.isMigrationInProgress()).thenReturn(true);
+        when(mMockMigrationStateManager.isMigrationInProgress()).thenReturn(true);
 
         mBackupRestore.scheduleAllJobs();
         ExtendedMockito.verify(
@@ -614,7 +621,7 @@ public class BackupRestoreTest {
         mFakePreferenceHelper.insertOrReplacePreference(
                 DATA_RESTORE_STATE_KEY, String.valueOf(INTERNAL_RESTORE_STATE_STAGING_DONE));
 
-        when(mMigrationStateManager.isMigrationInProgress()).thenReturn(true);
+        when(mMockMigrationStateManager.isMigrationInProgress()).thenReturn(true);
 
         mBackupRestore.scheduleAllJobs();
         ExtendedMockito.verify(
@@ -643,7 +650,7 @@ public class BackupRestoreTest {
                 String.valueOf(
                         now.minusMillis(DATA_MERGING_TIMEOUT_INTERVAL_MILLIS).toEpochMilli()));
 
-        when(mMigrationStateManager.isMigrationInProgress()).thenReturn(true);
+        when(mMockMigrationStateManager.isMigrationInProgress()).thenReturn(true);
 
         mBackupRestore.scheduleAllJobs();
         ExtendedMockito.verify(
@@ -844,7 +851,7 @@ public class BackupRestoreTest {
                 DATA_MERGING_TIMEOUT_KEY, String.valueOf(Instant.now().toEpochMilli()));
         when(mTransactionManager.getDatabaseVersion()).thenReturn(1);
 
-        when(mMigrationStateManager.isMigrationInProgress()).thenReturn(true);
+        when(mMockMigrationStateManager.isMigrationInProgress()).thenReturn(true);
 
         mBackupRestore.merge();
         ExtendedMockito.verify(
