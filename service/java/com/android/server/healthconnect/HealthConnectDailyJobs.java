@@ -21,7 +21,6 @@ import static android.health.connect.Constants.DEFAULT_INT;
 import static com.android.server.healthconnect.HealthConnectDailyService.EXTRA_JOB_NAME_KEY;
 import static com.android.server.healthconnect.HealthConnectDailyService.EXTRA_USER_ID;
 
-import android.annotation.NonNull;
 import android.annotation.UserIdInt;
 import android.app.job.JobInfo;
 import android.app.job.JobParameters;
@@ -47,7 +46,7 @@ public class HealthConnectDailyJobs {
     private static final long JOB_RUN_INTERVAL = TimeUnit.DAYS.toMillis(1);
     private static final String HEALTH_CONNECT_NAMESPACE = "HEALTH_CONNECT_DAILY_JOB";
 
-    public static void schedule(@NonNull Context context, @UserIdInt int userId) {
+    public static void schedule(Context context, @UserIdInt int userId) {
         ComponentName componentName = new ComponentName(context, HealthConnectDailyService.class);
         final PersistableBundle extras = new PersistableBundle();
         extras.putInt(EXTRA_USER_ID, userId);

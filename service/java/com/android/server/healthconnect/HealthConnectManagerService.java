@@ -16,7 +16,6 @@
 
 package com.android.server.healthconnect;
 
-import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.content.Context;
 import android.health.connect.HealthConnectManager;
@@ -240,7 +239,7 @@ public class HealthConnectManagerService extends SystemService {
      * switchToSetupForUser which is only called once DB is in usable state.
      */
     @Override
-    public void onUserSwitching(@Nullable TargetUser from, @NonNull TargetUser to) {
+    public void onUserSwitching(@Nullable TargetUser from, TargetUser to) {
         if (from != null && mUserManager.isUserUnlocked(from.getUserHandle())) {
             // We need to cancel any pending timers for the foreground user before it goes into the
             // background.
@@ -269,7 +268,7 @@ public class HealthConnectManagerService extends SystemService {
     // such cases onUserSwitching will be triggered for {@code user} and this code will be
     // triggered then.
     @Override
-    public void onUserUnlocked(@NonNull TargetUser user) {
+    public void onUserUnlocked(TargetUser user) {
         Objects.requireNonNull(user);
         if (!user.getUserHandle().equals(mCurrentForegroundUser)) {
             // Ignore unlocking requests for non-foreground users
@@ -280,7 +279,7 @@ public class HealthConnectManagerService extends SystemService {
     }
 
     @Override
-    public boolean isUserSupported(@NonNull TargetUser user) {
+    public boolean isUserSupported(TargetUser user) {
         UserManager userManager =
                 getUserContext(mContext, user.getUserHandle()).getSystemService(UserManager.class);
         return !(Objects.requireNonNull(userManager).isProfile());
@@ -355,8 +354,7 @@ public class HealthConnectManagerService extends SystemService {
                 });
     }
 
-    @NonNull
-    private static Context getUserContext(@NonNull Context context, @NonNull UserHandle user) {
+    private static Context getUserContext(Context context, UserHandle user) {
         if (Process.myUserHandle().equals(user)) {
             return context;
         } else {

@@ -18,7 +18,6 @@ package com.android.server.healthconnect.logging;
 
 import static android.content.pm.PackageManager.GET_PERMISSIONS;
 
-import android.annotation.NonNull;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -138,7 +137,7 @@ final class UsageStatsCollector {
         }
     }
 
-    private boolean hasRequestedHealthPermission(@NonNull PackageInfo packageInfo) {
+    private boolean hasRequestedHealthPermission(PackageInfo packageInfo) {
         if (packageInfo == null || packageInfo.requestedPermissions == null) {
             return false;
         }
