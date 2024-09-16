@@ -34,12 +34,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.android.healthconnect.controller.R
 import com.android.healthconnect.controller.data.appdata.AppDataFragment.Companion.PERMISSION_TYPE_NAME_KEY
+import com.android.healthconnect.controller.data.entries.EntriesViewModel.EntriesDeletionScreenState.DELETE
+import com.android.healthconnect.controller.data.entries.EntriesViewModel.EntriesDeletionScreenState.VIEW
 import com.android.healthconnect.controller.data.entries.EntriesViewModel.EntriesFragmentState.Empty
 import com.android.healthconnect.controller.data.entries.EntriesViewModel.EntriesFragmentState.Loading
 import com.android.healthconnect.controller.data.entries.EntriesViewModel.EntriesFragmentState.LoadingFailed
 import com.android.healthconnect.controller.data.entries.EntriesViewModel.EntriesFragmentState.With
-import com.android.healthconnect.controller.data.entries.EntriesViewModel.EntriesDeletionScreenState.VIEW
-import com.android.healthconnect.controller.data.entries.EntriesViewModel.EntriesDeletionScreenState.DELETE
 import com.android.healthconnect.controller.data.entries.datenavigation.DateNavigationPeriod
 import com.android.healthconnect.controller.data.entries.datenavigation.DateNavigationView
 import com.android.healthconnect.controller.data.rawfhir.RawFhirFragment.Companion.MEDICAL_RESOURCE_ID_KEY
@@ -160,6 +160,12 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
             onDeleteEntryListener = onDeleteEntryListener,
         )
     }
+    private val plannedExerciseSessionItemViewBinder by lazy {
+        PlannedExerciseSessionItemViewBinder(
+            onDeleteEntryListener = onDeleteEntryListener,
+            onItemClickedListener = onClickEntryListener,
+        )
+    }
 
     // Not in deletion state
     private val onMenuSetup: (MenuItem) -> Boolean = { menuItem ->
@@ -240,6 +246,10 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
                     FormattedEntry.EntryDateSectionHeader::class.java,
                     sectionTitleViewBinder,
                 )
+                .setViewBinder(
+                    FormattedEntry.PlannedExerciseSessionEntry::class.java,
+                    plannedExerciseSessionItemViewBinder,
+                )
                 .setViewModel(entriesViewModel)
                 .build()
         entriesRecyclerView =
@@ -307,7 +317,11 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
         //        logger.setPageId(pageName)
         //        logger.logPageImpression()
     }
-    private fun updateMenu(screenState: EntriesViewModel.EntriesDeletionScreenState, hasData: Boolean = true) {
+
+    private fun updateMenu(
+        screenState: EntriesViewModel.EntriesDeletionScreenState,
+        hasData: Boolean = true,
+    ) {
         if (!hasData) {
             setupSharedMenu(viewLifecycleOwner, logger)
             return
@@ -332,15 +346,21 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
     }
 
     @VisibleForTesting
-    fun triggerDeletionState(screenState: EntriesViewModel.EntriesDeletionScreenState){
+    fun triggerDeletionState(screenState: EntriesViewModel.EntriesDeletionScreenState) {
         updateMenu(screenState)
         adapter.showCheckBox(screenState == DELETE)
         entriesViewModel.setScreenState(screenState)
-        if(entriesViewModel.getDateNavigationText()== null){
-            dateNavigationView.getDateNavigationText()?.let { entriesViewModel.setDateNavigationText(it) }
+        if (entriesViewModel.getDateNavigationText() == null) {
+            dateNavigationView.getDateNavigationText()?.let {
+                entriesViewModel.setDateNavigationText(it)
+            }
         }
-        entriesViewModel.getDateNavigationText()?.let { dateSpinnerText -> dateNavigationView.disableDateNavigationView(isEnabled = screenState == VIEW, dateSpinnerText) }
-
+        entriesViewModel.getDateNavigationText()?.let { dateSpinnerText ->
+            dateNavigationView.disableDateNavigationView(
+                isEnabled = screenState == VIEW,
+                dateSpinnerText,
+            )
+        }
     }
 
     private fun deleteData() {
@@ -368,7 +388,12 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
                     errorView.isVisible = false
                     entriesRecyclerView.isVisible = false
                     updateMenu(screenState = VIEW, hasData = false)
-                    entriesViewModel.getDateNavigationText()?.let { dateSpinnerText -> dateNavigationView.disableDateNavigationView(isEnabled = true, dateSpinnerText) }
+                    entriesViewModel.getDateNavigationText()?.let { dateSpinnerText ->
+                        dateNavigationView.disableDateNavigationView(
+                            isEnabled = true,
+                            dateSpinnerText,
+                        )
+                    }
                 }
                 is With -> {
                     entriesRecyclerView.isVisible = true
@@ -377,7 +402,9 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
                     errorView.isVisible = false
                     noDataView.isVisible = false
                     loadingView.isVisible = false
-                    entriesViewModel.screenState.value?.let { triggerDeletionState(screenState = it) }
+                    entriesViewModel.screenState.value?.let {
+                        triggerDeletionState(screenState = it)
+                    }
                 }
                 is LoadingFailed -> {
                     errorView.isVisible = true
