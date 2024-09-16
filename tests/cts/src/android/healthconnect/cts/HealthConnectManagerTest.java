@@ -33,6 +33,7 @@ import static android.health.connect.datatypes.RecordTypeIdentifier.RECORD_TYPE_
 import static android.health.connect.datatypes.RecordTypeIdentifier.RECORD_TYPE_HEART_RATE;
 import static android.health.connect.datatypes.RecordTypeIdentifier.RECORD_TYPE_STEPS;
 import static android.health.connect.datatypes.StepsRecord.STEPS_COUNT_TOTAL;
+import static android.healthconnect.cts.lib.TestAppProxy.APP_WRITE_PERMS_ONLY;
 import static android.healthconnect.cts.utils.DataFactory.MAXIMUM_PAGE_SIZE;
 import static android.healthconnect.cts.utils.DataFactory.getRecordsAndIdentifiers;
 import static android.healthconnect.cts.utils.PermissionHelper.MANAGE_HEALTH_DATA;
@@ -59,6 +60,7 @@ import static android.healthconnect.cts.utils.TestUtils.startMigrationWithShellP
 
 import static com.android.healthfitness.flags.Flags.FLAG_DEVELOPMENT_DATABASE;
 import static com.android.healthfitness.flags.Flags.FLAG_PERSONAL_HEALTH_RECORD;
+import static com.android.healthfitness.flags.Flags.personalHealthRecord;
 
 import static com.google.common.truth.Correspondence.transforming;
 import static com.google.common.truth.Truth.assertThat;
@@ -75,6 +77,7 @@ import android.content.Context;
 import android.health.connect.AggregateRecordsGroupedByDurationResponse;
 import android.health.connect.AggregateRecordsRequest;
 import android.health.connect.AggregateRecordsResponse;
+import android.health.connect.ApplicationInfoResponse;
 import android.health.connect.CreateMedicalDataSourceRequest;
 import android.health.connect.DeleteMedicalResourcesRequest;
 import android.health.connect.DeleteUsingFiltersRequest;
@@ -95,6 +98,7 @@ import android.health.connect.TimeInstantRangeFilter;
 import android.health.connect.UpsertMedicalResourceRequest;
 import android.health.connect.changelog.ChangeLogTokenRequest;
 import android.health.connect.changelog.ChangeLogsRequest;
+import android.health.connect.datatypes.AppInfo;
 import android.health.connect.datatypes.BasalMetabolicRateRecord;
 import android.health.connect.datatypes.DataOrigin;
 import android.health.connect.datatypes.Device;
@@ -111,7 +115,6 @@ import android.health.connect.datatypes.units.Mass;
 import android.health.connect.datatypes.units.Power;
 import android.health.connect.datatypes.units.Volume;
 import android.health.connect.restore.StageRemoteDataException;
-import android.healthconnect.cts.lib.TestAppProxy;
 import android.healthconnect.cts.utils.AssumptionCheckerRule;
 import android.healthconnect.cts.utils.DataFactory;
 import android.healthconnect.cts.utils.HealthConnectReceiver;
@@ -155,6 +158,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -164,6 +168,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 /** CTS test for API provided by HealthConnectManager. */
 @AppModeFull(reason = "HealthConnectManager is not accessible to instant apps")
@@ -2150,10 +2155,9 @@ public class HealthConnectManagerTest {
             throws Exception {
         // Create the datasource
         MedicalDataSource dataSource =
-                TestAppProxy.APP_WRITE_PERMS_ONLY.createMedicalDataSource(
-                        getCreateMedicalDataSourceRequest());
+                APP_WRITE_PERMS_ONLY.createMedicalDataSource(getCreateMedicalDataSourceRequest());
         MedicalResource resource =
-                TestAppProxy.APP_WRITE_PERMS_ONLY.upsertMedicalResource(
+                APP_WRITE_PERMS_ONLY.upsertMedicalResource(
                         dataSource.getId(), FHIR_DATA_IMMUNIZATION);
         ExecutorService executor = Executors.newSingleThreadExecutor();
         HealthConnectReceiver<Void> callback = new HealthConnectReceiver<>();
@@ -2813,6 +2817,32 @@ public class HealthConnectManagerTest {
                         new MedicalResourceTypeInfo(MEDICAL_RESOURCE_TYPE_IMMUNIZATION, Set.of()),
                         new MedicalResourceTypeInfo(
                                 MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE, Set.of()));
+    }
+
+    @Test
+    public void testGetContributorApplicationsInfo_succeeds() throws Exception {
+        // Create health fitness data.
+        Set<String> expectedPackages = new HashSet<>();
+        TestUtils.insertRecords(getTestRecords());
+        expectedPackages.add(APP_PACKAGE_NAME);
+        // Create medical data with a different package.
+        if (personalHealthRecord()) {
+            APP_WRITE_PERMS_ONLY.createMedicalDataSource(getCreateMedicalDataSourceRequest());
+            expectedPackages.add(APP_WRITE_PERMS_ONLY.getPackageName());
+        }
+
+        HealthConnectReceiver<ApplicationInfoResponse> receiver = new HealthConnectReceiver<>();
+        SystemUtil.runWithShellPermissionIdentity(
+                () ->
+                        mManager.getContributorApplicationsInfo(
+                                Executors.newSingleThreadExecutor(), receiver),
+                MANAGE_HEALTH_DATA);
+
+        assertThat(
+                        receiver.getResponse().getApplicationInfoList().stream()
+                                .map(AppInfo::getPackageName)
+                                .collect(Collectors.toSet()))
+                .isEqualTo(expectedPackages);
     }
 
     private boolean isEmptyContributingPackagesForAll(

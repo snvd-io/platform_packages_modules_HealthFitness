@@ -1150,6 +1150,29 @@ public class MedicalDataSourceHelperTest {
         assertThat(resourceResult).isEmpty();
     }
 
+    @Test
+    @EnableFlags({Flags.FLAG_DEVELOPMENT_DATABASE, Flags.FLAG_PERSONAL_HEALTH_RECORD})
+    public void testGetAllContributorAppInfoIds_success() throws NameNotFoundException {
+        setUpMocksForAppInfo(DATA_SOURCE_PACKAGE_NAME);
+        setUpMocksForAppInfo(DIFFERENT_DATA_SOURCE_PACKAGE_NAME);
+        createDataSource(
+                DATA_SOURCE_FHIR_BASE_URI, DATA_SOURCE_DISPLAY_NAME, DATA_SOURCE_PACKAGE_NAME);
+        createDataSource(
+                DIFFERENT_DATA_SOURCE_BASE_URI,
+                DIFFERENT_DATA_SOURCE_DISPLAY_NAME,
+                DATA_SOURCE_PACKAGE_NAME);
+        createDataSource(
+                DIFFERENT_DATA_SOURCE_BASE_URI,
+                DIFFERENT_DATA_SOURCE_DISPLAY_NAME,
+                DIFFERENT_DATA_SOURCE_PACKAGE_NAME);
+        long appInfoId = mAppInfoHelper.getAppInfoId(DATA_SOURCE_PACKAGE_NAME);
+        long differentAppInfoId = mAppInfoHelper.getAppInfoId(DIFFERENT_DATA_SOURCE_PACKAGE_NAME);
+
+        Set<Long> response = mMedicalDataSourceHelper.getAllContributorAppInfoIds();
+
+        assertThat(response).containsExactly(appInfoId, differentAppInfoId);
+    }
+
     private void setUpMocksForAppInfo(String packageName) throws NameNotFoundException {
         ApplicationInfo appInfo = getApplicationInfo(packageName);
         when(mPackageManager.getApplicationInfo(eq(packageName), any())).thenReturn(appInfo);

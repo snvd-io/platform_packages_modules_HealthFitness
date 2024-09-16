@@ -62,6 +62,7 @@ import com.android.server.healthconnect.utils.TimeSource;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -669,6 +670,27 @@ public class MedicalDataSourceHelper {
             }
         }
         return rowIdToDataSourceMap;
+    }
+
+    /**
+     * Gets all distinct app info ids from {@code APP_INFO_ID_COLUMN_NAME} for all {@link
+     * MedicalDataSource}s stored in {@code MEDICAL_DATA_SOURCE_TABLE}.
+     */
+    @NonNull
+    public Set<Long> getAllContributorAppInfoIds() {
+        ReadTableRequest readTableRequest =
+                new ReadTableRequest(getMainTableName())
+                        .setDistinctClause(true)
+                        .setColumnNames(List.of(APP_INFO_ID_COLUMN_NAME));
+        Set<Long> appInfoIds = new HashSet<>();
+        try (Cursor cursor = mTransactionManager.read(readTableRequest)) {
+            if (cursor.moveToFirst()) {
+                do {
+                    appInfoIds.add(getCursorLong(cursor, APP_INFO_ID_COLUMN_NAME));
+                } while (cursor.moveToNext());
+            }
+        }
+        return appInfoIds;
     }
 
     @NonNull
