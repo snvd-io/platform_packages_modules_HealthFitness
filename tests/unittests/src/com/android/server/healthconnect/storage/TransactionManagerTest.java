@@ -22,6 +22,7 @@ import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION
 import static android.health.connect.datatypes.AggregationType.AggregationTypeIdentifier.HEART_RATE_RECORD_BPM_AVG;
 import static android.health.connect.datatypes.RecordTypeIdentifier.RECORD_TYPE_HEART_RATE;
 import static android.health.connect.datatypes.RecordTypeIdentifier.RECORD_TYPE_STEPS;
+import static android.healthconnect.cts.utils.DataFactory.getDataOrigin;
 
 import static com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper.queryAccessLogs;
 import static com.android.server.healthconnect.storage.datatypehelpers.InstantRecordHelper.TIME_COLUMN_NAME;
@@ -167,6 +168,22 @@ public class TransactionManagerTest {
     }
 
     @Test
+    @EnableFlags(Flags.FLAG_ADD_MISSING_ACCESS_LOGS)
+    public void readRecordsById_isReadingSelfData_NoAccessLog() {
+        // TODO(b/366149374): Fix the read by uuid case and add is not reading self data test case
+        ReadRecordsRequestUsingIds<BloodPressureRecord> request =
+                new ReadRecordsRequestUsingIds.Builder<>(BloodPressureRecord.class)
+                        .addClientRecordId("id")
+                        .build();
+        ReadTransactionRequest readTransactionRequest =
+                getReadTransactionRequest(request.toReadRecordsRequestParcel());
+        mTransactionManager.readRecordsByIds(readTransactionRequest);
+
+        List<AccessLog> result = queryAccessLogs();
+        assertThat(result).isEmpty();
+    }
+
+    @Test
     public void readRecordsById_readByFilterRequest_throws() {
         ReadRecordsRequestUsingFilters<StepsRecord> request =
                 new ReadRecordsRequestUsingFilters.Builder<>(StepsRecord.class)
@@ -215,6 +232,40 @@ public class TransactionManagerTest {
         assertThat(records).hasSize(1);
         assertThat(result.first.get(0).getUuid()).isEqualTo(UUID.fromString(uuids.get(0)));
         assertThat(result.second).isEqualTo(expectedToken);
+    }
+
+    @Test
+    @EnableFlags(Flags.FLAG_ADD_MISSING_ACCESS_LOGS)
+    public void readRecordsAndPageToken_isNotReadingSelfData_accessLogRecorded() {
+        ReadRecordsRequestUsingFilters<StepsRecord> request =
+                new ReadRecordsRequestUsingFilters.Builder<>(StepsRecord.class).build();
+
+        ReadTransactionRequest readTransactionRequest =
+                getReadTransactionRequest(request.toReadRecordsRequestParcel());
+        mTransactionManager.readRecordsAndPageToken(readTransactionRequest);
+
+        List<AccessLog> result = queryAccessLogs();
+        assertThat(result).hasSize(1);
+        AccessLog log = result.get(0);
+        assertThat(log.getPackageName()).isEqualTo(TEST_PACKAGE_NAME);
+        assertThat(log.getRecordTypes()).containsExactly(StepsRecord.class);
+        assertThat(log.getOperationType()).isEqualTo(OPERATION_TYPE_READ);
+    }
+
+    @Test
+    @EnableFlags(Flags.FLAG_ADD_MISSING_ACCESS_LOGS)
+    public void readRecordsAndPageToken_isReadingSelfData_noAccessLog() {
+        ReadRecordsRequestUsingFilters<StepsRecord> request =
+                new ReadRecordsRequestUsingFilters.Builder<>(StepsRecord.class)
+                        .addDataOrigins(getDataOrigin(TEST_PACKAGE_NAME))
+                        .build();
+
+        ReadTransactionRequest readTransactionRequest =
+                getReadTransactionRequest(request.toReadRecordsRequestParcel());
+        mTransactionManager.readRecordsAndPageToken(readTransactionRequest);
+
+        List<AccessLog> result = queryAccessLogs();
+        assertThat(result).isEmpty();
     }
 
     @Test

@@ -356,6 +356,11 @@ public final class TransactionManager {
                 recordInternals.addAll(internalRecords);
             }
         }
+
+        if (Flags.addMissingAccessLogs() && !request.isReadingSelfData()) {
+            recordReadAccessLog(
+                    getWritableDb(), request.getPackageName(), request.getRecordTypeIds());
+        }
         return recordInternals;
     }
 
@@ -397,6 +402,11 @@ public final class TransactionManager {
             recordInternalList = readResult.first;
             pageToken = readResult.second;
             populateInternalRecordsWithExtraData(recordInternalList, readTableRequest);
+        }
+
+        if (Flags.addMissingAccessLogs() && !request.isReadingSelfData()) {
+            recordReadAccessLog(
+                    getWritableDb(), request.getPackageName(), request.getRecordTypeIds());
         }
         return Pair.create(recordInternalList, pageToken);
     }

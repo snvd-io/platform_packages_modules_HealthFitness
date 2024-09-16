@@ -120,7 +120,8 @@ public class TransactionManagerExerciseRoutesTest {
                         /* startDateAccessMillis= */ 0,
                         WRITE_EXERCISE_ROUTE_EXTRA_PERM,
                         /* isInForeground= */ true,
-                        mDeviceInfoHelper);
+                        mDeviceInfoHelper,
+                        /* isReadingSelfData= */ false);
 
         List<RecordInternal<?>> returnedRecords = mTransactionManager.readRecordsByIds(request);
 
@@ -153,7 +154,8 @@ public class TransactionManagerExerciseRoutesTest {
                         /* startDateAccessMillis= */ 0,
                         WRITE_EXERCISE_ROUTE_EXTRA_PERM,
                         /* isInForeground= */ true,
-                        mDeviceInfoHelper);
+                        mDeviceInfoHelper,
+                        /* isReadingSelfData= */ false);
 
         List<RecordInternal<?>> returnedRecords = mTransactionManager.readRecordsByIds(request);
 
@@ -179,7 +181,8 @@ public class TransactionManagerExerciseRoutesTest {
                         /* startDateAccessMillis= */ 0,
                         WRITE_EXERCISE_ROUTE_EXTRA_PERM,
                         /* isInForeground= */ true,
-                        mDeviceInfoHelper);
+                        mDeviceInfoHelper,
+                        /* isReadingSelfData= */ false);
 
         List<RecordInternal<?>> returnedRecords = mTransactionManager.readRecordsByIds(request);
 
@@ -205,7 +208,8 @@ public class TransactionManagerExerciseRoutesTest {
                         /* startDateAccessMillis= */ 0,
                         Set.of(HealthPermissions.READ_EXERCISE_ROUTE),
                         /* isInForeground= */ true,
-                        mDeviceInfoHelper);
+                        mDeviceInfoHelper,
+                        /* isReadingSelfData= */ false);
 
         List<RecordInternal<?>> returnedRecords = mTransactionManager.readRecordsByIds(request);
 

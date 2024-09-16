@@ -37,7 +37,9 @@ import static com.android.server.healthconnect.logging.HealthConnectServiceLogge
 import static com.android.server.healthconnect.logging.HealthConnectServiceLogger.ApiMethods.READ_AGGREGATED_DATA;
 import static com.android.server.healthconnect.logging.HealthConnectServiceLogger.ApiMethods.READ_DATA;
 import static com.android.server.healthconnect.logging.HealthConnectServiceLogger.ApiMethods.UPDATE_DATA;
+import static com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper.addAccessLog;
 
+import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
@@ -746,16 +748,17 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                             Slog.d(TAG, "pageToken: " + pageToken);
                         }
 
-                        final List<Integer> recordTypes =
-                                Collections.singletonList(request.getRecordType());
-                        // Calls from controller APK should not be recorded in access logs
-                        // If an app is reading only its own data then it is not recorded in
-                        // access logs.
-                        boolean requiresLogging =
-                                !holdsDataManagementPermission && !enforceSelfRead;
-                        if (requiresLogging) {
-                            AccessLogsHelper.addAccessLog(callingPackageName, recordTypes, READ);
+                        if (!Flags.addMissingAccessLogs()) {
+                            // Calls from controller APK should not be recorded in access logs
+                            // If an app is reading only its own data then it is not recorded in
+                            // access logs.
+                            if (!holdsDataManagementPermission && !enforceSelfRead) {
+                                final List<Integer> recordTypes =
+                                        singletonList(request.getRecordType());
+                                addAccessLog(callingPackageName, recordTypes, READ);
+                            }
                         }
+
                         callback.onResult(
                                 new ReadRecordsResponseParcel(
                                         new RecordsParcel(records), pageToken));
@@ -988,6 +991,10 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                             mDataPermissionEnforcer.collectGrantedExtraReadPermissions(
                                     recordTypeToInsertedUuids.keySet(), attributionSource);
 
+                    boolean isReadingSelfData =
+                            changeLogsTokenRequest
+                                    .getPackageNamesToFilter()
+                                    .equals(singletonList(callerPackageName));
                     List<RecordInternal<?>> recordInternals =
                             mTransactionManager.readRecordsByIds(
                                     new ReadTransactionRequest(
@@ -996,7 +1003,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                             startDateAccessEpochMilli,
                                             grantedExtraReadPermissions,
                                             isInForeground,
-                                            mDeviceInfoHelper));
+                                            mDeviceInfoHelper,
+                                            isReadingSelfData));
 
                     List<DeletedLog> deletedLogs =
                             ChangeLogsHelper.getDeletedLogs(changeLogsResponse.getChangeLogsMap());
@@ -1056,7 +1064,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                     // Requests from non controller apps are not allowed to use non-id
                     // filters
                     request.setPackageNameFilters(
-                            Collections.singletonList(attributionSource.getPackageName()));
+                            singletonList(attributionSource.getPackageName()));
 
                     if (!holdsDataManagementPermission) {
                         tryAcquireApiCallQuota(

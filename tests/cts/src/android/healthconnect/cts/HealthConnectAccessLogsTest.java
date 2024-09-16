@@ -21,6 +21,7 @@ import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_UPSERT;
 import static android.health.connect.datatypes.StepsRecord.STEPS_COUNT_TOTAL;
 import static android.healthconnect.cts.utils.DataFactory.getBasalMetabolicRateRecord;
+import static android.healthconnect.cts.utils.DataFactory.getDataOrigin;
 import static android.healthconnect.cts.utils.DataFactory.getDistanceRecord;
 import static android.healthconnect.cts.utils.DataFactory.getHeartRateRecord;
 import static android.healthconnect.cts.utils.DataFactory.getStepsRecord;
@@ -28,6 +29,9 @@ import static android.healthconnect.cts.utils.DataFactory.getTestRecords;
 import static android.healthconnect.cts.utils.DataFactory.getUpdatedStepsRecord;
 import static android.healthconnect.cts.utils.TestUtils.deleteRecordsByIdFilter;
 import static android.healthconnect.cts.utils.TestUtils.getAggregateResponse;
+import static android.healthconnect.cts.utils.TestUtils.getChangeLogToken;
+import static android.healthconnect.cts.utils.TestUtils.getChangeLogs;
+import static android.healthconnect.cts.utils.TestUtils.insertRecord;
 import static android.healthconnect.cts.utils.TestUtils.insertRecords;
 import static android.healthconnect.cts.utils.TestUtils.queryAccessLogs;
 import static android.healthconnect.cts.utils.TestUtils.verifyDeleteRecords;
@@ -47,6 +51,10 @@ import android.health.connect.ReadRecordsRequestUsingFilters;
 import android.health.connect.RecordIdFilter;
 import android.health.connect.TimeInstantRangeFilter;
 import android.health.connect.accesslog.AccessLog;
+import android.health.connect.changelog.ChangeLogTokenRequest;
+import android.health.connect.changelog.ChangeLogTokenResponse;
+import android.health.connect.changelog.ChangeLogsRequest;
+import android.health.connect.changelog.ChangeLogsResponse;
 import android.health.connect.datatypes.BasalMetabolicRateRecord;
 import android.health.connect.datatypes.DataOrigin;
 import android.health.connect.datatypes.DistanceRecord;
@@ -281,6 +289,47 @@ public class HealthConnectAccessLogsTest {
         assertThat(readAccessLog.getPackageName()).isEqualTo(SELF_PACKAGE_NAME);
         assertThat(readAccessLog.getRecordTypes()).containsExactly(StepsRecord.class);
         assertThat(readAccessLog.getOperationType()).isEqualTo(OPERATION_TYPE_READ);
+    }
+
+    @Test
+    @RequiresFlagsEnabled({FLAG_ADD_MISSING_ACCESS_LOGS})
+    public void testAccessLogs_getChangeLogs_expectReadLogs() throws Exception {
+        ChangeLogTokenResponse changesToken =
+                getChangeLogToken(
+                        new ChangeLogTokenRequest.Builder()
+                                .addRecordType(DistanceRecord.class)
+                                .build());
+        ChangeLogTokenResponse selfReadToken =
+                getChangeLogToken(
+                        new ChangeLogTokenRequest.Builder()
+                                .addDataOriginFilter(getDataOrigin(SELF_PACKAGE_NAME))
+                                .addRecordType(DistanceRecord.class)
+                                .build());
+
+        Record record = insertRecord(getDistanceRecord());
+        List<AccessLog> insertAccessLogs = queryAccessLogs();
+        assertThat(insertAccessLogs).hasSize((1));
+        assertThat(insertAccessLogs.get(0).getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
+
+        // no data origin filtering, this is a read
+        ChangeLogsResponse changesResponse =
+                getChangeLogs(new ChangeLogsRequest.Builder(changesToken.getToken()).build());
+        assertThat(changesResponse.getUpsertedRecords()).containsExactly(record);
+
+        List<AccessLog> upsertAndReadLogs = queryAccessLogs();
+        assertThat(upsertAndReadLogs).hasSize((2));
+        AccessLog log = upsertAndReadLogs.get(1);
+        assertThat(log.getPackageName()).isEqualTo(SELF_PACKAGE_NAME);
+        assertThat(log.getRecordTypes()).containsExactly(DistanceRecord.class);
+        assertThat(log.getOperationType()).isEqualTo(OPERATION_TYPE_READ);
+
+        // filtering self package, this is a self read and won't generate change logs
+        ChangeLogsResponse selfReadResponse =
+                getChangeLogs(new ChangeLogsRequest.Builder(selfReadToken.getToken()).build());
+        assertThat(selfReadResponse.getUpsertedRecords()).containsExactly(record);
+
+        List<AccessLog> accessLogs = queryAccessLogs();
+        assertThat(accessLogs).hasSize((2));
     }
 
     @Test
