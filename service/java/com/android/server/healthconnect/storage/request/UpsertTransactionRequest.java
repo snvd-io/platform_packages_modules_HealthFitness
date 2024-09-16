@@ -21,7 +21,6 @@ import static android.health.connect.Constants.UPSERT;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.addNameBasedUUIDTo;
 import static com.android.server.healthconnect.storage.utils.WhereClauses.LogicalOperator.AND;
 
-import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.content.Context;
 import android.health.connect.Constants;
@@ -60,7 +59,7 @@ import java.util.stream.Collectors;
  */
 public class UpsertTransactionRequest {
     private static final String TAG = "HealthConnectUTR";
-    @NonNull private final List<UpsertTableRequest> mUpsertRequests = new ArrayList<>();
+    private final List<UpsertTableRequest> mUpsertRequests = new ArrayList<>();
     private final List<UpsertTableRequest> mAccessLogs = new ArrayList<>();
     private final boolean mSkipPackageNameAndLogs;
     @RecordTypeIdentifier.RecordType Set<Integer> mRecordTypes = new ArraySet<>();
@@ -169,19 +168,17 @@ public class UpsertTransactionRequest {
         return mAccessLogs;
     }
 
-    @NonNull
     public List<UpsertTableRequest> getUpsertRequests() {
         return mUpsertRequests;
     }
 
-    @NonNull
     public List<String> getUUIdsInOrder() {
         return mUpsertRequests.stream()
                 .map((request) -> request.getRecordInternal().getUuid().toString())
                 .collect(Collectors.toList());
     }
 
-    private WhereClauses generateWhereClausesForUpdate(@NonNull RecordInternal<?> recordInternal) {
+    private WhereClauses generateWhereClausesForUpdate(RecordInternal<?> recordInternal) {
         WhereClauses whereClauseForUpdateRequest = new WhereClauses(AND);
         whereClauseForUpdateRequest.addWhereEqualsClause(
                 RecordHelper.UUID_COLUMN_NAME, StorageUtils.getHexString(recordInternal.getUuid()));
@@ -191,7 +188,7 @@ public class UpsertTransactionRequest {
         return whereClauseForUpdateRequest;
     }
 
-    private void addRequest(@NonNull RecordInternal<?> recordInternal, boolean isInsertRequest) {
+    private void addRequest(RecordInternal<?> recordInternal, boolean isInsertRequest) {
         RecordHelper<?> recordHelper =
                 RecordHelperProvider.getRecordHelper(recordInternal.getRecordType());
         Objects.requireNonNull(recordHelper);
