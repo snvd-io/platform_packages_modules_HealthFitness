@@ -54,6 +54,7 @@ import com.android.server.healthconnect.storage.utils.WhereClauses;
 import com.google.common.collect.ImmutableList;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -102,8 +103,7 @@ public final class TransactionTestUtils {
                         mHealthConnectInjectorBuilder.build().getDeviceInfoHelper(),
                         mContext,
                         /* isInsertRequest= */ true,
-                        /* useProvidedUuid= */ false,
-                        /* skipPackageNameAndLogs= */ false));
+                        /* extraPermsStateMap= */ Collections.emptyMap()));
     }
 
     /** Creates a {@link ReadTransactionRequest} from the given record to id map. */

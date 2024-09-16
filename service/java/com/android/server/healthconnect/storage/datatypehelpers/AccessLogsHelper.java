@@ -18,6 +18,7 @@ package com.android.server.healthconnect.storage.datatypehelpers;
 
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_DELETE;
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_READ;
+import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_UPSERT;
 
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.PRIMARY_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.utils.StorageUtils.BOOLEAN_FALSE_VALUE;
@@ -158,6 +159,8 @@ public final class AccessLogsHelper extends DatabaseHelper {
     /**
      * Adds an entry into the {@link AccessLogsHelper#TABLE_NAME} for every insert or read operation
      * request for record datatypes.
+     *
+     * @deprecated Use {@link #recordReadAccessLog} instead
      */
     public static void addAccessLog(
             String packageName,
@@ -217,6 +220,12 @@ public final class AccessLogsHelper extends DatabaseHelper {
     public static void recordReadAccessLog(
             SQLiteDatabase db, String packageName, Set<Integer> recordTypeIds) {
         recordAccessLog(db, packageName, recordTypeIds, OPERATION_TYPE_READ);
+    }
+
+    /** Adds an entry of upsert type into the {@link AccessLogsHelper#TABLE_NAME} */
+    public static void recordUpsertAccessLog(
+            SQLiteDatabase db, String packageName, Set<Integer> recordTypeIds) {
+        recordAccessLog(db, packageName, recordTypeIds, OPERATION_TYPE_UPSERT);
     }
 
     /** Adds an entry of delete type into the {@link AccessLogsHelper#TABLE_NAME} */

@@ -271,7 +271,7 @@ public final class DatabaseMerger {
                             mContext,
                             true /* isInsertRequest */,
                             true /* useProvidedUuid */,
-                            true /* skipPackageNameAndLogs */);
+                            true /* skipPackageName */);
             mTransactionManager.insertAll(upsertTransactionRequest.getUpsertRequests());
 
             currentToken = token;

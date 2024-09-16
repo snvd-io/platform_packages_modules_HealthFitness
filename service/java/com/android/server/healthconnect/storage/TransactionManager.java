@@ -24,6 +24,7 @@ import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION
 import static com.android.internal.util.Preconditions.checkArgument;
 import static com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper.recordDeleteAccessLog;
 import static com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper.recordReadAccessLog;
+import static com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper.recordUpsertAccessLog;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.APP_INFO_ID_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.PRIMARY_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.UUID_COLUMN_NAME;
@@ -149,9 +150,7 @@ public final class TransactionManager {
                         insertRecord(db, modificationChangelog);
                     }
 
-                    for (UpsertTableRequest insertRequestsForAccessLogs : request.getAccessLogs()) {
-                        insertRecord(db, insertRequestsForAccessLogs);
-                    }
+                    recordUpsertAccessLog(db, request.getPackageName(), request.getRecordTypeIds());
                     return request.getUUIdsInOrder();
                 });
     }
@@ -587,8 +586,7 @@ public final class TransactionManager {
                                 upsertRequest.getRecordInternal().getAppInfoId(),
                                 upsertRequest.getRecordInternal().getUuid());
                         // Add changelogs for affected records, e.g. a training plan being deleted
-                        // will
-                        // create changelogs for affected exercise sessions.
+                        // will create changelogs for affected exercise sessions.
                         addChangelogsForOtherModifiedRecords(upsertRequest, modificationChangelogs);
                         updateRecord(db, upsertRequest);
                     }
@@ -602,9 +600,7 @@ public final class TransactionManager {
                         insertRecord(db, modificationChangelog);
                     }
 
-                    for (UpsertTableRequest insertRequestsForAccessLogs : request.getAccessLogs()) {
-                        insertRecord(db, insertRequestsForAccessLogs);
-                    }
+                    recordUpsertAccessLog(db, request.getPackageName(), request.getRecordTypeIds());
                 });
     }
 

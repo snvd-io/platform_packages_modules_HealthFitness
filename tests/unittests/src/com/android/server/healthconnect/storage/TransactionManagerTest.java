@@ -171,6 +171,8 @@ public class TransactionManagerTest {
     @EnableFlags(Flags.FLAG_ADD_MISSING_ACCESS_LOGS)
     public void readRecordsById_isReadingSelfData_NoAccessLog() {
         // TODO(b/366149374): Fix the read by uuid case and add is not reading self data test case
+        // Read by id requests are always reading self data. Clients are not allowed to read other
+        // apps' data by client id
         ReadRecordsRequestUsingIds<BloodPressureRecord> request =
                 new ReadRecordsRequestUsingIds.Builder<>(BloodPressureRecord.class)
                         .addClientRecordId("id")
