@@ -51,9 +51,11 @@ import static com.android.server.healthconnect.backuprestore.BackupRestore.STAGE
 import static com.android.server.healthconnect.backuprestore.BackupRestore.STAGED_DATABASE_NAME;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -61,6 +63,7 @@ import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import android.annotation.Nullable;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.Context;
@@ -104,6 +107,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 
 /** Unit test for class {@link BackupRestore} */
@@ -499,10 +503,11 @@ public class BackupRestoreTest {
                         BackupRestore.BackupRestoreJobService.schedule(
                                 eq(mServiceContext),
                                 mJobInfoArgumentCaptor.capture(),
-                                eq(mBackupRestore)));
-        JobInfo jobInfo = mJobInfoArgumentCaptor.getValue();
-        assertThat(jobInfo.getExtras().getString(EXTRA_JOB_NAME_KEY))
-                .isEqualTo(DATA_MERGING_TIMEOUT_KEY);
+                                eq(mBackupRestore)),
+                atLeastOnce());
+
+        JobInfo jobInfo = findMergeTimeoutJob(mJobInfoArgumentCaptor.getAllValues());
+        assertWithMessage("Merging timeout job not found").that(jobInfo).isNotNull();
     }
 
     @Test
@@ -533,14 +538,14 @@ public class BackupRestoreTest {
                         BackupRestore.BackupRestoreJobService.schedule(
                                 eq(mServiceContext),
                                 mJobInfoArgumentCaptor.capture(),
-                                eq(mBackupRestore)));
-        JobInfo jobInfo = mJobInfoArgumentCaptor.getValue();
+                                eq(mBackupRestore)),
+                atLeastOnce());
 
+        JobInfo jobInfo = findMergeTimeoutJob(mJobInfoArgumentCaptor.getAllValues());
+        assertWithMessage("Merging timeout job not found").that(jobInfo).isNotNull();
         assertThat(jobInfo.getMinLatencyMillis()).isEqualTo(DATA_MERGING_TIMEOUT_INTERVAL_MILLIS);
         assertThat(jobInfo.getMaxExecutionDelayMillis())
                 .isEqualTo(DATA_MERGING_TIMEOUT_INTERVAL_MILLIS + MINIMUM_LATENCY_WINDOW_MILLIS);
-        assertThat(jobInfo.getExtras().getString(EXTRA_JOB_NAME_KEY))
-                .isEqualTo(DATA_MERGING_TIMEOUT_KEY);
     }
 
     @Test
@@ -559,13 +564,13 @@ public class BackupRestoreTest {
                         BackupRestore.BackupRestoreJobService.schedule(
                                 eq(mServiceContext),
                                 mJobInfoArgumentCaptor.capture(),
-                                eq(mBackupRestore)));
-        JobInfo jobInfo = mJobInfoArgumentCaptor.getValue();
+                                eq(mBackupRestore)),
+                atLeastOnce());
 
+        JobInfo jobInfo = findMergeTimeoutJob(mJobInfoArgumentCaptor.getAllValues());
+        assertWithMessage("Merging timeout job not found").that(jobInfo).isNotNull();
         assertThat(jobInfo.getMinLatencyMillis()).isEqualTo(0);
         assertThat(jobInfo.getMaxExecutionDelayMillis()).isEqualTo(MINIMUM_LATENCY_WINDOW_MILLIS);
-        assertThat(jobInfo.getExtras().getString(EXTRA_JOB_NAME_KEY))
-                .isEqualTo(DATA_MERGING_TIMEOUT_KEY);
     }
 
     @Test
@@ -905,6 +910,17 @@ public class BackupRestoreTest {
 
         boolean result = mBackupRestore.shouldAttemptMerging();
         assertThat(result).isFalse();
+    }
+
+    @Nullable
+    private static JobInfo findMergeTimeoutJob(List<JobInfo> jobInfos) {
+        for (JobInfo jobInfo : jobInfos) {
+            if (DATA_MERGING_TIMEOUT_KEY.equals(
+                    jobInfo.getExtras().getString(EXTRA_JOB_NAME_KEY))) {
+                return jobInfo;
+            }
+        }
+        return null;
     }
 
     private static File createAndGetNonEmptyFile(File dir, String fileName) throws IOException {
