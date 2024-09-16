@@ -16,22 +16,36 @@
 
 package android.healthconnect.cts;
 
+import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_DELETE;
+import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_UPSERT;
+import static android.healthconnect.cts.utils.DataFactory.getBasalMetabolicRateRecord;
+import static android.healthconnect.cts.utils.DataFactory.getDistanceRecord;
 import static android.healthconnect.cts.utils.DataFactory.getHeartRateRecord;
 import static android.healthconnect.cts.utils.DataFactory.getStepsRecord;
 import static android.healthconnect.cts.utils.DataFactory.getTestRecords;
 import static android.healthconnect.cts.utils.DataFactory.getUpdatedStepsRecord;
+import static android.healthconnect.cts.utils.TestUtils.deleteRecordsByIdFilter;
+import static android.healthconnect.cts.utils.TestUtils.insertRecords;
+import static android.healthconnect.cts.utils.TestUtils.queryAccessLogs;
+import static android.healthconnect.cts.utils.TestUtils.verifyDeleteRecords;
 
+import static com.android.healthfitness.flags.Flags.FLAG_ADD_MISSING_ACCESS_LOGS;
 import static com.android.healthfitness.flags.Flags.FLAG_PERSONAL_HEALTH_RECORD;
 
 import static com.google.common.truth.Truth.assertThat;
+
+import static java.time.Instant.EPOCH;
 
 import android.content.Context;
 import android.health.connect.DeleteUsingFiltersRequest;
 import android.health.connect.HealthConnectManager;
 import android.health.connect.ReadRecordsRequestUsingFilters;
+import android.health.connect.RecordIdFilter;
+import android.health.connect.TimeInstantRangeFilter;
 import android.health.connect.accesslog.AccessLog;
 import android.health.connect.datatypes.BasalMetabolicRateRecord;
 import android.health.connect.datatypes.DataOrigin;
+import android.health.connect.datatypes.DistanceRecord;
 import android.health.connect.datatypes.ExerciseSessionRecord;
 import android.health.connect.datatypes.HeartRateRecord;
 import android.health.connect.datatypes.Record;
@@ -76,7 +90,7 @@ public class HealthConnectAccessLogsTest {
     public void tearDown() throws InterruptedException {
         Context context = ApplicationProvider.getApplicationContext();
         String packageName = context.getPackageName();
-        TestUtils.verifyDeleteRecords(
+        verifyDeleteRecords(
                 new DeleteUsingFiltersRequest.Builder()
                         .addDataOrigin(new DataOrigin.Builder().setPackageName(packageName).build())
                         .build());
@@ -85,9 +99,9 @@ public class HealthConnectAccessLogsTest {
 
     @Test
     public void testAccessLogs_read_singleRecordType() throws InterruptedException {
-        List<AccessLog> oldAccessLogsResponse = TestUtils.queryAccessLogs();
+        List<AccessLog> oldAccessLogsResponse = queryAccessLogs();
         List<Record> testRecord = Collections.singletonList(getStepsRecord());
-        TestUtils.insertRecords(testRecord);
+        insertRecords(testRecord);
         TestUtils.readRecords(
                 new ReadRecordsRequestUsingFilters.Builder<>(StepsRecord.class).build());
 
@@ -109,9 +123,9 @@ public class HealthConnectAccessLogsTest {
 
     @Test
     public void testAccessLogs_read_multipleRecordTypes() throws InterruptedException {
-        List<AccessLog> oldAccessLogsResponse = TestUtils.queryAccessLogs();
+        List<AccessLog> oldAccessLogsResponse = queryAccessLogs();
         List<Record> testRecord = getTestRecords();
-        TestUtils.insertRecords(testRecord);
+        insertRecords(testRecord);
         TestUtils.readRecords(
                 new ReadRecordsRequestUsingFilters.Builder<>(StepsRecord.class).build());
         TestUtils.readRecords(
@@ -132,9 +146,9 @@ public class HealthConnectAccessLogsTest {
 
     @Test
     public void testAccessLogs_update_singleRecordType() throws InterruptedException {
-        List<AccessLog> oldAccessLogsResponse = TestUtils.queryAccessLogs();
+        List<AccessLog> oldAccessLogsResponse = queryAccessLogs();
         Record record = getStepsRecord();
-        TestUtils.insertRecords(Collections.singletonList(record));
+        insertRecords(Collections.singletonList(record));
         List<Record> updatedTestRecord =
                 Collections.singletonList(
                         getUpdatedStepsRecord(
@@ -153,19 +167,18 @@ public class HealthConnectAccessLogsTest {
         assertThat(newAccessLogsResponse.size() - oldAccessLogsResponse.size()).isEqualTo(2);
         AccessLog accessLog = newAccessLogsResponse.get(newAccessLogsResponse.size() - 1);
         assertThat(accessLog.getRecordTypes()).contains(StepsRecord.class);
-        assertThat(accessLog.getOperationType())
-                .isEqualTo(AccessLog.OperationType.OPERATION_TYPE_UPSERT);
+        assertThat(accessLog.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
         assertThat(accessLog.getPackageName()).isEqualTo(SELF_PACKAGE_NAME);
         assertThat(accessLog.getAccessTime()).isNotNull();
     }
 
     @Test
     public void testAccessLogs_update_multipleRecordTypes() throws InterruptedException {
-        List<AccessLog> oldAccessLogsResponse = TestUtils.queryAccessLogs();
+        List<AccessLog> oldAccessLogsResponse = queryAccessLogs();
         Record stepsRecord = getStepsRecord();
         Record heartRateRecord = getHeartRateRecord();
         List<Record> records = Arrays.asList(stepsRecord, heartRateRecord);
-        TestUtils.insertRecords(records);
+        insertRecords(records);
 
         Record updatedStepsRecord =
                 getUpdatedStepsRecord(
@@ -186,8 +199,7 @@ public class HealthConnectAccessLogsTest {
 
         assertThat(newAccessLogsResponse.size() - oldAccessLogsResponse.size()).isEqualTo(2);
         AccessLog accessLog = newAccessLogsResponse.get(newAccessLogsResponse.size() - 1);
-        assertThat(accessLog.getOperationType())
-                .isEqualTo(AccessLog.OperationType.OPERATION_TYPE_UPSERT);
+        assertThat(accessLog.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
         assertThat(accessLog.getRecordTypes()).contains(StepsRecord.class);
         assertThat(accessLog.getRecordTypes()).contains(HeartRateRecord.class);
         assertThat(accessLog.getPackageName()).isEqualTo(SELF_PACKAGE_NAME);
@@ -196,9 +208,9 @@ public class HealthConnectAccessLogsTest {
 
     @Test
     public void testAccessLogs_insert_singleRecordType() throws InterruptedException {
-        List<AccessLog> oldAccessLogsResponse = TestUtils.queryAccessLogs();
+        List<AccessLog> oldAccessLogsResponse = queryAccessLogs();
         List<Record> testRecord = Collections.singletonList(getStepsRecord());
-        TestUtils.insertRecords(testRecord);
+        insertRecords(testRecord);
 
         List<AccessLog> newAccessLogsResponse =
                 waitForNewAccessLogsWithExpectedMinSize(
@@ -209,8 +221,7 @@ public class HealthConnectAccessLogsTest {
 
         assertThat(newAccessLogsResponse.size() - oldAccessLogsResponse.size()).isEqualTo(1);
         AccessLog accessLog = newAccessLogsResponse.get(newAccessLogsResponse.size() - 1);
-        assertThat(accessLog.getOperationType())
-                .isEqualTo(AccessLog.OperationType.OPERATION_TYPE_UPSERT);
+        assertThat(accessLog.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
         assertThat(accessLog.getRecordTypes()).contains(StepsRecord.class);
         assertThat(accessLog.getPackageName()).isEqualTo(SELF_PACKAGE_NAME);
         assertThat(accessLog.getAccessTime()).isNotNull();
@@ -218,9 +229,9 @@ public class HealthConnectAccessLogsTest {
 
     @Test
     public void testAccessLogs_insert_multipleRecordTypes() throws InterruptedException {
-        List<AccessLog> oldAccessLogsResponse = TestUtils.queryAccessLogs();
+        List<AccessLog> oldAccessLogsResponse = queryAccessLogs();
         List<Record> testRecord = getTestRecords();
-        TestUtils.insertRecords(testRecord);
+        insertRecords(testRecord);
 
         List<AccessLog> newAccessLogsResponse =
                 waitForNewAccessLogsWithExpectedMinSize(
@@ -231,8 +242,7 @@ public class HealthConnectAccessLogsTest {
 
         assertThat(newAccessLogsResponse.size() - oldAccessLogsResponse.size()).isEqualTo(1);
         AccessLog accessLog = newAccessLogsResponse.get(newAccessLogsResponse.size() - 1);
-        assertThat(accessLog.getOperationType())
-                .isEqualTo(AccessLog.OperationType.OPERATION_TYPE_UPSERT);
+        assertThat(accessLog.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
         assertThat(accessLog.getRecordTypes()).contains(StepsRecord.class);
         assertThat(accessLog.getRecordTypes()).contains(HeartRateRecord.class);
         assertThat(accessLog.getRecordTypes()).contains(BasalMetabolicRateRecord.class);
@@ -242,13 +252,60 @@ public class HealthConnectAccessLogsTest {
     }
 
     @Test
+    @RequiresFlagsEnabled({FLAG_ADD_MISSING_ACCESS_LOGS})
+    public void testAccessLogs_delete_expectDeleteLogs() throws Exception {
+        List<Record> records =
+                insertRecords(
+                        getHeartRateRecord(), getDistanceRecord(), getBasalMetabolicRateRecord());
+        List<AccessLog> insertLog = queryAccessLogs();
+        assertThat(insertLog).hasSize((1));
+        assertThat(insertLog.get(0).getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
+
+        List<RecordIdFilter> recordIdFilters =
+                List.of(
+                        RecordIdFilter.fromId(
+                                HeartRateRecord.class, records.get(0).getMetadata().getId()),
+                        RecordIdFilter.fromId(
+                                BasalMetabolicRateRecord.class,
+                                records.get(2).getMetadata().getId()));
+        TimeInstantRangeFilter timeFilter =
+                new TimeInstantRangeFilter.Builder()
+                        .setStartTime(EPOCH)
+                        .setEndTime(Instant.now())
+                        .build();
+        // delete by id
+        deleteRecordsByIdFilter(recordIdFilters);
+        // delete by filter, generating access log even if no step data is deleted
+        verifyDeleteRecords(StepsRecord.class, timeFilter);
+
+        DeleteUsingFiltersRequest deleteRequest =
+                new DeleteUsingFiltersRequest.Builder().addRecordType(DistanceRecord.class).build();
+        // delete by system, not generating access log
+        verifyDeleteRecords(deleteRequest);
+
+        List<AccessLog> insertAndDeleteLogs = queryAccessLogs();
+        assertThat(insertAndDeleteLogs).hasSize((3));
+
+        AccessLog deleteByIdLog = insertAndDeleteLogs.get(1);
+        assertThat(deleteByIdLog.getOperationType()).isEqualTo(OPERATION_TYPE_DELETE);
+        assertThat(deleteByIdLog.getRecordTypes())
+                .containsExactly(HeartRateRecord.class, BasalMetabolicRateRecord.class);
+        assertThat(deleteByIdLog.getPackageName()).isEqualTo(SELF_PACKAGE_NAME);
+
+        AccessLog deleteByFilterLog = insertAndDeleteLogs.get(2);
+        assertThat(deleteByFilterLog.getOperationType()).isEqualTo(OPERATION_TYPE_DELETE);
+        assertThat(deleteByFilterLog.getRecordTypes()).containsExactly(StepsRecord.class);
+        assertThat(deleteByFilterLog.getPackageName()).isEqualTo(SELF_PACKAGE_NAME);
+    }
+
+    @Test
     @RequiresFlagsEnabled({FLAG_PERSONAL_HEALTH_RECORD})
     public void testAccessLogs_phrFlagOn() throws InterruptedException {
-        List<AccessLog> oldAccessLogsResponse = TestUtils.queryAccessLogs();
+        List<AccessLog> oldAccessLogsResponse = queryAccessLogs();
         // TODO(b/337018927): Change below to upsert and read MedicalResources once we actually
         // create access logs in serviceImpl.
         List<Record> testRecord = Collections.singletonList(getStepsRecord());
-        TestUtils.insertRecords(testRecord);
+        insertRecords(testRecord);
         TestUtils.readRecords(
                 new ReadRecordsRequestUsingFilters.Builder<>(StepsRecord.class).build());
 
@@ -296,7 +353,7 @@ public class HealthConnectAccessLogsTest {
      */
     private static List<AccessLog> queryAccessLogsWithoutThrow() {
         try {
-            return TestUtils.queryAccessLogs();
+            return queryAccessLogs();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

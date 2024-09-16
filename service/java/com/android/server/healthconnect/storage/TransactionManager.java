@@ -22,6 +22,7 @@ import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_UPSERT;
 
 import static com.android.internal.util.Preconditions.checkArgument;
+import static com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper.recordDeleteAccessLog;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.APP_INFO_ID_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.PRIMARY_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.datatypehelpers.RecordHelper.UUID_COLUMN_NAME;
@@ -47,6 +48,7 @@ import android.util.Slog;
 
 import androidx.annotation.VisibleForTesting;
 
+import com.android.healthfitness.flags.Flags;
 import com.android.server.healthconnect.HealthConnectUserContext;
 import com.android.server.healthconnect.storage.datatypehelpers.ChangeLogsHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.RecordHelper;
@@ -209,7 +211,9 @@ public final class TransactionManager {
      * @param request a delete request.
      */
     @SuppressWarnings("NullAway") // TODO(b/317029272): fix this suppression
-    public int deleteAll(@NonNull DeleteTransactionRequest request) throws SQLiteException {
+    public int deleteAll(
+            @NonNull DeleteTransactionRequest request, boolean shouldRecordDeleteAccessLogs)
+            throws SQLiteException {
         long currentTime = Instant.now().toEpochMilli();
         ChangeLogsHelper.ChangeLogs deletionChangelogs =
                 new ChangeLogsHelper.ChangeLogs(OPERATION_TYPE_DELETE, currentTime);
@@ -254,8 +258,7 @@ public final class TransactionManager {
                                             deletedRecordUuid);
 
                                     // Add changelogs for affected records, e.g. a training plan
-                                    // being
-                                    // deleted will create changelogs for affected exercise
+                                    // being deleted will create changelogs for affected exercise
                                     // sessions.
                                     for (ReadTableRequest additionalChangelogUuidRequest :
                                             recordHelper
@@ -299,6 +302,10 @@ public final class TransactionManager {
                     for (UpsertTableRequest modificationChangelog :
                             modificationChangelogs.getUpsertTableRequests()) {
                         insertRecord(db, modificationChangelog);
+                    }
+                    if (Flags.addMissingAccessLogs() && shouldRecordDeleteAccessLogs) {
+                        recordDeleteAccessLog(
+                                db, request.getPackageName(), request.getRecordTypeIds());
                     }
                     return numberOfRecordsDeleted;
                 });
