@@ -43,6 +43,7 @@ import static android.healthconnect.cts.utils.PhrDataFactory.getMedicalResourceI
 import static android.healthconnect.cts.utils.PhrDataFactory.getUpdatedAllergyFhirResource;
 import static android.healthconnect.cts.utils.PhrDataFactory.getUpdatedImmunizationFhirResource;
 
+import static com.android.server.healthconnect.storage.PhrTestUtils.ACCESS_LOG_EQUIVALENCE;
 import static com.android.server.healthconnect.storage.PhrTestUtils.makeUpsertRequest;
 import static com.android.server.healthconnect.storage.datatypehelpers.MedicalResourceHelper.DATA_SOURCE_ID_COLUMN_NAME;
 import static com.android.server.healthconnect.storage.datatypehelpers.MedicalResourceHelper.FHIR_DATA_COLUMN_NAME;
@@ -159,7 +160,8 @@ public class MedicalResourceHelperTest {
         mAccessLogsHelper = AccessLogsHelper.getInstance(mTransactionManager, mAppInfoHelper);
         mFakeTimeSource = new FakeTimeSource(INSTANT_NOW);
         mMedicalDataSourceHelper =
-                new MedicalDataSourceHelper(mTransactionManager, mAppInfoHelper, mFakeTimeSource);
+                new MedicalDataSourceHelper(
+                        mTransactionManager, mAppInfoHelper, mFakeTimeSource, mAccessLogsHelper);
         mMedicalResourceHelper =
                 new MedicalResourceHelper(
                         mTransactionManager,
@@ -888,38 +890,18 @@ public class MedicalResourceHelperTest {
         // allergyResourcePackage2 (through read permission)
         // In this case, read access log is only created for non self read data:
         // MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE.
-        List<AccessLog> accessLogs = sortByAccessTime(mAccessLogsHelper.queryAccessLogs());
-        AccessLog accessLog1 = accessLogs.get(0);
-        AccessLog accessLog2 = accessLogs.get(1);
-        AccessLog accessLog3 = accessLogs.get(2);
+        AccessLog expected =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_READ,
+                        /* medicalResourceTypes= */ Set.of(
+                                MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE),
+                        /* isMedicalDataSourceAccessed= */ false);
 
-        assertThat(accessLogs).hasSize(3);
-        assertThat(accessLog1.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog1.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog1.getRecordTypes()).isEmpty();
-        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog1.getAccessTime()).isNotNull();
-
-        assertThat(accessLog2.getPackageName()).isEqualTo(DIFFERENT_DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog2.getMedicalResourceTypes())
-                .isEqualTo(
-                        Set.of(
-                                MEDICAL_RESOURCE_TYPE_IMMUNIZATION,
-                                MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE));
-        assertThat(accessLog2.getRecordTypes()).isEmpty();
-        assertThat(accessLog2.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog2.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog2.getAccessTime()).isNotNull();
-
-        assertThat(accessLog3.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog3.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE));
-        assertThat(accessLog3.getRecordTypes()).isEmpty();
-        assertThat(accessLog3.getOperationType()).isEqualTo(OPERATION_TYPE_READ);
-        assertThat(accessLog3.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog3.getAccessTime()).isNotNull();
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .contains(expected);
     }
 
     @Test
@@ -952,35 +934,17 @@ public class MedicalResourceHelperTest {
         // The data that the calling app can read: immunizationPackage1 (through read permission)
         // In this case, read access log is created based on the intention of the app
         // even though the actual data accessed is self data: MEDICAL_RESOURCE_TYPE_IMMUNIZATION.
-        List<AccessLog> accessLogs = sortByAccessTime(mAccessLogsHelper.queryAccessLogs());
-        AccessLog accessLog1 = accessLogs.get(0);
-        AccessLog accessLog2 = accessLogs.get(1);
-        AccessLog accessLog3 = accessLogs.get(2);
+        AccessLog expected =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_READ,
+                        /* medicalResourceTypes= */ Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
+                        /* isMedicalDataSourceAccessed= */ false);
 
-        assertThat(accessLogs).hasSize(3);
-        assertThat(accessLog1.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog1.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog1.getRecordTypes()).isEmpty();
-        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog1.getAccessTime()).isNotNull();
-
-        assertThat(accessLog2.getPackageName()).isEqualTo(DIFFERENT_DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog2.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE));
-        assertThat(accessLog2.getRecordTypes()).isEmpty();
-        assertThat(accessLog2.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog2.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog2.getAccessTime()).isNotNull();
-
-        assertThat(accessLog3.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog3.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog3.getRecordTypes()).isEmpty();
-        assertThat(accessLog3.getOperationType()).isEqualTo(OPERATION_TYPE_READ);
-        assertThat(accessLog3.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog3.getAccessTime()).isNotNull();
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .contains(expected);
     }
 
     @Test
@@ -1006,26 +970,17 @@ public class MedicalResourceHelperTest {
         // no write permission.
         // The data that the calling app can read: immunization (through read permission)
         // In this case, read access log is created: MEDICAL_RESOURCE_TYPE_IMMUNIZATION.
-        List<AccessLog> accessLogs = sortByAccessTime(mAccessLogsHelper.queryAccessLogs());
-        AccessLog accessLog1 = accessLogs.get(0);
-        AccessLog accessLog2 = accessLogs.get(1);
+        AccessLog expected =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_READ,
+                        /* medicalResourceTypes= */ Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
+                        /* isMedicalDataSourceAccessed= */ false);
 
-        assertThat(accessLogs).hasSize(2);
-        assertThat(accessLog1.getPackageName()).isEqualTo(DIFFERENT_DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog1.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog1.getRecordTypes()).isEmpty();
-        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog1.getAccessTime()).isNotNull();
-
-        assertThat(accessLog2.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog2.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog2.getRecordTypes()).isEmpty();
-        assertThat(accessLog2.getOperationType()).isEqualTo(OPERATION_TYPE_READ);
-        assertThat(accessLog2.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog2.getAccessTime()).isNotNull();
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .contains(expected);
     }
 
     @Test
@@ -1079,26 +1034,17 @@ public class MedicalResourceHelperTest {
         // The data that the calling app can read: immunization (through read permission)
         // In this case, read access log is created based on the intention of the app
         // even though the actual data accessed is self data: MEDICAL_RESOURCE_TYPE_IMMUNIZATION.
-        List<AccessLog> accessLogs = sortByAccessTime(mAccessLogsHelper.queryAccessLogs());
-        AccessLog accessLog1 = accessLogs.get(0);
-        AccessLog accessLog2 = accessLogs.get(1);
+        AccessLog expected =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_READ,
+                        /* medicalResourceTypes= */ Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
+                        /* isMedicalDataSourceAccessed= */ false);
 
-        assertThat(accessLogs).hasSize(2);
-        assertThat(accessLog1.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog1.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog1.getRecordTypes()).isEmpty();
-        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog1.getAccessTime()).isNotNull();
-
-        assertThat(accessLog2.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog2.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog2.getRecordTypes()).isEmpty();
-        assertThat(accessLog2.getOperationType()).isEqualTo(OPERATION_TYPE_READ);
-        assertThat(accessLog2.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog2.getAccessTime()).isNotNull();
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .contains(expected);
     }
 
     @Test
@@ -1127,26 +1073,17 @@ public class MedicalResourceHelperTest {
         // Even though the app has read permission for MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE,
         // the app did
         // not read any data of that type, so no access logs added for that.
-        List<AccessLog> accessLogs = sortByAccessTime(mAccessLogsHelper.queryAccessLogs());
-        AccessLog accessLog1 = accessLogs.get(0);
-        AccessLog accessLog2 = accessLogs.get(1);
+        AccessLog expected =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_READ,
+                        /* medicalResourceTypes= */ Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
+                        /* isMedicalDataSourceAccessed= */ false);
 
-        assertThat(accessLogs).hasSize(2);
-        assertThat(accessLog1.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog1.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog1.getRecordTypes()).isEmpty();
-        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog1.getAccessTime()).isNotNull();
-
-        assertThat(accessLog2.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog2.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog2.getRecordTypes()).isEmpty();
-        assertThat(accessLog2.getOperationType()).isEqualTo(OPERATION_TYPE_READ);
-        assertThat(accessLog2.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog2.getAccessTime()).isNotNull();
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .contains(expected);
     }
 
     @Test
@@ -1520,17 +1457,17 @@ public class MedicalResourceHelperTest {
         mMedicalResourceHelper.readMedicalResourcesByRequestWithPermissionChecks(
                 readRequest, DATA_SOURCE_PACKAGE_NAME, /* enforceSelfRead= */ false);
 
-        List<AccessLog> accessLogs = mAccessLogsHelper.queryAccessLogs();
-        AccessLog accessLog = accessLogs.get(0);
+        AccessLog expected =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_READ,
+                        /* medicalResourceTypes= */ Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
+                        /* isMedicalDataSourceAccessed= */ false);
 
-        assertThat(accessLogs).hasSize(1);
-        assertThat(accessLog.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog.getRecordTypes()).isEmpty();
-        assertThat(accessLog.getOperationType()).isEqualTo(OPERATION_TYPE_READ);
-        assertThat(accessLog.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog.getAccessTime()).isNotNull();
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .contains(expected);
     }
 
     @Test
@@ -1721,17 +1658,17 @@ public class MedicalResourceHelperTest {
                 /* numOfResources= */ 6,
                 dataSource);
 
-        List<AccessLog> accessLogs = mAccessLogsHelper.queryAccessLogs();
-        AccessLog accessLog = accessLogs.get(0);
+        AccessLog expected =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_UPSERT,
+                        /* medicalResourceTypes= */ Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
+                        /* isMedicalDataSourceAccessed= */ false);
 
-        assertThat(accessLogs).hasSize(1);
-        assertThat(accessLog.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog.getRecordTypes()).isEmpty();
-        assertThat(accessLog.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog.getAccessTime()).isNotNull();
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .contains(expected);
     }
 
     @Test
@@ -1744,20 +1681,19 @@ public class MedicalResourceHelperTest {
                 DATA_SOURCE_PACKAGE_NAME,
                 createUpsertMedicalResourceRequests(List.of(immunization, allergy), dataSource));
 
-        List<AccessLog> accessLogs = mAccessLogsHelper.queryAccessLogs();
-        AccessLog accessLog = accessLogs.get(0);
-
-        assertThat(accessLogs).hasSize(1);
-        assertThat(accessLog.getMedicalResourceTypes())
-                .isEqualTo(
-                        Set.of(
+        AccessLog expected =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_UPSERT,
+                        /* medicalResourceTypes= */ Set.of(
                                 MEDICAL_RESOURCE_TYPE_IMMUNIZATION,
-                                MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE));
-        assertThat(accessLog.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog.getRecordTypes()).isEmpty();
-        assertThat(accessLog.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog.getAccessTime()).isNotNull();
+                                MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE),
+                        /* isMedicalDataSourceAccessed= */ false);
+
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .contains(expected);
     }
 
     @Test
@@ -1776,30 +1712,26 @@ public class MedicalResourceHelperTest {
                 DATA_SOURCE_PACKAGE_NAME,
                 createUpsertMedicalResourceRequests(List.of(updatedImmunization), dataSource));
 
-        List<AccessLog> accessLogs = mAccessLogsHelper.queryAccessLogs();
-        AccessLog accessLog1 = accessLogs.get(0);
-        AccessLog accessLog2 = accessLogs.get(1);
-
-        assertThat(accessLogs).hasSize(2);
-
-        assertThat(accessLog1.getMedicalResourceTypes())
-                .isEqualTo(
-                        Set.of(
+        AccessLog insertAccessLog =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_UPSERT,
+                        /* medicalResourceTypes= */ Set.of(
                                 MEDICAL_RESOURCE_TYPE_IMMUNIZATION,
-                                MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE));
-        assertThat(accessLog1.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog1.getRecordTypes()).isEmpty();
-        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog1.getAccessTime()).isNotNull();
+                                MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE),
+                        /* isMedicalDataSourceAccessed= */ false);
+        AccessLog updateAccessLog =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_UPSERT,
+                        /* medicalResourceTypes= */ Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
+                        /* isMedicalDataSourceAccessed= */ false);
 
-        assertThat(accessLog2.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog2.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog2.getRecordTypes()).isEmpty();
-        assertThat(accessLog2.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog2.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog2.getAccessTime()).isNotNull();
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .containsAtLeast(insertAccessLog, updateAccessLog);
     }
 
     @Test
@@ -2151,18 +2083,17 @@ public class MedicalResourceHelperTest {
         mMedicalResourceHelper.deleteMedicalResourcesByIdsWithoutPermissionChecks(
                 List.of(resource1.getId()));
 
-        List<AccessLog> accessLogs = mAccessLogsHelper.queryAccessLogs();
-        AccessLog accessLog1 = accessLogs.get(0);
+        AccessLog deleteAccessLog =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_DELETE,
+                        /* medicalResourceTypes= */ Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
+                        /* isMedicalDataSourceAccessed= */ false);
 
-        assertThat(accessLogs).hasSize(1);
-
-        assertThat(accessLog1.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog1.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog1.getRecordTypes()).isEmpty();
-        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog1.getAccessTime()).isNotNull();
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .doesNotContain(deleteAccessLog);
     }
 
     @Test
@@ -2184,36 +2115,17 @@ public class MedicalResourceHelperTest {
         // In this test, we have inserted two different resource types from different packages.
         // When the calling app, calls the delete API, we expect access log to be created only
         // for the deleted resource type. In this case it would be: immunizationPackage1
-        List<AccessLog> accessLogs = sortByAccessTime(mAccessLogsHelper.queryAccessLogs());
-        AccessLog accessLog1 = accessLogs.get(0);
-        AccessLog accessLog2 = accessLogs.get(1);
-        AccessLog accessLog3 = accessLogs.get(2);
+        AccessLog deleteAccessLog =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_DELETE,
+                        /* medicalResourceTypes= */ Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
+                        /* isMedicalDataSourceAccessed= */ false);
 
-        assertThat(accessLogs).hasSize(3);
-
-        assertThat(accessLog1.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog1.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog1.getRecordTypes()).isEmpty();
-        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog1.getAccessTime()).isNotNull();
-
-        assertThat(accessLog2.getPackageName()).isEqualTo(DIFFERENT_DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog2.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE));
-        assertThat(accessLog2.getRecordTypes()).isEmpty();
-        assertThat(accessLog2.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog2.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog2.getAccessTime()).isNotNull();
-
-        assertThat(accessLog3.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog3.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog3.getRecordTypes()).isEmpty();
-        assertThat(accessLog3.getOperationType()).isEqualTo(OPERATION_TYPE_DELETE);
-        assertThat(accessLog3.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog3.getAccessTime()).isNotNull();
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .contains(deleteAccessLog);
     }
 
     @Test
@@ -2236,39 +2148,19 @@ public class MedicalResourceHelperTest {
         // When the calling app, calls the delete API, we expect access log to be created
         // for the deleted resource types. In this case it would be: immunizationPackage1,
         // allergyResourcePackage1
-        List<AccessLog> accessLogs = sortByAccessTime(mAccessLogsHelper.queryAccessLogs());
-        AccessLog accessLog1 = accessLogs.get(0);
-        AccessLog accessLog2 = accessLogs.get(1);
-        AccessLog accessLog3 = accessLogs.get(2);
-
-        assertThat(accessLogs).hasSize(3);
-
-        assertThat(accessLog1.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog1.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog1.getRecordTypes()).isEmpty();
-        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog1.getAccessTime()).isNotNull();
-
-        assertThat(accessLog2.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog2.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE));
-        assertThat(accessLog2.getRecordTypes()).isEmpty();
-        assertThat(accessLog2.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog2.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog2.getAccessTime()).isNotNull();
-
-        assertThat(accessLog3.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog3.getMedicalResourceTypes())
-                .isEqualTo(
-                        Set.of(
+        AccessLog deleteAccessLog =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_DELETE,
+                        /* medicalResourceTypes= */ Set.of(
                                 MEDICAL_RESOURCE_TYPE_IMMUNIZATION,
-                                MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE));
-        assertThat(accessLog3.getRecordTypes()).isEmpty();
-        assertThat(accessLog3.getOperationType()).isEqualTo(OPERATION_TYPE_DELETE);
-        assertThat(accessLog3.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog3.getAccessTime()).isNotNull();
+                                MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE),
+                        /* isMedicalDataSourceAccessed= */ false);
+
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .contains(deleteAccessLog);
     }
 
     @Test
@@ -2457,39 +2349,20 @@ public class MedicalResourceHelperTest {
                         .addDataSourceId(dataSource2.getId())
                         .build(),
                 /* callingPackageName= */ DATA_SOURCE_PACKAGE_NAME);
-        List<AccessLog> accessLogs = sortByAccessTime(mAccessLogsHelper.queryAccessLogs());
-        AccessLog accessLog1 = accessLogs.get(0);
-        AccessLog accessLog2 = accessLogs.get(1);
-        AccessLog accessLog3 = accessLogs.get(2);
 
-        assertThat(accessLogs).hasSize(3);
-
-        assertThat(accessLog1.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog1.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog1.getRecordTypes()).isEmpty();
-        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog1.getAccessTime()).isNotNull();
-
-        assertThat(accessLog2.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog2.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE));
-        assertThat(accessLog2.getRecordTypes()).isEmpty();
-        assertThat(accessLog2.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog2.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog2.getAccessTime()).isNotNull();
-
-        assertThat(accessLog3.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog3.getMedicalResourceTypes())
-                .isEqualTo(
-                        Set.of(
+        AccessLog deleteAccessLog =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_DELETE,
+                        /* medicalResourceTypes= */ Set.of(
                                 MEDICAL_RESOURCE_TYPE_IMMUNIZATION,
-                                MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE));
-        assertThat(accessLog3.getRecordTypes()).isEmpty();
-        assertThat(accessLog3.getOperationType()).isEqualTo(OPERATION_TYPE_DELETE);
-        assertThat(accessLog3.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog3.getAccessTime()).isNotNull();
+                                MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE),
+                        /* isMedicalDataSourceAccessed= */ false);
+
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .contains(deleteAccessLog);
     }
 
     @Test
@@ -2549,36 +2422,18 @@ public class MedicalResourceHelperTest {
                         .addDataSourceId(dataSource2.getId())
                         .build(),
                 /* callingPackageName= */ DATA_SOURCE_PACKAGE_NAME);
-        List<AccessLog> accessLogs = sortByAccessTime(mAccessLogsHelper.queryAccessLogs());
-        AccessLog accessLog1 = accessLogs.get(0);
-        AccessLog accessLog2 = accessLogs.get(1);
-        AccessLog accessLog3 = accessLogs.get(2);
 
-        assertThat(accessLogs).hasSize(3);
+        AccessLog deleteAccessLog =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_DELETE,
+                        /* medicalResourceTypes= */ Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
+                        /* isMedicalDataSourceAccessed= */ false);
 
-        assertThat(accessLog1.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog1.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog1.getRecordTypes()).isEmpty();
-        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog1.getAccessTime()).isNotNull();
-
-        assertThat(accessLog2.getPackageName()).isEqualTo(DIFFERENT_DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog2.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE));
-        assertThat(accessLog2.getRecordTypes()).isEmpty();
-        assertThat(accessLog2.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog2.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog2.getAccessTime()).isNotNull();
-
-        assertThat(accessLog3.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog3.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog3.getRecordTypes()).isEmpty();
-        assertThat(accessLog3.getOperationType()).isEqualTo(OPERATION_TYPE_DELETE);
-        assertThat(accessLog3.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog3.getAccessTime()).isNotNull();
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .contains(deleteAccessLog);
     }
 
     @Test
@@ -2593,18 +2448,18 @@ public class MedicalResourceHelperTest {
                         .addDataSourceId(dataSource1.getId())
                         .build(),
                 /* callingPackageName= */ DATA_SOURCE_PACKAGE_NAME);
-        List<AccessLog> accessLogs = sortByAccessTime(mAccessLogsHelper.queryAccessLogs());
-        AccessLog accessLog1 = accessLogs.get(0);
 
-        assertThat(accessLogs).hasSize(1);
+        AccessLog deleteAccessLog =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_DELETE,
+                        /* medicalResourceTypes= */ Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
+                        /* isMedicalDataSourceAccessed= */ false);
 
-        assertThat(accessLog1.getPackageName()).isEqualTo(DIFFERENT_DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog1.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog1.getRecordTypes()).isEmpty();
-        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog1.getAccessTime()).isNotNull();
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .doesNotContain(deleteAccessLog);
     }
 
     @Test
@@ -2618,18 +2473,18 @@ public class MedicalResourceHelperTest {
                 new DeleteMedicalResourcesRequest.Builder()
                         .addDataSourceId(dataSource1.getId())
                         .build());
-        List<AccessLog> accessLogs = mAccessLogsHelper.queryAccessLogs();
-        AccessLog accessLog1 = accessLogs.get(0);
 
-        assertThat(accessLogs).hasSize(1);
+        AccessLog deleteAccessLog =
+                new AccessLog(
+                        DATA_SOURCE_PACKAGE_NAME,
+                        INSTANT_NOW.toEpochMilli(),
+                        OPERATION_TYPE_DELETE,
+                        /* medicalResourceTypes= */ Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
+                        /* isMedicalDataSourceAccessed= */ false);
 
-        assertThat(accessLog1.getPackageName()).isEqualTo(DATA_SOURCE_PACKAGE_NAME);
-        assertThat(accessLog1.getMedicalResourceTypes())
-                .isEqualTo(Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION));
-        assertThat(accessLog1.getRecordTypes()).isEmpty();
-        assertThat(accessLog1.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
-        assertThat(accessLog1.isMedicalDataSourceAccessed()).isFalse();
-        assertThat(accessLog1.getAccessTime()).isNotNull();
+        assertThat(mAccessLogsHelper.queryAccessLogs())
+                .comparingElementsUsing(ACCESS_LOG_EQUIVALENCE)
+                .doesNotContain(deleteAccessLog);
     }
 
     @Test
