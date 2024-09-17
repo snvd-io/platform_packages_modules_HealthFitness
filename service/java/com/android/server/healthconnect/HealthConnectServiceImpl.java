@@ -19,6 +19,7 @@ package com.android.server.healthconnect;
 import static android.Manifest.permission.MIGRATE_HEALTH_CONNECT_DATA;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.health.connect.Constants.DEFAULT_LONG;
+import static android.health.connect.Constants.MAXIMUM_PAGE_SIZE;
 import static android.health.connect.Constants.READ;
 import static android.health.connect.HealthConnectException.ERROR_INTERNAL;
 import static android.health.connect.HealthConnectException.ERROR_INVALID_ARGUMENT;
@@ -2488,6 +2489,10 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         return;
                     }
 
+                    if (requests.isEmpty()) {
+                        tryAndReturnResult(callback, List.of(), logger);
+                    }
+
                     enforceIsForegroundUser(userHandle);
                     verifyPackageNameFromUid(uid, attributionSource);
                     if (holdsDataManagementPermission) {
@@ -2563,6 +2568,24 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                 errorCallback,
                                 unsupportedException,
                                 unsupportedException.getErrorCode());
+                        return;
+                    }
+
+                    if (medicalResourceIds.isEmpty()) {
+                        callback.onResult(new ReadMedicalResourcesResponse(List.of(), null));
+                        return;
+                    }
+
+                    if (medicalResourceIds.size() > MAXIMUM_PAGE_SIZE) {
+                        HealthConnectException invalidSizeException =
+                                new HealthConnectException(
+                                        ERROR_INVALID_ARGUMENT,
+                                        "The number of requested IDs must be <= "
+                                                + MAXIMUM_PAGE_SIZE);
+                        tryAndThrowException(
+                                errorCallback,
+                                invalidSizeException,
+                                invalidSizeException.getErrorCode());
                         return;
                     }
 
