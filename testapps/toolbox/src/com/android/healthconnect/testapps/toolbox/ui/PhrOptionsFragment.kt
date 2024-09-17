@@ -96,7 +96,7 @@ class PhrOptionsFragment : Fragment(R.layout.fragment_phr_options) {
         view.requireViewById<Button>(R.id.phr_create_data_source_button).setOnClickListener {
             executeAndShowMessage {
                 createMedicalDataSource(view, Uri.parse("example.fhir.com/R4/123"),
-                    "Hospital X")
+                    "Hospital" + (0..1000).random())
             }
         }
 
