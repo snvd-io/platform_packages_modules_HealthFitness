@@ -16,6 +16,9 @@
 
 package android.healthconnect.cts;
 
+import static android.health.connect.HealthPermissions.READ_STEPS;
+import static android.health.connect.HealthPermissions.WRITE_DISTANCE;
+import static android.health.connect.HealthPermissions.WRITE_HEART_RATE;
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_DELETE;
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_READ;
 import static android.health.connect.accesslog.AccessLog.OperationType.OPERATION_TYPE_UPSERT;
@@ -27,6 +30,7 @@ import static android.healthconnect.cts.utils.DataFactory.getHeartRateRecord;
 import static android.healthconnect.cts.utils.DataFactory.getStepsRecord;
 import static android.healthconnect.cts.utils.DataFactory.getTestRecords;
 import static android.healthconnect.cts.utils.DataFactory.getUpdatedStepsRecord;
+import static android.healthconnect.cts.utils.PermissionHelper.grantPermission;
 import static android.healthconnect.cts.utils.TestUtils.deleteRecordsByIdFilter;
 import static android.healthconnect.cts.utils.TestUtils.getAggregateResponse;
 import static android.healthconnect.cts.utils.TestUtils.getChangeLogToken;
@@ -34,6 +38,7 @@ import static android.healthconnect.cts.utils.TestUtils.getChangeLogs;
 import static android.healthconnect.cts.utils.TestUtils.insertRecord;
 import static android.healthconnect.cts.utils.TestUtils.insertRecords;
 import static android.healthconnect.cts.utils.TestUtils.queryAccessLogs;
+import static android.healthconnect.cts.utils.TestUtils.readRecords;
 import static android.healthconnect.cts.utils.TestUtils.verifyDeleteRecords;
 
 import static com.android.healthfitness.flags.Flags.FLAG_ADD_MISSING_ACCESS_LOGS;
@@ -114,8 +119,7 @@ public class HealthConnectAccessLogsTest {
         List<AccessLog> oldAccessLogsResponse = queryAccessLogs();
         List<Record> testRecord = Collections.singletonList(getStepsRecord());
         insertRecords(testRecord);
-        TestUtils.readRecords(
-                new ReadRecordsRequestUsingFilters.Builder<>(StepsRecord.class).build());
+        readRecords(new ReadRecordsRequestUsingFilters.Builder<>(StepsRecord.class).build());
 
         List<AccessLog> newAccessLogsResponse =
                 waitForNewAccessLogsWithExpectedMinSize(
@@ -137,11 +141,9 @@ public class HealthConnectAccessLogsTest {
         List<AccessLog> oldAccessLogsResponse = queryAccessLogs();
         List<Record> testRecord = getTestRecords();
         insertRecords(testRecord);
-        TestUtils.readRecords(
-                new ReadRecordsRequestUsingFilters.Builder<>(StepsRecord.class).build());
-        TestUtils.readRecords(
-                new ReadRecordsRequestUsingFilters.Builder<>(HeartRateRecord.class).build());
-        TestUtils.readRecords(
+        readRecords(new ReadRecordsRequestUsingFilters.Builder<>(StepsRecord.class).build());
+        readRecords(new ReadRecordsRequestUsingFilters.Builder<>(HeartRateRecord.class).build());
+        readRecords(
                 new ReadRecordsRequestUsingFilters.Builder<>(BasalMetabolicRateRecord.class)
                         .build());
 
@@ -386,9 +388,8 @@ public class HealthConnectAccessLogsTest {
         // TODO(b/337018927): Change below to upsert and read MedicalResources once we actually
         // create access logs in serviceImpl.
         List<Record> testRecord = Collections.singletonList(getStepsRecord());
-        insertRecords(testRecord);
-        TestUtils.readRecords(
-                new ReadRecordsRequestUsingFilters.Builder<>(StepsRecord.class).build());
+        TestUtils.insertRecords(testRecord);
+        readRecords(new ReadRecordsRequestUsingFilters.Builder<>(StepsRecord.class).build());
 
         List<AccessLog> newAccessLogsResponse =
                 waitForNewAccessLogsWithExpectedMinSize(
@@ -401,6 +402,51 @@ public class HealthConnectAccessLogsTest {
         AccessLog accessLog = newAccessLogsResponse.get(newAccessLogsResponse.size() - 1);
         assertThat(accessLog.getMedicalResourceTypes()).isEmpty();
         assertThat(accessLog.isMedicalDataSourceAccessed()).isFalse();
+    }
+
+    @Test
+    public void testAccessLogs_readRecords_readAccessLogCreated() throws Exception {
+        grantPermission(SELF_PACKAGE_NAME, READ_STEPS);
+        readRecords(new ReadRecordsRequestUsingFilters.Builder<>(StepsRecord.class).build());
+
+        List<AccessLog> accessLogs = TestUtils.queryAccessLogs();
+        assertThat(accessLogs).hasSize(1);
+        AccessLog log = accessLogs.get(0);
+        assertThat(log.getPackageName()).isEqualTo(SELF_PACKAGE_NAME);
+        assertThat(log.getRecordTypes()).containsExactly(StepsRecord.class);
+        assertThat(log.getOperationType()).isEqualTo(OPERATION_TYPE_READ);
+    }
+
+    @Test
+    public void testAccessLogs_insertRecord_writeAccessLogCreated() throws Exception {
+        grantPermission(SELF_PACKAGE_NAME, WRITE_HEART_RATE);
+        insertRecord(getHeartRateRecord());
+
+        List<AccessLog> accessLogs = TestUtils.queryAccessLogs();
+        assertThat(accessLogs).hasSize(1);
+        AccessLog log = accessLogs.get(0);
+        assertThat(log.getPackageName()).isEqualTo(SELF_PACKAGE_NAME);
+        assertThat(log.getRecordTypes()).containsExactly(HeartRateRecord.class);
+        assertThat(log.getOperationType()).isEqualTo(OPERATION_TYPE_UPSERT);
+    }
+
+    @Test
+    @RequiresFlagsEnabled({FLAG_ADD_MISSING_ACCESS_LOGS})
+    public void testAccessLogs_deleteRecords_deleteAccessLogCreated() throws Exception {
+        grantPermission(SELF_PACKAGE_NAME, WRITE_DISTANCE);
+        TimeInstantRangeFilter timeFilter =
+                new TimeInstantRangeFilter.Builder()
+                        .setStartTime(Instant.EPOCH)
+                        .setEndTime(Instant.now())
+                        .build();
+        verifyDeleteRecords(DistanceRecord.class, timeFilter);
+
+        List<AccessLog> accessLogs = TestUtils.queryAccessLogs();
+        assertThat(accessLogs).hasSize(1);
+        AccessLog log = accessLogs.get(0);
+        assertThat(log.getPackageName()).isEqualTo(SELF_PACKAGE_NAME);
+        assertThat(log.getRecordTypes()).containsExactly(DistanceRecord.class);
+        assertThat(log.getOperationType()).isEqualTo(OPERATION_TYPE_DELETE);
     }
 
     /**
