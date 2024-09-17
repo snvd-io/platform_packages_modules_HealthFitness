@@ -54,6 +54,7 @@ import com.android.server.healthconnect.storage.utils.WhereClauses;
 import com.google.common.collect.ImmutableList;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -102,25 +103,56 @@ public final class TransactionTestUtils {
                         mHealthConnectInjectorBuilder.build().getDeviceInfoHelper(),
                         mContext,
                         /* isInsertRequest= */ true,
-                        /* useProvidedUuid= */ false,
-                        /* skipPackageNameAndLogs= */ false));
+                        /* extraPermsStateMap= */ Collections.emptyMap()));
     }
 
+    /** Creates a {@link ReadTransactionRequest} from the given record to id map. */
     public static ReadTransactionRequest getReadTransactionRequest(
             Map<Integer, List<UUID>> recordTypeToUuids) {
+        return getReadTransactionRequest(TEST_PACKAGE_NAME, recordTypeToUuids);
+    }
+
+    /**
+     * Creates a {@link ReadTransactionRequest} from the given package name and record to id map.
+     */
+    public static ReadTransactionRequest getReadTransactionRequest(
+            String packageName, Map<Integer, List<UUID>> recordTypeToUuids) {
+        return getReadTransactionRequest(
+                packageName, recordTypeToUuids, /* isReadingSelfData= */ false);
+    }
+
+    /** Creates a {@link ReadTransactionRequest} from the given parameters. */
+    public static ReadTransactionRequest getReadTransactionRequest(
+            String packageName,
+            Map<Integer, List<UUID>> recordTypeToUuids,
+            boolean isReadingSelfData) {
         return new ReadTransactionRequest(
-                TEST_PACKAGE_NAME,
+                packageName,
                 recordTypeToUuids,
                 /* startDateAccessMillis= */ 0,
                 NO_EXTRA_PERMS,
                 /* isInForeground= */ true,
-                DeviceInfoHelper.getInstance());
+                DeviceInfoHelper.getInstance(),
+                isReadingSelfData);
     }
 
+    /**
+     * Creates a {@link ReadTransactionRequest} from the given {@link ReadRecordsRequestParcel
+     * request}.
+     */
     public static ReadTransactionRequest getReadTransactionRequest(
             ReadRecordsRequestParcel request) {
+        return getReadTransactionRequest(TEST_PACKAGE_NAME, request);
+    }
+
+    /**
+     * Creates a {@link ReadTransactionRequest} from the given package name and {@link
+     * ReadRecordsRequestParcel request}.
+     */
+    public static ReadTransactionRequest getReadTransactionRequest(
+            String packageName, ReadRecordsRequestParcel request) {
         return new ReadTransactionRequest(
-                TEST_PACKAGE_NAME,
+                packageName,
                 request,
                 /* startDateAccessMillis= */ 0,
                 /* enforceSelfRead= */ false,
