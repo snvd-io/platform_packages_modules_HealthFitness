@@ -156,7 +156,11 @@ public final class TransactionManager {
                         insertRecord(db, modificationChangelog);
                     }
 
-                    recordUpsertAccessLog(db, request.getPackageName(), request.getRecordTypeIds());
+                    recordUpsertAccessLog(
+                            db,
+                            request.getPackageName(),
+                            request.getRecordTypeIds(),
+                            appInfoHelper);
                     return request.getUUIdsInOrder();
                 });
     }
@@ -215,7 +219,10 @@ public final class TransactionManager {
      * @param request a delete request.
      */
     @SuppressWarnings("NullAway") // TODO(b/317029272): fix this suppression
-    public int deleteAll(DeleteTransactionRequest request, boolean shouldRecordDeleteAccessLogs)
+    public int deleteAll(
+            DeleteTransactionRequest request,
+            boolean shouldRecordDeleteAccessLogs,
+            AppInfoHelper appInfoHelper)
             throws SQLiteException {
         long currentTime = Instant.now().toEpochMilli();
         ChangeLogsHelper.ChangeLogs deletionChangelogs =
@@ -308,7 +315,10 @@ public final class TransactionManager {
                     }
                     if (Flags.addMissingAccessLogs() && shouldRecordDeleteAccessLogs) {
                         recordDeleteAccessLog(
-                                db, request.getPackageName(), request.getRecordTypeIds());
+                                db,
+                                request.getPackageName(),
+                                request.getRecordTypeIds(),
+                                appInfoHelper);
                     }
                     return numberOfRecordsDeleted;
                 });
@@ -322,7 +332,8 @@ public final class TransactionManager {
     public void populateWithAggregation(
             AggregateTableRequest aggregateTableRequest,
             String packageName,
-            Set<Integer> recordTypeIds) {
+            Set<Integer> recordTypeIds,
+            AppInfoHelper appInfoHelper) {
         final SQLiteDatabase db = getReadableDb();
         try (Cursor cursor = db.rawQuery(aggregateTableRequest.getAggregationCommand(), null);
                 Cursor metaDataCursor =
@@ -331,7 +342,7 @@ public final class TransactionManager {
             aggregateTableRequest.onResultsFetched(cursor, metaDataCursor);
         }
         if (Flags.addMissingAccessLogs()) {
-            recordReadAccessLog(getWritableDb(), packageName, recordTypeIds);
+            recordReadAccessLog(getWritableDb(), packageName, recordTypeIds, appInfoHelper);
         }
     }
 
@@ -344,8 +355,8 @@ public final class TransactionManager {
      *     information, which should use {@link #readRecordsAndPageToken(ReadTransactionRequest)}
      *     instead.
      */
-    public List<RecordInternal<?>> readRecordsByIds(ReadTransactionRequest request)
-            throws SQLiteException {
+    public List<RecordInternal<?>> readRecordsByIds(
+            ReadTransactionRequest request, AppInfoHelper appInfoHelper) throws SQLiteException {
         // TODO(b/308158714): Make this build time check once we have different classes.
         checkArgument(
                 request.getPageToken() == null && request.getPageSize().isEmpty(),
@@ -356,7 +367,8 @@ public final class TransactionManager {
             requireNonNull(helper);
             try (Cursor cursor = read(readTableRequest)) {
                 List<RecordInternal<?>> internalRecords =
-                        helper.getInternalRecords(cursor, request.getDeviceInfoHelper());
+                        helper.getInternalRecords(
+                                cursor, request.getDeviceInfoHelper(), appInfoHelper);
                 populateInternalRecordsWithExtraData(internalRecords, readTableRequest);
                 recordInternals.addAll(internalRecords);
             }
@@ -364,7 +376,10 @@ public final class TransactionManager {
 
         if (Flags.addMissingAccessLogs() && !request.isReadingSelfData()) {
             recordReadAccessLog(
-                    getWritableDb(), request.getPackageName(), request.getRecordTypeIds());
+                    getWritableDb(),
+                    request.getPackageName(),
+                    request.getRecordTypeIds(),
+                    appInfoHelper);
         }
         return recordInternals;
     }
@@ -382,7 +397,7 @@ public final class TransactionManager {
      *     #readRecordsByIds(ReadTransactionRequest)} instead.
      */
     public Pair<List<RecordInternal<?>>, PageTokenWrapper> readRecordsAndPageToken(
-            ReadTransactionRequest request) throws SQLiteException {
+            ReadTransactionRequest request, AppInfoHelper appInfoHelper) throws SQLiteException {
         // TODO(b/308158714): Make these build time checks once we have different classes.
         checkArgument(
                 request.getPageToken() != null && request.getPageSize().isPresent(),
@@ -403,7 +418,8 @@ public final class TransactionManager {
                             cursor,
                             request.getPageSize().orElse(DEFAULT_PAGE_SIZE),
                             // pageToken is never null for read by filter requests
-                            requireNonNull(request.getPageToken()));
+                            requireNonNull(request.getPageToken()),
+                            appInfoHelper);
             recordInternalList = readResult.first;
             pageToken = readResult.second;
             populateInternalRecordsWithExtraData(recordInternalList, readTableRequest);
@@ -411,7 +427,10 @@ public final class TransactionManager {
 
         if (Flags.addMissingAccessLogs() && !request.isReadingSelfData()) {
             recordReadAccessLog(
-                    getWritableDb(), request.getPackageName(), request.getRecordTypeIds());
+                    getWritableDb(),
+                    request.getPackageName(),
+                    request.getRecordTypeIds(),
+                    appInfoHelper);
         }
         return Pair.create(recordInternalList, pageToken);
     }
@@ -610,7 +629,11 @@ public final class TransactionManager {
                         insertRecord(db, modificationChangelog);
                     }
 
-                    recordUpsertAccessLog(db, request.getPackageName(), request.getRecordTypeIds());
+                    recordUpsertAccessLog(
+                            db,
+                            request.getPackageName(),
+                            request.getRecordTypeIds(),
+                            appInfoHelper);
                 });
     }
 

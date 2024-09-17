@@ -119,7 +119,7 @@ public class TransactionManagerTest {
         mTransactionTestUtils = new TransactionTestUtils(context, mTransactionManager);
         mTransactionTestUtils.insertApp(TEST_PACKAGE_NAME);
 
-        AppInfoHelper.clearInstanceForTest();
+        AppInfoHelper.resetInstanceForTest();
         mAppInfoHelper = AppInfoHelper.getInstance(mTransactionManager);
     }
 
@@ -141,7 +141,7 @@ public class TransactionManagerTest {
                 getReadTransactionRequest(request.toReadRecordsRequestParcel());
 
         List<RecordInternal<?>> records =
-                mTransactionManager.readRecordsByIds(readTransactionRequest);
+                mTransactionManager.readRecordsByIds(readTransactionRequest, mAppInfoHelper);
         assertThat(records).hasSize(1);
         assertThat(records.get(0).getUuid()).isEqualTo(UUID.fromString(uuid));
     }
@@ -166,7 +166,8 @@ public class TransactionManagerTest {
                                 RecordTypeIdentifier.RECORD_TYPE_BLOOD_PRESSURE,
                                 bloodPressureUuids));
 
-        List<RecordInternal<?>> records = mTransactionManager.readRecordsByIds(request);
+        List<RecordInternal<?>> records =
+                mTransactionManager.readRecordsByIds(request, mAppInfoHelper);
         assertThat(records).hasSize(2);
         assertThat(records.get(0).getUuid()).isEqualTo(UUID.fromString(uuids.get(0)));
         assertThat(records.get(1).getUuid()).isEqualTo(UUID.fromString(uuids.get(1)));
@@ -184,7 +185,7 @@ public class TransactionManagerTest {
                         .build();
         ReadTransactionRequest readTransactionRequest =
                 getReadTransactionRequest(request.toReadRecordsRequestParcel());
-        mTransactionManager.readRecordsByIds(readTransactionRequest);
+        mTransactionManager.readRecordsByIds(readTransactionRequest, mAppInfoHelper);
 
         List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         assertThat(result).isEmpty();
@@ -206,7 +207,9 @@ public class TransactionManagerTest {
         Throwable thrown =
                 assertThrows(
                         IllegalArgumentException.class,
-                        () -> mTransactionManager.readRecordsByIds(readTransactionRequest));
+                        () ->
+                                mTransactionManager.readRecordsByIds(
+                                        readTransactionRequest, mAppInfoHelper));
         assertThat(thrown).hasMessageThat().contains("Expect read by id request");
     }
 
@@ -234,7 +237,7 @@ public class TransactionManagerTest {
         ReadTransactionRequest readTransactionRequest =
                 getReadTransactionRequest(request.toReadRecordsRequestParcel());
         Pair<List<RecordInternal<?>>, PageTokenWrapper> result =
-                mTransactionManager.readRecordsAndPageToken(readTransactionRequest);
+                mTransactionManager.readRecordsAndPageToken(readTransactionRequest, mAppInfoHelper);
         List<RecordInternal<?>> records = result.first;
         assertThat(records).hasSize(1);
         assertThat(result.first.get(0).getUuid()).isEqualTo(UUID.fromString(uuids.get(0)));
@@ -249,7 +252,7 @@ public class TransactionManagerTest {
 
         ReadTransactionRequest readTransactionRequest =
                 getReadTransactionRequest(request.toReadRecordsRequestParcel());
-        mTransactionManager.readRecordsAndPageToken(readTransactionRequest);
+        mTransactionManager.readRecordsAndPageToken(readTransactionRequest, mAppInfoHelper);
 
         List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         assertThat(result).hasSize(1);
@@ -269,7 +272,7 @@ public class TransactionManagerTest {
 
         ReadTransactionRequest readTransactionRequest =
                 getReadTransactionRequest(request.toReadRecordsRequestParcel());
-        mTransactionManager.readRecordsAndPageToken(readTransactionRequest);
+        mTransactionManager.readRecordsAndPageToken(readTransactionRequest, mAppInfoHelper);
 
         List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         assertThat(result).isEmpty();
@@ -287,7 +290,9 @@ public class TransactionManagerTest {
         Throwable thrown =
                 assertThrows(
                         IllegalArgumentException.class,
-                        () -> mTransactionManager.readRecordsAndPageToken(readTransactionRequest));
+                        () ->
+                                mTransactionManager.readRecordsAndPageToken(
+                                        readTransactionRequest, mAppInfoHelper));
         assertThat(thrown).hasMessageThat().contains("Expect read by filter request");
     }
 
@@ -304,7 +309,8 @@ public class TransactionManagerTest {
         assertThat(parcel.usesIdFilters()).isTrue();
         mTransactionManager.deleteAll(
                 new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel, mAppInfoHelper),
-                /* shouldRecordDeleteAccessLogs= */ false);
+                /* shouldRecordDeleteAccessLogs= */ false,
+                mAppInfoHelper);
         List<UUID> uuidList = mTransactionTestUtils.getAllDeletedUuids();
         assertThat(uuidList).hasSize(1);
         assertThat(uuidList.get(0).toString()).isEqualTo(uuids.get(0));
@@ -327,7 +333,8 @@ public class TransactionManagerTest {
         assertThat(parcel.usesIdFilters()).isFalse();
         mTransactionManager.deleteAll(
                 new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel, mAppInfoHelper),
-                /* shouldRecordDeleteAccessLogs= */ false);
+                /* shouldRecordDeleteAccessLogs= */ false,
+                mAppInfoHelper);
         List<UUID> uuidList = mTransactionTestUtils.getAllDeletedUuids();
         assertThat(uuidList).hasSize(1);
         assertThat(uuidList.get(0).toString()).isEqualTo(uuids.get(0));
@@ -351,7 +358,8 @@ public class TransactionManagerTest {
         DeleteUsingFiltersRequestParcel parcel = new DeleteUsingFiltersRequestParcel(deleteRequest);
         mTransactionManager.deleteAll(
                 new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel, mAppInfoHelper),
-                /* shouldRecordDeleteAccessLogs= */ false);
+                /* shouldRecordDeleteAccessLogs= */ false,
+                mAppInfoHelper);
 
         List<UUID> uuidList = mTransactionTestUtils.getAllDeletedUuids();
         assertThat(uuidList).hasSize(DEFAULT_PAGE_SIZE + 1);
@@ -372,7 +380,8 @@ public class TransactionManagerTest {
         DeleteUsingFiltersRequestParcel parcel = new DeleteUsingFiltersRequestParcel(deleteRequest);
         mTransactionManager.deleteAll(
                 new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel, mAppInfoHelper),
-                /* shouldRecordDeleteAccessLogs= */ true);
+                /* shouldRecordDeleteAccessLogs= */ true,
+                mAppInfoHelper);
 
         List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         assertThat(result).hasSize(1);
@@ -397,7 +406,8 @@ public class TransactionManagerTest {
         DeleteUsingFiltersRequestParcel parcel = new DeleteUsingFiltersRequestParcel(deleteRequest);
         mTransactionManager.deleteAll(
                 new DeleteTransactionRequest(TEST_PACKAGE_NAME, parcel, mAppInfoHelper),
-                /* shouldRecordDeleteAccessLogs= */ false);
+                /* shouldRecordDeleteAccessLogs= */ false,
+                mAppInfoHelper);
 
         List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         assertThat(result).isEmpty();
@@ -433,7 +443,7 @@ public class TransactionManagerTest {
                         .setEndTime(Instant.ofEpochMilli(456))
                         .build());
         mTransactionManager.populateWithAggregation(
-                request, TEST_PACKAGE_NAME, Set.of(RECORD_TYPE_HEART_RATE));
+                request, TEST_PACKAGE_NAME, Set.of(RECORD_TYPE_HEART_RATE), mAppInfoHelper);
 
         List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         AccessLog log = result.get(0);

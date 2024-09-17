@@ -66,7 +66,7 @@ public class AutoDeleteService {
         try {
             // Only do transactional operations here - as this job might get cancelled for several
             // reasons, such as: User switch, low battery etc.
-            deleteStaleRecordEntries(preferenceHelper);
+            deleteStaleRecordEntries(preferenceHelper, appInfoHelper);
             deleteStaleChangeLogEntries();
             deleteStaleAccessLogEntries();
             // Update the recordTypesUsed by packages if required after the deletion of records.
@@ -81,7 +81,8 @@ public class AutoDeleteService {
         }
     }
 
-    private static void deleteStaleRecordEntries(PreferenceHelper preferenceHelper) {
+    private static void deleteStaleRecordEntries(
+            PreferenceHelper preferenceHelper, AppInfoHelper appInfoHelper) {
         String recordAutoDeletePeriodString =
                 preferenceHelper.getPreference(AUTO_DELETE_DURATION_RECORDS_KEY);
         int recordAutoDeletePeriod =
@@ -104,7 +105,8 @@ public class AutoDeleteService {
                 TransactionManager.getInitialisedInstance()
                         .deleteAll(
                                 new DeleteTransactionRequest(deleteTableRequests),
-                                /* shouldRecordDeleteAccessLogs= */ false);
+                                /* shouldRecordDeleteAccessLogs= */ false,
+                                appInfoHelper);
             } catch (Exception exception) {
                 Slog.e(TAG, "Auto delete for records failed", exception);
                 // Don't rethrow as that will crash system_server

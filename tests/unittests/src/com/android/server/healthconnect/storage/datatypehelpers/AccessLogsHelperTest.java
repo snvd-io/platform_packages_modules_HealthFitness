@@ -133,7 +133,8 @@ public class AccessLogsHelperTest {
                                         DATA_SOURCE_PACKAGE_NAME,
                                         Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
                                         OPERATION_TYPE_READ,
-                                        /* accessedMedicalDataSource= */ false));
+                                        /* accessedMedicalDataSource= */ false,
+                                        mAppInfoHelper));
 
         List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         AccessLog accessLog = result.get(0);
@@ -161,7 +162,8 @@ public class AccessLogsHelperTest {
                                                 MEDICAL_RESOURCE_TYPE_UNKNOWN,
                                                 MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
                                         OPERATION_TYPE_READ,
-                                        /* accessedMedicalDataSource= */ false));
+                                        /* accessedMedicalDataSource= */ false,
+                                        mAppInfoHelper));
 
         List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         AccessLog accessLog = result.get(0);
@@ -188,7 +190,8 @@ public class AccessLogsHelperTest {
                                         DATA_SOURCE_PACKAGE_NAME,
                                         /* medicalResourceTypes= */ Set.of(),
                                         OPERATION_TYPE_READ,
-                                        /* accessedMedicalDataSource= */ true));
+                                        /* accessedMedicalDataSource= */ true,
+                                        mAppInfoHelper));
 
         List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         AccessLog accessLog = result.get(0);
@@ -208,7 +211,8 @@ public class AccessLogsHelperTest {
         AccessLogsHelper.addAccessLog(
                 DATA_SOURCE_PACKAGE_NAME,
                 /* recordTypeList= */ List.of(RECORD_TYPE_STEPS),
-                OPERATION_TYPE_READ);
+                OPERATION_TYPE_READ,
+                mAppInfoHelper);
 
         List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
         AccessLog accessLog = result.get(0);
@@ -232,13 +236,15 @@ public class AccessLogsHelperTest {
                             DATA_SOURCE_PACKAGE_NAME,
                             /* medicalResourceTypes= */ Set.of(),
                             OPERATION_TYPE_READ,
-                            /* accessedMedicalDataSource= */ true);
+                            /* accessedMedicalDataSource= */ true,
+                            mAppInfoHelper);
                     AccessLogsHelper.addAccessLog(
                             db,
                             DATA_SOURCE_PACKAGE_NAME,
                             Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
                             OPERATION_TYPE_UPSERT,
-                            /* accessedMedicalDataSource= */ false);
+                            /* accessedMedicalDataSource= */ false,
+                            mAppInfoHelper);
                 });
 
         List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
@@ -268,7 +274,8 @@ public class AccessLogsHelperTest {
         Set<Integer> recordTypeIds = Set.of(RECORD_TYPE_STEPS_CADENCE);
         mTransactionManager.runAsTransaction(
                 db -> {
-                    recordDeleteAccessLog(db, DATA_SOURCE_PACKAGE_NAME, recordTypeIds);
+                    recordDeleteAccessLog(
+                            db, DATA_SOURCE_PACKAGE_NAME, recordTypeIds, mAppInfoHelper);
                 });
 
         List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
@@ -284,7 +291,8 @@ public class AccessLogsHelperTest {
         Set<Integer> recordTypeIds = Set.of(RECORD_TYPE_DISTANCE, RECORD_TYPE_SKIN_TEMPERATURE);
         mTransactionManager.runAsTransaction(
                 db -> {
-                    recordReadAccessLog(db, DATA_SOURCE_PACKAGE_NAME, recordTypeIds);
+                    recordReadAccessLog(
+                            db, DATA_SOURCE_PACKAGE_NAME, recordTypeIds, mAppInfoHelper);
                 });
 
         List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
@@ -301,7 +309,8 @@ public class AccessLogsHelperTest {
         Set<Integer> recordTypeIds = Set.of(RECORD_TYPE_BODY_FAT, RECORD_TYPE_HEIGHT);
         mTransactionManager.runAsTransaction(
                 db -> {
-                    recordUpsertAccessLog(db, DATA_SOURCE_PACKAGE_NAME, recordTypeIds);
+                    recordUpsertAccessLog(
+                            db, DATA_SOURCE_PACKAGE_NAME, recordTypeIds, mAppInfoHelper);
                 });
 
         List<AccessLog> result = queryAccessLogs(mAppInfoHelper);
@@ -317,7 +326,8 @@ public class AccessLogsHelperTest {
         Set<Integer> recordTypeIds = Set.of(RECORD_TYPE_DISTANCE, RECORD_TYPE_SKIN_TEMPERATURE);
         mTransactionManager.runAsTransaction(
                 db -> {
-                    recordDeleteAccessLog(db, DATA_SOURCE_PACKAGE_NAME, recordTypeIds);
+                    recordDeleteAccessLog(
+                            db, DATA_SOURCE_PACKAGE_NAME, recordTypeIds, mAppInfoHelper);
                 });
 
         long result = AccessLogsHelper.getLatestUpsertOrReadOperationAccessLogTimeStamp();
@@ -330,7 +340,8 @@ public class AccessLogsHelperTest {
         Set<Integer> recordTypeIds = Set.of(RECORD_TYPE_DISTANCE, RECORD_TYPE_SKIN_TEMPERATURE);
         mTransactionManager.runAsTransaction(
                 db -> {
-                    recordUpsertAccessLog(db, DATA_SOURCE_PACKAGE_NAME, recordTypeIds);
+                    recordUpsertAccessLog(
+                            db, DATA_SOURCE_PACKAGE_NAME, recordTypeIds, mAppInfoHelper);
                 });
 
         long result = AccessLogsHelper.getLatestUpsertOrReadOperationAccessLogTimeStamp();
@@ -343,7 +354,8 @@ public class AccessLogsHelperTest {
         Set<Integer> recordTypeIds = Set.of(RECORD_TYPE_DISTANCE, RECORD_TYPE_SKIN_TEMPERATURE);
         mTransactionManager.runAsTransaction(
                 db -> {
-                    recordReadAccessLog(db, DATA_SOURCE_PACKAGE_NAME, recordTypeIds);
+                    recordReadAccessLog(
+                            db, DATA_SOURCE_PACKAGE_NAME, recordTypeIds, mAppInfoHelper);
                 });
 
         long result = AccessLogsHelper.getLatestUpsertOrReadOperationAccessLogTimeStamp();

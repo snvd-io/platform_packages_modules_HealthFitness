@@ -172,9 +172,10 @@ public final class AccessLogsHelper extends DatabaseHelper {
     public static void addAccessLog(
             String packageName,
             @RecordTypeIdentifier.RecordType List<Integer> recordTypeList,
-            @OperationType.OperationTypes int operationType) {
+            @OperationType.OperationTypes int operationType,
+            AppInfoHelper appInfoHelper) {
         UpsertTableRequest request =
-                getUpsertTableRequest(packageName, recordTypeList, operationType);
+                getUpsertTableRequest(packageName, recordTypeList, operationType, appInfoHelper);
         TransactionManager.getInitialisedInstance().insert(request);
     }
 
@@ -187,13 +188,15 @@ public final class AccessLogsHelper extends DatabaseHelper {
             String packageName,
             @MedicalResourceType Set<Integer> medicalResourceTypes,
             @OperationType.OperationTypes int operationType,
-            boolean accessedMedicalDataSource) {
+            boolean accessedMedicalDataSource,
+            AppInfoHelper appInfoHelper) {
         UpsertTableRequest request =
                 getUpsertTableRequestForPhr(
                         packageName,
                         medicalResourceTypes,
                         operationType,
-                        accessedMedicalDataSource);
+                        accessedMedicalDataSource,
+                        appInfoHelper);
         TransactionManager.getInitialisedInstance().insert(db, request);
     }
 
@@ -201,11 +204,13 @@ public final class AccessLogsHelper extends DatabaseHelper {
             String packageName,
             Set<Integer> medicalResourceTypes,
             @OperationType.OperationTypes int operationType,
-            boolean isMedicalDataSource) {
+            boolean isMedicalDataSource,
+            AppInfoHelper appInfoHelper) {
         // We need to populate RECORD_TYPE_COLUMN_NAME with an empty list, as the column is set
         // to NOT_NULL.
         ContentValues contentValues =
-                populateCommonColumns(packageName, /* recordTypeList= */ List.of(), operationType);
+                populateCommonColumns(
+                        packageName, /* recordTypeList= */ List.of(), operationType, appInfoHelper);
         contentValues.put(
                 MEDICAL_RESOURCE_TYPE_COLUMN_NAME, concatDataTypeIds(medicalResourceTypes));
         contentValues.put(
@@ -217,37 +222,49 @@ public final class AccessLogsHelper extends DatabaseHelper {
     public static UpsertTableRequest getUpsertTableRequest(
             String packageName,
             List<Integer> recordTypeList,
-            @OperationType.OperationTypes int operationType) {
+            @OperationType.OperationTypes int operationType,
+            AppInfoHelper appInfoHelper) {
         ContentValues contentValues =
-                populateCommonColumns(packageName, recordTypeList, operationType);
+                populateCommonColumns(packageName, recordTypeList, operationType, appInfoHelper);
         return new UpsertTableRequest(TABLE_NAME, contentValues);
     }
 
     /** Adds an entry of read type into the {@link AccessLogsHelper#TABLE_NAME} */
     public static void recordReadAccessLog(
-            SQLiteDatabase db, String packageName, Set<Integer> recordTypeIds) {
-        recordAccessLog(db, packageName, recordTypeIds, OPERATION_TYPE_READ);
+            SQLiteDatabase db,
+            String packageName,
+            Set<Integer> recordTypeIds,
+            AppInfoHelper appInfoHelper) {
+        recordAccessLog(db, packageName, recordTypeIds, OPERATION_TYPE_READ, appInfoHelper);
     }
 
     /** Adds an entry of upsert type into the {@link AccessLogsHelper#TABLE_NAME} */
     public static void recordUpsertAccessLog(
-            SQLiteDatabase db, String packageName, Set<Integer> recordTypeIds) {
-        recordAccessLog(db, packageName, recordTypeIds, OPERATION_TYPE_UPSERT);
+            SQLiteDatabase db,
+            String packageName,
+            Set<Integer> recordTypeIds,
+            AppInfoHelper appInfoHelper) {
+        recordAccessLog(db, packageName, recordTypeIds, OPERATION_TYPE_UPSERT, appInfoHelper);
     }
 
     /** Adds an entry of delete type into the {@link AccessLogsHelper#TABLE_NAME} */
     public static void recordDeleteAccessLog(
-            SQLiteDatabase db, String packageName, Set<Integer> recordTypeIds) {
-        recordAccessLog(db, packageName, recordTypeIds, OPERATION_TYPE_DELETE);
+            SQLiteDatabase db,
+            String packageName,
+            Set<Integer> recordTypeIds,
+            AppInfoHelper appInfoHelper) {
+        recordAccessLog(db, packageName, recordTypeIds, OPERATION_TYPE_DELETE, appInfoHelper);
     }
 
     private static void recordAccessLog(
             SQLiteDatabase db,
             String packageName,
             Set<Integer> recordTypeIds,
-            @OperationType.OperationTypes int operationType) {
+            @OperationType.OperationTypes int operationType,
+            AppInfoHelper appInfoHelper) {
         ContentValues contentValues =
-                populateCommonColumns(packageName, recordTypeIds.stream().toList(), operationType);
+                populateCommonColumns(
+                        packageName, recordTypeIds.stream().toList(), operationType, appInfoHelper);
         UpsertTableRequest request = new UpsertTableRequest(TABLE_NAME, contentValues);
         TransactionManager.getInitialisedInstance().insertRecord(db, request);
     }
@@ -255,10 +272,10 @@ public final class AccessLogsHelper extends DatabaseHelper {
     private static ContentValues populateCommonColumns(
             String packageName,
             List<Integer> recordTypeList,
-            @OperationType.OperationTypes int operationType) {
+            @OperationType.OperationTypes int operationType,
+            AppInfoHelper appInfoHelper) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(
-                APP_ID_COLUMN_NAME, AppInfoHelper.getInstance().getAppInfoId(packageName));
+        contentValues.put(APP_ID_COLUMN_NAME, appInfoHelper.getAppInfoId(packageName));
         contentValues.put(ACCESS_TIME_COLUMN_NAME, Instant.now().toEpochMilli());
         contentValues.put(OPERATION_TYPE_COLUMN_NAME, operationType);
         contentValues.put(

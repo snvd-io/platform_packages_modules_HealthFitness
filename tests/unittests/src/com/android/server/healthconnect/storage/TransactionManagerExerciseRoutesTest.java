@@ -99,7 +99,7 @@ public class TransactionManagerExerciseRoutesTest {
         HealthConnectDeviceConfigManager.initializeInstance(context);
 
         DeviceInfoHelper.resetInstanceForTest();
-        AppInfoHelper.clearInstanceForTest();
+        AppInfoHelper.resetInstanceForTest();
         mDeviceInfoHelper = DeviceInfoHelper.getInstance(mTransactionManager);
         mAppInfoHelper = AppInfoHelper.getInstance(mTransactionManager);
     }
@@ -128,7 +128,8 @@ public class TransactionManagerExerciseRoutesTest {
                         mDeviceInfoHelper,
                         /* isReadingSelfData= */ false);
 
-        List<RecordInternal<?>> returnedRecords = mTransactionManager.readRecordsByIds(request);
+        List<RecordInternal<?>> returnedRecords =
+                mTransactionManager.readRecordsByIds(request, mAppInfoHelper);
 
         Map<String, ExerciseSessionRecordInternal> idToSessionMap =
                 returnedRecords.stream()
@@ -163,7 +164,8 @@ public class TransactionManagerExerciseRoutesTest {
                         mDeviceInfoHelper,
                         /* isReadingSelfData= */ false);
 
-        List<RecordInternal<?>> returnedRecords = mTransactionManager.readRecordsByIds(request);
+        List<RecordInternal<?>> returnedRecords =
+                mTransactionManager.readRecordsByIds(request, mAppInfoHelper);
 
         assertThat(returnedRecords).hasSize(1);
         ExerciseSessionRecordInternal returnedRecord =
@@ -191,7 +193,8 @@ public class TransactionManagerExerciseRoutesTest {
                         mDeviceInfoHelper,
                         /* isReadingSelfData= */ false);
 
-        List<RecordInternal<?>> returnedRecords = mTransactionManager.readRecordsByIds(request);
+        List<RecordInternal<?>> returnedRecords =
+                mTransactionManager.readRecordsByIds(request, mAppInfoHelper);
 
         assertThat(returnedRecords).hasSize(1);
         ExerciseSessionRecordInternal returnedRecord =
@@ -219,7 +222,8 @@ public class TransactionManagerExerciseRoutesTest {
                         mDeviceInfoHelper,
                         /* isReadingSelfData= */ false);
 
-        List<RecordInternal<?>> returnedRecords = mTransactionManager.readRecordsByIds(request);
+        List<RecordInternal<?>> returnedRecords =
+                mTransactionManager.readRecordsByIds(request, mAppInfoHelper);
 
         assertThat(returnedRecords).hasSize(1);
         ExerciseSessionRecordInternal returnedRecord =
@@ -258,7 +262,7 @@ public class TransactionManagerExerciseRoutesTest {
                         mDeviceInfoHelper);
 
         List<RecordInternal<?>> returnedRecords =
-                mTransactionManager.readRecordsAndPageToken(request).first;
+                mTransactionManager.readRecordsAndPageToken(request, mAppInfoHelper).first;
 
         Map<String, ExerciseSessionRecordInternal> idToSessionMap =
                 returnedRecords.stream()
@@ -299,7 +303,7 @@ public class TransactionManagerExerciseRoutesTest {
                         mDeviceInfoHelper);
 
         List<RecordInternal<?>> returnedRecords =
-                mTransactionManager.readRecordsAndPageToken(request).first;
+                mTransactionManager.readRecordsAndPageToken(request, mAppInfoHelper).first;
 
         assertThat(returnedRecords).hasSize(1);
         ExerciseSessionRecordInternal returnedRecord =
@@ -332,7 +336,7 @@ public class TransactionManagerExerciseRoutesTest {
                         mDeviceInfoHelper);
 
         List<RecordInternal<?>> returnedRecords =
-                mTransactionManager.readRecordsAndPageToken(request).first;
+                mTransactionManager.readRecordsAndPageToken(request, mAppInfoHelper).first;
 
         assertThat(returnedRecords).hasSize(1);
         ExerciseSessionRecordInternal returnedRecord =
@@ -365,7 +369,7 @@ public class TransactionManagerExerciseRoutesTest {
                         mDeviceInfoHelper);
 
         List<RecordInternal<?>> returnedRecords =
-                mTransactionManager.readRecordsAndPageToken(request).first;
+                mTransactionManager.readRecordsAndPageToken(request, mAppInfoHelper).first;
 
         assertThat(returnedRecords).hasSize(1);
         ExerciseSessionRecordInternal returnedRecord =

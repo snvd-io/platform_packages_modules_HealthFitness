@@ -103,12 +103,13 @@ public final class AggregateTransactionRequest {
     /**
      * @return Compute and return aggregations
      */
-    public AggregateDataResponseParcel getAggregateDataResponseParcel() {
+    public AggregateDataResponseParcel getAggregateDataResponseParcel(AppInfoHelper appInfoHelper) {
         Map<AggregationType<?>, List<AggregateResult<?>>> results = new ArrayMap<>();
         for (AggregateTableRequest aggregateTableRequest : mAggregateTableRequests) {
             // Compute aggregations and record read access log
             TransactionManager.getInitialisedInstance()
-                    .populateWithAggregation(aggregateTableRequest, mPackageName, mRecordTypeIds);
+                    .populateWithAggregation(
+                            aggregateTableRequest, mPackageName, mRecordTypeIds, appInfoHelper);
             results.put(
                     aggregateTableRequest.getAggregationType(),
                     aggregateTableRequest.getAggregateResults());
