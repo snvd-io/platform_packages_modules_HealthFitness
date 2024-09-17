@@ -21,14 +21,18 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import com.android.healthconnect.controller.R
 import com.android.healthconnect.controller.selectabledeletion.DeletionConstants.CONFIRMATION_KEY
 import com.android.healthconnect.controller.shared.dialog.AlertDialogBuilder
 import com.android.healthconnect.controller.utils.AttributeResolver
 import com.android.healthconnect.controller.utils.logging.DeletionDialogConfirmationElement
+import dagger.hilt.android.AndroidEntryPoint
 
-class NewDeletionConfirmationDialogFragment : DialogFragment() {
+@AndroidEntryPoint(DialogFragment::class)
+class DeletionConfirmationDialogFragment() : Hilt_DeletionConfirmationDialogFragment() {
+    private val viewModel: DeletionViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view: View = layoutInflater.inflate(R.layout.dialog_custom_layout, null)
@@ -37,8 +41,8 @@ class NewDeletionConfirmationDialogFragment : DialogFragment() {
         val icon: ImageView = view.findViewById(R.id.dialog_icon)
         val iconDrawable = AttributeResolver.getNullableDrawable(view.context, R.attr.deleteIcon)
 
-        title.setText(R.string.some_data_selected_deletion_confirmation_dialog)
-        message.setText(R.string.confirming_question_message)
+        title.text = buildTitle()
+        message.setText(R.string.deletion_confirmation_dialog_body)
         iconDrawable?.let {
             icon.setImageDrawable(it)
             icon.visibility = View.VISIBLE
@@ -46,21 +50,54 @@ class NewDeletionConfirmationDialogFragment : DialogFragment() {
 
         val alertDialogBuilder =
             AlertDialogBuilder(
-                    this, DeletionDialogConfirmationElement.DELETION_DIALOG_CONFIRMATION_CONTAINER)
+                    this,
+                    DeletionDialogConfirmationElement.DELETION_DIALOG_CONFIRMATION_CONTAINER,
+                )
                 .setView(view)
                 .setPositiveButton(
                     R.string.confirming_question_delete_button,
                     // TODO: create new log elements for new IA dialogs
-                    DeletionDialogConfirmationElement.DELETION_DIALOG_CONFIRMATION_DELETE_BUTTON) {
-                        _,
-                        _ ->
-                        setFragmentResult(CONFIRMATION_KEY, Bundle())
-                    }
+                    DeletionDialogConfirmationElement.DELETION_DIALOG_CONFIRMATION_DELETE_BUTTON,
+                ) { _, _ ->
+                    setFragmentResult(CONFIRMATION_KEY, Bundle())
+                }
                 .setNeutralButton(
                     android.R.string.cancel,
-                    DeletionDialogConfirmationElement.DELETION_DIALOG_CONFIRMATION_CANCEL_BUTTON)
+                    DeletionDialogConfirmationElement.DELETION_DIALOG_CONFIRMATION_CANCEL_BUTTON,
+                )
 
         return alertDialogBuilder.create()
+    }
+
+    private fun buildTitle(): String {
+        return when (val deletionType = viewModel.getDeletionType()) {
+            is DeletionType.DeleteHealthPermissionTypes ->
+                if (deletionType.healthPermissionTypes.size < deletionType.totalPermissionTypes) {
+                    getString(R.string.some_data_selected_deletion_confirmation_dialog)
+                } else {
+                    getString(R.string.all_data_selected_deletion_confirmation_dialog)
+                }
+            is DeletionType.DeleteHealthPermissionTypesFromApp -> {
+                val appName = deletionType.appName
+                if (deletionType.healthPermissionTypes.size < deletionType.totalPermissionTypes) {
+                    getString(R.string.some_app_data_selected_deletion_confirmation_dialog, appName)
+                } else {
+                    getString(R.string.all_app_data_selected_deletion_confirmation_dialog, appName)
+                }
+            }
+            is DeletionType.DeleteEntries -> {
+                // TODO
+                ""
+            }
+            is DeletionType.DeleteEntriesFromApp -> {
+                // TODO
+                ""
+            }
+            is DeletionType.DeleteAppData -> {
+                // TODO
+                ""
+            }
+        }
     }
 
     companion object {

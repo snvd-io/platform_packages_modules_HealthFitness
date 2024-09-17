@@ -25,9 +25,13 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.android.healthconnect.controller.permissions.data.FitnessPermissionType
 import com.android.healthconnect.controller.selectabledeletion.DeletionConstants.START_DELETION_KEY
 import com.android.healthconnect.controller.selectabledeletion.DeletionFragment
+import com.android.healthconnect.controller.selectabledeletion.DeletionType
 import com.android.healthconnect.controller.selectabledeletion.DeletionViewModel
+import com.android.healthconnect.controller.tests.utils.TEST_APP_NAME
+import com.android.healthconnect.controller.tests.utils.TEST_APP_PACKAGE_NAME
 import com.android.healthconnect.controller.tests.utils.launchFragment
 import com.android.healthconnect.controller.tests.utils.whenever
 import dagger.hilt.android.testing.BindValue
@@ -47,12 +51,25 @@ class DeletionFragmentTest {
     @Before
     fun setup() {
         hiltRule.inject()
+        whenever(viewModel.getDeletionType()).then {
+            DeletionType.DeleteHealthPermissionTypes(
+                setOf(FitnessPermissionType.STEPS, FitnessPermissionType.SPEED),
+                totalPermissionTypes = 10,
+            )
+        }
     }
 
+    // region DeletePermissionTypes
     @Test
-    fun deletePermissionTypesData_confirmationDeleteDialog_showsCorrectText() {
+    fun deletePermissionTypes_oneSelected_confirmationDialog_showsCorrectText() {
         whenever(viewModel.deletionProgress).then {
             MutableLiveData(DeletionViewModel.DeletionProgress.NOT_STARTED)
+        }
+        whenever(viewModel.getDeletionType()).then {
+            DeletionType.DeleteHealthPermissionTypes(
+                setOf(FitnessPermissionType.STEPS),
+                totalPermissionTypes = 10,
+            )
         }
 
         launchFragment<DeletionFragment>(Bundle()) {
@@ -61,12 +78,14 @@ class DeletionFragmentTest {
                 .setFragmentResult(START_DELETION_KEY, bundleOf())
         }
 
-        onView(withText("Permanently delete selected data from Health\u00A0Connect?"))
+        onView(withText("Permanently delete selected data?"))
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
         onView(
                 withText(
-                    "Connected apps will no longer be able to access this data from Health\u00A0Connect"))
+                    "Connected apps will no longer be able to read this data from Health\u00A0Connect"
+                )
+            )
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
         onView(withText("Cancel")).inRoot(isDialog()).check(matches(isDisplayed()))
@@ -74,7 +93,183 @@ class DeletionFragmentTest {
     }
 
     @Test
-    fun deleteFragment_confirmationDeleteDialog_cancelButton_exitsDialog() {
+    fun deletePermissionTypes_someSelected_confirmationDialog_showsCorrectText() {
+        whenever(viewModel.deletionProgress).then {
+            MutableLiveData(DeletionViewModel.DeletionProgress.NOT_STARTED)
+        }
+        whenever(viewModel.getDeletionType()).then {
+            DeletionType.DeleteHealthPermissionTypes(
+                setOf(FitnessPermissionType.STEPS, FitnessPermissionType.SPEED),
+                totalPermissionTypes = 10,
+            )
+        }
+
+        launchFragment<DeletionFragment>(Bundle()) {
+            (this as DeletionFragment)
+                .parentFragmentManager
+                .setFragmentResult(START_DELETION_KEY, bundleOf())
+        }
+
+        onView(withText("Permanently delete selected data?"))
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
+        onView(
+                withText(
+                    "Connected apps will no longer be able to read this data from Health\u00A0Connect"
+                )
+            )
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
+        onView(withText("Cancel")).inRoot(isDialog()).check(matches(isDisplayed()))
+        onView(withText("Delete")).inRoot(isDialog()).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun deletePermissionTypes_allSelected_confirmationDialog_showsCorrectText() {
+        whenever(viewModel.deletionProgress).then {
+            MutableLiveData(DeletionViewModel.DeletionProgress.NOT_STARTED)
+        }
+        whenever(viewModel.getDeletionType()).then {
+            DeletionType.DeleteHealthPermissionTypes(
+                setOf(FitnessPermissionType.STEPS, FitnessPermissionType.SPEED),
+                totalPermissionTypes = 2,
+            )
+        }
+
+        launchFragment<DeletionFragment>(Bundle()) {
+            (this as DeletionFragment)
+                .parentFragmentManager
+                .setFragmentResult(START_DELETION_KEY, bundleOf())
+        }
+
+        onView(withText("Permanently delete all data?"))
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
+        onView(
+                withText(
+                    "Connected apps will no longer be able to read this data from Health\u00A0Connect"
+                )
+            )
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
+        onView(withText("Cancel")).inRoot(isDialog()).check(matches(isDisplayed()))
+        onView(withText("Delete")).inRoot(isDialog()).check(matches(isDisplayed()))
+    }
+
+    // endregion
+
+    // TODO app data
+    // region DeletePermissionTypesFromApp
+    @Test
+    fun deletePermissionTypesFromApp_oneSelected_confirmationDialog_showsCorrectText() {
+        whenever(viewModel.deletionProgress).then {
+            MutableLiveData(DeletionViewModel.DeletionProgress.NOT_STARTED)
+        }
+        whenever(viewModel.getDeletionType()).then {
+            DeletionType.DeleteHealthPermissionTypesFromApp(
+                setOf(FitnessPermissionType.STEPS),
+                totalPermissionTypes = 10,
+                appName = TEST_APP_NAME,
+                packageName = TEST_APP_PACKAGE_NAME,
+            )
+        }
+
+        launchFragment<DeletionFragment>(Bundle()) {
+            (this as DeletionFragment)
+                .parentFragmentManager
+                .setFragmentResult(START_DELETION_KEY, bundleOf())
+        }
+
+        onView(withText("Permanently delete selected $TEST_APP_NAME data?"))
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
+        onView(
+                withText(
+                    "Connected apps will no longer be able to read this data from Health\u00A0Connect"
+                )
+            )
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
+        onView(withText("Cancel")).inRoot(isDialog()).check(matches(isDisplayed()))
+        onView(withText("Delete")).inRoot(isDialog()).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun deletePermissionTypesFromApp_someSelected_confirmationDialog_showsCorrectText() {
+        whenever(viewModel.deletionProgress).then {
+            MutableLiveData(DeletionViewModel.DeletionProgress.NOT_STARTED)
+        }
+        whenever(viewModel.getDeletionType()).then {
+            DeletionType.DeleteHealthPermissionTypesFromApp(
+                setOf(FitnessPermissionType.STEPS, FitnessPermissionType.SPEED),
+                totalPermissionTypes = 10,
+                appName = TEST_APP_NAME,
+                packageName = TEST_APP_PACKAGE_NAME,
+            )
+        }
+
+        launchFragment<DeletionFragment>(Bundle()) {
+            (this as DeletionFragment)
+                .parentFragmentManager
+                .setFragmentResult(START_DELETION_KEY, bundleOf())
+        }
+
+        onView(withText("Permanently delete selected $TEST_APP_NAME data?"))
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
+        onView(
+                withText(
+                    "Connected apps will no longer be able to read this data from Health\u00A0Connect"
+                )
+            )
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
+        onView(withText("Cancel")).inRoot(isDialog()).check(matches(isDisplayed()))
+        onView(withText("Delete")).inRoot(isDialog()).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun deletePermissionTypesFromApp_allSelected_confirmationDialog_showsCorrectText() {
+        whenever(viewModel.deletionProgress).then {
+            MutableLiveData(DeletionViewModel.DeletionProgress.NOT_STARTED)
+        }
+        whenever(viewModel.getDeletionType()).then {
+            DeletionType.DeleteHealthPermissionTypesFromApp(
+                setOf(FitnessPermissionType.STEPS, FitnessPermissionType.SPEED),
+                totalPermissionTypes = 2,
+                appName = TEST_APP_NAME,
+                packageName = TEST_APP_PACKAGE_NAME,
+            )
+        }
+
+        launchFragment<DeletionFragment>(Bundle()) {
+            (this as DeletionFragment)
+                .parentFragmentManager
+                .setFragmentResult(START_DELETION_KEY, bundleOf())
+        }
+
+        onView(withText("Permanently delete all $TEST_APP_NAME data?"))
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
+        onView(
+                withText(
+                    "Connected apps will no longer be able to read this data from Health\u00A0Connect"
+                )
+            )
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
+        onView(withText("Cancel")).inRoot(isDialog()).check(matches(isDisplayed()))
+        onView(withText("Delete")).inRoot(isDialog()).check(matches(isDisplayed()))
+    }
+
+    // endregion
+    // TODO all entries
+    // TODO app entries
+    // TODO inactive app data
+
+    // region confirmation dialog buttons
+    @Test
+    fun confirmationDialog_cancelButton_exitsDialog() {
         whenever(viewModel.deletionProgress).then {
             MutableLiveData(DeletionViewModel.DeletionProgress.NOT_STARTED)
         }
@@ -85,22 +280,26 @@ class DeletionFragmentTest {
                 .setFragmentResult(START_DELETION_KEY, bundleOf())
         }
 
-        onView(withText("Permanently delete selected data from Health\u00A0Connect?"))
+        onView(withText("Permanently delete selected data?"))
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
         onView(
                 withText(
-                    "Connected apps will no longer be able to access this data from Health\u00A0Connect"))
+                    "Connected apps will no longer be able to read this data from Health\u00A0Connect"
+                )
+            )
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
         onView(withText("Cancel")).inRoot(isDialog()).perform(click())
 
-        onView(withText("Permanently delete selected data from Health\u00A0Connect?"))
-            .check(doesNotExist())
+        onView(withText("Permanently delete selected data?")).check(doesNotExist())
     }
 
+    // endregion
+
+    // region deletion states
     @Test
-    fun deletePermissionTypesData_progressIndicatorCanStartState_progressDialogShown() {
+    fun whenProgressIndicatorCanStartState_progressDialogShown() {
         whenever(viewModel.deletionProgress).then {
             MutableLiveData(DeletionViewModel.DeletionProgress.PROGRESS_INDICATOR_CAN_START)
         }
@@ -111,12 +310,14 @@ class DeletionFragmentTest {
                 .setFragmentResult(START_DELETION_KEY, bundleOf())
         }
 
-        onView(withText("Permanently delete selected data from Health\u00A0Connect?"))
+        onView(withText("Permanently delete selected data?"))
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
         onView(
                 withText(
-                    "Connected apps will no longer be able to access this data from Health\u00A0Connect"))
+                    "Connected apps will no longer be able to read this data from Health\u00A0Connect"
+                )
+            )
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
 
@@ -126,7 +327,7 @@ class DeletionFragmentTest {
     }
 
     @Test
-    fun deleteFragment_completedState_progressDialogDisappears() {
+    fun whenCompletedState_progressDialogDisappears() {
         whenever(viewModel.deletionProgress).then {
             MutableLiveData(DeletionViewModel.DeletionProgress.COMPLETED)
         }
@@ -137,12 +338,14 @@ class DeletionFragmentTest {
                 .setFragmentResult(START_DELETION_KEY, bundleOf())
         }
 
-        onView(withText("Permanently delete selected data from Health\u00A0Connect?"))
+        onView(withText("Permanently delete selected data?"))
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
         onView(
                 withText(
-                    "Connected apps will no longer be able to access this data from Health\u00A0Connect"))
+                    "Connected apps will no longer be able to read this data from Health\u00A0Connect"
+                )
+            )
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
         onView(withText("Delete")).inRoot(isDialog()).perform(click())
@@ -150,7 +353,7 @@ class DeletionFragmentTest {
     }
 
     @Test
-    fun deleteFragment_completedState_successDialogShown() {
+    fun whenCompletedState_successDialogShown() {
         whenever(viewModel.deletionProgress).then {
             MutableLiveData(DeletionViewModel.DeletionProgress.COMPLETED)
         }
@@ -161,12 +364,14 @@ class DeletionFragmentTest {
                 .setFragmentResult(START_DELETION_KEY, bundleOf())
         }
 
-        onView(withText("Permanently delete selected data from Health\u00A0Connect?"))
+        onView(withText("Permanently delete selected data?"))
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
         onView(
                 withText(
-                    "Connected apps will no longer be able to access this data from Health\u00A0Connect"))
+                    "Connected apps will no longer be able to read this data from Health\u00A0Connect"
+                )
+            )
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
         onView(withText("Delete")).inRoot(isDialog()).perform(click())
@@ -175,7 +380,9 @@ class DeletionFragmentTest {
             .check(matches(isDisplayed()))
         onView(
                 withText(
-                    "If you want to completely delete the data from your connected apps, check each app where your data may be saved."))
+                    "If you want to completely delete the data from your connected apps, check each app where your data may be saved."
+                )
+            )
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
         onView(withText("Done")).inRoot(isDialog()).check(matches(isDisplayed()))
@@ -183,7 +390,7 @@ class DeletionFragmentTest {
     }
 
     @Test
-    fun deleteFragment_failedState_failureDialogShown() {
+    fun whenFailedState_failureDialogShown() {
         whenever(viewModel.deletionProgress).then {
             MutableLiveData(DeletionViewModel.DeletionProgress.FAILED)
         }
@@ -194,12 +401,14 @@ class DeletionFragmentTest {
                 .setFragmentResult(START_DELETION_KEY, bundleOf())
         }
 
-        onView(withText("Permanently delete selected data from Health\u00A0Connect?"))
+        onView(withText("Permanently delete selected data?"))
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
         onView(
                 withText(
-                    "Connected apps will no longer be able to access this data from Health\u00A0Connect"))
+                    "Connected apps will no longer be able to read this data from Health\u00A0Connect"
+                )
+            )
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
         onView(withText("Delete")).inRoot(isDialog()).perform(click())
@@ -209,4 +418,6 @@ class DeletionFragmentTest {
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
     }
+
+    // endregion
 }

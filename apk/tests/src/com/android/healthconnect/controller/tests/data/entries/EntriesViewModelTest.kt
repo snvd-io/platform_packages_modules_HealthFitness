@@ -211,36 +211,39 @@ class EntriesViewModelTest {
     fun addToDeleteSet_updatesDeleteSetCorrectly() {
         assertThat(viewModel.setOfEntriesToBeDeleted.value.orEmpty()).isEmpty()
 
-        viewModel.addToDeleteSet(FORMATTED_STEPS.uuid)
+        viewModel.addToDeleteSet(FORMATTED_STEPS.uuid, FORMATTED_STEPS.dataType)
 
-        assertThat(viewModel.setOfEntriesToBeDeleted.value).containsExactly(FORMATTED_STEPS.uuid)
+        assertThat(viewModel.setOfEntriesToBeDeleted.value)
+            .containsExactlyEntriesIn(mapOf(FORMATTED_STEPS.uuid to FORMATTED_STEPS.dataType))
     }
 
     @Test
     fun removeFromDeleteSet_updatesDeleteSetCorrectly() {
-        viewModel.addToDeleteSet(FORMATTED_STEPS.uuid)
-        viewModel.addToDeleteSet(FORMATTED_STEPS_2.uuid)
+        viewModel.addToDeleteSet(FORMATTED_STEPS.uuid, FORMATTED_STEPS.dataType)
+        viewModel.addToDeleteSet(FORMATTED_STEPS_2.uuid, FORMATTED_STEPS.dataType)
         viewModel.removeFromDeleteSet(FORMATTED_STEPS.uuid)
 
-        assertThat(viewModel.setOfEntriesToBeDeleted.value).containsExactly(FORMATTED_STEPS_2.uuid)
+        assertThat(viewModel.setOfEntriesToBeDeleted.value)
+            .containsExactlyEntriesIn(mapOf(FORMATTED_STEPS_2.uuid to FORMATTED_STEPS.dataType))
     }
 
     @Test
-    fun setScreenState_setsCorrectly(){
+    fun setScreenState_setsCorrectly() {
         viewModel.setScreenState(EntriesViewModel.EntriesDeletionScreenState.DELETE)
 
-        assertThat(viewModel.screenState.value).isEqualTo(EntriesViewModel.EntriesDeletionScreenState.DELETE)
+        assertThat(viewModel.screenState.value)
+            .isEqualTo(EntriesViewModel.EntriesDeletionScreenState.DELETE)
     }
 
     @Test
-    fun setAllEntriesSelectedValue_setCorrectValue(){
+    fun setAllEntriesSelectedValue_setCorrectValue() {
         viewModel.setAllEntriesSelectedValue(true)
 
         assertThat(viewModel.allEntriesSelected.value).isTrue()
     }
 
     @Test
-    fun getEntriesList_getsCorrectValue() = runTest{
+    fun getEntriesList_getsCorrectValue() = runTest {
         fakeLoadDataEntriesUseCase.updateList(listOf(FORMATTED_STEPS))
         fakeLoadDataAggregationsUseCase.updateAggregation(formattedAggregation("12 steps"))
         val testObserver = TestObserver<EntriesViewModel.EntriesFragmentState>()
@@ -253,6 +256,7 @@ class EntriesViewModelTest {
 
         advanceUntilIdle()
 
-        assertThat(viewModel.getEntriesList()).isEqualTo(mutableListOf(formattedAggregation("12 steps"), FORMATTED_STEPS))
+        assertThat(viewModel.getEntriesList())
+            .isEqualTo(mutableListOf(formattedAggregation("12 steps"), FORMATTED_STEPS))
     }
 }
