@@ -121,9 +121,13 @@ class CombinedPermissionsFragment : Hilt_CombinedPermissionsFragment() {
 
         childFragmentManager.setFragmentResultListener(DISCONNECT_EVENT, this) { _, bundle ->
             val permissionsUpdated = revokeAllPermissions()
-            if (!permissionsUpdated) {
-                Toast.makeText(requireContext(), R.string.default_error, Toast.LENGTH_SHORT).show()
-            }
+            val toastString =
+                if (!permissionsUpdated) {
+                    R.string.default_error
+                } else {
+                    R.string.disconnect_all_health_permissions_success_toast
+                }
+            Toast.makeText(requireContext(), toastString, Toast.LENGTH_SHORT).show()
             if (bundle.containsKey(KEY_DELETE_DATA) && bundle.getBoolean(KEY_DELETE_DATA)) {
                 appPermissionViewModel.deleteAppData(packageName, appName)
             }
