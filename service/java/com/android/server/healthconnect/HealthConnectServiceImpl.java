@@ -723,8 +723,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                         startDateAccessEpochMilli,
                                         enforceSelfRead,
                                         grantedExtraReadPermissions,
-                                        isInForeground,
-                                        mDeviceInfoHelper);
+                                        isInForeground);
                         // throw an exception if read requested is not for a single record type
                         // i.e. size of read table request is not equal to 1.
                         if (readTransactionRequest.getReadRequests().size() != 1) {
@@ -739,14 +738,16 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                     mTransactionManager.readRecordsByIds(
                                             readTransactionRequest,
                                             mAppInfoHelper,
-                                            mAccessLogsHelper);
+                                            mAccessLogsHelper,
+                                            mDeviceInfoHelper);
                             pageToken = DEFAULT_LONG;
                         } else {
                             Pair<List<RecordInternal<?>>, PageTokenWrapper> readRecordsResponse =
                                     mTransactionManager.readRecordsAndPageToken(
                                             readTransactionRequest,
                                             mAppInfoHelper,
-                                            mAccessLogsHelper);
+                                            mAccessLogsHelper,
+                                            mDeviceInfoHelper);
                             records = readRecordsResponse.first;
                             pageToken = readRecordsResponse.second.encode();
                         }
@@ -1015,10 +1016,10 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                             startDateAccessEpochMilli,
                                             grantedExtraReadPermissions,
                                             isInForeground,
-                                            mDeviceInfoHelper,
                                             isReadingSelfData),
                                     mAppInfoHelper,
-                                    mAccessLogsHelper);
+                                    mAccessLogsHelper,
+                                    mDeviceInfoHelper);
 
                     List<DeletedLog> deletedLogs =
                             ChangeLogsHelper.getDeletedLogs(changeLogsResponse.getChangeLogsMap());
