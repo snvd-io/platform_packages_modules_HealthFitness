@@ -91,6 +91,7 @@ public class RecordHelperTest {
 
         DeviceInfoHelper.resetInstanceForTest();
         AppInfoHelper.resetInstanceForTest();
+        AccessLogsHelper.resetInstanceForTest();
         mDeviceInfoHelper = DeviceInfoHelper.getInstance(mTransactionManager);
         mAppInfoHelper = AppInfoHelper.getInstance(mTransactionManager);
     }

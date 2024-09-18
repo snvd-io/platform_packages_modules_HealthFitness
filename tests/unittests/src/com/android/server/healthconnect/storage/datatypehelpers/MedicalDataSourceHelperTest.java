@@ -117,6 +117,7 @@ public class MedicalDataSourceHelperTest {
     private TransactionManager mTransactionManager;
     private TransactionTestUtils mTransactionTestUtils;
     private AppInfoHelper mAppInfoHelper;
+    private AccessLogsHelper mAccessLogsHelper;
     private PhrTestUtils mUtil;
     private FakeTimeSource mFakeTimeSource;
     @Mock private Context mContext;
@@ -127,6 +128,7 @@ public class MedicalDataSourceHelperTest {
     public void setup() throws NameNotFoundException {
         mTransactionManager = mHealthConnectDatabaseTestRule.getTransactionManager();
         mAppInfoHelper = AppInfoHelper.getInstance();
+        mAccessLogsHelper = AccessLogsHelper.getInstance();
         mFakeTimeSource = new FakeTimeSource(INSTANT_NOW);
         mMedicalDataSourceHelper =
                 new MedicalDataSourceHelper(mTransactionManager, mAppInfoHelper, mFakeTimeSource);
@@ -143,7 +145,8 @@ public class MedicalDataSourceHelperTest {
                                 mTransactionManager,
                                 mAppInfoHelper,
                                 mMedicalDataSourceHelper,
-                                mFakeTimeSource),
+                                mFakeTimeSource,
+                                mAccessLogsHelper),
                         mMedicalDataSourceHelper);
         when(mContext.getPackageManager()).thenReturn(mPackageManager);
     }
@@ -1161,7 +1164,8 @@ public class MedicalDataSourceHelperTest {
                         mTransactionManager,
                         mAppInfoHelper,
                         mMedicalDataSourceHelper,
-                        new FakeTimeSource(INSTANT_NOW));
+                        new FakeTimeSource(INSTANT_NOW),
+                        mAccessLogsHelper);
         MedicalResource medicalResource =
                 PhrDataFactory.createImmunizationMedicalResource(dataSource.getId());
         UpsertMedicalResourceInternalRequest upsertRequest =

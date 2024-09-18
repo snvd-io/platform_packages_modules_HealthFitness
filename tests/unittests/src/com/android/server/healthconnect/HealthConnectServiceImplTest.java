@@ -341,7 +341,8 @@ public class HealthConnectServiceImplTest {
                         mMedicalResourceHelper,
                         mMedicalDataSourceHelper,
                         healthConnectInjector.getExportManager(),
-                        healthConnectInjector.getExportImportSettingsStorage());
+                        healthConnectInjector.getExportImportSettingsStorage(),
+                        healthConnectInjector.getAccessLogsHelper());
     }
 
     @After
