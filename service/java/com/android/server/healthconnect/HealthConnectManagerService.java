@@ -46,6 +46,7 @@ import com.android.server.healthconnect.permission.PackageInfoUtils;
 import com.android.server.healthconnect.permission.PermissionPackageChangesOrchestrator;
 import com.android.server.healthconnect.storage.ExportImportSettingsStorage;
 import com.android.server.healthconnect.storage.TransactionManager;
+import com.android.server.healthconnect.storage.datatypehelpers.AccessLogsHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.AppInfoHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.DatabaseHelper;
 import com.android.server.healthconnect.storage.datatypehelpers.HealthDataCategoryPriorityHelper;
@@ -117,10 +118,12 @@ public class HealthConnectManagerService extends SystemService {
         HealthConnectPermissionHelper permissionHelper;
         MigrationCleaner migrationCleaner;
         AppInfoHelper appInfoHelper;
+        AccessLogsHelper accessLogsHelper;
 
         if (Flags.dependencyInjection()) {
             Objects.requireNonNull(mHealthConnectInjector);
             appInfoHelper = mHealthConnectInjector.getAppInfoHelper();
+            accessLogsHelper = mHealthConnectInjector.getAccessLogsHelper();
             firstGrantTimeManager =
                     new FirstGrantTimeManager(
                             context,
@@ -152,7 +155,8 @@ public class HealthConnectManagerService extends SystemService {
             mExportImportSettingsStorage = mHealthConnectInjector.getExportImportSettingsStorage();
             mExportManager = mHealthConnectInjector.getExportManager();
         } else {
-            appInfoHelper = AppInfoHelper.getInstance();
+            appInfoHelper = AppInfoHelper.getInstance(mTransactionManager);
+            accessLogsHelper = AccessLogsHelper.getInstance(mTransactionManager, appInfoHelper);
             firstGrantTimeManager =
                     new FirstGrantTimeManager(
                             context,
@@ -218,11 +222,13 @@ public class HealthConnectManagerService extends SystemService {
                                 mTransactionManager,
                                 appInfoHelper,
                                 medicalDataSourceHelper,
-                                timeSource),
+                                timeSource,
+                                accessLogsHelper),
                         medicalDataSourceHelper,
                         mContext,
                         mExportManager,
-                        mExportImportSettingsStorage);
+                        mExportImportSettingsStorage,
+                        accessLogsHelper);
     }
 
     @Override

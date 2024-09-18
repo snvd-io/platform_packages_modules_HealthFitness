@@ -101,6 +101,7 @@ public final class TransactionTestUtils {
         HealthConnectInjector healthConnectInjector = mHealthConnectInjectorBuilder.build();
         return mTransactionManager.insertAll(
                 healthConnectInjector.getAppInfoHelper(),
+                healthConnectInjector.getAccessLogsHelper(),
                 new UpsertTransactionRequest(
                         packageName,
                         records,

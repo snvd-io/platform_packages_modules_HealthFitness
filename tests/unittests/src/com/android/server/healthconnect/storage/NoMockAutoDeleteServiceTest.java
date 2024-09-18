@@ -111,7 +111,9 @@ public class NoMockAutoDeleteServiceTest {
                 testRule.getUserContext(),
                 mHealthConnectInjector.getHealthDataCategoryPriorityHelper(),
                 mHealthConnectInjector.getPreferenceHelper(),
-                mHealthConnectInjector.getAppInfoHelper());
+                mHealthConnectInjector.getAppInfoHelper(),
+                mHealthConnectInjector.getTransactionManager(),
+                mHealthConnectInjector.getAccessLogsHelper());
 
         try (Cursor cursor = mTransactionManager.read(new ReadTableRequest(STEPS_TABLE_NAME))) {
             List<RecordInternal<?>> records =

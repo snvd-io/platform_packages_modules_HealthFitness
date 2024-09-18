@@ -220,16 +220,19 @@ public final class MedicalResourceHelper {
     private final AppInfoHelper mAppInfoHelper;
     private final MedicalDataSourceHelper mMedicalDataSourceHelper;
     private final TimeSource mTimeSource;
+    private final AccessLogsHelper mAccessLogsHelper;
 
     public MedicalResourceHelper(
             TransactionManager transactionManager,
             AppInfoHelper appInfoHelper,
             MedicalDataSourceHelper medicalDataSourceHelper,
-            TimeSource timeSource) {
+            TimeSource timeSource,
+            AccessLogsHelper accessLogsHelper) {
         mTransactionManager = transactionManager;
         mAppInfoHelper = appInfoHelper;
         mMedicalDataSourceHelper = medicalDataSourceHelper;
         mTimeSource = timeSource;
+        mAccessLogsHelper = accessLogsHelper;
     }
 
     public static String getMainTableName() {
@@ -368,13 +371,12 @@ public final class MedicalResourceHelper {
                                         getResourceTypesRead(medicalResources),
                                         grantedReadMedicalResourceTypes);
                         if (!resourceTypes.isEmpty()) {
-                            AccessLogsHelper.addAccessLog(
+                            mAccessLogsHelper.addAccessLog(
                                     db,
                                     callingPackageName,
                                     resourceTypes,
                                     OPERATION_TYPE_READ,
-                                    /* accessedMedicalDataSource= */ false,
-                                    mAppInfoHelper);
+                                    /* accessedMedicalDataSource= */ false);
                         }
                     }
                     return medicalResources;
@@ -558,13 +560,12 @@ public final class MedicalResourceHelper {
                         response = getMedicalResources(cursor, request);
                     }
                     if (!enforceSelfRead) {
-                        AccessLogsHelper.addAccessLog(
+                        mAccessLogsHelper.addAccessLog(
                                 db,
                                 callingPackageName,
                                 Set.of(request.getMedicalResourceType()),
                                 OPERATION_TYPE_READ,
-                                /* accessedMedicalDataSource= */ false,
-                                mAppInfoHelper);
+                                /* accessedMedicalDataSource= */ false);
                     }
                     return response;
                 });
@@ -942,13 +943,12 @@ public final class MedicalResourceHelper {
             upsertedMedicalResources.add(medicalResource);
         }
 
-        AccessLogsHelper.addAccessLog(
+        mAccessLogsHelper.addAccessLog(
                 db,
                 callingPackageName,
                 resourceTypes,
                 OPERATION_TYPE_UPSERT,
-                /* accessedMedicalDataSource= */ false,
-                mAppInfoHelper);
+                /* accessedMedicalDataSource= */ false);
 
         return upsertedMedicalResources;
     }
@@ -1099,13 +1099,12 @@ public final class MedicalResourceHelper {
                     db.delete(MEDICAL_RESOURCE_TABLE_NAME, whereClause, args);
 
                     if (!resourcesTypes.isEmpty()) {
-                        AccessLogsHelper.addAccessLog(
+                        mAccessLogsHelper.addAccessLog(
                                 db,
                                 callingPackageName,
                                 resourcesTypes,
                                 OPERATION_TYPE_DELETE,
-                                /* accessedMedicalDataSource= */ false,
-                                mAppInfoHelper);
+                                /* accessedMedicalDataSource= */ false);
                     }
                 });
     }
@@ -1197,13 +1196,12 @@ public final class MedicalResourceHelper {
                             getFilteredDeleteRequest(dataSourceUuids, medicalResourceTypes, appId));
 
                     if (!resourceTypes.isEmpty()) {
-                        AccessLogsHelper.addAccessLog(
+                        mAccessLogsHelper.addAccessLog(
                                 db,
                                 callingPackageName,
                                 resourceTypes,
                                 OPERATION_TYPE_DELETE,
-                                /* accessedMedicalDataSource= */ false,
-                                mAppInfoHelper);
+                                /* accessedMedicalDataSource= */ false);
                     }
                 });
     }

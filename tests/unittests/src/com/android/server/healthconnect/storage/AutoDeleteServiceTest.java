@@ -133,6 +133,7 @@ public class AutoDeleteServiceTest {
                         .setHealthDataCategoryPriorityHelper(mHealthDataCategoryPriorityHelper)
                         .setPreferenceHelper(mPreferenceHelper)
                         .setExportManager(mExportManager)
+                        .setTransactionManager(mTransactionManager)
                         .setAppInfoHelper(mAppInfoHelper)
                         .build();
     }
@@ -157,7 +158,9 @@ public class AutoDeleteServiceTest {
                 mContext,
                 mHealthConnectInjector.getHealthDataCategoryPriorityHelper(),
                 mHealthConnectInjector.getPreferenceHelper(),
-                mHealthConnectInjector.getAppInfoHelper());
+                mHealthConnectInjector.getAppInfoHelper(),
+                mHealthConnectInjector.getTransactionManager(),
+                mHealthConnectInjector.getAccessLogsHelper());
 
         ExtendedMockito.verify(RecordHelperProvider::getRecordHelpers, never());
         verify(mTransactionManager, Mockito.times(2))
@@ -183,7 +186,9 @@ public class AutoDeleteServiceTest {
                 mContext,
                 mHealthConnectInjector.getHealthDataCategoryPriorityHelper(),
                 mHealthConnectInjector.getPreferenceHelper(),
-                mHealthConnectInjector.getAppInfoHelper());
+                mHealthConnectInjector.getAppInfoHelper(),
+                mHealthConnectInjector.getTransactionManager(),
+                mHealthConnectInjector.getAccessLogsHelper());
 
         verify(mTransactionManager, Mockito.times(2))
                 .deleteWithoutChangeLogs(
