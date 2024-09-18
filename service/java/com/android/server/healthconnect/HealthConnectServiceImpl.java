@@ -484,7 +484,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                     mContext,
                                     /* isInsertRequest */ true,
                                     mDataPermissionEnforcer.collectExtraWritePermissionStateMapping(
-                                            recordInternals, attributionSource));
+                                            recordInternals, attributionSource),
+                                    mAppInfoHelper);
                     List<String> uuids =
                             mTransactionManager.insertAll(mAppInfoHelper, insertRequest);
                     tryAndReturnResult(callback, uuids, logger);
@@ -597,7 +598,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                             request,
                                             mHealthDataCategoryPriorityHelper,
                                             startDateAccess)
-                                    .getAggregateDataResponseParcel());
+                                    .getAggregateDataResponseParcel(mAppInfoHelper));
                     logger.setDataTypesFromRecordTypes(recordTypesToTest)
                             .setHealthDataServiceApiStatusSuccess();
                 },
@@ -729,12 +730,14 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         List<RecordInternal<?>> records;
                         long pageToken;
                         if (request.getRecordIdFiltersParcel() != null) {
-                            records = mTransactionManager.readRecordsByIds(readTransactionRequest);
+                            records =
+                                    mTransactionManager.readRecordsByIds(
+                                            readTransactionRequest, mAppInfoHelper);
                             pageToken = DEFAULT_LONG;
                         } else {
                             Pair<List<RecordInternal<?>>, PageTokenWrapper> readRecordsResponse =
                                     mTransactionManager.readRecordsAndPageToken(
-                                            readTransactionRequest);
+                                            readTransactionRequest, mAppInfoHelper);
                             records = readRecordsResponse.first;
                             pageToken = readRecordsResponse.second.encode();
                         }
@@ -751,7 +754,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                             if (!holdsDataManagementPermission && !enforceSelfRead) {
                                 final List<Integer> recordTypes =
                                         singletonList(request.getRecordType());
-                                addAccessLog(callingPackageName, recordTypes, READ);
+                                addAccessLog(callingPackageName, recordTypes, READ, mAppInfoHelper);
                             }
                         }
 
@@ -854,7 +857,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                     mContext,
                                     /* isInsertRequest */ false,
                                     mDataPermissionEnforcer.collectExtraWritePermissionStateMapping(
-                                            recordInternals, attributionSource));
+                                            recordInternals, attributionSource),
+                                    mAppInfoHelper);
                     mTransactionManager.updateAll(mAppInfoHelper, request);
                     tryAndReturnResult(callback, logger);
                     logRecordTypeSpecificUpsertMetrics(
@@ -1002,7 +1006,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                             grantedExtraReadPermissions,
                                             isInForeground,
                                             mDeviceInfoHelper,
-                                            isReadingSelfData));
+                                            isReadingSelfData),
+                                    mAppInfoHelper);
 
                     List<DeletedLog> deletedLogs =
                             ChangeLogsHelper.getDeletedLogs(changeLogsResponse.getChangeLogsMap());
@@ -1163,7 +1168,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         .setHasManageHealthDataPermission(hasDataManagementPermission(uid, pid));
         int numberOfRecordsDeleted =
                 mTransactionManager.deleteAll(
-                        deleteTransactionRequest, shouldRecordDeleteAccessLogs);
+                        deleteTransactionRequest, shouldRecordDeleteAccessLogs, mAppInfoHelper);
         tryAndReturnResult(callback, logger);
         HealthConnectThreadScheduler.scheduleInternalTask(
                 () -> postDeleteTasks(recordTypeIdsToDelete));
@@ -2260,7 +2265,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                                                 callingPackageName,
                                                 grantedMedicalPermissions.contains(
                                                         WRITE_MEDICAL_DATA),
-                                                isCalledFromBgWithoutBgRead);
+                                                isCalledFromBgWithoutBgRead,
+                                                mAppInfoHelper);
                         // TODO(b/343921816): Creates access logs if necessary.
                     }
                     logger.setNumberOfRecords(medicalDataSources.size());

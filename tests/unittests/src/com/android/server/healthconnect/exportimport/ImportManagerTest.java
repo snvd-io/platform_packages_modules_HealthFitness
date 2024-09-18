@@ -116,6 +116,7 @@ public class ImportManagerTest {
     private ImportManager mImportManager;
     private HealthConnectNotificationSender mNotificationSender;
     private ExportImportSettingsStorage mExportImportSettingsStorage;
+    private AppInfoHelper mAppInfoHelper;
 
     @Before
     public void setUp() throws Exception {
@@ -130,6 +131,8 @@ public class ImportManagerTest {
         mTransactionTestUtils.insertApp(TEST_PACKAGE_NAME_2);
         mTransactionTestUtils.insertApp(TEST_PACKAGE_NAME_3);
         mNotificationSender = mock(HealthConnectNotificationSender.class);
+        AppInfoHelper.resetInstanceForTest();
+
         HealthConnectInjector healthConnectInjector =
                 HealthConnectInjectorImpl.newBuilderForTest(mContext)
                         .setPreferenceHelper(new FakePreferenceHelper())
@@ -137,6 +140,7 @@ public class ImportManagerTest {
                         .build();
 
         mExportImportSettingsStorage = healthConnectInjector.getExportImportSettingsStorage();
+        mAppInfoHelper = healthConnectInjector.getAppInfoHelper();
 
         mImportManager =
                 new ImportManager(
@@ -200,7 +204,8 @@ public class ImportManagerTest {
                                 RecordTypeIdentifier.RECORD_TYPE_BLOOD_PRESSURE,
                                 bloodPressureUuids));
 
-        List<RecordInternal<?>> records = mTransactionManager.readRecordsByIds(request);
+        List<RecordInternal<?>> records =
+                mTransactionManager.readRecordsByIds(request, mAppInfoHelper);
         assertThat(records).hasSize(2);
         assertThat(records.get(0).getUuid()).isEqualTo(stepsUuids.get(0));
         assertThat(records.get(1).getUuid()).isEqualTo(bloodPressureUuids.get(0));
@@ -327,7 +332,8 @@ public class ImportManagerTest {
                                 RecordTypeIdentifier.RECORD_TYPE_BLOOD_PRESSURE,
                                 bloodPressureUuids));
 
-        List<RecordInternal<?>> records = mTransactionManager.readRecordsByIds(request);
+        List<RecordInternal<?>> records =
+                mTransactionManager.readRecordsByIds(request, mAppInfoHelper);
         assertThat(records).hasSize(1);
         assertThat(records.get(0).getUuid()).isEqualTo(bloodPressureUuids.get(0));
     }

@@ -373,7 +373,8 @@ public final class MedicalResourceHelper {
                                     callingPackageName,
                                     resourceTypes,
                                     OPERATION_TYPE_READ,
-                                    /* accessedMedicalDataSource= */ false);
+                                    /* accessedMedicalDataSource= */ false,
+                                    mAppInfoHelper);
                         }
                     }
                     return medicalResources;
@@ -447,7 +448,7 @@ public final class MedicalResourceHelper {
      * @throws IllegalArgumentException if any of the ids has a data source id which is not valid
      *     (not a String form of a UUID)
      */
-    private static Pair<String, String[]> getSqlAndArgsBasedOnPermissionFilters(
+    private Pair<String, String[]> getSqlAndArgsBasedOnPermissionFilters(
             List<MedicalResourceId> medicalResourceIds,
             Set<Integer> grantedReadMedicalResourceTypes,
             String callingPackageName,
@@ -456,7 +457,7 @@ public final class MedicalResourceHelper {
         if (!hasWritePermission && grantedReadMedicalResourceTypes.isEmpty()) {
             throw new IllegalStateException("no read or write permission");
         }
-        long appId = AppInfoHelper.getInstance().getAppInfoId(callingPackageName);
+        long appId = mAppInfoHelper.getAppInfoId(callingPackageName);
         // App is calling the API from background without backgroundReadPermission.
         if (isCalledFromBgWithoutBgRead) {
             // App has writePermission.
@@ -562,7 +563,8 @@ public final class MedicalResourceHelper {
                                 callingPackageName,
                                 Set.of(request.getMedicalResourceType()),
                                 OPERATION_TYPE_READ,
-                                /* accessedMedicalDataSource= */ false);
+                                /* accessedMedicalDataSource= */ false,
+                                mAppInfoHelper);
                     }
                     return response;
                 });
@@ -895,7 +897,7 @@ public final class MedicalResourceHelper {
                 upsertRequests.stream()
                         .map(UpsertMedicalResourceInternalRequest::getDataSourceId)
                         .toList();
-        long appInfoIdRestriction = AppInfoHelper.getInstance().getAppInfoId(callingPackageName);
+        long appInfoIdRestriction = mAppInfoHelper.getAppInfoId(callingPackageName);
         Map<String, Long> dataSourceUuidToRowId =
                 mMedicalDataSourceHelper.getUuidToRowIdMap(
                         db, appInfoIdRestriction, StorageUtils.toUuids(dataSourceUuids));
@@ -945,7 +947,8 @@ public final class MedicalResourceHelper {
                 callingPackageName,
                 resourceTypes,
                 OPERATION_TYPE_UPSERT,
-                /* accessedMedicalDataSource= */ false);
+                /* accessedMedicalDataSource= */ false,
+                mAppInfoHelper);
 
         return upsertedMedicalResources;
     }
@@ -1101,7 +1104,8 @@ public final class MedicalResourceHelper {
                                 callingPackageName,
                                 resourcesTypes,
                                 OPERATION_TYPE_DELETE,
-                                /* accessedMedicalDataSource= */ false);
+                                /* accessedMedicalDataSource= */ false,
+                                mAppInfoHelper);
                     }
                 });
     }
@@ -1198,7 +1202,8 @@ public final class MedicalResourceHelper {
                                 callingPackageName,
                                 resourceTypes,
                                 OPERATION_TYPE_DELETE,
-                                /* accessedMedicalDataSource= */ false);
+                                /* accessedMedicalDataSource= */ false,
+                                mAppInfoHelper);
                     }
                 });
     }

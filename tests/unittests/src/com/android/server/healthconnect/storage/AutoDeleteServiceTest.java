@@ -16,6 +16,7 @@
 
 package healthconnect.storage;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -196,7 +197,8 @@ public class AutoDeleteServiceTest {
                                         checkTableNames_getPreferenceReturnNonNull(
                                                 request.getDeleteTableRequests())),
                         Mockito.booleanThat(
-                                shouldRecordDeleteAccessLog -> !shouldRecordDeleteAccessLog));
+                                shouldRecordDeleteAccessLog -> !shouldRecordDeleteAccessLog),
+                        any());
         verify(mAppInfoHelper).syncAppInfoRecordTypesUsed();
         verify(mHealthDataCategoryPriorityHelper).reSyncHealthDataPriorityTable(mContext);
         ExtendedMockito.verify(ActivityDateHelper::reSyncForAllRecords, times(1));

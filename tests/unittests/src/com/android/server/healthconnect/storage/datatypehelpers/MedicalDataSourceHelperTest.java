@@ -645,7 +645,8 @@ public class MedicalDataSourceHelperTest {
                             /* grantedMedicalResourceTypes= */ Set.of(),
                             DATA_SOURCE_PACKAGE_NAME,
                             /* hasWritePermission= */ false,
-                            /* isCalledFromBgWithoutBgRead= */ false);
+                            /* isCalledFromBgWithoutBgRead= */ false,
+                            mAppInfoHelper);
                 });
     }
 
@@ -660,7 +661,8 @@ public class MedicalDataSourceHelperTest {
                             /* grantedMedicalResourceTypes= */ Set.of(),
                             DATA_SOURCE_PACKAGE_NAME,
                             /* hasWritePermission= */ true,
-                            /* isCalledFromBgWithoutBgRead= */ false);
+                            /* isCalledFromBgWithoutBgRead= */ false,
+                            mAppInfoHelper);
                 });
     }
 
@@ -684,7 +686,8 @@ public class MedicalDataSourceHelperTest {
                         /* grantedMedicalResourceTypes= */ Set.of(),
                         DATA_SOURCE_PACKAGE_NAME,
                         /* hasWritePermission= */ true,
-                        /* isCalledFromBgWithoutBgRead= */ true);
+                        /* isCalledFromBgWithoutBgRead= */ true,
+                        mAppInfoHelper);
 
         assertThat(result).containsExactly(dataSource1);
     }
@@ -708,7 +711,8 @@ public class MedicalDataSourceHelperTest {
                         Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
                         DATA_SOURCE_PACKAGE_NAME,
                         /* hasWritePermission= */ true,
-                        /* isCalledFromBgWithoutBgRead= */ true);
+                        /* isCalledFromBgWithoutBgRead= */ true,
+                        mAppInfoHelper);
 
         assertThat(result).containsExactly(dataSource1);
     }
@@ -735,7 +739,8 @@ public class MedicalDataSourceHelperTest {
                         Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
                         DATA_SOURCE_PACKAGE_NAME,
                         /* hasWritePermission= */ false,
-                        /* isCalledFromBgWithoutBgRead= */ true);
+                        /* isCalledFromBgWithoutBgRead= */ true,
+                        mAppInfoHelper);
 
         assertThat(result).containsExactly(dataSource1);
     }
@@ -773,7 +778,8 @@ public class MedicalDataSourceHelperTest {
                                 MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
                         DATA_SOURCE_PACKAGE_NAME,
                         /* hasWritePermission= */ false,
-                        /* isCalledFromBgWithoutBgRead= */ true);
+                        /* isCalledFromBgWithoutBgRead= */ true,
+                        mAppInfoHelper);
 
         assertThat(result).containsExactly(dataSource1Package1, dataSource2Package1);
     }
@@ -808,7 +814,8 @@ public class MedicalDataSourceHelperTest {
                         Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
                         DATA_SOURCE_PACKAGE_NAME,
                         /* hasWritePermission= */ false,
-                        /* isCalledFromBgWithoutBgRead= */ false);
+                        /* isCalledFromBgWithoutBgRead= */ false,
+                        mAppInfoHelper);
 
         assertThat(result).containsExactly(dataSource1Package1, dataSource1Package2);
     }
@@ -845,7 +852,8 @@ public class MedicalDataSourceHelperTest {
                         /* grantedMedicalResourceTypes= */ Set.of(),
                         DATA_SOURCE_PACKAGE_NAME,
                         /* hasWritePermission= */ true,
-                        /* isCalledFromBgWithoutBgRead= */ false);
+                        /* isCalledFromBgWithoutBgRead= */ false,
+                        mAppInfoHelper);
 
         assertThat(result).containsExactly(dataSource1Package1, dataSource2Package1);
     }
@@ -881,7 +889,8 @@ public class MedicalDataSourceHelperTest {
                         Set.of(MEDICAL_RESOURCE_TYPE_ALLERGY_INTOLERANCE),
                         DATA_SOURCE_PACKAGE_NAME,
                         /* hasWritePermission= */ false,
-                        /* isCalledFromBgWithoutBgRead= */ false);
+                        /* isCalledFromBgWithoutBgRead= */ false,
+                        mAppInfoHelper);
 
         assertThat(result).containsExactly(dataSource2Package1, dataSource2Package2);
     }
@@ -919,7 +928,8 @@ public class MedicalDataSourceHelperTest {
                                 MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
                         DATA_SOURCE_PACKAGE_NAME,
                         /* hasWritePermission= */ false,
-                        /* isCalledFromBgWithoutBgRead= */ false);
+                        /* isCalledFromBgWithoutBgRead= */ false,
+                        mAppInfoHelper);
 
         assertThat(result)
                 .containsExactly(
@@ -962,7 +972,8 @@ public class MedicalDataSourceHelperTest {
                         Set.of(MEDICAL_RESOURCE_TYPE_IMMUNIZATION),
                         DATA_SOURCE_PACKAGE_NAME,
                         /* hasWritePermission= */ true,
-                        /* isCalledFromBgWithoutBgRead= */ false);
+                        /* isCalledFromBgWithoutBgRead= */ false,
+                        mAppInfoHelper);
 
         assertThat(result)
                 .containsExactly(dataSource1Package1, dataSource2Package1, dataSource1Package2);
