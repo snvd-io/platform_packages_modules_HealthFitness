@@ -2079,7 +2079,12 @@ public class HealthConnectManagerTest {
         HealthConnectReceiver<List<MedicalDataSource>> receiver = new HealthConnectReceiver<>();
         GetMedicalDataSourcesRequest request = new GetMedicalDataSourcesRequest.Builder().build();
 
-        mManager.getMedicalDataSources(request, Executors.newSingleThreadExecutor(), receiver);
+        SystemUtil.runWithShellPermissionIdentity(
+                () -> {
+                    mManager.getMedicalDataSources(
+                            request, Executors.newSingleThreadExecutor(), receiver);
+                },
+                MANAGE_HEALTH_DATA);
 
         assertThat(receiver.getResponse()).isEmpty();
     }
