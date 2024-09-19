@@ -273,7 +273,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
             Context context,
             ExportManager exportManager,
             ExportImportSettingsStorage exportImportSettingsStorage,
-            AccessLogsHelper accessLogsHelper) {
+            AccessLogsHelper accessLogsHelper,
+            HealthDataCategoryPriorityHelper healthDataCategoryPriorityHelper) {
         this(
                 transactionManager,
                 deviceConfigManager,
@@ -287,7 +288,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                 medicalDataSourceHelper,
                 exportManager,
                 exportImportSettingsStorage,
-                accessLogsHelper);
+                accessLogsHelper,
+                healthDataCategoryPriorityHelper);
     }
 
     @VisibleForTesting
@@ -304,7 +306,8 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
             MedicalDataSourceHelper medicalDataSourceHelper,
             ExportManager exportManager,
             ExportImportSettingsStorage exportImportSettingsStorage,
-            AccessLogsHelper accessLogsHelper) {
+            AccessLogsHelper accessLogsHelper,
+            HealthDataCategoryPriorityHelper healthDataCategoryPriorityHelper) {
         mAccessLogsHelper = accessLogsHelper;
         mTransactionManager = transactionManager;
         mPreferenceHelper = PreferenceHelper.getInstance();
@@ -316,7 +319,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
         mPermissionManager = mContext.getSystemService(PermissionManager.class);
         mMigrationStateManager = migrationStateManager;
         mDeviceInfoHelper = DeviceInfoHelper.getInstance();
-        mHealthDataCategoryPriorityHelper = HealthDataCategoryPriorityHelper.getInstance();
+        mHealthDataCategoryPriorityHelper = healthDataCategoryPriorityHelper;
         mDataPermissionEnforcer =
                 new DataPermissionEnforcer(mPermissionManager, mContext, deviceConfigManager);
         mMedicalDataPermissionEnforcer = new MedicalDataPermissionEnforcer(mPermissionManager);
