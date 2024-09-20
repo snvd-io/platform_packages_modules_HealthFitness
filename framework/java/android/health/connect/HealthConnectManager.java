@@ -768,8 +768,6 @@ public class HealthConnectManager {
      * Deletes records based on the {@link DeleteUsingFiltersRequest}. This is only to be used by
      * health connect controller APK(s). Ids that don't exist will be ignored.
      *
-     * <p>Deletions are performed in a transaction i.e. either all will be deleted or none
-     *
      * @param request Request based on which to perform delete operation
      * @param executor Executor on which to invoke the callback.
      * @param callback Callback to receive result of performing this operation.
@@ -2310,8 +2308,6 @@ public class HealthConnectManager {
 
     /**
      * Deletes a list of medical resources by id. Ids that don't exist will be ignored.
-     *
-     * <p>Deletions are performed in a transaction i.e. either all will be deleted or none.
      *
      * <p>Regarding permissions:
      *
