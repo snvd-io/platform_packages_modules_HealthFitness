@@ -19,12 +19,14 @@ import android.health.connect.HealthConnectManager
 import android.health.connect.RecordIdFilter
 import android.health.connect.datatypes.StepsCadenceRecord
 import android.health.connect.datatypes.StepsRecord
+import com.android.healthconnect.controller.data.entries.datenavigation.DateNavigationPeriod
 import com.android.healthconnect.controller.selectabledeletion.DeletionType.DeleteEntries
 import com.android.healthconnect.controller.selectabledeletion.api.DeleteEntriesUseCase
 import com.android.healthconnect.controller.shared.DataType
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.time.Instant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -64,7 +66,12 @@ class DeleteEntryUseCaseTest {
             .deleteRecords(anyListOf(RecordIdFilter::class.java), any(), any())
 
         useCase.invoke(
-            DeleteEntries(mapOf("test_id1" to DataType.STEPS, "test_id2" to DataType.STEPS_CADENCE))
+            DeleteEntries(
+                mapOf("test_id1" to DataType.STEPS, "test_id2" to DataType.STEPS_CADENCE),
+                4,
+                period = DateNavigationPeriod.PERIOD_DAY,
+                startTime = Instant.now(),
+            )
         )
 
         verify(manager, times(1)).deleteRecords(listCaptor.capture(), any(), any())

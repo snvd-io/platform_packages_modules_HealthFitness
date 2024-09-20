@@ -16,6 +16,7 @@
 package com.android.healthconnect.controller.tests.selectabledeletion
 
 import com.android.healthconnect.controller.data.entries.FormattedEntry
+import com.android.healthconnect.controller.data.entries.datenavigation.DateNavigationPeriod
 import com.android.healthconnect.controller.permissions.data.FitnessPermissionType
 import com.android.healthconnect.controller.permissions.data.MedicalPermissionType
 import com.android.healthconnect.controller.selectabledeletion.DeletionType
@@ -29,6 +30,7 @@ import com.android.healthconnect.controller.tests.utils.TestObserver
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.time.Instant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -178,7 +180,10 @@ class DeletionViewModelTest {
                 mapOf(
                     FORMATTED_STEPS.uuid to FORMATTED_STEPS.dataType,
                     FORMATTED_STEPS_2.uuid to FORMATTED_STEPS_2.dataType,
-                )
+                ),
+                4,
+                period = DateNavigationPeriod.PERIOD_DAY,
+                startTime = Instant.now(),
             )
         viewModel.setDeletionType(deletionType)
 
@@ -199,7 +204,10 @@ class DeletionViewModelTest {
                 mapOf(
                     FORMATTED_STEPS.uuid to FORMATTED_STEPS.dataType,
                     FORMATTED_STEPS_2.uuid to FORMATTED_STEPS_2.dataType,
-                )
+                ),
+                4,
+                period = DateNavigationPeriod.PERIOD_DAY,
+                Instant.now(),
             )
         viewModel.setDeletionType(deletionType)
         viewModel.delete()

@@ -15,8 +15,10 @@
  */
 package com.android.healthconnect.controller.selectabledeletion
 
+import com.android.healthconnect.controller.data.entries.datenavigation.DateNavigationPeriod
 import com.android.healthconnect.controller.permissions.data.HealthPermissionType
 import com.android.healthconnect.controller.shared.DataType
+import java.time.Instant
 
 /** Represents the types of deletion that the user can perform. */
 sealed class DeletionType {
@@ -32,7 +34,12 @@ sealed class DeletionType {
         val appName: String,
     ) : DeletionType()
 
-    data class DeleteEntries(val idsToDataTypes: Map<String, DataType>) : DeletionType()
+    data class DeleteEntries(
+        val idsToDataTypes: Map<String, DataType>,
+        val totalEntries: Int,
+        val period: DateNavigationPeriod,
+        val startTime: Instant,
+    ) : DeletionType()
 
     data class DeleteEntriesFromApp(
         val idsToDataTypes: Map<String, DataType>,

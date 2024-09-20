@@ -24,14 +24,20 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import com.android.healthconnect.controller.R
+import com.android.healthconnect.controller.data.entries.datenavigation.DateNavigationPeriod
 import com.android.healthconnect.controller.selectabledeletion.DeletionConstants.CONFIRMATION_KEY
 import com.android.healthconnect.controller.shared.dialog.AlertDialogBuilder
 import com.android.healthconnect.controller.utils.AttributeResolver
+import com.android.healthconnect.controller.utils.LocalDateTimeFormatter
+import com.android.healthconnect.controller.utils.TimeSource
+import com.android.healthconnect.controller.utils.formatDateTimeForTimePeriod
 import com.android.healthconnect.controller.utils.logging.DeletionDialogConfirmationElement
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint(DialogFragment::class)
-class DeletionConfirmationDialogFragment() : Hilt_DeletionConfirmationDialogFragment() {
+class DeletionConfirmationDialogFragment : Hilt_DeletionConfirmationDialogFragment() {
+    @Inject lateinit var timeSource: TimeSource
     private val viewModel: DeletionViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -86,8 +92,57 @@ class DeletionConfirmationDialogFragment() : Hilt_DeletionConfirmationDialogFrag
                 }
             }
             is DeletionType.DeleteEntries -> {
-                // TODO
-                ""
+                val deletionMapSize = deletionType.idsToDataTypes.size
+                if (deletionMapSize == 1) {
+                    return getString(R.string.one_entry_selected_deletion_confirmation_dialog)
+                }
+                val selectedPeriod = deletionType.period
+                val startTime = deletionType.startTime
+                val displayString =
+                    formatDateTimeForTimePeriod(
+                        startTime,
+                        selectedPeriod,
+                        LocalDateTimeFormatter(requireContext()),
+                        timeSource,
+                        false,
+                    )
+                if (selectedPeriod == DateNavigationPeriod.PERIOD_DAY) {
+                    if (deletionMapSize < deletionType.totalEntries) {
+                        getString(
+                            R.string.some_entries_selected_day_deletion_confirmation_dialog,
+                            displayString,
+                        )
+                    } else {
+                        getString(
+                            R.string.all_entries_selected_day_deletion_confirmation_dialog,
+                            displayString,
+                        )
+                    }
+                } else if (selectedPeriod == DateNavigationPeriod.PERIOD_WEEK) {
+                    if (deletionMapSize < deletionType.totalEntries) {
+                        getString(
+                            R.string.some_entries_selected_week_deletion_confirmation_dialog,
+                            displayString,
+                        )
+                    } else {
+                        getString(
+                            R.string.all_entries_selected_week_deletion_confirmation_dialog,
+                            displayString,
+                        )
+                    }
+                } else {
+                    if (deletionMapSize < deletionType.totalEntries) {
+                        getString(
+                            R.string.some_entries_selected_month_deletion_confirmation_dialog,
+                            displayString,
+                        )
+                    } else {
+                        getString(
+                            R.string.all_entries_selected_month_deletion_confirmation_dialog,
+                            displayString,
+                        )
+                    }
+                }
             }
             is DeletionType.DeleteEntriesFromApp -> {
                 // TODO

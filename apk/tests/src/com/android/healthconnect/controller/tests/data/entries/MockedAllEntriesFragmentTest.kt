@@ -113,7 +113,7 @@ class MockedAllEntriesFragmentTest {
         onView(withText("60 steps")).check(matches(isDisplayed()))
         onView(withText("Select all")).check(doesNotExist())
 
-        assertCheckboxNotShown("10 steps", 0)
+        assertCheckboxNotShown("10 steps", 1)
         assertCheckboxNotShown("20 steps", 2)
         assertCheckboxNotShown("30 steps", 3)
         assertCheckboxNotShown("15.2 steps/min", 4)

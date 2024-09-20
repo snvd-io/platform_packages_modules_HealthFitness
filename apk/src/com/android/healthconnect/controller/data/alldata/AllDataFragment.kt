@@ -102,7 +102,8 @@ open class AllDataFragment : Hilt_AllDataFragment() {
         when (menuItem.itemId) {
             R.id.menu_data_sources -> {
                 logger.logInteraction(ToolbarElement.TOOLBAR_DATA_SOURCES_BUTTON)
-                // TODO (b/) data sources will no longer need category once old IA is phased out
+                // TODO (b/368600140) data sources will no longer need category once old IA is
+                // phased out
                 findNavController()
                     .navigate(
                         R.id.action_allDataFragment_to_dataSourcesFragment,
@@ -386,7 +387,6 @@ open class AllDataFragment : Hilt_AllDataFragment() {
                         EntriesViewModel.EntriesDeletionScreenState.VIEW
                     )
                     entriesViewModel.setAllEntriesSelectedValue(false)
-                    entriesViewModel.setDataType(null)
                     entriesViewModel.currentSelectedDate.value = null
                     findNavController()
                         .navigate(

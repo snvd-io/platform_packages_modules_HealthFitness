@@ -99,7 +99,7 @@ class AllEntriesFragmentTest {
             )
         Mockito.`when`(viewModel.screenState)
             .thenReturn(MutableLiveData(EntriesViewModel.EntriesDeletionScreenState.VIEW))
-        Mockito.`when`(viewModel.setOfEntriesToBeDeleted).thenReturn(MutableLiveData())
+        Mockito.`when`(viewModel.mapOfEntriesToBeDeleted).thenReturn(MutableLiveData())
         Mockito.`when`(viewModel.allEntriesSelected).thenReturn(MutableLiveData(false))
     }
 
@@ -337,7 +337,7 @@ class AllEntriesFragmentTest {
 
         onView(withText("12 steps")).perform(click())
         onIdle()
-        verify(viewModel).addToDeleteSet("test_id", DataType.STEPS)
+        verify(viewModel).addToDeleteMap("test_id", DataType.STEPS)
     }
 
     @Test
@@ -378,8 +378,8 @@ class AllEntriesFragmentTest {
 
         onView(withText("Select all")).perform(click())
         onIdle()
-        verify(viewModel).addToDeleteSet("test_id", DataType.STEPS)
-        verify(viewModel).addToDeleteSet("test_id_2", DataType.STEPS)
+        verify(viewModel).addToDeleteMap("test_id", DataType.STEPS)
+        verify(viewModel).addToDeleteMap("test_id_2", DataType.STEPS)
     }
 
     @Test
@@ -388,7 +388,7 @@ class AllEntriesFragmentTest {
             .thenReturn(MutableLiveData(With(FORMATTED_STEPS_LIST_WITH_AGGREGATION)))
         Mockito.`when`(viewModel.getEntriesList())
             .thenReturn(FORMATTED_STEPS_LIST_WITH_AGGREGATION.toMutableList())
-        Mockito.`when`(viewModel.setOfEntriesToBeDeleted)
+        Mockito.`when`(viewModel.mapOfEntriesToBeDeleted)
             .thenReturn(
                 MutableLiveData(mapOf("test_id" to DataType.STEPS, "test_id_2" to DataType.STEPS))
             )
@@ -405,8 +405,8 @@ class AllEntriesFragmentTest {
 
         onView(withText("Select all")).perform(click())
         onIdle()
-        verify(viewModel).removeFromDeleteSet("test_id")
-        verify(viewModel).removeFromDeleteSet("test_id_2")
+        verify(viewModel).removeFromDeleteMap("test_id")
+        verify(viewModel).removeFromDeleteMap("test_id_2")
     }
 }
 

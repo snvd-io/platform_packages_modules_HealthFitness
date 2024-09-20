@@ -65,7 +65,7 @@ private constructor(
     private var data: MutableList<Any> = mutableListOf()
     private var isDeletionState = false
     private var isChecked = false
-    private var deleteSet: Map<String, DataType> = emptyMap()
+    private var deleteMap: Map<String, DataType> = emptyMap()
     private var isSelectAllChecked: Boolean = false
 
     fun updateData(entries: List<Any>) {
@@ -141,8 +141,8 @@ private constructor(
                 isSelectAllChecked,
             )
         } else if (viewBinder is DeletionViewBinder && viewModel is EntriesViewModel) {
-            this.deleteSet = viewModel.setOfEntriesToBeDeleted.value.orEmpty()
-            isChecked = (item as FormattedEntry).uuid in deleteSet
+            this.deleteMap = viewModel.mapOfEntriesToBeDeleted.value.orEmpty()
+            isChecked = (item as FormattedEntry).uuid in deleteMap
             viewBinder.bind(holder.itemView, item, position, isDeletionState, isChecked)
         }
     }

@@ -72,15 +72,12 @@ constructor(
     val appInfo: LiveData<AppMetadata>
         get() = _appInfo
 
-    private val _setOfEntriesToBeDeleted = MutableLiveData<Map<String, DataType>>()
+    private val _mapOfEntriesToBeDeleted = MutableLiveData<Map<String, DataType>>()
 
-    val setOfEntriesToBeDeleted: LiveData<Map<String, DataType>>
-        get() = _setOfEntriesToBeDeleted
+    val mapOfEntriesToBeDeleted: LiveData<Map<String, DataType>>
+        get() = _mapOfEntriesToBeDeleted
 
-    private var dataType: DataType? = null
-
-    private val _screenState =
-        MutableLiveData<EntriesDeletionScreenState>(EntriesDeletionScreenState.VIEW)
+    private val _screenState = MutableLiveData(EntriesDeletionScreenState.VIEW)
     val screenState: LiveData<EntriesDeletionScreenState>
         get() = _screenState
 
@@ -291,41 +288,33 @@ constructor(
         }
     }
 
-    fun addToDeleteSet(entryID: String, dataType: DataType) {
-        val deleteSet = _setOfEntriesToBeDeleted.value.orEmpty().toMutableMap()
-        deleteSet[entryID] = dataType
-        _setOfEntriesToBeDeleted.value = deleteSet.toMap()
-        if (numOfEntries == deleteSet.size) {
+    fun addToDeleteMap(entryID: String, dataType: DataType) {
+        val deleteMap = _mapOfEntriesToBeDeleted.value.orEmpty().toMutableMap()
+        deleteMap[entryID] = dataType
+        _mapOfEntriesToBeDeleted.value = deleteMap.toMap()
+        if (numOfEntries == deleteMap.size) {
             _allEntriesSelected.postValue(true)
         }
     }
 
-    fun removeFromDeleteSet(entryID: String) {
-        val deleteSet = _setOfEntriesToBeDeleted.value.orEmpty().toMutableMap()
-        deleteSet.remove(entryID)
-        _setOfEntriesToBeDeleted.value = deleteSet.toMap()
-        if (numOfEntries != deleteSet.size) {
+    fun removeFromDeleteMap(entryID: String) {
+        val deleteMap = _mapOfEntriesToBeDeleted.value.orEmpty().toMutableMap()
+        deleteMap.remove(entryID)
+        _mapOfEntriesToBeDeleted.value = deleteMap.toMap()
+        if (numOfEntries != deleteMap.size) {
             _allEntriesSelected.postValue(false)
         }
     }
 
-    private fun resetDeleteSet() {
-        _setOfEntriesToBeDeleted.value = emptyMap()
+    private fun resetDeleteMap() {
+        _mapOfEntriesToBeDeleted.value = emptyMap()
     }
 
     fun setScreenState(screenState: EntriesDeletionScreenState) {
         _screenState.value = screenState
         if (_screenState.value == EntriesDeletionScreenState.VIEW) {
-            resetDeleteSet()
+            resetDeleteMap()
         }
-    }
-
-    fun setDataType(dataType: DataType?) {
-        this.dataType = dataType
-    }
-
-    fun getDataType(): DataType? {
-        return dataType
     }
 
     fun setDateNavigationText(text: String) {
@@ -343,6 +332,8 @@ constructor(
     fun getEntriesList(): MutableList<FormattedEntry> {
         return this.entriesList
     }
+
+    fun getNumOfEntries(): Int = numOfEntries
 
     sealed class EntriesFragmentState {
         object Loading : EntriesFragmentState()

@@ -18,7 +18,7 @@ import java.time.Instant
 
 /**
  * Click listener for entries in the AllEntries/AppEntries screen which adds/removes them from the
- * deletion set.
+ * deletion map.
  */
 interface OnSelectEntryListener {
     fun onSelectEntry(

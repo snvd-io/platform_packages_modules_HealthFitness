@@ -125,10 +125,10 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
                 startTime: Instant?,
                 endTime: Instant?,
             ) {
-                if (id in entriesViewModel.setOfEntriesToBeDeleted.value.orEmpty()) {
-                    entriesViewModel.removeFromDeleteSet(id)
+                if (id in entriesViewModel.mapOfEntriesToBeDeleted.value.orEmpty()) {
+                    entriesViewModel.removeFromDeleteMap(id)
                 } else {
-                    entriesViewModel.addToDeleteSet(id, dataType)
+                    entriesViewModel.addToDeleteMap(id, dataType)
                 }
                 updateMenu(screenState = DELETE)
             }
@@ -143,9 +143,9 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
                 entriesViewModel.getEntriesList().forEach { entry ->
                     if (entry is FormattedEntry.HasDataType) {
                         if (isChecked) {
-                            entriesViewModel.addToDeleteSet(entry.uuid, entry.dataType)
+                            entriesViewModel.addToDeleteMap(entry.uuid, entry.dataType)
                         } else {
-                            entriesViewModel.removeFromDeleteSet(entry.uuid)
+                            entriesViewModel.removeFromDeleteMap(entry.uuid)
                         }
                     }
                 }
@@ -357,7 +357,7 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
             return
         }
 
-        if (entriesViewModel.setOfEntriesToBeDeleted.value.orEmpty().isEmpty()) {
+        if (entriesViewModel.mapOfEntriesToBeDeleted.value.orEmpty().isEmpty()) {
             setupMenu(
                 R.menu.all_data_delete_menu,
                 viewLifecycleOwner,
@@ -399,7 +399,10 @@ class AllEntriesFragment : Hilt_AllEntriesFragment() {
     fun deleteData() {
         deletionViewModel.setDeletionType(
             DeletionType.DeleteEntries(
-                entriesViewModel.setOfEntriesToBeDeleted.value.orEmpty().toMap()
+                entriesViewModel.mapOfEntriesToBeDeleted.value.orEmpty().toMap(),
+                entriesViewModel.getNumOfEntries(),
+                dateNavigationView.getPeriod(),
+                entriesViewModel.currentSelectedDate.value!!,
             )
         )
         childFragmentManager.setFragmentResult(DeletionConstants.START_DELETION_KEY, bundleOf())
