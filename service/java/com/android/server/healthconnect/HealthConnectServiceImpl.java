@@ -65,6 +65,7 @@ import android.health.connect.HealthPermissions;
 import android.health.connect.MedicalResourceId;
 import android.health.connect.MedicalResourceTypeInfo;
 import android.health.connect.PageTokenWrapper;
+import android.health.connect.ReadMedicalResourcesRequest;
 import android.health.connect.ReadMedicalResourcesResponse;
 import android.health.connect.RecordTypeInfoResponse;
 import android.health.connect.UpsertMedicalResourceRequest;
@@ -99,7 +100,6 @@ import android.health.connect.aidl.IReadMedicalResourcesResponseCallback;
 import android.health.connect.aidl.IReadRecordsResponseCallback;
 import android.health.connect.aidl.IRecordTypeInfoResponseCallback;
 import android.health.connect.aidl.InsertRecordsResponseParcel;
-import android.health.connect.aidl.ReadMedicalResourcesRequestParcel;
 import android.health.connect.aidl.ReadRecordsRequestParcel;
 import android.health.connect.aidl.ReadRecordsResponseParcel;
 import android.health.connect.aidl.RecordIdFiltersParcel;
@@ -168,7 +168,6 @@ import com.android.server.healthconnect.permission.DataPermissionEnforcer;
 import com.android.server.healthconnect.permission.FirstGrantTimeManager;
 import com.android.server.healthconnect.permission.HealthConnectPermissionHelper;
 import com.android.server.healthconnect.permission.MedicalDataPermissionEnforcer;
-import com.android.server.healthconnect.phr.PhrPageTokenWrapper;
 import com.android.server.healthconnect.phr.ReadMedicalResourcesInternalResponse;
 import com.android.server.healthconnect.phr.validations.MedicalResourceValidator;
 import com.android.server.healthconnect.storage.AutoDeleteService;
@@ -2673,7 +2672,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
     @Override
     public void readMedicalResourcesByRequest(
             AttributionSource attributionSource,
-            ReadMedicalResourcesRequestParcel request,
+            ReadMedicalResourcesRequest request,
             IReadMedicalResourcesResponseCallback callback) {
         checkParamsNonNull(attributionSource, request, callback);
         final ErrorCallback errorCallback = callback::onError;
@@ -2706,14 +2705,13 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                     verifyPackageNameFromUid(uid, attributionSource);
                     throwExceptionIfDataSyncInProgress();
 
-                    PhrPageTokenWrapper pageTokenWrapper = PhrPageTokenWrapper.from(request);
                     ReadMedicalResourcesInternalResponse response;
 
                     if (holdsDataManagementPermission) {
                         response =
                                 mMedicalResourceHelper
                                         .readMedicalResourcesByRequestWithoutPermissionChecks(
-                                                pageTokenWrapper, request.getPageSize());
+                                                request);
                     } else {
                         boolean isInForeground = mAppOpsManagerLocal.isUidInForeground(uid);
                         logger.setCallerForegroundState(isInForeground);
@@ -2726,8 +2724,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         // the statement throws SecurityException.
                         if (mMedicalDataPermissionEnforcer
                                 .enforceMedicalReadAccessAndGetEnforceSelfRead(
-                                        pageTokenWrapper.getRequest().getMedicalResourceType(),
-                                        attributionSource)) {
+                                        request.getMedicalResourceType(), attributionSource)) {
                             // If read permission is missing but write permission is granted,
                             // then enforce self read.
                             enforceSelfRead = true;
@@ -2750,10 +2747,7 @@ final class HealthConnectServiceImpl extends IHealthConnectService.Stub {
                         response =
                                 mMedicalResourceHelper
                                         .readMedicalResourcesByRequestWithPermissionChecks(
-                                                pageTokenWrapper,
-                                                request.getPageSize(),
-                                                callingPackageName,
-                                                enforceSelfRead);
+                                                request, callingPackageName, enforceSelfRead);
                     }
 
                     List<MedicalResource> medicalResources = response.getMedicalResources();
