@@ -25,6 +25,7 @@ import com.android.healthconnect.controller.data.entries.FormattedEntry
 import com.android.healthconnect.controller.data.entries.api.LoadEntriesHelper
 import com.android.healthconnect.controller.data.entries.api.LoadMedicalEntriesInput
 import com.android.healthconnect.controller.data.entries.api.LoadMedicalEntriesUseCase
+import com.android.healthconnect.controller.dataentries.formatters.medical.MedicalEntryFormatter
 import com.android.healthconnect.controller.dataentries.formatters.shared.HealthDataEntryFormatter
 import com.android.healthconnect.controller.permissions.data.MedicalPermissionType
 import com.android.healthconnect.controller.shared.usecase.UseCaseResults
@@ -57,6 +58,7 @@ class LoadMedicalEntriesUseCaseTest {
     private lateinit var context: Context
     private lateinit var loadMedicalEntriesUseCase: LoadMedicalEntriesUseCase
     private lateinit var loadEntriesHelper: LoadEntriesHelper
+    private lateinit var medicalEntryFormatter: MedicalEntryFormatter
 
     @Inject lateinit var healthDataEntryFormatter: HealthDataEntryFormatter
 
@@ -71,7 +73,8 @@ class LoadMedicalEntriesUseCaseTest {
         hiltRule.inject()
         loadEntriesHelper =
             LoadEntriesHelper(context, healthDataEntryFormatter, healthConnectManager)
-        loadMedicalEntriesUseCase = LoadMedicalEntriesUseCase(Dispatchers.Main, loadEntriesHelper)
+        loadMedicalEntriesUseCase =
+            LoadMedicalEntriesUseCase(Dispatchers.Main, medicalEntryFormatter, loadEntriesHelper)
     }
 
     @Test
