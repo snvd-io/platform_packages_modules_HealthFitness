@@ -84,7 +84,7 @@ import android.health.connect.DeleteMedicalResourcesRequest;
 import android.health.connect.GetMedicalDataSourcesRequest;
 import android.health.connect.HealthConnectException;
 import android.health.connect.MedicalResourceId;
-import android.health.connect.ReadMedicalResourcesInitialRequest;
+import android.health.connect.ReadMedicalResourcesRequest;
 import android.health.connect.UpsertMedicalResourceRequest;
 import android.health.connect.aidl.HealthConnectExceptionParcel;
 import android.health.connect.aidl.IApplicationInfoResponseCallback;
@@ -130,7 +130,6 @@ import com.android.server.healthconnect.migration.MigrationTestUtils;
 import com.android.server.healthconnect.migration.MigrationUiStateManager;
 import com.android.server.healthconnect.permission.FirstGrantTimeManager;
 import com.android.server.healthconnect.permission.HealthConnectPermissionHelper;
-import com.android.server.healthconnect.phr.PhrPageTokenWrapper;
 import com.android.server.healthconnect.phr.ReadMedicalResourcesInternalResponse;
 import com.android.server.healthconnect.storage.TransactionManager;
 import com.android.server.healthconnect.storage.datatypehelpers.AppInfoHelper;
@@ -1376,9 +1375,7 @@ public class HealthConnectServiceImplTest {
     public void testReadMedicalResources_byRequest_flagOff_throws() throws Exception {
         mHealthConnectService.readMedicalResourcesByRequest(
                 mAttributionSource,
-                new ReadMedicalResourcesInitialRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
-                        .build()
-                        .toParcel(),
+                new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build(),
                 mReadMedicalResourcesResponseCallback);
 
         verify(mReadMedicalResourcesResponseCallback, timeout(5000).times(1))
@@ -1393,19 +1390,16 @@ public class HealthConnectServiceImplTest {
             throws RemoteException {
         setDataManagementPermission(PERMISSION_GRANTED);
         setUpPhrMocksWithIrrelevantResponses();
+        ReadMedicalResourcesRequest request =
+                new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
 
-        ReadMedicalResourcesInitialRequest request =
-                new ReadMedicalResourcesInitialRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
-                        .build();
         mHealthConnectService.readMedicalResourcesByRequest(
-                mAttributionSource, request.toParcel(), mReadMedicalResourcesResponseCallback);
+                mAttributionSource, request, mReadMedicalResourcesResponseCallback);
 
         verify(mReadMedicalResourcesResponseCallback, timeout(5000)).onResult(any());
         verify(mReadMedicalResourcesResponseCallback, never()).onError(any());
         verify(mMedicalResourceHelper, times(1))
-                .readMedicalResourcesByRequestWithoutPermissionChecks(
-                        eq(PhrPageTokenWrapper.from(request.toParcel())),
-                        eq(request.getPageSize()));
+                .readMedicalResourcesByRequestWithoutPermissionChecks(eq(request));
     }
 
     @Test
@@ -1416,9 +1410,7 @@ public class HealthConnectServiceImplTest {
 
         mHealthConnectService.readMedicalResourcesByRequest(
                 mAttributionSource,
-                new ReadMedicalResourcesInitialRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
-                        .build()
-                        .toParcel(),
+                new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build(),
                 mReadMedicalResourcesResponseCallback);
 
         verify(mReadMedicalResourcesResponseCallback, timeout(5000).times(1))
@@ -1434,21 +1426,17 @@ public class HealthConnectServiceImplTest {
         setDataManagementPermission(PERMISSION_DENIED);
         setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         setUpPhrMocksWithIrrelevantResponses();
-        ReadMedicalResourcesInitialRequest request =
-                new ReadMedicalResourcesInitialRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
-                        .build();
+        ReadMedicalResourcesRequest request =
+                new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
 
         mHealthConnectService.readMedicalResourcesByRequest(
-                mAttributionSource, request.toParcel(), mReadMedicalResourcesResponseCallback);
+                mAttributionSource, request, mReadMedicalResourcesResponseCallback);
 
         verify(mReadMedicalResourcesResponseCallback, timeout(5000)).onResult(any());
         verify(mReadMedicalResourcesResponseCallback, never()).onError(any());
         verify(mMedicalResourceHelper, times(1))
                 .readMedicalResourcesByRequestWithPermissionChecks(
-                        eq(PhrPageTokenWrapper.from(request.toParcel())),
-                        eq(request.getPageSize()),
-                        eq(mTestPackageName),
-                        /* enforceSelfRead= */ eq(true));
+                        eq(request), eq(mTestPackageName), /* enforceSelfRead= */ eq(true));
     }
 
     @Test
@@ -1459,21 +1447,17 @@ public class HealthConnectServiceImplTest {
         setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
         setDataReadWritePermissionGranted(WRITE_MEDICAL_DATA);
         setUpPhrMocksWithIrrelevantResponses();
-        ReadMedicalResourcesInitialRequest request =
-                new ReadMedicalResourcesInitialRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
-                        .build();
+        ReadMedicalResourcesRequest request =
+                new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
 
         mHealthConnectService.readMedicalResourcesByRequest(
-                mAttributionSource, request.toParcel(), mReadMedicalResourcesResponseCallback);
+                mAttributionSource, request, mReadMedicalResourcesResponseCallback);
 
         verify(mReadMedicalResourcesResponseCallback, timeout(5000)).onResult(any());
         verify(mReadMedicalResourcesResponseCallback, never()).onError(any());
         verify(mMedicalResourceHelper, times(1))
                 .readMedicalResourcesByRequestWithPermissionChecks(
-                        eq(PhrPageTokenWrapper.from(request.toParcel())),
-                        eq(request.getPageSize()),
-                        eq(mTestPackageName),
-                        /* enforceSelfRead= */ eq(true));
+                        eq(request), eq(mTestPackageName), /* enforceSelfRead= */ eq(true));
     }
 
     @Test
@@ -1484,21 +1468,17 @@ public class HealthConnectServiceImplTest {
         setDataReadWritePermissionGranted(READ_MEDICAL_DATA_IMMUNIZATION);
         setUpPhrMocksWithIrrelevantResponses();
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(true);
-        ReadMedicalResourcesInitialRequest request =
-                new ReadMedicalResourcesInitialRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
-                        .build();
+        ReadMedicalResourcesRequest request =
+                new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
 
         mHealthConnectService.readMedicalResourcesByRequest(
-                mAttributionSource, request.toParcel(), mReadMedicalResourcesResponseCallback);
+                mAttributionSource, request, mReadMedicalResourcesResponseCallback);
 
         verify(mReadMedicalResourcesResponseCallback, timeout(5000)).onResult(any());
         verify(mReadMedicalResourcesResponseCallback, never()).onError(any());
         verify(mMedicalResourceHelper, times(1))
                 .readMedicalResourcesByRequestWithPermissionChecks(
-                        eq(PhrPageTokenWrapper.from(request.toParcel())),
-                        eq(request.getPageSize()),
-                        eq(mTestPackageName),
-                        /* enforceSelfRead= */ eq(false));
+                        eq(request), eq(mTestPackageName), /* enforceSelfRead= */ eq(false));
     }
 
     @Test
@@ -1511,21 +1491,17 @@ public class HealthConnectServiceImplTest {
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(false);
         setBackendReadPermission(PERMISSION_DENIED);
-        ReadMedicalResourcesInitialRequest request =
-                new ReadMedicalResourcesInitialRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
-                        .build();
+        ReadMedicalResourcesRequest request =
+                new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
 
         mHealthConnectService.readMedicalResourcesByRequest(
-                mAttributionSource, request.toParcel(), mReadMedicalResourcesResponseCallback);
+                mAttributionSource, request, mReadMedicalResourcesResponseCallback);
 
         verify(mReadMedicalResourcesResponseCallback, timeout(5000)).onResult(any());
         verify(mReadMedicalResourcesResponseCallback, never()).onError(any());
         verify(mMedicalResourceHelper, times(1))
                 .readMedicalResourcesByRequestWithPermissionChecks(
-                        eq(PhrPageTokenWrapper.from(request.toParcel())),
-                        eq(request.getPageSize()),
-                        eq(mTestPackageName),
-                        /* enforceSelfRead= */ eq(true));
+                        eq(request), eq(mTestPackageName), /* enforceSelfRead= */ eq(true));
     }
 
     @Test
@@ -1538,21 +1514,17 @@ public class HealthConnectServiceImplTest {
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(true);
         setBackendReadPermission(PERMISSION_DENIED);
-        ReadMedicalResourcesInitialRequest request =
-                new ReadMedicalResourcesInitialRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
-                        .build();
+        ReadMedicalResourcesRequest request =
+                new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
 
         mHealthConnectService.readMedicalResourcesByRequest(
-                mAttributionSource, request.toParcel(), mReadMedicalResourcesResponseCallback);
+                mAttributionSource, request, mReadMedicalResourcesResponseCallback);
 
         verify(mReadMedicalResourcesResponseCallback, timeout(5000)).onResult(any());
         verify(mReadMedicalResourcesResponseCallback, never()).onError(any());
         verify(mMedicalResourceHelper, times(1))
                 .readMedicalResourcesByRequestWithPermissionChecks(
-                        eq(PhrPageTokenWrapper.from(request.toParcel())),
-                        eq(request.getPageSize()),
-                        eq(mTestPackageName),
-                        /* enforceSelfRead= */ eq(true));
+                        eq(request), eq(mTestPackageName), /* enforceSelfRead= */ eq(true));
     }
 
     @Test
@@ -1565,21 +1537,17 @@ public class HealthConnectServiceImplTest {
         when(mAppOpsManagerLocal.isUidInForeground(anyInt())).thenReturn(false);
         when(mDeviceConfigManager.isBackgroundReadFeatureEnabled()).thenReturn(true);
         setBackendReadPermission(PERMISSION_GRANTED);
-        ReadMedicalResourcesInitialRequest request =
-                new ReadMedicalResourcesInitialRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION)
-                        .build();
+        ReadMedicalResourcesRequest request =
+                new ReadMedicalResourcesRequest.Builder(MEDICAL_RESOURCE_TYPE_IMMUNIZATION).build();
 
         mHealthConnectService.readMedicalResourcesByRequest(
-                mAttributionSource, request.toParcel(), mReadMedicalResourcesResponseCallback);
+                mAttributionSource, request, mReadMedicalResourcesResponseCallback);
 
         verify(mReadMedicalResourcesResponseCallback, timeout(5000)).onResult(any());
         verify(mReadMedicalResourcesResponseCallback, never()).onError(any());
         verify(mMedicalResourceHelper, times(1))
                 .readMedicalResourcesByRequestWithPermissionChecks(
-                        eq(PhrPageTokenWrapper.from(request.toParcel())),
-                        eq(request.getPageSize()),
-                        eq(mTestPackageName),
-                        /* enforceSelfRead= */ eq(false));
+                        eq(request), eq(mTestPackageName), /* enforceSelfRead= */ eq(false));
     }
 
     @Test
@@ -2037,11 +2005,10 @@ public class HealthConnectServiceImplTest {
         when(mMedicalResourceHelper.readMedicalResourcesByIdsWithPermissionChecks(
                         any(), any(), anyString(), anyBoolean(), anyBoolean()))
                 .thenReturn(List.of());
-        when(mMedicalResourceHelper.readMedicalResourcesByRequestWithoutPermissionChecks(
-                        any(), anyInt()))
+        when(mMedicalResourceHelper.readMedicalResourcesByRequestWithoutPermissionChecks(any()))
                 .thenReturn(new ReadMedicalResourcesInternalResponse(List.of(), null));
         when(mMedicalResourceHelper.readMedicalResourcesByRequestWithPermissionChecks(
-                        any(), anyInt(), anyString(), anyBoolean()))
+                        any(), anyString(), anyBoolean()))
                 .thenReturn(new ReadMedicalResourcesInternalResponse(List.of(), null));
         when(mMedicalDataSourceHelper.getMedicalDataSourcesByIdsWithoutPermissionChecks(any()))
                 .thenReturn(List.of());
