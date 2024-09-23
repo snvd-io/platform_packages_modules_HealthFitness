@@ -17,7 +17,7 @@ package com.android.healthconnect.controller.tests.data.entries.api
 
 import android.content.Context
 import android.health.connect.HealthConnectManager
-import android.health.connect.ReadMedicalResourcesRequest
+import android.health.connect.ReadMedicalResourcesInitialRequest
 import android.health.connect.ReadMedicalResourcesResponse
 import android.os.OutcomeReceiver
 import androidx.test.platform.app.InstrumentationRegistry
@@ -90,7 +90,7 @@ class LoadMedicalEntriesUseCaseTest {
         Mockito.doAnswer(prepareAnswer(readMedicalResourcesResponse))
             .`when`(healthConnectManager)
             .readMedicalResources(
-                ArgumentMatchers.any(ReadMedicalResourcesRequest::class.java),
+                ArgumentMatchers.any(ReadMedicalResourcesInitialRequest::class.java),
                 ArgumentMatchers.any(),
                 ArgumentMatchers.any(),
             )
@@ -117,7 +117,7 @@ class LoadMedicalEntriesUseCaseTest {
         Mockito.doAnswer(prepareAnswer(readMedicalResourcesResponse))
             .`when`(healthConnectManager)
             .readMedicalResources(
-                ArgumentMatchers.any(ReadMedicalResourcesRequest::class.java),
+                ArgumentMatchers.any(ReadMedicalResourcesInitialRequest::class.java),
                 ArgumentMatchers.any(),
                 ArgumentMatchers.any(),
             )
