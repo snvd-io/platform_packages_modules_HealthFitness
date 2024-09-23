@@ -432,7 +432,7 @@ public final class MedicalResourceHelper {
         return resourceTypeToDataSourceIdsMap;
     }
 
-    private static Set<Integer> getIntersectionOfResourceTypesReadAndGrantedReadPermissions(
+    static Set<Integer> getIntersectionOfResourceTypesReadAndGrantedReadPermissions(
             Set<Integer> resourceTypesRead, Set<Integer> grantedReadPerms) {
         Set<Integer> intersection = new HashSet<>(resourceTypesRead);
         intersection.retainAll(grantedReadPerms);
@@ -637,6 +637,17 @@ public final class MedicalResourceHelper {
                 .setWhereClause(getReadByPageTokenWhereClause(pageToken))
                 .setOrderBy(getOrderByClause())
                 .setLimit(pageSize + 1);
+    }
+
+    static ReadTableRequest getReadRequestForDistinctResourceTypesBelongingToDataSourceIds(
+            List<UUID> dataSourceIds) {
+        return new ReadTableRequest(getMainTableName())
+                .setDistinctClause(true)
+                .setColumnNames(
+                        List.of(MedicalResourceIndicesHelper.getMedicalResourceTypeColumnName()))
+                .setJoinClause(
+                        getJoinWithMedicalDataSourceFilterOnDataSourceIds(
+                                dataSourceIds, joinWithMedicalResourceIndicesTable()));
     }
 
     @VisibleForTesting
